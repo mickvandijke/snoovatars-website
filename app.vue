@@ -1,11 +1,12 @@
 <template>
   <div class="p-4 lg:p-6 flex flex-col items-center">
-    <div class="flex flex-row justify-center">
-      <NuxtLink class="pb-6 text-lg md:text-3xl text-white font-bold" to="/">snoovatars</NuxtLink>
+    <div class="flex flex-col items-center">
+      <NuxtLink class="pb-6 text-lg md:text-3xl text-white font-bold" to="/">snoovatars.com</NuxtLink>
+      <h3 class="text-md text-neutral-400 font-semibold text-center">Instant price alerts for all Reddit Collectible Avatars on OpenSea.io!</h3>
     </div>
     <NuxtPage/>
     <div class="py-12 flex flex-col text-neutral-600 text-center">
-      <span>This website is not affiliated or endorsed by reddit Inc.</span>
+      <span>This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</span>
     </div>
   </div>
 </template>
@@ -14,10 +15,9 @@
 import {useHead} from "nuxt/app";
 import {set_collection_list, useAlertList} from "~/composables/states";
 import {collection_list_from_object, CollectionList} from "~/models/reddit_collection";
-import {alert_list_from_object} from "~/models/alert";
 
 useHead({
-  title: 'snoovatars',
+  title: 'snoovatars.com',
   meta: [
     { name: 'description', content: 'Realtime price alerts for your favourite avatars!' }
   ]
@@ -31,15 +31,6 @@ await fetch("http://localhost:3000/lists")
         let collectionList: CollectionList = collection_list_from_object(data['collections']);
 
         await set_collection_list(collectionList);
-      }
-    });
-
-fetch("http://localhost:3000/alerts/1")
-    .then(async (data) => {
-      data = await data.json();
-
-      if (data['alerts']) {
-        useAlertList().value = alert_list_from_object(data['alerts']);
       }
     });
 </script>

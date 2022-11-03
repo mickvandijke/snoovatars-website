@@ -29,6 +29,10 @@ export class RedditAvatar {
         this.link = link;
     }
 
+    public fullname(): string {
+        return `${this.name} #${this.mint_number}`;
+    }
+
     public async calculate_hash(): Promise<string> {
         let encoded = this.contract_address + this.name + this.mint_number;
 

@@ -3,11 +3,14 @@ import {CollectionList, CollectionSlug, RedditCollection} from "~/models/reddit_
 import {RedditCollectionTier, TierHash, TierList} from "~/models/reddit_collection_tier";
 import {AvatarHash, AvatarList, RedditAvatar} from "~/models/reddit_avatar";
 import {Alert, AlertHash, AlertList} from "~/models/alert";
+import {User, WalletAddress} from "~/models/user";
 
 export const useCollectionList = () => useState<CollectionList>('collection-list', () => new Map<CollectionSlug, RedditCollection>());
 export const useTierList = () => useState<TierList>('tier-list', () => new Map<TierHash, RedditCollectionTier>());
 export const useAvatarList = () => useState<AvatarList>('avatar-list', () => new Map<AvatarHash, RedditAvatar>());
 export const useAlertList = () => useState<AlertList>('alert-list', () => new Map<AlertHash, Alert>());
+export const useUser = () => useState<User>('user', () => null);
+export const useWalletAddress = () => useState<WalletAddress>('wallet-address', () => null);
 
 async function update_tier_and_avatar_list() {
     let tierList: Map<TierHash, RedditCollectionTier> = new Map<TierHash, RedditCollectionTier>();
