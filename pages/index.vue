@@ -23,9 +23,9 @@
           <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
             <template v-if="alerts.size > 0">
               <li v-for="[alertHash, alert] in alerts" class="flex flex-row flex-nowrap bg-neutral-800 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
-                <span class="text-neutral-400">{{ tiers.get(alert.collection_tier_hash).name }}</span>
-                <button class="ml-auto mr-2 text-blue-500">Edit</button>
-                <button class="text-red-500">Delete</button>
+                <span class="text-neutral-400">{{  !alert.item_hash ? tiers.get(alert.collection_tier_hash).name : avatars.get(alert.item_hash).fullname() }}</span>
+                <button @click="createAlert(alertHash, alert)" class="ml-auto mr-2 text-blue-500">Edit</button>
+                <button @click="deleteAlert(alertHash)" class="text-red-500">Delete</button>
               </li>
             </template>
             <template v-else>
@@ -35,40 +35,40 @@
         </div>
 
         <!--modal content-->
-        <div v-if="addingAlert" class="fixed mx-auto p-5 w-96 shadow-xl rounded-2xl bg-neutral-800">
+        <div v-if="addingAlert" class="fixed mx-auto p-5 w-96 shadow-2xl rounded-2xl bg-neutral-800">
           <div class="mt-3 text-center">
-            <h3 class="text-lg leading-6 font-medium text-white">New Alert</h3>
+            <h3 class="text-lg leading-6 font-medium text-white">{{ !!replacingAlertHash ? "Update" : "New" }} Alert</h3>
             <div class="mt-2 px-7 py-3">
               <label for="avatar" class="block mb-2 text-sm font-medium text-neutral-400 text-left">[Optional] Select a specific avatar</label>
-              <select required v-model="newAlert.item_hash" id="avatar" class="bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
+              <select required v-model="newAlert.item_hash" @change="updateNewAlert" id="avatar" class="bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
                 <option :value="null" selected>None</option>
                 <option v-for="[avatarHash, avatar] in avatars" :value="avatarHash">{{ avatar.fullname() }}</option>
               </select>
               <label for="collection" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Select a collection tier</label>
               <select :disabled="newAlert.item_hash" required v-model="newAlert.collection_tier_hash" id="collection" class="bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
-                <option value="" disabled selected>Select collection tier</option>
+                <option :value="null" disabled selected>Select collection tier</option>
                 <option v-for="[tierHash, tier] in tiers" :value="tierHash">{{ tier.name }}</option>
               </select>
               <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Max mint number (0 = any mint)</label>
-              <input type="number" min="0" :max="tiers.get(newAlert.collection_tier_hash) ? tiers.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
+              <input type="number" min="0" :max="tiers.get(newAlert.collection_tier_hash) ? tiers.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="bg-neutral-700 border border-neutral-600 text-neutral-100 disabled:text-gray-400 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
               <label for="type" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Select an event type</label>
               <select required v-model="newAlert.alert_type" id="type" class="bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
                 <option :value="AlertType.ListingBelow">Listing below price threshold</option>
                 <option :value="AlertType.SaleAbove">Sale above price threshold</option>
               </select>
+              <label for="price-threshold" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Price threshold in ETH</label>
+              <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
               <label for="repeating" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Repeating</label>
               <select required v-model="newAlert.repeating" id="repeating" class="bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
                 <option :value="false">Only alert once</option>
                 <option :value="true">Repeating alert</option>
               </select>
-              <label for="price-threshold" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Price threshold in ETH</label>
-              <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
             </div>
             <div class="items-center px-4 py-3">
-              <button @click="addAlert" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-2xl w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-                Add Alert
+              <button @click="submitAlert" :disabled="!newAlert.isValid()" class="px-4 py-2 bg-sky-500 disabled:bg-gray-500 text-white text-base font-medium rounded-2xl w-full hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                Submit
               </button>
-              <button @click="addingAlert = false" class="mt-2 px-4 py-2 bg-red-500 text-white text-base font-medium rounded-2xl w-full shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300">
+              <button @click="cancelAlert" class="mt-2 px-4 py-2 bg-red-500 text-white text-base font-medium rounded-2xl w-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300">
                 Cancel
               </button>
             </div>
@@ -82,8 +82,8 @@
             <span class="text-sm text-amber-600">{{ wallet_address }}</span>
             <button @click.prevent="disconnectWallet" class="mt-6 px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Disconnect Wallet</button>
           </div>
-          <input type="email" id="email" placeholder="Email for alerts." class="mt-6 bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
-          <button @click="submitEmail" class="mt-6 px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-2xl drop-shadow-lg duration-200 max-w-xs">Submit Email</button>
+          <input v-model="newEmail" type="email" id="email" placeholder="Email for alerts." class="mt-6 bg-neutral-700 border border-neutral-600 text-neutral-100 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
+          <button @click="createUser" class="mt-6 px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200 max-w-xs">Submit Email</button>
         </div>
       </template>
       <template v-else>
@@ -99,7 +99,7 @@
 import {ethers} from 'ethers';
 import {SiweMessage} from 'siwe';
 import {useAlertList, useAvatarList, useTierList, useUser, useWalletAddress} from "~/composables/states";
-import {Alert, alert_list_from_object, AlertType} from "~/models/alert";
+import {Alert, alert_list_from_object, AlertHash, AlertType} from "~/models/alert";
 import {useRuntimeConfig} from "#app";
 import {ref, watch} from "#imports";
 import {User} from "~/models/user";
@@ -118,7 +118,9 @@ const config = useRuntimeConfig();
 const BACKEND_ADDR = config.API_BASE_URL;
 const awaitingSignature = ref(false);
 const addingAlert = ref(false);
+const newEmail: Ref<string> = ref(null);
 const newAlert: Ref<Alert> = ref(new Alert());
+const replacingAlertHash: Ref<AlertHash> = ref(null);
 
 watch([user], () => {
   if (user.value) {
@@ -126,12 +128,12 @@ watch([user], () => {
   }
 })
 
-watch([newAlert], () => {
+function updateNewAlert() {
   if (newAlert.value.item_hash) {
-    newAlert.value.collection_tier_hash = "";
+    newAlert.value.collection_tier_hash = avatars.value.get(newAlert.value.item_hash).collection_tier_hash;
     newAlert.value.max_mint_number = 0;
   }
-})
+}
 
 async function createSiweMessage(address, statement) {
   const res = await fetch(`${BACKEND_ADDR}/nonce`);
@@ -158,7 +160,10 @@ async function connectWallet() {
               getUser();
             });
       })
-      .catch(() => console.log('user rejected request'));
+      .catch(() => {
+        awaitingSignature.value = false;
+        console.log('user rejected request')
+      });
 
 }
 
@@ -184,6 +189,44 @@ async function getUser() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ message, signature, data: {} }),
+  })
+      .then(async (data) => {
+        data = await data.json();
+
+        if (data['user']) {
+          let _user: User = new User();
+
+          Object.assign(_user, data['user']);
+
+          user.value = _user;
+        }
+      });
+}
+
+async function createUser() {
+  if (!newEmail.value) return;
+
+  let address = wallet_address.value;
+
+  let url = `${BACKEND_ADDR}/user/create/${address}`;
+
+  const message = await createSiweMessage(
+      address,
+      url
+  );
+
+  awaitingSignature.value = true;
+
+  const signature = await signer.signMessage(message);
+
+  awaitingSignature.value = false;
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message, signature, data: { email: newEmail.value } }),
   })
       .then(async (data) => {
         data = await data.json();
@@ -235,23 +278,43 @@ function disconnectWallet() {
   wallet_address.value = null;
 }
 
-function createAlert() {
+function createAlert(alert_hash: AlertHash, alert: Alert) {
   newAlert.value = new Alert();
-  newAlert.value.item_hash = null;
-  newAlert.value.collection_tier_hash = "";
-  newAlert.value.user_id = user.value.wallet_address;
-  newAlert.value.alert_type = AlertType.ListingBelow;
-  newAlert.value.repeating = false;
-  newAlert.value.max_mint_number = 0;
-  newAlert.value.price_threshold = 0;
+
+  if (alert_hash && alert) {
+    let _alert: Alert = new Alert();
+
+    Object.assign(_alert, alert)
+
+    // This is stupid, but it works.
+    _alert.alert_type = alert.toJson()['alert_type'];
+
+    newAlert.value = _alert;
+
+    replacingAlertHash.value = alert_hash;
+  } else {
+    newAlert.value.item_hash = null;
+    newAlert.value.collection_tier_hash = null;
+    newAlert.value.user_id = user.value.wallet_address;
+    newAlert.value.alert_type = AlertType.ListingBelow;
+    newAlert.value.repeating = false;
+    newAlert.value.max_mint_number = 0;
+    newAlert.value.price_threshold = 0;
+  }
 
   addingAlert.value = true;
 }
 
-async function addAlert() {
+function cancelAlert() {
+  replacingAlertHash.value = null;
+
+  addingAlert.value = false;
+}
+
+async function submitAlert() {
   let address = wallet_address.value;
 
-  let url = `${BACKEND_ADDR}/alert/add/${await newAlert.value.calculate_hash()}`;
+  let url = `${BACKEND_ADDR}/alert/create/${await newAlert.value.calculate_hash()}`;
 
   const message = await createSiweMessage(
       address,
@@ -269,7 +332,52 @@ async function addAlert() {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ message, signature, data: newAlert.value.toJson() }),
+    body: JSON.stringify({
+      message,
+      signature,
+      data: {
+        alert: newAlert.value.toJson(),
+        replacing_alert_hash: replacingAlertHash.value
+      }
+    }),
+  })
+      .then(async (data) => {
+        data = await data.json();
+
+        if (data['alerts']) {
+          useAlertList().value = alert_list_from_object(data['alerts']);
+
+          addingAlert.value = false;
+        }
+      });
+}
+
+async function deleteAlert(alertHash: AlertHash) {
+  let address = wallet_address.value;
+
+  let url = `${BACKEND_ADDR}/alert/delete/${alertHash}`;
+
+  const message = await createSiweMessage(
+      address,
+      url
+  );
+
+  awaitingSignature.value = true;
+
+  const signature = await signer.signMessage(message);
+
+  awaitingSignature.value = false;
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      message,
+      signature,
+      data: alertHash
+    }),
   })
       .then(async (data) => {
         data = await data.json();

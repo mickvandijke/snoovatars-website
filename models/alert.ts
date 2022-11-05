@@ -32,6 +32,11 @@ export class Alert {
             price_threshold: this.price_threshold * ETH_TO_GWEI_MODIFIER
         }
     }
+
+    public isValid(): boolean {
+        return !!(this.user_id && this.collection_tier_hash);
+
+    }
 }
 
 export enum AlertType {
