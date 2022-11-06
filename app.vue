@@ -2,7 +2,7 @@
   <div class="p-4 lg:p-6 flex flex-col items-center">
     <div class="flex flex-col items-center">
       <NuxtLink class="pb-6 text-lg md:text-3xl text-white font-bold" to="/">snoovatars.com</NuxtLink>
-      <h3 class="text-md text-neutral-400 font-semibold text-center">Instant price alerts for all Reddit Collectible Avatars on OpenSea.io!</h3>
+      <h3 class="text-md text-amber-600 font-semibold text-center">Instant price alerts for all Reddit Collectible Avatars on OpenSea.io!</h3>
     </div>
     <NuxtPage/>
     <div class="py-12 flex flex-col text-neutral-600 text-center">
@@ -13,8 +13,6 @@
 
 <script setup lang="ts">
 import {useHead} from "nuxt/app";
-import {set_collection_list, useAlertList} from "~/composables/states";
-import {collection_list_from_object, CollectionList} from "~/models/reddit_collection";
 
 useHead({
   title: 'snoovatars.com',
@@ -22,17 +20,6 @@ useHead({
     { name: 'description', content: 'Realtime price alerts for your favourite avatars!' }
   ]
 })
-
-await fetch("http://localhost:3000/lists")
-    .then(async (data) => {
-      data = await data.json();
-
-      if (data['collections']) {
-        let collectionList: CollectionList = collection_list_from_object(data['collections']);
-
-        await set_collection_list(collectionList);
-      }
-    });
 </script>
 
 <style>
