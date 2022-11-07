@@ -270,6 +270,12 @@ function disconnectWallet() {
   wallet_address.value = null;
 }
 
+function handleCatch(e) {
+  if (e === "Unauthorized") {
+    deleteJwt();
+  }
+}
+
 function deleteJwt() {
   localStorage.removeItem("Token");
   jwt.value = null;
@@ -328,7 +334,8 @@ async function getUser() {
 
           user.value = _user;
         }
-      });
+      })
+      .catch(handleCatch);;
 }
 
 async function createUser() {
@@ -356,9 +363,7 @@ async function createUser() {
           newEmail.value = null;
         }
       })
-      .catch(() => {
-        deleteJwt();
-      });
+      .catch(handleCatch);
 }
 
 async function getAlerts() {
@@ -394,9 +399,7 @@ async function getAlerts() {
           alertMaxQuota.value = _max_quota;
         }
       })
-      .catch(() => {
-        deleteJwt();
-      });
+      .catch(handleCatch);
 }
 
 function createAlert(alert_hash: AlertHash, alert: Alert) {
@@ -455,9 +458,7 @@ async function submitAlert() {
           addingAlert.value = false;
         }
       })
-      .catch(() => {
-        deleteJwt();
-      });
+      .catch(handleCatch);
 }
 
 async function deleteAlert(alertHash: AlertHash) {
@@ -479,9 +480,7 @@ async function deleteAlert(alertHash: AlertHash) {
           addingAlert.value = false;
         }
       })
-      .catch(() => {
-        deleteJwt();
-      });
+      .catch(handleCatch);
 }
 </script>
 
