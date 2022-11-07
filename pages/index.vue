@@ -13,14 +13,14 @@
     </template>
     <template v-else>
       <template v-if="user">
-        <div class="p-6 flex flex-col items-center border-2 border-neutral-800 rounded-2xl max-w-sm w-full">
+        <div class="p-6 flex flex-col items-center border-2 border-neutral-800 rounded-2xl w-full">
           <span class="text-sm text-neutral-400">Connected Account:</span>
           <span class="text-sm text-amber-600 text-nowrap overflow-hidden truncate">{{ user.wallet_address.substring(0, 8) }}...{{ user.wallet_address.substring(36, 42) }}</span>
+          <div class="mt-6 flex flex-row flex-nowrap items-center max-w-sm w-full">
+            <input v-model="newEmail" type="email" id="email" :placeholder="user.email">
+            <button @click="createUser" class="ml-2 px-4 py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-semibold whitespace-nowrap rounded-2xl duration-200 max-w-xs">Update</button>
+          </div>
           <button @click.prevent="disconnectWallet" class="mt-6 px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Sign Out</button>
-        </div>
-        <div class="mt-2 flex flex-row flex-nowrap items-center max-w-sm w-full">
-          <input v-model="newEmail" type="email" id="email" :placeholder="user.email">
-          <button @click="createUser" class="ml-2 px-4 py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-semibold whitespace-nowrap rounded-2xl duration-200 max-w-xs">Update</button>
         </div>
         <div id="alert-list" class="mt-12 flex flex-col items-center w-full">
           <div class="flex flex-row items-center w-full">
@@ -29,9 +29,9 @@
           </div>
           <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
             <template v-if="alerts.size > 0">
-              <li v-for="[alertHash, alert] in alerts" class="flex flex-row flex-nowrap bg-neutral-800 border-2 border-neutral-700 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5">
+              <li v-for="[alertHash, alert] in alerts" class="px-4 py-2.5 flex flex-row flex-nowrap bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">
                 <span class="text-neutral-300">{{  !alert.item_hash ? tiers.get(alert.collection_tier_hash).name : avatars.get(alert.item_hash).fullname() }}, {{ alert.alert_type }}: {{ alert.price_threshold }} ETH</span>
-                <button @click="createAlert(alertHash, alert)" class="ml-auto mr-2 text-blue-500">Edit</button>
+                <button @click="createAlert(alertHash, alert)" class="ml-auto mr-6 text-blue-500">Edit</button>
                 <button @click="deleteAlert(alertHash)" class="text-red-500">Delete</button>
               </li>
             </template>
@@ -40,19 +40,22 @@
             </template>
           </ul>
         </div>
-        <div class="mt-12 w-full">
-          <h2 class="text-neutral-100 text-3xl font-semibold">Quota</h2>
+        <div v-if="alerts && alertQuota && alertMaxQuota" class="mt-12 w-full">
+          <div class="flex flex-row items-center w-full">
+            <h2 class="text-neutral-100 text-3xl font-semibold">Quota</h2>
+            <button disabled class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 text-white font-semibold rounded-2xl duration-200">Upgrade</button>
+          </div>
           <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
-            <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full p-2.5">
+            <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
               <span>Alerts:</span>
               <span class="ml-auto">{{ alerts.size }}/{{ alertMaxQuota.alerts }}</span>
             </li>
-            <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full p-2.5">
+            <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
               <span>Emails:</span>
               <span class="ml-auto">{{ alertQuota.emails_sent }}/{{ alertMaxQuota.emails_sent }}</span>
             </li>
           </ul>
-          <p class="p-6 text-sm text-neutral-500 ">*Free tier quotas might change at any moment without notice.</p>
+          <p class="p-6 text-sm text-neutral-500 text-center w-full">*Free tier quotas might change at any moment without notice.</p>
         </div>
 
         <!--modal content-->
@@ -94,10 +97,10 @@
               </select>
             </div>
             <div class="items-center px-4 py-3">
-              <button @click="submitAlert" :disabled="!newAlert.isValid()" class="px-4 py-2 bg-sky-500 disabled:bg-gray-500 text-white text-base font-medium rounded-2xl w-full hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+              <button @click="submitAlert" :disabled="!newAlert.isValid()" class="px-4 py-2 bg-sky-500 disabled:bg-gray-500 text-white text-base font-medium rounded-2xl w-full hover:bg-sky-600 disabled:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-green-300 duration-200">
                 Submit
               </button>
-              <button @click="cancelAlert" class="mt-2 px-4 py-2 bg-red-500 text-white text-base font-medium rounded-2xl w-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300">
+              <button @click="cancelAlert" class="mt-2 px-4 py-2 bg-red-500 text-white text-base font-medium rounded-2xl w-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 duration-200">
                 Cancel
               </button>
             </div>
@@ -350,6 +353,7 @@ async function createUser() {
           Object.assign(_user, data['user']);
 
           user.value = _user;
+          newEmail.value = null;
         }
       })
       .catch(() => {
