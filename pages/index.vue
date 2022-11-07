@@ -45,13 +45,14 @@
           <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
             <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full p-2.5">
               <span>Alerts:</span>
-              <span class="ml-auto">{{ alerts.size }}/20</span>
+              <span class="ml-auto">{{ alerts.size }}/{{ alertMaxQuota.alerts }}</span>
             </li>
             <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full p-2.5">
               <span>Emails:</span>
-              <span class="ml-auto">0/20</span>
+              <span class="ml-auto">{{ alertQuota.emails_sent }}/{{ alertMaxQuota.emails_sent }}</span>
             </li>
           </ul>
+          <p class="p-6 text-sm text-neutral-500 ">*Free tier quotas might change at any moment without notice.</p>
         </div>
 
         <!--modal content-->
@@ -134,7 +135,7 @@ import {
   useUser,
   useWalletAddress
 } from "~/composables/states";
-import {Alert, alert_list_from_object, AlertHash, AlertType} from "~/models/alert";
+import {Alert, alert_list_from_object, AlertHash, AlertType, MaxQuota, Quota} from "~/models/alert";
 import {useRuntimeConfig} from "#app";
 import {onMounted, ref, watch} from "#imports";
 import {User} from "~/models/user";
@@ -145,6 +146,8 @@ import {SelectSearchOption} from "~/models/select_search";
 const tiers = useTierList();
 const avatars = useAvatarList();
 const alerts = useAlertList();
+const alertQuota: Ref<Quota> = ref(null);
+const alertMaxQuota: Ref<MaxQuota> = ref(null);
 const user = useUser();
 const wallet_address = useWalletAddress();
 const jwt: Ref<string> = ref(null);
@@ -369,6 +372,22 @@ async function getAlerts() {
 
         if (data['alerts']) {
           useAlertList().value = alert_list_from_object(data['alerts']);
+        }
+
+        if (data['quota']) {
+          let _quota: Quota = new Quota();
+
+          Object.assign(_quota, data['quota']);
+
+          alertQuota.value = _quota;
+        }
+
+        if (data['max_quota']) {
+          let _max_quota: MaxQuota = new MaxQuota();
+
+          Object.assign(_max_quota, data['max_quota']);
+
+          alertMaxQuota.value = _max_quota;
         }
       })
       .catch(() => {

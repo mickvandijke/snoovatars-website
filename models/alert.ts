@@ -6,6 +6,15 @@ import {ETH_TO_GWEI_MODIFIER} from "~/models/ethereum";
 export type AlertHash = string;
 export type AlertList = Map<AlertHash, Alert>;
 
+export class Quota {
+    public emails_sent: number;
+}
+
+export class MaxQuota {
+    public alerts: number;
+    public emails_sent: number;
+}
+
 export class Alert {
     public user_id: string;
     public collection_tier_hash: TierHash;
