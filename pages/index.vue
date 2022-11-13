@@ -63,22 +63,23 @@
           <div class="mt-3 text-center">
             <h3 class="text-lg leading-6 font-medium text-white">{{ !!replacingAlertHash ? "Update" : "New" }} Alert</h3>
             <div class="mt-2 px-7 py-3 max-h-xs overflow-y-auto">
-              <label for="avatar" class="block mb-2 text-sm font-medium text-neutral-400 text-left">[Optional] Select a specific avatar</label>
+              <label for="collection" class="block mb-2 text-sm font-medium text-neutral-400 text-left">Select avatar</label>
+              <select-search
+                  id="tier"
+                  v-model="newAlert.collection_tier_hash"
+                  :options="selectTiers()"
+                  :placeholder="newAlert.collection_tier_hash ? tiers.get(newAlert.collection_tier_hash).name : 'Select avatar'"
+                  @change="onSelectedTier()"
+              >
+              </select-search>
+              <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">[Optional] Select a specific mint number</label>
               <select-search
                   id="avatar"
                   v-model="newAlert.item_hash"
                   :options="selectAvatars()"
                   :placeholder="newAlert.item_hash ? avatars.get(newAlert.item_hash).fullname() : 'None'"
+                  :disabled="!newAlert.collection_tier_hash"
                   @change="onSelectedAvatar()"
-              >
-              </select-search>
-              <label for="collection" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Select a collection tier</label>
-              <select-search
-                  id="tier"
-                  v-model="newAlert.collection_tier_hash"
-                  :options="selectTiers()"
-                  :placeholder="newAlert.collection_tier_hash ? tiers.get(newAlert.collection_tier_hash).name : 'Select collection tier'"
-                  :disabled="!!newAlert.item_hash"
               >
               </select-search>
               <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Max mint number (0 = any mint)</label>
@@ -166,9 +167,14 @@ const newEmail: Ref<string> = ref(null);
 const newAlert: Ref<Alert> = ref(new Alert());
 const replacingAlertHash: Ref<AlertHash> = ref(null);
 
+function onSelectedTier() {
+  if (newAlert.value.collection_tier_hash) {
+    newAlert.value.item_hash = null;
+  }
+}
+
 function onSelectedAvatar() {
   if (newAlert.value.item_hash) {
-    newAlert.value.collection_tier_hash = avatars.value.get(newAlert.value.item_hash).collection_tier_hash;
     newAlert.value.max_mint_number = 0;
   }
 }
@@ -177,6 +183,8 @@ function selectAvatars(): Array<SelectSearchOption> {
   let array: Array<SelectSearchOption> = new Array<SelectSearchOption>();
 
   avatars.value.forEach(async (avatar, index) => {
+    if (avatar.collection_tier_hash !== newAlert.value.collection_tier_hash) return;
+
     let option: SelectSearchOption = new SelectSearchOption(avatar.fullname(), await avatar.calculate_hash());
 
     array.push(option);
@@ -335,7 +343,7 @@ async function getUser() {
           user.value = _user;
         }
       })
-      .catch(handleCatch);;
+      .catch(handleCatch);
 }
 
 async function createUser() {
