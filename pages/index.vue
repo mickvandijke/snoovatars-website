@@ -1,5 +1,8 @@
 <template>
   <div class="mt-12 flex flex-col items-center w-full max-w-xl">
+
+    <StatusContainer />
+
     <template v-if="awaitingSignature">
       <div class="min-h-full w-full flex flex-col items-center">
         <button disabled type="button" class="text-white border border-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center">
@@ -146,6 +149,7 @@ import {User} from "~/models/user";
 import {Ref} from "@vue/reactivity";
 import {collection_list_from_object, CollectionList} from "~/models/reddit_collection";
 import {SelectSearchOption} from "~/models/select_search";
+import StatusContainer from "~/components/StatusContainer.vue";
 
 const tiers = useTierList();
 const avatars = useAvatarList();

@@ -14,9 +14,11 @@
     "postcss": "^8.4.16"
   },
   "dependencies": {
+    "@walletconnect/web3-provider": "^1.8.0",
     "ethers": "5.5.3",
     "hash-wasm": "^4.9.0",
     "siwe": "1.0.0",
-    "vue-select": "^4.0.0-beta.5"
+    "vue-select": "^4.0.0-beta.5",
+    "web3": "^1.8.1"
   }
 }

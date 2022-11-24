@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     },
     ssr: false,
     publicRuntimeConfig: {
-        API_BASE_URL: process.env.API_BASE_URL
+        API_BASE_URL: process.env.API_BASE_URL,
+        INFURA_ID: process.env.INFURA_ID,
     }
 })
