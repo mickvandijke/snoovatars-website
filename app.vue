@@ -36,12 +36,12 @@ onBeforeMount(async () => {
     setToken(tokenOpt);
   }
 
-  await getCollections();
+  getCollections();
 })
 
 watch([token], async () => {
   if (token.value) {
-    await getUser();
+    getUser();
   } else if (user.value) {
     user.value = null;
   }

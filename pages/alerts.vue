@@ -151,7 +151,7 @@ onMounted(async () => {
   if (!token.value) {
     await navigateTo("/login", {replace: true});
   } else {
-    await loadAlerts();
+    loadAlerts();
   }
 })
 
@@ -159,7 +159,7 @@ watch([token], async () => {
   if (!token.value) {
     await navigateTo("/login", {replace: true});
   } else {
-    await loadAlerts();
+    loadAlerts();
   }
 })
 
