@@ -50,7 +50,7 @@
           <span class="text-sm text-amber-500 text-center">LAUNCH DEAL: Get a lifetime premium upgrade for only 0.025 ETH!</span>
         </div>
         <div v-if="user.tier === 0" class="mt-6 p-3 flex flex-col items-center gap-y-4 border-2 border-gray-500 w-full rounded-2xl">
-          <span class="text-sm text-gray-500 text-center">The upgrade button is still a work in progress. To upgrade your account you have to message u/WarmBiertje on Reddit. Payments are accepted on Ethereum and Polygon networks.</span>
+          <span class="text-sm text-gray-500 text-center">The upgrade button is still a work in progress. To upgrade your account you have to message u/WarmBiertje on Reddit or Warm Beer#3352 on Discord. Payments are accepted on Ethereum and Polygon networks.</span>
         </div>
         <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
           <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
