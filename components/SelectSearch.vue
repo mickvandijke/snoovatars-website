@@ -37,7 +37,7 @@
 import {PropType} from "@vue/runtime-core";
 import {Ref} from "@vue/reactivity";
 import {ref} from "#imports";
-import {SelectSearchOption} from "~/models/select_search";
+import {SelectSearchOption} from "~/types/select_search";
 
 const focussed: Ref<boolean> = ref(false);
 const hoveringOptions: Ref<boolean> = ref(false);

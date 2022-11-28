@@ -1,4 +1,4 @@
-import {TierHash} from "~/models/reddit_collection_tier";
+import {TierHash} from "~/types/reddit_collection_tier";
 import {Hasher} from "~/global/hasher";
 
 export type AvatarHash = string;

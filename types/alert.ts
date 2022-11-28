@@ -1,16 +1,16 @@
-import {TierHash} from "~/models/reddit_collection_tier";
-import {AvatarHash} from "~/models/reddit_avatar";
+import {TierHash} from "~/types/reddit_collection_tier";
+import {AvatarHash} from "~/types/reddit_avatar";
 import {Hasher} from "~/global/hasher";
-import {ETH_TO_GWEI_MODIFIER} from "~/models/ethereum";
+import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
 
 export type AlertHash = string;
 export type AlertList = Map<AlertHash, Alert>;
 
-export class Quota {
+export class AlertQuota {
     public emails_sent: number;
 }
 
-export class MaxQuota {
+export class AlertMaxQuota {
     public alerts: number;
     public emails_sent: number;
 }
@@ -67,4 +67,9 @@ export function alert_list_from_object(alertsObject: Object): AlertList {
     })
 
     return alertList;
+}
+
+export class AccountTierAlertQuotas {
+    public tier_0: AlertMaxQuota;
+    public tier_1: AlertMaxQuota;
 }

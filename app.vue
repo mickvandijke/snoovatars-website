@@ -7,12 +7,17 @@
     <NuxtPage/>
     <div class="py-12 flex flex-col text-neutral-600 text-center">
       <span>This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</span>
+      <span>To contact us, please email snoovatars@gmail.com or message u/WarmBiertje on Reddit.</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {useHead} from "nuxt/app";
+import {onBeforeMount, useUser, watch} from "#imports";
+import {useToken} from "~/composables/states";
+import {getUser, setToken} from "~/composables/api/user";
+import {getCollections} from "~/composables/api/collection";
 
 useHead({
   title: 'snoovatars.com',
@@ -20,19 +25,39 @@ useHead({
     { name: 'description', content: 'Realtime price alerts for your favourite avatars!' }
   ]
 })
+
+const token = useToken();
+const user = useUser();
+
+onBeforeMount(async () => {
+  let tokenOpt = localStorage.getItem("Token");
+
+  if (tokenOpt) {
+    setToken(tokenOpt);
+  }
+
+  await getCollections();
+})
+
+watch([token], async () => {
+  if (token.value) {
+    await getUser();
+  } else if (user.value) {
+    user.value = null;
+  }
+})
 </script>
 
 <style>
 html, body {
-  @apply bg-zinc-900;
+  @apply bg-neutral-900;
 }
 
-input.input, select.input {
-  /*@apply py-2 px-4 w-full text-white bg-neutral-800 border border-neutral-700 rounded-md text-sm shadow-sm cursor-pointer placeholder-neutral-400 hover:border-sky-500 focus:bg-neutral-800 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition duration-200;*/
-  @apply px-4 py-3.5 block w-full max-w-xl bg-transparent text-neutral-200 placeholder-neutral-400 font-medium border-2 border-neutral-800 hover:border-neutral-600 focus:border-neutral-400 text-sm rounded-2xl outline-0 duration-200;
+input, select {
+  @apply p-2.5 bg-transparent text-neutral-100 placeholder-neutral-400 border-2 border-neutral-800 hover:border-neutral-700 rounded-2xl w-full duration-200 cursor-pointer;
 }
 
-label.input-label {
-  @apply block mb-2 text-sm font-medium text-neutral-400;
+input.light, select.light {
+  @apply border-neutral-700 hover:border-neutral-600;
 }
 </style>

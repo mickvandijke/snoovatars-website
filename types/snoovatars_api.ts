@@ -1,4 +1,4 @@
-import {CollectionList} from "~/models/reddit_collection";
+import {CollectionList} from "~/types/reddit_collection";
 
 export class CollectionsResponse {
     collections: CollectionList

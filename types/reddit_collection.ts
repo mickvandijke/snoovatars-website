@@ -1,4 +1,4 @@
-import {RedditCollectionTier} from "~/models/reddit_collection_tier";
+import {RedditCollectionTier} from "~/types/reddit_collection_tier";
 
 export type CollectionSlug = string;
 export type CollectionList = Map<CollectionSlug, RedditCollection>;

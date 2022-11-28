@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     },
     ssr: false,
     publicRuntimeConfig: {
+        SITE_URL: process.env.SITE_URL,
         API_BASE_URL: process.env.API_BASE_URL
     }
 })
