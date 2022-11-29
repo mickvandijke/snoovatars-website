@@ -3,14 +3,11 @@ export default defineNuxtConfig({
     modules: [
         'nuxt-windicss',
     ],
-    build: {
-        postcss: {
-            postcssOptions: require("./postcss.config.js"),
-        },
-    },
     ssr: false,
-    publicRuntimeConfig: {
-        SITE_URL: process.env.SITE_URL,
-        API_BASE_URL: process.env.API_BASE_URL
+    runtimeConfig: {
+        public: {
+            SITE_URL: process.env.SITE_URL,
+            API_BASE_URL: process.env.API_BASE_URL
+        }
     }
 })
