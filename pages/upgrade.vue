@@ -9,7 +9,7 @@
         <p class="mt-6 text-white text-center">With snoovatars PREMIUM, you will enjoy all the premium features on our platform. This includes higher limits for price alerts and all the premium features we will release in the future. THANK YOU for supporting us!</p>
         <p class="mt-6 font-semibold text-amber-600 text-center">20% of all PREMIUM sales will be donated to the r/AvatarTrading community wallet.</p>
         <div class="mt-12 w-full">
-          <h3 class="font-semibold text-neutral-400">Step 1. Buy a PREMIUM upgrade using Coinbase Commerce. Make sure to save your order number! The order code looks like "AAAAAAAA".</h3>
+          <h3 class="font-semibold text-neutral-400">Step 1. Buy a PREMIUM upgrade using Coinbase Commerce. Make sure to save your order code! The order code looks like "AAAAAAAA".</h3>
           <NuxtLink
               target="_blank"
               to="https://commerce.coinbase.com/checkout/c83f3cd4-adcf-4d3e-9349-3c1892f94472"
