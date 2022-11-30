@@ -41,16 +41,10 @@
       <div v-if="alerts && alertQuota && alertMaxQuota" class="mt-12 w-full">
         <div class="flex flex-row items-center w-full">
           <h2 class="text-neutral-100 text-3xl font-semibold">Quota</h2>
-          <button disabled class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 text-white font-semibold rounded-2xl duration-200">Upgrade</button>
+          <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
         </div>
-        <div v-if="user.tier === 0" class="mt-6 p-3 flex flex-col items-center gap-y-4 border-2 border-amber-500 w-full rounded-2xl">
-          <span class="text-sm text-amber-500 text-center">Upgrade to premium to get 50 concurrent alerts and unlimited email notifications.</span>
-        </div>
-        <div v-if="user.tier === 0" class="mt-6 p-3 flex flex-col items-center gap-y-4 border-2 border-amber-500 w-full rounded-2xl">
-          <span class="text-sm text-amber-500 text-center">LAUNCH DEAL: Get a lifetime premium upgrade for only 0.025 ETH!</span>
-        </div>
-        <div v-if="user.tier === 0" class="mt-6 p-3 flex flex-col items-center gap-y-4 border-2 border-gray-500 w-full rounded-2xl">
-          <span class="text-sm text-gray-500 text-center">The upgrade button is still a work in progress. To upgrade your account you have to message u/WarmBiertje on Reddit or Warm Beer#3352 on Discord. Payments are accepted on Ethereum and Polygon networks.</span>
+        <div v-if="user.tier < 1" class="mt-6 p-3 flex flex-col items-center gap-y-4 border-2 border-amber-500 w-full rounded-2xl">
+          <span class="text-sm text-amber-500 text-center">Upgrade to PREMIUM to get 50 concurrent alerts and unlimited email notifications.</span>
         </div>
         <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
           <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
@@ -125,7 +119,7 @@ import {
   useTierList, useToken,
   useUser,
 } from "~/composables/states";
-import {Alert, alert_list_from_object, AlertHash, AlertType, AlertMaxQuota, AlertQuota, AlertList} from "~/types/alert";
+import {Alert, alert_list_from_object, AlertHash, AlertType, AlertMaxQuota, AlertQuota} from "~/types/alert";
 import {navigateTo, useRuntimeConfig} from "#app";
 import {onMounted, ref, watch} from "#imports";
 import {Ref} from "@vue/reactivity";
