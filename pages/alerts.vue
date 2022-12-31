@@ -12,14 +12,14 @@
       </div>
     </template>
     <template v-else>
-      <div class="p-6 flex flex-col items-center border-2 border-neutral-800 rounded-2xl w-full">
-        <span class="text-sm text-neutral-400">Connected Account:</span>
-        <span class="mt-2 text-sm text-amber-600 text-nowrap overflow-hidden truncate">{{ user.id }}</span>
-        <span class="mt-2 text-sm text-amber-600 text-nowrap">Premium: <span class="text-neutral-400">{{ user.tier !== 0 }}</span></span>
-        <div class="mt-2 p-3 bg-neutral-800 text-neutral-400 rounded-2xl">{{ user.email }}</div>
-        <button @click.prevent="logout" class="mt-6 px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Logout</button>
-      </div>
-      <div id="alert-list" class="mt-12 flex flex-col items-center w-full">
+<!--      <div class="p-6 flex flex-col items-center border-2 border-neutral-800 rounded-2xl w-full">-->
+<!--        <span class="text-sm text-neutral-400">Connected Account:</span>-->
+<!--        <span class="mt-2 text-sm text-amber-600 text-nowrap overflow-hidden truncate">{{ user.id }}</span>-->
+<!--        <span class="mt-2 text-sm text-amber-600 text-nowrap">Premium: <span class="text-neutral-400">{{ user.tier !== 0 }}</span></span>-->
+<!--        <div class="mt-2 p-3 bg-neutral-800 text-neutral-400 rounded-2xl">{{ user.email }}</div>-->
+<!--        <button @click.prevent="logout" class="mt-6 px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Logout</button>-->
+<!--      </div>-->
+      <div id="alert-list" class="flex flex-col items-center w-full">
         <div class="flex flex-row items-center w-full">
           <h2 class="text-neutral-100 text-3xl font-semibold">Alerts</h2>
           <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Create Alert</button>
