@@ -1,13 +1,12 @@
 <template>
-  <div class="p-4 lg:p-6 flex flex-col items-center">
-    <div class="flex flex-col items-center">
-      <NuxtLink class="pb-6 text-lg md:text-3xl text-white font-bold" to="/">snoovatars.com</NuxtLink>
-      <h3 class="text-md text-amber-600 font-semibold text-center">Instant price alerts for all Reddit Collectible Avatars on OpenSea.io!</h3>
-    </div>
-    <NuxtPage/>
-    <div class="mt-12 py-12 flex flex-col text-neutral-500 text-center">
-      <span>This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</span>
-      <span>To contact us, please email snoovatars@gmail.com or message u/WarmBiertje on Reddit.</span>
+  <div class="flex flex-col items-center">
+    <NavigationBar/>
+    <div class="p-4 lg:p-6 flex flex-col items-center">
+      <NuxtPage/>
+      <div class="mt-12 py-12 flex flex-col text-neutral-500 text-center">
+        <span>This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</span>
+        <span>To contact us, please email snoovatars@gmail.com or message u/WarmBiertje on Reddit.</span>
+      </div>
     </div>
   </div>
 </template>
