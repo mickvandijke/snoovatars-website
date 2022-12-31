@@ -5,7 +5,7 @@
       <h3 class="text-md text-amber-600 font-semibold text-center">Instant price alerts for all Reddit Collectible Avatars on OpenSea.io!</h3>
     </div>
     <NuxtPage/>
-    <div class="py-12 flex flex-col text-neutral-600 text-center">
+    <div class="mt-12 py-12 flex flex-col text-neutral-500 text-center">
       <span>This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</span>
       <span>To contact us, please email snoovatars@gmail.com or message u/WarmBiertje on Reddit.</span>
     </div>

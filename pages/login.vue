@@ -22,7 +22,7 @@
             <span v-else>Sign in</span>
           </button>
           <NuxtLink to="/signup" class="block mt-2 px-4 py-2 text-white text-base font-medium rounded-2xl w-full duration-200">
-            Create account
+            Create a free account
           </NuxtLink>
         </div>
       </div>

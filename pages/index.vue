@@ -1,141 +1,127 @@
 <template>
-  <div>
-    <div id="jumbotron" class="h-[36rem] flex flex-row justify-center items-center">
-      <h1 class="text-3xl text-amber-600 font-bold">One platform to rule them all.</h1>
+  <div class="max-w-6xl flex flex-col items-center">
+    <div id="jumbotron" class="relative w-full h-[36rem] flex flex-row justify-center items-center overflow-hidden">
+      <div id="avatar-grid" class="w-full flex flex-col justify-center items-center">
+        <div class="w-full flex flex-row justify-center">
+          <img v-for="i in 12" :src="getRandomAvatarImgSrc()" class="w-16">
+        </div>
+        <div class="w-full ml-16 flex flex-row justify-center">
+          <img v-for="i in 12" :src="getRandomAvatarImgSrc()" class="w-16">
+        </div>
+        <div class="flex flex-row justify-center">
+          <h1 class="max-w-lg py-4 text-center text-4xl text-white font-bold">Collecting <span class="text-amber-500">avatars</span> has never been this <span class="text-amber-500">easy.</span></h1>
+        </div>
+        <div class="w-full flex flex-row justify-center">
+          <img v-for="i in 12" :src="getRandomAvatarImgSrc()" class="w-16">
+        </div>
+        <div class="w-full ml-16 flex flex-row justify-center">
+          <img v-for="i in 12" :src="getRandomAvatarImgSrc()" class="w-16">
+        </div>
+      </div>
     </div>
 
-    <div class="mb-32 text-white">
-      <h2 class="text-3xl font-bold text-center mb-12">Features</h2>
+    <div id="price-alerts" class="relative w-full py-16 flex flex-col-reverse lg:flex-row">
+      <div class="w-full lg:w-1/2 flex flex-col items-center justify-center">
+        <div class="rounded-2xl shadow-lg overflow-hidden">
+          <img src="/img/price-alerts.png" style="filter: invert(0.85);">
+        </div>
+      </div>
+      <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center text-white">
+        <h2 class="text-3xl font-bold text-center mb-12">Lightning Fast Price Alerts ⚡️</h2>
+        <p class="max-w-xl text-neutral-400 font-bold">
+          <strong class="text-amber-500">Be the first to know when there is a new listing for your favourite avatar!</strong>
+          Snoovatars lets you create price alerts for all the Reddit Collectible Avatars on Opensea. Because of our realtime connection with Opensea, we are able to send you price notifications instantly whenever your alert's conditions are met! Price alerts can not only be set for an entire collection tier, such as "The Eyes" or "Rainbow Foustling", but also for a specific mint number such as "Rainbow Foustling #580"!
+        </p>
+      </div>
+    </div>
+
+    <div id="plans" class="mt-12 max-w-2xl w-full flex flex-col text-white">
+      <h2 class="text-3xl font-bold text-center mb-12">Plans</h2>
 
       <div class="grid lg:grid-cols-2 gap-6 lg:gap-x-12">
-        <div class="mb-6 lg:mb-0">
-          <div class="block rounded-lg shadow-lg bg-white h-full">
-            <div class="p-6 border-b border-gray-300 text-center">
+
+        <div class="mb-6 lg:mb-0 flex flex-col items-center">
+          <div class="block max-w-xs w-full shadow-lg bg-neutral-800 border-2 border-neutral-700 h-full rounded-2xl">
+            <div class="p-6 border-b border-neutral-700 text-center">
               <p class="uppercase mb-4 text-sm">
-                <strong>Basic</strong>
+                <strong>Free</strong>
               </p>
               <h3 class="text-2xl mb-6">
-                <strong>$ 129</strong>
-                <small class="text-gray-500 text-sm">/year</small>
+                <strong>Free</strong>
               </h3>
 
-              <button type="button"
-                      class="inline-block px-6 py-2.5 bg-transparent text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:text-blue-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-gray-200 transition duration-150 ease-in-out w-full"
-                      style="background-color: hsl(0, 0%, 95%)"
+              <NuxtLink
+                  type="button"
+                  class="signup"
+                  to="/signup"
               >
-                Buy
-              </button>
+                Sign up for free
+              </NuxtLink>
             </div>
             <div class="p-6">
-              <ol class="list-inside">
+              <ol class="list-inside text-neutral-200 font-semibold text-sm">
                 <li class="mb-4 flex items-center">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
-                       class="text-green-600 w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg"
-                       viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z">
-                    </path>
-                  </svg>Unlimited updates
+                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
+                  *2 concurrent price alerts
                 </li>
                 <li class="mb-4 flex items-center">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
-                       class="text-green-600 w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg"
-                       viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z">
-                    </path>
-                  </svg>Git repository
-                </li>
-                <li class="mb-4 flex items-center">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
-                       class="text-green-600 w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg"
-                       viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z">
-                    </path>
-                  </svg>npm installation
+                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
+                  *5 price alert notifications
                 </li>
               </ol>
             </div>
           </div>
         </div>
 
-        <div class="mb-6 lg:mb-0">
-          <div class="block rounded-lg shadow-lg bg-white h-full">
-            <div class="p-6 border-b border-gray-300 text-center">
+        <div class="mb-6 lg:mb-0 flex flex-col items-center">
+          <div class="block max-w-xs w-full shadow-lg bg-neutral-800 border-2 border-amber-500 h-full rounded-2xl">
+            <div class="p-6 border-b border-neutral-700 text-center">
               <p class="uppercase mb-4 text-sm">
-                <strong>Advanced</strong>
+                <strong class="text-amber-500">Premium</strong>
               </p>
               <h3 class="text-2xl mb-6">
-                <strong>$ 299</strong>
-                <small class="text-gray-500 text-sm">/year</small>
+                <strong>€ 10</strong>
+                <small class="text-neutral-400"> / lifetime</small>
               </h3>
-              <button type="button"
-                      class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
-                      data-mdb-ripple="true" data-ripple-color="light">
-                Buy
-              </button>
+              <NuxtLink
+                  class="signup"
+                  target="_blank"
+                  to="https://commerce.coinbase.com/checkout/c83f3cd4-adcf-4d3e-9349-3c1892f94472"
+              >
+                Buy a premium code
+              </NuxtLink>
+              <p class="mt-3 text-sm text-neutral-400">You can redeem your premium code by signing up for a free account and then going to <a href="/upgrade" class="text-amber-500 hover:text-amber-400 duration-200  cursor-pointer">upgrade</a>.</p>
             </div>
             <div class="p-6">
-              <ol class="list-inside">
+              <ol class="list-inside text-neutral-200 font-semibold text-sm">
                 <li class="mb-4 flex items-center">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
-                       class="text-green-600 w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg"
-                       viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z">
-                    </path>
-                  </svg>Unlimited updates
+                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
+                  *50 concurrent price alerts
                 </li>
                 <li class="mb-4 flex items-center">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
-                       class="text-green-600 w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg"
-                       viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z">
-                    </path>
-                  </svg>Git repository
-                </li>
-                <li class="mb-4 flex items-center">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
-                       class="text-green-600 w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg"
-                       viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z">
-                    </path>
-                  </svg>npm installation
-                </li>
-                <li class="mb-4 flex items-center">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
-                       class="text-green-600 w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg"
-                       viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z">
-                    </path>
-                  </svg>Code examples
-                </li>
-                <li class="mb-4 flex items-center">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
-                       class="text-green-600 w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg"
-                       viewBox="0 0 512 512">
-                    <path fill="currentColor"
-                          d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z">
-                    </path>
-                  </svg>Premium snippets
+                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
+                  *Unlimited price alert notifications
                 </li>
               </ol>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import {CheckBadgeIcon} from "@heroicons/vue/24/solid";
 
+function getRandomAvatarImgSrc() {
+  return `/img/${Math.floor(Math.random() * (16 - 1 + 1) + 1)}.png`;
+}
 </script>
 
 <style scoped>
-
+.signup {
+  @apply inline-block px-6 py-2.5 bg-amber-600 text-white font-medium text-sm leading-tight rounded-2xl shadow-md hover:bg-amber-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full;
+}
 </style>
