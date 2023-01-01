@@ -65,7 +65,7 @@
         <div class="mt-3 text-center">
           <h3 class="text-lg leading-6 font-medium text-white">{{ !!replacingAlertHash ? "Update" : "New" }} Alert</h3>
           <div class="mt-2 px-7 py-3 max-h-xs overflow-y-auto">
-            <label for="collection" class="block mb-2 text-sm font-medium text-neutral-400 text-left">Select avatar</label>
+            <label for="collection" class="block mb-2 text-sm font-medium text-neutral-400 text-left">Select avatar (Type to search)</label>
             <select-search
                 id="tier"
                 v-model="newAlert.collection_tier_hash"
@@ -144,7 +144,7 @@ const replacingAlertHash: Ref<AlertHash> = ref(null);
 
 onMounted(async () => {
   if (!token.value) {
-    await navigateTo("/login", {replace: true});
+    await navigateTo("/", {replace: true});
   } else {
     loadAlerts();
   }
@@ -152,7 +152,7 @@ onMounted(async () => {
 
 watch([token], async () => {
   if (!token.value) {
-    await navigateTo("/login", {replace: true});
+    await navigateTo("/", {replace: true});
   } else {
     loadAlerts();
   }
