@@ -39,6 +39,8 @@ import {Ref} from "@vue/reactivity";
 import {ref} from "#imports";
 import {SelectSearchOption} from "~/types/select_search";
 
+const MAX_OPTIONS_IN_LIST = 200;
+
 const focussed: Ref<boolean> = ref(false);
 const hoveringOptions: Ref<boolean> = ref(false);
 const search: Ref<string> = ref("");
@@ -55,7 +57,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'change'])
 
-function selectValue(value) {
+function selectValue(value: any) {
   emit('update:modelValue', value);
   emit('change');
   search.value = "";
@@ -64,12 +66,30 @@ function selectValue(value) {
 
 function filteredOptions(): Array<SelectSearchOption> {
   if (search.value.length == 0) {
-    return props.options.slice(0, 20);
+    return props.options.slice(0, MAX_OPTIONS_IN_LIST).sort(sortOptions);
   }
 
-  return props.options.filter((option: SelectSearchOption) => {
+  let filtered = props.options.filter((option: SelectSearchOption) => {
     return option.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1;
   });
+
+  return filtered.sort(sortOptions);
+}
+
+function sortOptions(a: SelectSearchOption, b: SelectSearchOption) {
+  const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+  const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+
+  if (nameA < nameB) {
+    return -1;
+  }
+
+  if (nameA > nameB) {
+    return 1;
+  }
+
+  // names must be equal
+  return 0;
 }
 </script>
 
