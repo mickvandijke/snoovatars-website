@@ -8,7 +8,7 @@
         <div class="w-full ml-16 flex flex-row justify-center">
           <img v-for="i in 12" :src="getRandomAvatarImgSrc()" class="w-16">
         </div>
-        <div class="flex flex-row justify-center">
+        <div class="flex flex-col justify-center items-center">
           <h1 class="max-w-lg py-4 text-center text-4xl text-white font-bold">Collecting <span class="text-amber-500">avatars</span> has never been this <span class="text-amber-500">easy.</span></h1>
         </div>
         <div class="w-full flex flex-row justify-center">
@@ -26,14 +26,37 @@
           <img src="/img/price-alerts.png" style="filter: invert(0.85);">
         </div>
       </div>
-      <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center text-white">
-        <h2 class="text-3xl font-bold text-center mb-12">Lightning Fast Price Alerts ⚡️</h2>
-        <p class="max-w-xl text-neutral-400 font-bold">
-          <strong class="text-amber-500">Be the first to know when there is a new listing for your favourite avatar!</strong>
-          Snoovatars lets you create price alerts for all the Reddit Collectible Avatars on Opensea. Because of our realtime connection with Opensea, we are able to send you price notifications instantly whenever your alert's conditions are met! Price alerts can not only be set for an entire collection tier, such as "The Eyes" or "Rainbow Foustling", but also for a specific mint number such as "Rainbow Foustling #580"!
+      <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
+        <h2 class="text-xl md:text-3xl font-bold text-center mb-12">Realtime Custom Price Alerts ⚡️</h2>
+        <p class="max-w-xl text-neutral-200 font-bold">
+          With our highly customizable price alerts, you will be able to snipe the best deals before anyone else.
         </p>
       </div>
     </div>
+
+    <div id="price-alerts" class="relative w-full py-16 flex flex-col lg:flex-row">
+      <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
+        <h2 class="text-xl md:text-3xl font-bold text-center">New Collection Warnings 🚨️</h2>
+        <h3 class="mb-12 font-semibold text-amber-500">PREMIUM ONLY</h3>
+        <p class="max-w-xl text-neutral-200 font-bold">
+          With our realtime connection to the Polygon transaction pool, we are able to tell whenever Reddit deploys a new contract. We will send you an email notification before the contract is even confirmed on the network!
+        </p>
+      </div>
+      <div class="w-full lg:w-1/2 flex flex-col items-center justify-center">
+        <div class="rounded-2xl shadow-lg overflow-hidden">
+          <img src="/img/new-contract.png" style="filter: invert(0.85);">
+        </div>
+      </div>
+    </div>
+
+    <h2 class="mb-12 text-xl text-white font-bold text-center">We continually want to improve the service, so stay tuned for new updates!</h2>
+
+    <NuxtLink
+        class="px-6 py-4 max-w-xs bg-neutral-700/50 hover:bg-amber-500/20 font-bold text-lg text-amber-500 rounded-2xl duration-200"
+        to="/signup"
+    >
+      Sign up for free
+    </NuxtLink>
 
     <div id="plans" class="mt-12 max-w-2xl w-full flex flex-col text-white">
       <h2 class="text-3xl font-bold text-center mb-12">Plans</h2>
@@ -66,7 +89,7 @@
                 </li>
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
-                  *5 price alert notifications
+                  *Unlimited price alert notifications
                 </li>
               </ol>
             </div>
@@ -101,6 +124,10 @@
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
                   *Unlimited price alert notifications
+                </li>
+                <li class="mb-4 flex items-center">
+                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
+                  *New collection warnings
                 </li>
               </ol>
             </div>

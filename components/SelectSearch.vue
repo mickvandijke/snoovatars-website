@@ -39,7 +39,7 @@ import {Ref} from "@vue/reactivity";
 import {ref} from "#imports";
 import {SelectSearchOption} from "~/types/select_search";
 
-const MAX_OPTIONS_IN_LIST = 200;
+const MAX_OPTIONS_IN_LIST = 300;
 
 const focussed: Ref<boolean> = ref(false);
 const hoveringOptions: Ref<boolean> = ref(false);
