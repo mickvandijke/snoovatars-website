@@ -38,7 +38,7 @@
           <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
         </div>
         <div v-if="user.tier < 1" class="mt-6 p-3 flex flex-col items-center gap-y-4 border-2 border-neutral-400 w-full rounded-2xl">
-          <span class="text-sm text-neutral-400 text-center">Free users only get 5 email notifications. Upgrade to PREMIUM to get 50 concurrent alerts and unlimited email notifications.</span>
+          <span class="text-sm text-neutral-400 text-center">Upgrade to PREMIUM to get 50 concurrent alerts.</span>
         </div>
         <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
           <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
