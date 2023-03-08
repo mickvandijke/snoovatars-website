@@ -20,6 +20,22 @@
       </div>
     </div>
 
+    <div id="shop-alerts" class="relative w-full py-16 flex flex-col lg:flex-row">
+      <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
+        <h2 class="text-xl md:text-3xl font-bold text-center"><span class="text-amber-500 italic mr-1">NEW</span> Reddit Shop Alerts 🚨️</h2>
+        <h3 class="mb-1 font-semibold text-red-500 text-center">This feature is highly experimental and may not work if Reddit makes changes to their API!</h3>
+        <h3 class="mb-12 font-semibold text-amber-500">PREMIUM ONLY</h3>
+        <p class="max-w-xl text-neutral-200 font-bold">
+          Get notified whenever a new collection is available on the Reddit Avatar Shop! Along with a link to take you directly to the shop gallery.
+        </p>
+      </div>
+      <div class="w-full lg:w-1/2 flex flex-col items-center justify-center">
+        <div class="rounded-2xl shadow-lg overflow-hidden">
+          <img src="/img/shop-alerts.png" style="filter: invert(0.85);">
+        </div>
+      </div>
+    </div>
+
     <div id="price-alerts" class="relative w-full py-16 flex flex-col-reverse lg:flex-row">
       <div class="w-full lg:w-1/2 flex flex-col items-center justify-center">
         <div class="rounded-2xl shadow-lg overflow-hidden">
@@ -34,7 +50,7 @@
       </div>
     </div>
 
-    <div id="price-alerts" class="relative w-full py-16 flex flex-col lg:flex-row">
+    <div id="collection-alerts" class="relative w-full py-16 flex flex-col lg:flex-row">
       <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
         <h2 class="text-xl md:text-3xl font-bold text-center">New Collection Warnings 🚨️</h2>
         <h3 class="mb-12 font-semibold text-amber-500">PREMIUM ONLY</h3>
@@ -117,6 +133,10 @@
             </div>
             <div class="p-6">
               <ol class="list-inside text-neutral-200 font-semibold text-sm">
+                <li class="mb-4 flex items-center">
+                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
+                  *Reddit shop alerts (experimental)
+                </li>
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
                   *50 concurrent price alerts
