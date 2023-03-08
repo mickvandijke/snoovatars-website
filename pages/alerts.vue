@@ -1,6 +1,6 @@
 <template>
   <div class="mt-12 flex flex-col items-center w-full max-w-xl">
-    <template v-if="!user?.username || !alerts?.size || !alertMaxQuota?.alerts">
+    <template v-if="loading || !user?.username">
       <div class="min-h-full w-full flex flex-col items-center">
         <button disabled type="button" class="text-white border border-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center">
           <svg class="inline mr-3 w-4 h-4 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -122,6 +122,7 @@ import {handleCatch} from "~/composables/api/error";
 import {deleteToken} from "~/composables/api/user";
 import {createAlert, getAlerts} from "~/composables/api/alert";
 
+const loading = ref(true);
 const tiers = useTierList();
 const avatars = useAvatarList();
 const alerts = useAlertList();
@@ -137,7 +138,7 @@ const replacingAlertHash: Ref<AlertHash> = ref(null);
 
 onMounted(async () => {
   if (!token.value) {
-    await navigateTo("/", {replace: true});
+    await navigateTo("/login", {replace: true});
   } else {
     loadAlerts();
   }
@@ -145,7 +146,7 @@ onMounted(async () => {
 
 watch([token], async () => {
   if (!token.value) {
-    await navigateTo("/", {replace: true});
+    await navigateTo("/login", {replace: true});
   } else {
     loadAlerts();
   }
@@ -196,14 +197,20 @@ function logout() {
 }
 
 function loadAlerts() {
+  loading.value = true;
+
   getAlerts()
       .then((res) => {
         if (res.alerts) alerts.value = res.alerts;
         if (res.alertQuota) alertQuota.value = res.alertQuota;
         if (res.alertMaxQuota) alertMaxQuota.value = res.alertMaxQuota;
+
+        loading.value = false;
       })
       .catch((err) => {
         alert(err);
+
+        loading.value = false;
       })
 }
 
