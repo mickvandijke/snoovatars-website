@@ -21,7 +21,9 @@
         <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
           <template v-if="alerts.size > 0">
             <li v-for="[alertHash, alert] in alerts" class="p-3 flex flex-row flex-nowrap items-center bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">
-              <span class="px-2 font-semibold text-neutral-300">{{  alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (tiers.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}, {{ alert.alert_type }}: {{ alert.price_threshold }} ETH</span>
+              <span class="px-2 font-semibold text-neutral-300">{{
+                  alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..')
+                }}, {{ alert.alert_type }}: {{ alert.price_threshold }} ETH</span>
               <button @click="openAlertModal(alertHash, alert)" class="ml-auto px-4 py-2 bg-sky-600 hover:bg-sky-500 font-semibold text-white rounded-2xl duration-200">Edit</button>
               <button @click="deleteAlert(alertHash)" class="ml-2 px-4 py-2 bg-red-600 hover:bg-red-500 font-semibold text-white rounded-2xl duration-200">Delete</button>
             </li>
@@ -62,8 +64,8 @@
             <select-search
                 id="tier"
                 v-model="newAlert.collection_tier_hash"
-                :options="selectTiers()"
-                :placeholder="newAlert.collection_tier_hash ? tiers.get(newAlert.collection_tier_hash).name : 'Select avatar'"
+                :options="selectSeries()"
+                :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Select avatar'"
                 @change="onSelectedTier()"
             >
             </select-search>
@@ -78,7 +80,7 @@
             >
             </select-search>
             <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Max mint number (0 = any mint)</label>
-            <input type="number" min="0" :max="tiers.get(newAlert.collection_tier_hash) ? tiers.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="light">
+            <input type="number" min="0" :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="light">
             <label for="type" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Select an event type</label>
             <select required v-model="newAlert.alert_type" id="type" class="light">
               <option :value="AlertType.ListingBelow">Listing below price threshold</option>
@@ -110,7 +112,7 @@
 import {
   useAlertList,
   useAvatarList,
-  useTierList, useToken,
+  useSeries, useToken,
   useUser,
 } from "~/composables/states";
 import {Alert, alert_list_from_object, AlertHash, AlertType, AlertMaxQuota, AlertQuota} from "~/types/alert";
@@ -121,9 +123,10 @@ import {SelectSearchOption} from "~/types/select_search";
 import {handleCatch} from "~/composables/api/error";
 import {deleteToken} from "~/composables/api/user";
 import {createAlert, getAlerts} from "~/composables/api/alert";
+import {calculate_hash} from "~/types/series";
 
 const loading = ref(true);
-const tiers = useTierList();
+const series = useSeries();
 const avatars = useAvatarList();
 const alerts = useAlertList();
 const alertQuota: Ref<AlertQuota> = ref(null);
@@ -180,11 +183,11 @@ function selectAvatars(): Array<SelectSearchOption> {
   return array;
 }
 
-function selectTiers(): Array<SelectSearchOption> {
+function selectSeries(): Array<SelectSearchOption> {
   let array: Array<SelectSearchOption> = new Array<SelectSearchOption>();
 
-  tiers.value.forEach(async (tier, index) => {
-    let option: SelectSearchOption = new SelectSearchOption(tier.name, await tier.calculate_hash());
+  series.value.forEach(async (series) => {
+    let option: SelectSearchOption = new SelectSearchOption(series.name, await calculate_hash(series));
 
     array.push(option);
   })

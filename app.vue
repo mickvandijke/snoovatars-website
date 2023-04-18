@@ -13,10 +13,12 @@
 
 <script setup lang="ts">
 import {useHead} from "nuxt/app";
-import {onBeforeMount, useUser, watch} from "#imports";
+import {onBeforeMount, useCollections, useSeries, useUser, watch} from "#imports";
 import {useToken} from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
-import {getCollections} from "~/composables/api/collection";
+import {fetchCollections} from "~/composables/api/collection";
+import {fetchSeries} from "~/composables/api/series";
+import {calculate_hash, Series} from "~/types/series";
 
 useHead({
   title: 'snoovatars.com',
@@ -35,7 +37,21 @@ onBeforeMount(async () => {
     setToken(tokenOpt);
   }
 
-  getCollections();
+  fetchCollections().then((collections) => {
+    useCollections().value = collections;
+  })
+
+  fetchSeries().then((series) => {
+    let seriesMap: Map<string, Series> = new Map();
+
+    series.forEach(async (serie) => {
+      let hash = await calculate_hash(serie);
+
+      seriesMap.set(hash, serie);
+    })
+
+    useSeries().value = seriesMap;
+  })
 })
 
 watch([token], async () => {
