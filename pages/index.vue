@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-6xl flex flex-col items-center">
+  <div class="px-4 lg:p-6 max-w-6xl flex flex-col items-center">
     <div id="jumbotron" class="relative w-full h-[36rem] flex flex-row justify-center items-center overflow-hidden">
       <div id="avatar-grid" class="w-full flex flex-col justify-center items-center">
         <div class="w-full flex flex-row justify-center">

@@ -8,5 +8,5 @@ export interface Collection {
 }
 
 export interface ApiResponse {
-    collections: Record<string, Collection>;
+    collections: Map<string, Collection>;
 }

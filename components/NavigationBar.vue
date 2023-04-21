@@ -4,7 +4,7 @@
       style="backdrop-filter: blur(20px);"
       @mouseleave="closeDropdowns()"
   >
-    <nav class="container px-4 py-5 mx-auto md:flex md:justify-between md:items-center">
+    <nav class="container py-3 px-4 md:py-5 mx-auto md:flex md:justify-between md:items-center">
       <div class="flex flex-row items-center justify-between">
         <div class="flex flex-row flex-nowrap items-center">
           <div class="mr-3 w-9 h-9 flex flex-col items-center justify-center bg-gradient-to-bl from-amber-500 to-amber-600 rounded-lg shrink-0">

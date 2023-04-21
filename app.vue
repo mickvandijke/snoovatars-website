@@ -1,24 +1,30 @@
 <template>
   <div class="flex flex-col items-center">
     <NavigationBar/>
-    <div class="p-4 lg:p-6 flex flex-col items-center">
+    <div class="flex flex-col items-center">
       <NuxtPage/>
-      <div class="mt-12 py-12 flex flex-col text-neutral-500 text-center">
+      <div class="text-sm md:text-md mt-2 mb-20 md:mt-12 md:mb-0 px-4 py-2 md:py-12 flex flex-col text-neutral-500 text-center">
         <span>This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</span>
         <span>To contact us, please email snoovatars@gmail.com or message u/WarmBiertje on Reddit.</span>
       </div>
     </div>
+    <MobileNavigationBar/>
   </div>
 </template>
 
 <script setup lang="ts">
 import {useHead} from "nuxt/app";
-import {onBeforeMount, useCollections, useSeries, useUser, watch} from "#imports";
-import {useToken} from "~/composables/states";
+import {onBeforeMount, useCollections, useNuxtApp, useSeries, useUser, watch} from "#imports";
+import {updateEthereumUsdPrice, useToken} from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 import {fetchSeries} from "~/composables/api/series";
 import {calculate_hash, Series} from "~/types/series";
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
+// @ts-ignore
+import VueVirtualScroller from "vue-virtual-scroller";
+
+useNuxtApp().vueApp.use(VueVirtualScroller);
 
 useHead({
   title: 'snoovatars.com',
@@ -29,6 +35,8 @@ useHead({
 
 const token = useToken();
 const user = useUser();
+
+updateEthereumUsdPrice();
 
 onBeforeMount(async () => {
   let tokenOpt = localStorage.getItem("Token");
