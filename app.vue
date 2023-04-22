@@ -3,10 +3,10 @@
     <NavigationBar/>
     <div class="flex flex-col items-center">
       <NuxtPage/>
-      <div class="text-sm md:text-md mt-2 mb-20 md:mt-12 md:mb-0 px-4 py-2 md:py-12 flex flex-col text-neutral-500 text-center">
-        <span>This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</span>
-        <span>To contact us, please email snoovatars@gmail.com or message u/WarmBiertje on Reddit.</span>
-      </div>
+    </div>
+    <div class="bg-neutral-800/50 text-sm md:text-md mt-6 mb-20 md:mt-12 md:mb-0 mx-4 px-4 md:px-6 py-4 md:py-12 flex flex-col text-neutral-500 text-center rounded-md md:rounded-none md:w-full">
+      <span>This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</span>
+      <span>To contact us, please email snoovatars@gmail.com or message u/WarmBiertje on Reddit.</span>
     </div>
     <MobileNavigationBar/>
   </div>
@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import {useHead} from "nuxt/app";
-import {onBeforeMount, useCollections, useNuxtApp, useSeries, useUser, watch} from "#imports";
+import {loadWatchList, onBeforeMount, useCollections, useNuxtApp, useSeries, useUser, watch} from "#imports";
 import {updateEthereumUsdPrice, useToken} from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
@@ -27,7 +27,7 @@ import VueVirtualScroller from "vue-virtual-scroller";
 useNuxtApp().vueApp.use(VueVirtualScroller);
 
 useHead({
-  title: 'snoovatars.com',
+  title: 'rcax.io',
   meta: [
     { name: 'description', content: 'Realtime price alerts for your favourite avatars!' }
   ]
@@ -36,6 +36,7 @@ useHead({
 const token = useToken();
 const user = useUser();
 
+loadWatchList();
 updateEthereumUsdPrice();
 
 onBeforeMount(async () => {
@@ -60,7 +61,7 @@ onBeforeMount(async () => {
 
     useSeries().value = seriesMap;
   })
-})
+});
 
 watch([token], async () => {
   if (token.value) {
@@ -68,6 +69,13 @@ watch([token], async () => {
   } else if (user.value) {
     user.value = null;
   }
+});
+
+useHead({
+  meta: [{
+    name: "viewport",
+    content: "width=device-width, initial-scale=1, maximum-scale=1"
+  }]
 })
 </script>
 

@@ -22,3 +22,11 @@ export interface Sale {
 export interface ApiResponseLatest {
     sales: Array<Sale>;
 }
+
+export interface SalesResponse {
+    [key: string]: Sale;
+}
+
+export interface ApiResponseForSeries {
+    sales: SalesResponse;
+}

@@ -13,6 +13,18 @@
           <div class="flex items-center gap-2">
             <h1 class="text-white font-bold text-[0.9rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ sale.token.name }}</h1>
             <h1 class="text-amber-500 font-bold text-[0.9rem]">#{{ sale.token.mint_number }}</h1>
+            <div class="ml-auto">
+              <template v-if="watchList.has(sale.token.name)">
+                <div @click="removeFromWatchList(sale.token.name)" class="flex items-center justify-center cursor-pointer">
+                  <StarIcon class="w-5 h-5 text-yellow-500" />
+                </div>
+              </template>
+              <template v-else>
+                <div @click="addToWatchList(sale.token.name)" class="flex items-center justify-center cursor-pointer">
+                  <StarIcon class="w-5 h-5 text-neutral-700 hover:text-yellow-500/50" />
+                </div>
+              </template>
+            </div>
           </div>
           <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
             <div class="text-neutral-400 text-xs">Buyer:</div>
@@ -53,13 +65,15 @@
 <script setup lang="ts">
 import {PropType} from "@vue/runtime-core";
 import {Sale} from "~/types/sale";
-import {useSeriesStats} from "~/composables/states";
+import {useSeriesStats, useWatchList, addToWatchList, removeFromWatchList} from "~/composables/states";
+import {StarIcon} from "@heroicons/vue/24/solid";
 
 const props = defineProps({
   items: Array as PropType<Sale[]>
 });
 
 const seriesStats = useSeriesStats();
+const watchList = useWatchList();
 
 function getSeries(name: string) {
   return seriesStats.value[name]?.series;

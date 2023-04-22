@@ -17,6 +17,7 @@ export const useAlertList = () => useState<AlertList>('alert-list', () => new Ma
 export const useUser = () => useState<User>('user', () => null);
 export const useToken = () => useState<string>('token', () => null);
 export const useEthereumUsdPrice = () => useState<number>('ethereum-usd', () => 0);
+export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 
 export async function updateSeriesStats() {
     fetchSeriesStats().then((seriesStats) => {
@@ -28,4 +29,39 @@ export async function updateEthereumUsdPrice() {
     fetchCurrentEthereumPriceInUSD().then((usd) => {
         useEthereumUsdPrice().value = usd;
     })
+}
+
+export function loadWatchList() {
+    const defaultWatchList: Set<string> = new Set(['The Hands', 'Gummy', 'Snooze Paralysis', 'Julia Jewels']);
+
+    const watchListJson = localStorage.getItem("watchList");
+
+    if (watchListJson) {
+        console.log(watchListJson);
+
+        const watchList = JSON.parse(watchListJson);
+
+        if (watchList) {
+            useWatchList().value = new Set<string>(watchList);
+            return;
+        }
+    }
+
+    useWatchList().value = defaultWatchList;
+}
+
+export function saveWatchList() {
+    localStorage.setItem("watchList", JSON.stringify(Array.from(useWatchList().value)));
+}
+
+export function addToWatchList(name: string) {
+    useWatchList().value.add(name);
+
+    saveWatchList();
+}
+
+export function removeFromWatchList(name: string) {
+    useWatchList().value.delete(name);
+
+    saveWatchList();
 }

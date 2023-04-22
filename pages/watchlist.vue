@@ -15,12 +15,13 @@
 </template>
 
 <script setup lang="ts">
-import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats} from "~/composables/states";
+import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats, useWatchList} from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
 import {ref} from "#imports";
 
 const seriesStats = useSeriesStats();
 const ethereumPriceUsd = useEthereumUsdPrice();
+const watchList = useWatchList();
 
 const searchTerm = ref<string>("");
 const sortOption = ref<string>("highestPrice");
@@ -29,6 +30,8 @@ await updateSeriesStats();
 
 function filteredAndSortedSeriesStats(): SeriesStats[] {
   let filteredSeriesStats = Array.from(Object.values(seriesStats.value));
+
+  filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => watchList.value.has(seriesStat.series.name));
 
   if (searchTerm.value.trim() !== "") {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.name.toLowerCase().includes(searchTerm.value.toLowerCase()));

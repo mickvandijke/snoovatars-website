@@ -7,14 +7,11 @@
     <nav class="container py-3 px-4 md:py-5 mx-auto md:flex md:justify-between md:items-center">
       <div class="flex flex-row items-center justify-between">
         <div class="flex flex-row flex-nowrap items-center">
-          <div class="mr-3 w-9 h-9 flex flex-col items-center justify-center bg-gradient-to-bl from-amber-500 to-amber-600 rounded-lg shrink-0">
-            <span class="font-bold text-3xl text-neutral-900 antialiased">S</span>
-          </div>
           <NuxtLink
-              class="ml-2 text-2xl font-bold text-white md:text-3xl duration-500"
-              to="/"
+              class="text-2xl font-bold text-white md:text-3xl duration-500"
+              to="/home"
           >
-            snoovatars.com
+            RCA<span class="italic text-amber-500">X</span>.io
           </NuxtLink>
         </div>
         <!-- Mobile menu button -->
