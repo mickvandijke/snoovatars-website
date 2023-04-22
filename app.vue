@@ -9,6 +9,15 @@
       <span>To contact us, please email snoovatars@gmail.com or message u/WarmBiertje on Reddit.</span>
     </div>
     <MobileNavigationBar/>
+    <!-- Google tag (gtag.js) -->
+    <Script async src="https://www.googletagmanager.com/gtag/js?id=G-GF6HFN0CSP"></Script>
+    <Script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GF6HFN0CSP');
+    </Script>
   </div>
 </template>
 
