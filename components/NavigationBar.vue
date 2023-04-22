@@ -38,12 +38,13 @@
           :class="showMenu ? 'flex' : 'hidden'"
           class="flex-col mt-8 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-3 md:mt-0"
       >
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer" to="/avatar/exporter">Avatar Exporter</NuxtLink>
         <template v-if="token && user?.username">
-          <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-amber-500 font-semibold rounded-2xl duration-200 cursor-pointer" to="/alerts">Price Alerts</NuxtLink>
+          <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer" to="/alerts">Price Alerts</NuxtLink>
           <div
               @mouseover="userDropDown = true"
               @click="userDropDown = !userDropDown"
-              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer">
+              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700/50 hover:bg-neutral-600/50 text-amber-500 font-semibold rounded-2xl duration-200 cursor-pointer">
             <div>
               <button
                   class="flex flex-row flex-nowrap font-semibold"

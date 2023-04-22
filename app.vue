@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <NavigationBar/>
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center w-full">
       <NuxtPage/>
     </div>
     <div class="bg-neutral-800/50 text-sm md:text-md mt-6 mb-20 md:mt-12 md:mb-0 mx-4 px-4 md:px-6 py-4 md:py-12 flex flex-col text-neutral-500 text-center rounded-md md:rounded-none md:w-full">
