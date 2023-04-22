@@ -38,6 +38,7 @@
           :class="showMenu ? 'flex' : 'hidden'"
           class="flex-col mt-8 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-3 md:mt-0"
       >
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer" to="/stats">Stats</NuxtLink>
         <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer" to="/avatar/exporter">Avatar Exporter</NuxtLink>
         <template v-if="token && user?.username">
           <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer" to="/alerts">Price Alerts</NuxtLink>

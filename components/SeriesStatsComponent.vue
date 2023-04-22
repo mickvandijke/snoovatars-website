@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 gap-1">
+  <div class="grid grid-cols-1 gap-1 overflow-hidden">
     <template v-for="(item, index) in props.items" :key="item.series.name">
       <div class="relative grid grid-cols-5 gap-1 overflow-hidden">
         <div class="relative rounded-lg">
