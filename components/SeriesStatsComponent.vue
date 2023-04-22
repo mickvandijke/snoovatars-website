@@ -23,12 +23,12 @@
                 </div>
               </template>
               <template v-if="watchList.has(item.series.name)">
-                <div @click="removeFromWatchList(item.series.name)" class="flex items-center justify-center cursor-pointer">
+                <div @click.stop="removeFromWatchList(item.series.name)" class="flex items-center justify-center cursor-pointer">
                   <StarIcon class="w-5 h-5 text-yellow-500" />
                 </div>
               </template>
               <template v-else>
-                <div @click="addToWatchList(item.series.name)" class="flex items-center justify-center cursor-pointer">
+                <div @click.stop="addToWatchList(item.series.name)" class="flex items-center justify-center cursor-pointer">
                   <StarIcon class="w-5 h-5 text-neutral-700 hover:text-yellow-500/50" />
                 </div>
               </template>
@@ -63,7 +63,12 @@
               <template v-if="item.stats.last_sale">
                 <div class="ml-auto flex items-center gap-2 font-bold text-[0.7rem] overflow-hidden">
                   <div class="px-1.5 py-1 flex items-center bg-black/10 text-xs rounded-md gap-0.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <template v-if="item.stats.last_sale?.payment_token.symbol === 'ETH'">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    </template>
+                    <template v-else>
+                      <div class="flex items-center w-3 h-3 text-orange-500">M</div>
+                    </template>
                     <div class="text-neutral-200">{{ (item.stats.last_sale?.payment_token.base_price / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
                   </div>
                   <div class="text-neutral-400 text-xs" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale?.date_sold)) }}</div>

@@ -38,7 +38,12 @@
           </div>
           <div class="mt-auto flex items-center gap-2 font-bold text-sm overflow-hidden">
             <div class="flex items-center rounded-md gap-0.5">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <template v-if="sale.payment_token.symbol === 'ETH'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              </template>
+              <template v-else>
+                <div class="flex items-center w-3 h-3 text-orange-500">M</div>
+              </template>
               <div class="text-white">{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
             </div>
             <div class="text-neutral-400 text-xs" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }}</div>

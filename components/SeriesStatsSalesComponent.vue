@@ -7,7 +7,12 @@
           <div class="flex items-center col-span-5">
             <div class="text-amber-500 text-[0.6rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">#{{ sale.token.mint_number }}</div>
             <div class="px-1.5 py-1 flex items-center bg-black/10 rounded-md">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <template v-if="sale.payment_token.symbol === 'ETH'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              </template>
+              <template v-else>
+                <div class="flex items-center w-3 h-3 text-orange-500">M</div>
+              </template>
               <div class="text-neutral-200 font-bold">{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
               <div class="ml-1 text-neutral-200 font-bold"> (${{ Math.round((sale.payment_token.base_price / 1000000000000000000) * ethereumUsdPrice) }})</div>
             </div>
@@ -46,8 +51,6 @@ const props = defineProps({
 
 onBeforeMount(() => {
   fetchSalesForSeries(props.item.series.contract_address, props.item.series.name).then((seriesSales) => {
-    seriesSales = seriesSales.filter((sale) => sale.payment_token.symbol == "ETH");
-
     sales.value = seriesSales;
   });
 });
