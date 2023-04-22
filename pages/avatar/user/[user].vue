@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import {useRoute, useRouter} from "nuxt/app";
 import {onMounted, Ref, ref, watch} from 'vue';
-import {AvatarBackground} from "~/types/AvatarBackgrounds";
+import {AvatarBackground} from "~/types/avatarBackgrounds";
 import {useSeries} from "~/composables/states";
 
 enum AvatarSize {
