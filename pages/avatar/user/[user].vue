@@ -90,7 +90,7 @@ function selectedBackgroundIndex(): number {
 }
 
 function selectedBackground(): AvatarBackground {
-  return avatarBackgrounds()[selectedBackgroundIndex()];
+  return avatarBackgrounds()[selectedBackgroundIndex()] ?? avatarBackgrounds()[0];
 }
 
 switch(route.query.size) {
@@ -122,9 +122,11 @@ const apiRoute = `https://www.reddit.com/user/${user}/about.json`;
 const pending = ref(true);
 
 watch([queryBackgroundIndex, avatarSize, avatarPosition, series], () => {
+  let background = queryBackgroundIndex.value >= 0 ? queryBackgroundIndex.value : randomBackgroundIndex;
+
   router.push({
     query: {
-      background: queryBackgroundIndex.value,
+      background: background,
       size: avatarSize.value,
       position: avatarPosition.value },
   });
