@@ -5,7 +5,7 @@
       @mouseleave="closeDropdowns()"
   >
     <nav class="container py-3 px-4 md:py-5 mx-auto md:flex md:justify-between md:items-center">
-      <div class="flex flex-row items-center justify-between">
+      <div class="flex flex-row items-center gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
               class="text-2xl font-bold text-white md:text-3xl duration-500"
@@ -13,6 +13,10 @@
           >
             RCA<span class="italic text-amber-500">X</span>.io
           </NuxtLink>
+        </div>
+        <div class="ml-auto flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-amber-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+          <span class="font-bold text-white">$ {{ ethereumUsdPrice }}</span>
         </div>
         <!-- Mobile menu button -->
         <div @click="toggleNav" class="flex md:hidden">
@@ -98,11 +102,12 @@
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 
 import {Ref} from "@vue/reactivity";
-import {ref, useToken, useUser} from "#imports";
+import {ref, useEthereumUsdPrice, useToken, useUser} from "#imports";
 import {deleteToken} from "~/composables/api/user";
 
 const user = useUser();
 const token = useToken();
+const ethereumUsdPrice = useEthereumUsdPrice();
 
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);

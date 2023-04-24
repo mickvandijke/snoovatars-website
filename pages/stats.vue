@@ -3,11 +3,22 @@
     <StatsTabs class="hidden md:block" />
     <div class="px-2 py-2 sticky top-[56px] lg:top-0 lg:relative flex justify-center gap-2 bg-neutral-900/90 backdrop-blur-lg lg:bg-transparent z-10 w-full">
       <input v-model="searchTerm" placeholder="Search name" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none max-w-sm">
+      <select v-model="filterGenOption" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <option value="all">All</option>
+        <option value="gen1">Gen 1</option>
+        <option value="gen2">Gen 2</option>
+        <option value="gen3">Gen 3</option>
+        <option value="wsb">WSB</option>
+      </select>
       <select v-model="sortOption" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="highestPrice">Sort by Highest Price</option>
         <option value="lowestPrice">Sort by Lowest Price</option>
         <option value="highestLastSale">Sort by Highest Last Sale</option>
         <option value="lowestLastSale">Sort by Lowest Last Sale</option>
+        <option value="highestMarketCap">Sort by Highest Market Cap</option>
+        <option value="lowestMarketCap">Sort by Lowest Market Cap</option>
+        <option value="highestVolume">Sort by Highest Volume</option>
+        <option value="lowestVolume">Sort by Lowest Volume</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
       </select>
     </div>
@@ -24,12 +35,28 @@ const seriesStats = useSeriesStats();
 const ethereumPriceUsd = useEthereumUsdPrice();
 
 const searchTerm = ref<string>("");
+const filterGenOption = ref<string>("all");
 const sortOption = ref<string>("highestPrice");
 
 await updateSeriesStats();
 
 function filteredAndSortedSeriesStats(): SeriesStats[] {
   let filteredSeriesStats = Array.from(Object.values(seriesStats.value));
+
+  switch (filterGenOption.value) {
+    case "gen1":
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => !seriesStat.collection.name.includes("Future") && !seriesStat.collection.name.includes("Spooky") && !seriesStat.collection.name.includes("Memetic") && !seriesStat.collection.name.includes("Fiesta Dog"));
+      break;
+    case "gen2":
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Spooky Season"));
+      break;
+    case "gen3":
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Future Realities") || seriesStat.collection.name.includes("Fiesta Dog"));
+      break;
+    case "wsb":
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Memetic Traders"));
+      break;
+  }
 
   if (searchTerm.value.trim() !== "") {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
@@ -103,6 +130,62 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
         if (aFloorMintRatio > bFloorMintRatio) {
           return 1;
         } else if (aFloorMintRatio < bFloorMintRatio) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "highestMarketCap":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aMarketCap = a.stats.lowest_listing ? (a.series.total_sold * a.stats.lowest_listing?.payment_token.base_price) : 0;
+        const bMarketCap = b.stats.lowest_listing ? (b.series.total_sold * b.stats.lowest_listing?.payment_token.base_price) : 0;
+
+        if (aMarketCap > bMarketCap) {
+          return -1;
+        } else if (aMarketCap < bMarketCap) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestMarketCap":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aMarketCap = a.stats.lowest_listing ? (a.series.total_sold * a.stats.lowest_listing?.payment_token.base_price) : 0;
+        const bMarketCap = b.stats.lowest_listing ? (b.series.total_sold * b.stats.lowest_listing?.payment_token.base_price) : 0;
+
+        if (aMarketCap > bMarketCap) {
+          return 1;
+        } else if (aMarketCap < bMarketCap) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "highestVolume":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aVolume = a.stats.total_volume;
+        const bVolume = b.stats.total_volume;
+
+        if (aVolume > bVolume) {
+          return -1;
+        } else if (aVolume < bVolume) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestVolume":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aVolume = a.stats.total_volume;
+        const bVolume = b.stats.total_volume;
+
+        if (aVolume > bVolume) {
+          return 1;
+        } else if (aVolume < bVolume) {
           return -1;
         } else {
           return 0;
