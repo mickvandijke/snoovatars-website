@@ -29,16 +29,28 @@
 <script setup lang="ts">
 import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats} from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
-import {ref} from "#imports";
+import {ref, useRoute, useRouter} from "#imports";
+import {watch} from "vue";
 
+const router = useRouter();
+const route = useRoute();
 const seriesStats = useSeriesStats();
 const ethereumPriceUsd = useEthereumUsdPrice();
 
 const searchTerm = ref<string>("");
-const filterGenOption = ref<string>("all");
-const sortOption = ref<string>("highestPrice");
+const filterGenOption = ref<string>(route.query.gen as string ?? "all");
+const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
 
 await updateSeriesStats();
+
+watch([filterGenOption, sortOption], () => {
+  router.push({
+    query: {
+      gen: filterGenOption.value,
+      sort: sortOption.value
+    },
+  });
+})
 
 function filteredAndSortedSeriesStats(): SeriesStats[] {
   let filteredSeriesStats = Array.from(Object.values(seriesStats.value));
