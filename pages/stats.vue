@@ -19,6 +19,8 @@
         <option value="lowestMarketCap">Sort by Lowest Market Cap</option>
         <option value="highestVolume">Sort by Highest Volume</option>
         <option value="lowestVolume">Sort by Lowest Volume</option>
+        <option value="highestDailyChange">Sort by Highest Daily Change</option>
+        <option value="lowestDailyChange">Sort by Lowest Daily Change</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
       </select>
     </div>
@@ -198,6 +200,34 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
         if (aVolume > bVolume) {
           return 1;
         } else if (aVolume < bVolume) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "highestDailyChange":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aDailyChange = a.stats.daily_price_change;
+        const bDailyChange = b.stats.daily_price_change;
+
+        if (aDailyChange > bDailyChange) {
+          return -1;
+        } else if (aDailyChange < bDailyChange) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestDailyChange":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aDailyChange = a.stats.daily_price_change;
+        const bDailyChange = b.stats.daily_price_change;
+
+        if (aDailyChange > bDailyChange) {
+          return 1;
+        } else if (aDailyChange < bDailyChange) {
           return -1;
         } else {
           return 0;
