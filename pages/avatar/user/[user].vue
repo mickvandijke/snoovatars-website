@@ -14,7 +14,7 @@
       </div>
       <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[32rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3">
         <template v-for="(background, index) in filteredAvatarBackgrounds()">
-          <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 border-2 border-transparent rounded-xl hover:bg-neutral-700 drop-shadow duration-200" :class="{ 'border-amber-500': selectedBackgroundIndex === index }">
+          <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 border-2 border-transparent rounded-xl hover:bg-neutral-700 drop-shadow duration-200" :class="{ 'border-amber-500': selectedBackgroundIndex() === index }">
             <img v-lazy-pix="background.path" :alt="background.name">
             <div class="mt-2 text-neutral-200 text-xs text-center font-semibold">{{ background.name }}</div>
           </div>
@@ -25,7 +25,7 @@
       <div class="w-72 h-96 relative">
         <img
             class="w-full h-full absolute"
-            :src="selectedBackground.path"
+            :src="selectedBackground().path"
             :alt="avatarAltText"
         >
         <img
@@ -47,7 +47,7 @@
         <option v-for="position in AvatarPosition" :value="position">{{ position }}</option>
       </select>
     </div>
-    <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground.path}?not-from-cache-please`" alt="background">
+    <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground().path}?not-from-cache-please`" alt="background">
     <img ref="foreground" crossorigin="anonymous" class="hidden" :src="`${avatar}?not-from-cache-please`" alt="foreground">
     <canvas ref="canvas" width="552" height="736" class="hidden"></canvas>
     <button v-if="!pending && avatar" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Export avatar</button>
@@ -73,18 +73,25 @@ enum AvatarPosition {
 const router = useRouter();
 const route = useRoute();
 const user = route.params.user;
+const series = useSeries();
 
 const avatar = ref("");
-const selectedBackgroundIndex: Ref<number> = ref(route.query.background ? parseInt(route.query.background as string) : Math.floor(Math.random() * avatarBackgrounds().length));
+const queryBackgroundIndex: Ref<number> = ref(route.query.background ? parseInt(route.query.background as string) : -1);
+const randomBackgroundIndex: number = Math.floor(Math.random() * avatarBackgrounds().length);
 const searchTerm = ref<string>("");
+const avatarSize: Ref<AvatarSize> = ref(AvatarSize.Normal);
 
-if (selectedBackgroundIndex.value >= avatarBackgrounds().length || selectedBackgroundIndex.value < 0 ) {
-  selectedBackgroundIndex.value = 0;
+function selectedBackgroundIndex(): number {
+  if (queryBackgroundIndex.value >= 0 && queryBackgroundIndex.value <= avatarBackgrounds().length) {
+    return queryBackgroundIndex.value;
+  } else {
+    return randomBackgroundIndex;
+  }
 }
 
-const selectedBackground = ref(avatarBackgrounds()[selectedBackgroundIndex.value]);
-
-const avatarSize: Ref<AvatarSize> = ref(AvatarSize.Normal);
+function selectedBackground(): AvatarBackground {
+  return avatarBackgrounds()[selectedBackgroundIndex()];
+}
 
 switch(route.query.size) {
   case AvatarSize.Small:
@@ -114,13 +121,13 @@ const canvas = ref(null);
 const apiRoute = `https://www.reddit.com/user/${user}/about.json`;
 const pending = ref(true);
 
-watch([selectedBackgroundIndex, avatarSize, avatarPosition], () => {
+watch([queryBackgroundIndex, avatarSize, avatarPosition, series], () => {
   router.push({
     query: {
-      background: selectedBackgroundIndex.value,
+      background: queryBackgroundIndex.value,
       size: avatarSize.value,
       position: avatarPosition.value },
-  })
+  });
 })
 
 fetch(apiRoute)
@@ -188,8 +195,7 @@ function avatarBackgrounds(): AvatarBackground[] {
 }
 
 function setBackground(index: number) {
-  selectedBackgroundIndex.value = index;
-  selectedBackground.value = avatarBackgrounds()[selectedBackgroundIndex.value];
+  queryBackgroundIndex.value = index;
 }
 
 function getCanvasAvatarWidth() {
