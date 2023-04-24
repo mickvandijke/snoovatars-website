@@ -38,7 +38,8 @@ export interface SeriesStats {
                 eth_price: number;
             };
         }
-        last_sale: Sale
+        last_sale: Sale;
+        daily_price_change: number;
     };
 }
 

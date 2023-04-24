@@ -34,23 +34,45 @@
               </template>
             </div>
           </div>
-          <template v-if="item.stats.lowest_listing">
-            <div class="flex items-center gap-1 font-bold text-xs overflow-hidden">
-              <div class="flex items-center">
-                <div class="text-neutral-400">Vol:</div>
-                <div class="px-1 py-0.5 flex items-center bg-black/10 text-xs rounded-md">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ (item.stats.total_volume / 1000000000000000000).toFixed(0) }}</div>
-                </div>
-              </div>
+          <div class="flex">
+            <template v-if="item.stats.lowest_listing">
               <div class="flex items-center gap-1 font-bold text-xs overflow-hidden">
-                <div class="text-neutral-400">F/Mint:</div>
-                <div class="px-1.5 py-0.5 flex items-center bg-black/10 gap-0.5 rounded-md">
-                  <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd) / (item.series.mint_price / 100) * 100) }}%</div>
+                <div class="flex items-center">
+                  <div class="text-neutral-400">Vol:</div>
+                  <div class="px-1 py-0.5 flex items-center bg-black/10 text-xs rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="text-neutral-200">{{ (item.stats.total_volume / 1000000000000000000).toFixed(0) }}</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 font-bold text-xs overflow-hidden">
+                  <div class="text-neutral-400">F/Mint:</div>
+                  <div class="px-1.5 py-0.5 flex items-center bg-black/10 gap-0.5 rounded-md">
+                    <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd) / (item.series.mint_price / 100) * 100) }}%</div>
+                  </div>
                 </div>
               </div>
+            </template>
+            <div class="ml-auto flex items-center gap-1 font-bold text-xs overflow-hidden">
+              <div class="text-neutral-400">24h:</div>
+              <template v-if="item.stats.daily_price_change > 0">
+                <div class="flex gap-0.5 items-center text-green-500">
+                  <ArrowTrendingUpIcon class="w-4 h-4" />
+                  <span>{{ item.stats.daily_price_change.toFixed(2) }}%</span>
+                </div>
+              </template>
+              <template v-else-if="item.stats.daily_price_change < 0">
+                <div class="flex gap-0.5 items-center text-red-500">
+                  <ArrowTrendingDownIcon class="w-4 h-4" />
+                  <span>{{ item.stats.daily_price_change.toFixed(2) }}%</span>
+                </div>
+              </template>
+              <template v-else>
+                <div class="flex gap-0.5 items-center text-neutral-200">
+                  <span>0%</span>
+                </div>
+              </template>
             </div>
-          </template>
+          </div>
           <div class="mt-auto flex gap-2 font-medium items-center">
             <template v-if="item.stats.lowest_listing">
               <a class="px-2 py-0.5 flex items-center gap-2 bg-neutral-700 hover:bg-[#2081E2] text-white/50 font-bold rounded-md duration-500" :href="item.stats.lowest_listing?.permalink" target="_blank">
@@ -89,6 +111,7 @@ import {SeriesStats} from "~/types/seriesStats";
 import {PropType} from "@vue/runtime-core";
 import {useEthereumUsdPrice, useWatchList, addToWatchList, removeFromWatchList} from "~/composables/states";
 import {StarIcon} from "@heroicons/vue/24/solid";
+import {ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
 import SeriesStatsSalesComponent from "~/components/SeriesStatsSalesComponent.vue";
 import {ref} from "#imports";
 
