@@ -85,6 +85,7 @@ const walletAddresses = useWalletAddresses();
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
 const valuationMethod = ref<string>("floor");
+const loading = ref(false);
 
 await updateSeriesStats();
 
@@ -97,8 +98,16 @@ onMounted(() => {
 function getWalletTokens(wallet: string) {
   addToWalletAddresses(wallet);
 
+  loading.value = true;
+
   fetchWalletTokens(wallet).then((walletTokens) => {
     tokens.value.set(wallet, walletTokens);
+
+    walletAddress.value = "";
+
+    loading.value = false;
+  }).finally(() => {
+    loading.value = false;
   })
 }
 
@@ -107,7 +116,7 @@ function getSeries(name: string) {
 }
 
 function lookupDisabled(): boolean {
-  return walletAddresses.value.has(walletAddress.value) || !walletAddress.value;
+  return walletAddresses.value.has(walletAddress.value) || !walletAddress.value || loading.value;
 }
 
 function getWalletValue(wallet: string): number {
