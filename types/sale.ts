@@ -1,13 +1,8 @@
 import {SeriesStats} from "~/types/seriesStats";
+import {Token} from "~/types/token";
 
 export interface Sale {
-    token: {
-        contract_address: string;
-        id: string;
-        name: string;
-        mint_number: number;
-        image: string;
-    };
+    token: Token;
     permalink: string;
     date_sold: string;
     seller: string;

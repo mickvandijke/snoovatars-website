@@ -9,12 +9,13 @@
             <div class="px-1.5 py-1 flex items-center bg-black/10 rounded-md">
               <template v-if="sale.payment_token.symbol === 'ETH'">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                <div class="text-neutral-200 font-bold">{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
+                <div class="ml-1 text-neutral-200 font-bold"> (${{ Math.round((sale.payment_token.base_price / 1000000000000000000) * ethereumUsdPrice) }})</div>
               </template>
               <template v-else>
                 <div class="flex items-center w-3 h-3 text-orange-500">M</div>
+                <div class="text-neutral-200 font-bold">{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
               </template>
-              <div class="text-neutral-200 font-bold">{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
-              <div class="ml-1 text-neutral-200 font-bold"> (${{ Math.round((sale.payment_token.base_price / 1000000000000000000) * ethereumUsdPrice) }})</div>
             </div>
           </div>
           <div class="flex items-center gap-1 col-span-3">

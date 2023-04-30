@@ -29,11 +29,11 @@
           <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
             <div class="text-neutral-400 text-xs">Buyer:</div>
             <div class="px-1.5 py-1 flex items-center bg-black/10 text-xs rounded-md gap-0.5">
-              <div class="text-purple-400">{{ sale.buyer.slice(2, 7) }}</div>
+              <div class="text-neutral-200">{{ sale.buyer.slice(2, 7) }}</div>
             </div>
             <div class="text-neutral-400 text-xs">Seller:</div>
             <div class="px-1.5 py-1 flex items-center bg-black/10 text-xs rounded-md gap-0.5">
-              <div class="text-purple-400">{{ sale.seller.slice(2, 7) }}</div>
+              <div class="text-neutral-200">{{ sale.seller.slice(2, 7) }}</div>
             </div>
           </div>
           <div class="mt-auto flex items-center gap-2 font-bold text-xs overflow-hidden">

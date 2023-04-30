@@ -18,6 +18,7 @@ export const useUser = () => useState<User>('user', () => null);
 export const useToken = () => useState<string>('token', () => null);
 export const useEthereumUsdPrice = () => useState<number>('ethereum-usd', () => 0);
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
+export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set())
 
 export async function updateSeriesStats() {
     fetchSeriesStats().then((seriesStats) => {
@@ -37,8 +38,6 @@ export function loadWatchList() {
     const watchListJson = localStorage.getItem("watchList");
 
     if (watchListJson) {
-        console.log(watchListJson);
-
         const watchList = JSON.parse(watchListJson);
 
         if (watchList) {
@@ -64,4 +63,35 @@ export function removeFromWatchList(name: string) {
     useWatchList().value.delete(name);
 
     saveWatchList();
+}
+
+export function loadWalletAddresses() {
+    const walletAddressesJson = localStorage.getItem("walletAddresses");
+
+    if (walletAddressesJson) {
+        const walletAddresses = JSON.parse(walletAddressesJson);
+
+        if (walletAddresses) {
+            useWalletAddresses().value = new Set<string>(walletAddresses);
+            return;
+        }
+    }
+
+    useWalletAddresses().value = new Set();
+}
+
+export function saveWalletAddresses() {
+    localStorage.setItem("walletAddresses", JSON.stringify(Array.from(useWalletAddresses().value)));
+}
+
+export function addToWalletAddresses(walletAddress: string) {
+    useWalletAddresses().value.add(walletAddress);
+
+    saveWalletAddresses();
+}
+
+export function removeFromWalletAddresses(walletAddress: string) {
+    useWalletAddresses().value.delete(walletAddress);
+
+    saveWalletAddresses();
 }

@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import {useHead} from "nuxt/app";
 import {loadWatchList, onBeforeMount, useCollections, useNuxtApp, useSeries, useUser, watch} from "#imports";
-import {updateEthereumUsdPrice, useToken} from "~/composables/states";
+import {loadWalletAddresses, updateEthereumUsdPrice, useToken} from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 import {fetchSeries} from "~/composables/api/series";
@@ -45,6 +45,7 @@ useHead({
 const token = useToken();
 const user = useUser();
 
+loadWalletAddresses();
 loadWatchList();
 updateEthereumUsdPrice();
 
