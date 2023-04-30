@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 md:px-6 relative flex flex-col items-center w-full">
+  <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <div class="px-2 py-2 sticky top-[56px] lg:top-0 lg:relative flex justify-center gap-2 bg-neutral-900/90 backdrop-blur-lg lg:bg-transparent z-10 w-full">
       <input v-model="walletAddress" placeholder="Wallet address: 0x.." class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full max-w-sm">
@@ -9,7 +9,7 @@
         <option value="lastSale">Last Sale</option>
       </select>
     </div>
-    <div class="flex flex-col gap-2 w-full overflow-hidden">
+    <div class="px-2 flex flex-col gap-2 w-full overflow-hidden">
       <div class="p-2 bg-neutral-800 flex items-center gap-2 text-sm rounded">
         <span class="text-white font-bold">Total Worth: </span>
         <div class="flex items-center">
