@@ -147,10 +147,10 @@ function getSeriesValue(series: string): number {
 
   switch (valuationMethod.value) {
     case "floor":
-      price = getSeries(series)?.stats.last_sale?.payment_token.base_price;
+      price = getSeries(series)?.stats.lowest_listing?.payment_token.base_price;
       break;
     case "lastSale":
-      price = getSeries(series)?.stats.lowest_listing?.payment_token.base_price;
+      price = getSeries(series)?.stats.last_sale?.payment_token.base_price;
       break;
   }
 
