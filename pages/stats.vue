@@ -19,8 +19,8 @@
         <option value="lowestMarketCap">Sort by Lowest Market Cap</option>
         <option value="highestVolume">Sort by Highest Volume</option>
         <option value="lowestVolume">Sort by Lowest Volume</option>
-        <option value="highestDailyChange">Sort by Highest Daily Change</option>
-        <option value="lowestDailyChange">Sort by Lowest Daily Change</option>
+        <option value="highestDailyChange">Sort by Today's Biggest Risers</option>
+        <option value="lowestDailyChange">Sort by Today's Biggest Fallers</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
       </select>
     </div>
