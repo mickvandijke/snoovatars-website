@@ -16,17 +16,17 @@
         <div class="flex flex-row items-center w-full">
           <h2 class="text-neutral-100 text-3xl font-semibold">Alerts</h2>
           <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Create Alert</button>
-          <NuxtLink v-if="user.tier < 1 && alerts.size >= alertMaxQuota.alerts" to="/upgrade" class="ml-3 px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
+          <NuxtLink v-if="user.tier < 1 && alerts.size >= alertMaxQuota.alerts" to="/home#plans" class="ml-3 px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
         </div>
         <ul class="mt-6 grid grid-cols-1 gap-2 w-full rounded-2xl">
           <template v-for="[alertHash, alert] in alerts">
-            <div class="p-2 grid grid-cols-6 items-center bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">
+            <div class="p-2 grid grid-cols-12 items-center bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">
               <img :src="series.get(alert.collection_tier_hash).image">
-              <div class="px-2 col-span-3 flex flex-col text-white">
+              <div class="px-2 col-span-6 flex flex-col text-white">
                 <span>{{alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}</span>
                 <span>{{ alert.alert_type }}: {{ alert.price_threshold }} ETH</span>
               </div>
-              <button @click="openAlertModal(alertHash, alert)" class="ml-auto px-4 py-2 col-span-2 bg-sky-600 hover:bg-sky-500 font-semibold text-white rounded-md duration-200">Edit</button>
+              <button @click="openAlertModal(alertHash, alert)" class="ml-auto px-4 py-2 col-span-5 bg-sky-600 hover:bg-sky-500 font-semibold text-white rounded-md duration-200">Edit</button>
             </div>
           </template>
         </ul>

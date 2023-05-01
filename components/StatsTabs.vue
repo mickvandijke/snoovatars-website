@@ -25,6 +25,12 @@
           <span class="">Sales</span>
         </NuxtLink>
       </li>
+      <li>
+        <NuxtLink to="/alerts" class="inline-flex gap-3 py-6 px-6 text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent hover:border-white/10 duration-200" active-class="text-amber-500 border-amber-500">
+          <BellIcon class="h-6 w-6"/>
+          <span class="">Alerts</span>
+        </NuxtLink>
+      </li>
     </ul>
   </div>
 </template>

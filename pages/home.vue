@@ -124,7 +124,7 @@
               <NuxtLink
                   class="signup"
                   target="_blank"
-                  to="https://commerce.coinbase.com/checkout/c83f3cd4-adcf-4d3e-9349-3c1892f94472"
+                  to="/upgrade"
               >
                 Buy a premium code
               </NuxtLink>
@@ -134,7 +134,7 @@
               <ol class="list-inside text-neutral-200 font-semibold text-sm">
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
-                  *Reddit shop alerts (experimental)
+                  *Reddit shop alerts
                 </li>
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
