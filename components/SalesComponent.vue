@@ -2,17 +2,17 @@
   <div class="grid grid-cols-1 gap-1">
     <template v-for="(sale, index) in props.items" :key="index">
       <div class="relative grid grid-cols-5 gap-1 overflow-hidden">
-        <div class="relative rounded-lg">
+        <div @click="toggleLastSales(index)" class="relative rounded-lg">
           <img v-lazy-pix="sale.token.image" :alt="sale.token.name">
           <template v-if="getSeries(sale.token.name)">
-            <div class="absolute top-1 left-1 px-1 py-0.5 bg-white text-black text-[0.65rem] font-bold rounded">{{ getSeries(sale.token.name)?.total_sold }}</div>
-            <div class="absolute bottom-1 left-1 p-1 bg-neutral-800/50 md:bg-neutral-800/80 backdrop-blur-lg md:backdrop-blur-none text-white font-bold text-[0.65rem] rounded">${{ getSeries(sale.token.name)?.mint_price / 100.00 }}</div>
+            <div class="absolute top-1 left-1 px-1 py-0.5 bg-white text-black text-[0.65rem] font-bold rounded">{{ getSeries(sale.token.name)?.series.total_sold }}</div>
+            <div class="absolute bottom-1 left-1 p-1 bg-neutral-800/50 md:bg-neutral-800/80 backdrop-blur-lg md:backdrop-blur-none text-white font-bold text-[0.65rem] rounded">${{ getSeries(sale.token.name)?.series.mint_price / 100.00 }}</div>
           </template>
         </div>
-        <div class="col-span-4 px-2 py-2 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden">
+        <div @click="toggleLastSales(index)" class="col-span-4 px-2 py-2 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden">
           <div class="flex items-center gap-2">
-            <h1 class="text-white font-bold text-[0.9rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ sale.token.name }}</h1>
-            <h1 class="text-amber-500 font-bold text-[0.9rem]">#{{ sale.token.mint_number }}</h1>
+            <a :href="'https://opensea.io/collection/' + getSeries(sale.token.name)?.collection.slug + '?search[query]=' + sale.token.name" target="_blank" class="text-white font-bold text-[0.9rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ sale.token.name }}</a>
+            <a :href="`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`" target="_blank" class="text-amber-500 font-bold text-[0.9rem]">#{{ sale.token.mint_number }}</a>
             <div class="ml-auto">
               <template v-if="watchList.has(sale.token.name)">
                 <div @click="removeFromWatchList(sale.token.name)" class="flex items-center justify-center cursor-pointer">
@@ -21,7 +21,7 @@
               </template>
               <template v-else>
                 <div @click="addToWatchList(sale.token.name)" class="flex items-center justify-center cursor-pointer">
-                  <StarIcon class="w-5 h-5 text-neutral-700 hover:text-yellow-500/50" />
+                  <StarIcon class="w-5 h-5 text-neutral-500 hover:text-yellow-500/50" />
                 </div>
               </template>
             </div>
@@ -29,11 +29,11 @@
           <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
             <div class="text-neutral-400 text-xs">Buyer:</div>
             <div class="px-1.5 py-1 flex items-center bg-black/10 text-xs rounded-md gap-0.5">
-              <div class="text-neutral-200">{{ sale.buyer.slice(2, 7) }}</div>
+              <a :href="`https://opensea.io/${sale.buyer}`" target="_blank" class="text-neutral-200">{{ sale.buyer.slice(2, 7) }}</a>
             </div>
             <div class="text-neutral-400 text-xs">Seller:</div>
             <div class="px-1.5 py-1 flex items-center bg-black/10 text-xs rounded-md gap-0.5">
-              <div class="text-neutral-200">{{ sale.seller.slice(2, 7) }}</div>
+              <a :href="`https://opensea.io/${sale.seller}`" target="_blank" class="text-neutral-200">{{ sale.seller.slice(2, 7) }}</a>
             </div>
           </div>
           <div class="mt-auto flex items-center gap-2 font-bold text-xs overflow-hidden">
@@ -63,6 +63,9 @@
           </div>
         </div>
       </div>
+      <template v-if="isToggleLastSales(index)">
+        <LastSalesComponent :contract="sale.token.contract_address" :series="sale.token.name" />
+      </template>
     </template>
   </div>
 </template>
@@ -78,6 +81,7 @@ import {
   useEthereumUsdPrice
 } from "~/composables/states";
 import {StarIcon} from "@heroicons/vue/24/solid";
+import {ref} from "#imports";
 
 const props = defineProps({
   items: Array as PropType<Sale[]>
@@ -87,12 +91,26 @@ const seriesStats = useSeriesStats();
 const watchList = useWatchList();
 const ethereumPriceUsd = useEthereumUsdPrice();
 
+const lastSalesToggle = ref(-1);
+
 function getSeries(name: string) {
-  return seriesStats.value[name]?.series;
+  return seriesStats.value[name];
 }
 
 function getStats(name: string) {
   return seriesStats.value[name]?.stats;
+}
+
+function toggleLastSales(index: number) {
+  if (isToggleLastSales(index)) {
+    lastSalesToggle.value = -1;
+  } else {
+    lastSalesToggle.value = index;
+  }
+}
+
+function isToggleLastSales(index: number): boolean {
+  return lastSalesToggle.value == index;
 }
 </script>
 

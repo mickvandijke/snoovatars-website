@@ -22,7 +22,7 @@
         <div class="p-2 bg-neutral-800/50 flex flex-col gap-2 overflow-hidden w-full rounded">
           <div class="flex justify-between gap-2 w-full">
             <div class="flex overflow-hidden">
-              <div class="p-2 text-amber-500 text-sm rounded" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ walletAddress }}</div>
+              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="p-2 bg-amber-500/10 text-amber-500 text-sm rounded" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ walletAddress }}</a>
             </div>
             <div class="flex gap-2">
               <div class="p-2 flex items-center text-sm rounded">
@@ -33,17 +33,22 @@
               <button @click="removeWallet(walletAddress)" class="p-2 bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer">Remove</button>
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2">
             <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
               <div class="grid grid-cols-12">
                 <div class="relative rounded">
                   <img v-lazy-pix="getSeries(seriesName)?.series.image" :alt="getSeries(seriesName)?.series.name">
                 </div>
                 <div class="col-span-11 flex items-center bg-neutral-800 rounded">
-                  <div class="overflow-hidden">
+                  <div class="flex flex-col overflow-hidden">
                     <span class="px-2 text-sm text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ getSeries(seriesName)?.series.name }}</span>
+                    <div class="px-2 flex items-center text-xs">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                      <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                      <div class="ml-1 text-neutral-200"> (${{ Math.round((getSeriesValue(seriesName) / 1000000000000000000) * ethereumUsdPrice) }})</div>
+                    </div>
                   </div>
-                  <span class="text-amber-500 text-sm">x{{ seriesTokens.length }}</span>
+                  <div class="mx-2 px-2 bg-amber-500/10 flex items-center justify-center text-amber-500 text-sm rounded">x{{ seriesTokens.length }}</div>
                   <div class="ml-auto p-2 bg-neutral-800 flex items-center text-sm rounded">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                     <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
@@ -79,7 +84,7 @@ const walletAddresses = useWalletAddresses();
 
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
-const valuationMethod = ref<string>("floor");
+const valuationMethod = ref<string>("lastSale");
 const loading = ref(false);
 
 await updateSeriesStats();

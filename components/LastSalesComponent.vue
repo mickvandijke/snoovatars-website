@@ -5,7 +5,7 @@
       <template v-for="(sale, index) in sales.slice(0, 5)" :key="index">
         <div class="grid grid-cols-11 items-center font-bold text-xs gap-2">
           <div class="flex items-center col-span-5">
-            <div class="text-amber-500 text-[0.6rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">#{{ sale.token.mint_number }}</div>
+            <a :href="`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`" target="_blank" class="text-amber-500 text-[0.6rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">#{{ sale.token.mint_number }}</a>
             <div class="px-1.5 py-1 flex items-center bg-black/10 rounded-md">
               <template v-if="sale.payment_token.symbol === 'ETH'">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -21,7 +21,7 @@
           <div class="flex items-center gap-1 col-span-3">
             <div class="text-neutral-400 text-xs">Buyer:</div>
             <div class="px-1.5 py-1 flex items-center bg-black/10 rounded-md">
-              <div class="text-purple-400">{{ sale.buyer.slice(2, 7) }}</div>
+              <a :href="`https://opensea.io/${sale.buyer}`" target="_blank" class="text-amber-500">{{ sale.buyer.slice(2, 7) }}</a>
             </div>
           </div>
           <div class="text-neutral-400 col-span-3 text-right" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }}</div>
@@ -44,14 +44,18 @@ const ethereumUsdPrice = useEthereumUsdPrice();
 const sales: Ref<Array<Sale>> = ref([]);
 
 const props = defineProps({
-  item: {
-    type: Object as PropType<SeriesStats>,
+  contract: {
+    type: String,
+    required: true
+  },
+  series: {
+    type: String,
     required: true
   }
 });
 
 onBeforeMount(() => {
-  fetchSalesForSeries(props.item.series.contract_address, props.item.series.name).then((seriesSales) => {
+  fetchSalesForSeries(props.contract, props.series).then((seriesSales) => {
     sales.value = seriesSales;
   });
 });
