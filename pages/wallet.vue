@@ -14,7 +14,7 @@
         <span class="text-white font-bold">Total Worth: </span>
         <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <div class="text-neutral-200 font-bold">{{ (getTotalWorth() / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
+          <div class="text-neutral-200 font-bold">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
           <div class="ml-1 text-neutral-200"> (${{ Math.round((getTotalWorth() / 1000000000000000000) * ethereumUsdPrice) }})</div>
         </div>
       </div>
@@ -27,7 +27,7 @@
             <div class="flex gap-2">
               <div class="p-2 flex items-center text-sm rounded">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="text-neutral-200 font-bold">{{ (getWalletValue(walletAddress) / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
+                <div class="text-neutral-200 font-bold">{{ (getWalletValue(walletAddress) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
                 <div class="ml-1 text-neutral-200"> (${{ Math.round((getWalletValue(walletAddress) / 1000000000000000000) * ethereumUsdPrice) }})</div>
               </div>
               <button @click="removeWallet(walletAddress)" class="p-2 bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer">Remove</button>
@@ -46,7 +46,7 @@
                   <span class="text-amber-500 text-sm">x{{ seriesTokens.length }}</span>
                   <div class="ml-auto p-2 bg-neutral-800 flex items-center text-sm rounded">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                    <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(5).replace(/\.?0+$/, '') }}</div>
+                    <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
                     <div class="ml-1 text-neutral-200"> (${{ Math.round((getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length) * ethereumUsdPrice) }})</div>
                   </div>
                 </div>

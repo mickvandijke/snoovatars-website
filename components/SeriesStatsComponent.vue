@@ -78,7 +78,7 @@
               <a class="px-2 py-0.5 flex items-center gap-2 bg-neutral-700 hover:bg-[#2081E2] text-white/50 font-bold rounded-md duration-500" :href="item.stats.lowest_listing?.permalink" target="_blank">
                 <div class="flex items-center gap-1">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="font-bold text-white text-xs">{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }} <span class="text-neutral-300">(${{ Math.round((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd) }})</span></div>
+                  <div class="font-bold text-white text-xs">{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} <span class="text-neutral-300">(${{ Math.round((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd) }})</span></div>
                 </div>
               </a>
             </template>
@@ -91,7 +91,7 @@
                   <template v-else>
                     <div class="flex items-center w-3 h-3 text-orange-500">M</div>
                   </template>
-                  <div class="text-neutral-200">{{ (item.stats.last_sale?.payment_token.base_price / 1000000000000000000).toFixed(5).replace(/\.?0+$/, '') }}</div>
+                  <div class="text-neutral-200">{{ (item.stats.last_sale?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
                 </div>
                 <div class="text-neutral-400 text-xs" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale?.date_sold)) }}</div>
               </div>
