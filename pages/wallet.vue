@@ -34,7 +34,7 @@
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-            <template v-for="[seriesName, seriesTokens] in Object.entries(walletTokens)">
+            <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
               <div class="grid grid-cols-12">
                 <div class="relative rounded">
                   <img v-lazy-pix="getSeries(seriesName)?.series.image" :alt="getSeries(seriesName)?.series.name">
@@ -61,21 +61,16 @@
 
 <script setup lang="ts">
 import {
-  addToWalletAddresses, removeFromWalletAddresses,
+  addToWalletAddresses,
+  removeFromWalletAddresses,
   updateSeriesStats,
   useEthereumUsdPrice,
   useSeriesStats,
-  useWalletAddresses,
-  useWatchList
+  useWalletAddresses
 } from "~/composables/states";
-import {SeriesStats} from "~/types/seriesStats";
 import {onMounted, ref} from "#imports";
-import {fetchSalesLatest} from "~/composables/api/sales";
-import SalesComponent from "~/components/SalesComponent.vue";
 import {Ref} from "@vue/reactivity";
-import {Sale} from "~/types/sale";
 import {fetchWalletTokens} from "~/composables/api/wallet";
-import {Token} from "~/types/token";
 import {WalletTokens} from "~/types/wallet";
 
 const seriesStats = useSeriesStats();
@@ -165,6 +160,13 @@ function getTotalWorth(): number {
   }
 
   return value;
+}
+
+function sortedWalletTokens(walletTokens: WalletTokens): WalletTokens {
+  return Object.fromEntries(
+      Object.entries(walletTokens)
+          .sort(([aSeriesName, aSeriesTokens], [bSeriesName, bSeriesTokens]) => ((getSeriesValue(bSeriesName) * bSeriesTokens.length) - getSeriesValue(aSeriesName) * aSeriesTokens.length))
+  );
 }
 
 function removeWallet(wallet: string) {
