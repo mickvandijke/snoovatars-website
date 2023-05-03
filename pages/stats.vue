@@ -73,7 +73,7 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
   }
 
   if (searchTerm.value.trim() !== "") {
-    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => (seriesStat.series.name.toLowerCase() + seriesStat.collection.name.toLowerCase()).includes(searchTerm.value.toLowerCase()));
   }
 
   let sortedSeriesStats = [];

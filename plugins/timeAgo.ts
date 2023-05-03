@@ -24,7 +24,7 @@ function timeAgo(date: Date): string {
         return `${days} ${days === 1 ? 'day' : 'days'} ago`;
     } else if (diff < month) {
         const weeks = Math.round(diff / week);
-        return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+        return `${weeks} ${weeks === 1 ? 'week' : 'wks'} ago`;
     } else if (diff < year) {
         const months = Math.round(diff / month);
         return `${months} ${months === 1 ? 'month' : 'months'} ago`;
