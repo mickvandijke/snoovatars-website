@@ -3,7 +3,7 @@
     <template v-for="(sale, index) in props.items" :key="index">
       <div class="relative grid grid-cols-5 gap-1 overflow-hidden">
         <div @click="toggleLastSales(index)" class="relative rounded-lg">
-          <img v-lazy-pix="sale.token.image" :alt="sale.token.name">
+          <img v-lazy-pix="sale.token.image" src="/img/rcax_placeholder.png" :alt="sale.token.name">
           <template v-if="getSeries(sale.token.name)">
             <div class="absolute top-1 left-1 px-1 py-0.5 bg-white text-black text-[0.65rem] font-bold rounded">{{ getSeries(sale.token.name)?.series.total_sold }}</div>
             <div class="absolute bottom-1 left-1 p-1 bg-neutral-800/50 md:bg-neutral-800/80 backdrop-blur-lg md:backdrop-blur-none text-white font-bold text-[0.65rem] rounded">${{ getSeries(sale.token.name)?.series.mint_price / 100.00 }}</div>

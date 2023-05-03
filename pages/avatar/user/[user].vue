@@ -15,7 +15,7 @@
       <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[32rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3">
         <template v-for="(background, index) in filteredAvatarBackgrounds()">
           <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 border-2 border-transparent rounded-xl hover:bg-neutral-700 drop-shadow duration-200" :class="{ 'border-amber-500': selectedBackgroundIndex() === index }">
-            <img v-lazy-pix="background.path" :alt="background.name">
+            <img v-lazy-pix="background.path" src="/img/rcax_placeholder.png" :alt="background.name">
             <div class="mt-2 text-neutral-200 text-xs text-center font-semibold">{{ background.name }}</div>
           </div>
         </template>

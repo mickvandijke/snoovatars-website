@@ -3,7 +3,7 @@
     <template v-for="(item, index) in props.items" :key="item.series.name">
       <div class="relative grid grid-cols-5 gap-1 overflow-hidden">
         <div @click="toggleLastSales(item.series.name)" class="relative rounded-lg">
-          <img v-lazy-pix="item.series.image" :alt="item.series.name">
+          <img v-lazy-pix="item.series.image" src="/img/rcax_placeholder.png" :alt="item.series.name">
           <div class="absolute top-1 left-1 px-1 py-0.5 bg-white text-black text-[0.65rem] font-bold rounded">{{ item.series.total_sold }}</div>
           <div class="absolute bottom-1 left-1 p-1 bg-neutral-800/50 md:bg-neutral-800/80 backdrop-blur-lg md:backdrop-blur-none text-white font-bold text-[0.65rem] rounded">${{ item.series.mint_price / 100.00 }}</div>
         </div>

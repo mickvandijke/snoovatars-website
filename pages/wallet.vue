@@ -37,7 +37,7 @@
             <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
               <div class="grid grid-cols-12">
                 <div class="relative rounded">
-                  <img v-lazy-pix="getSeries(seriesName)?.series.image" :alt="getSeries(seriesName)?.series.name">
+                  <img :src="getSeries(seriesName)?.series.image" :alt="getSeries(seriesName)?.series.name">
                 </div>
                 <div class="col-span-11 flex items-center bg-neutral-800 rounded">
                   <div class="flex flex-col overflow-hidden">
