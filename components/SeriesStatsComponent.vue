@@ -71,7 +71,7 @@
             </template>
           </div>
         </div>
-        <div class="flex gap-2 font-medium text-xs items-center">
+        <div class="flex gap-2 font-medium text-[0.79rem] items-center">
           <template v-if="item.stats.lowest_listing">
             <div class="flex flex-col">
               <div class="flex items-center gap-0.5">
