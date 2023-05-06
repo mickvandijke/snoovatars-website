@@ -13,6 +13,9 @@
         <option value="sales">Latest Sales</option>
         <option value="mints">Latest Mints</option>
       </select>
+      <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+        <ArrowPathIcon class="w-5 h-5" />
+      </button>
     </div>
     <template v-if="feedView === 'sales'">
       <SalesComponent :items="filteredSales()" class="mt-1 lg:mt-0 px-2 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1" />
@@ -34,6 +37,7 @@ import {Sale} from "~/types/sale";
 import MintsComponent from "~/components/MintsComponent.vue";
 import {Mint} from "~/types/mint";
 import {fetchMintsLatest} from "~/composables/api/mints";
+import {ArrowPathIcon} from "@heroicons/vue/24/solid";
 
 const watchList = useWatchList();
 
@@ -42,6 +46,7 @@ const mintsLatest: Ref<Array<Mint>> = ref([]);
 const searchTerm = ref<string>("");
 const filterOption = ref<string>("all");
 const feedView = ref<string>("sales");
+const isRefreshing = ref(false);
 
 updateSeriesStats();
 updateSales();
@@ -55,14 +60,32 @@ watch([feedView], () => {
   }
 })
 
-function updateSales() {
-  fetchSalesLatest().then((sales) => {
+function refresh() {
+  isRefreshing.value = true;
+
+  let promises = [];
+
+  promises.push(updateSeriesStats());
+
+  if (feedView.value === "sales") {
+    promises.push(updateSales());
+  } else {
+    promises.push(updateMints());
+  }
+
+  Promise.all(promises).finally(() => {
+    isRefreshing.value = false;
+  })
+}
+
+async function updateSales() {
+  await fetchSalesLatest().then((sales) => {
     salesLatest.value = sales;
   });
 }
 
-function updateMints() {
-  fetchMintsLatest().then((mints) => {
+async function updateMints() {
+  await fetchMintsLatest().then((mints) => {
     mintsLatest.value = mints;
   });
 }

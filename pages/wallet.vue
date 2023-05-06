@@ -8,6 +8,9 @@
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
       </select>
+      <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+        <ArrowPathIcon class="w-5 h-5" />
+      </button>
     </div>
     <div class="mt-2 px-2 md:px-4 flex flex-col gap-2 w-full overflow-hidden">
       <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded">
@@ -93,15 +96,16 @@ import {WalletTokens} from "~/types/wallet";
 import {TrashIcon} from "@heroicons/vue/24/outline";
 import {ethereumInLocalCurrency} from "#imports";
 import {isValidEthereumAddress} from "~/global/utils";
+import {ArrowPathIcon} from "@heroicons/vue/24/solid";
 
 const seriesStats = useSeriesStats();
-const ethereumUsdPrice = useEthereumUsdPrice();
 const walletAddresses = useWalletAddresses();
 
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
 const valuationMethod = ref<string>("lastSale");
 const loading = ref(false);
+const isRefreshing = ref(false);
 
 await updateSeriesStats();
 
@@ -111,12 +115,28 @@ onMounted(() => {
   });
 });
 
-function getWalletTokens(wallet: string) {
+function refresh() {
+  isRefreshing.value = true;
+
+  let promises = [];
+
+  promises.push(updateSeriesStats());
+
+  walletAddresses.value.forEach((wallet) => {
+    promises.push(getWalletTokens(wallet));
+  });
+
+  Promise.all(promises).finally(() => {
+    isRefreshing.value = false;
+  })
+}
+
+async function getWalletTokens(wallet: string) {
   addToWalletAddresses(wallet);
 
   loading.value = true;
 
-  fetchWalletTokens(wallet).then((walletTokens) => {
+  await fetchWalletTokens(wallet).then((walletTokens) => {
     tokens.value.set(wallet, walletTokens);
 
     walletAddress.value = "";

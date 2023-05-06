@@ -23,6 +23,9 @@
         <option value="lowestDailyChange">Sort by Today's Biggest Fallers</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
       </select>
+      <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+        <ArrowPathIcon class="w-5 h-5" />
+      </button>
     </div>
     <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" class="mt-1 lg:mt-0 px-2 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1" />
   </div>
@@ -33,6 +36,7 @@ import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats, useWatchList} fr
 import {SeriesStats} from "~/types/seriesStats";
 import {ref, useRoute, useRouter} from "#imports";
 import {watch} from "vue";
+import {ArrowPathIcon} from "@heroicons/vue/24/solid";
 
 const router = useRouter();
 const route = useRoute();
@@ -43,6 +47,7 @@ const ethereumPriceInUsd = useEthereumUsdPrice();
 const searchTerm = ref<string>("");
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
 const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
+const isRefreshing = ref(false);
 
 updateSeriesStats();
 
@@ -54,6 +59,18 @@ watch([filterGenOption, sortOption], () => {
     },
   });
 })
+
+function refresh() {
+  isRefreshing.value = true;
+
+  let promises = [];
+
+  promises.push(updateSeriesStats());
+
+  Promise.all(promises).finally(() => {
+    isRefreshing.value = false;
+  })
+}
 
 function filteredAndSortedSeriesStats(): SeriesStats[] {
   let filteredSeriesStats = Array.from(Object.values(seriesStats.value));
