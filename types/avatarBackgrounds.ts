@@ -1,5 +1,5 @@
 import avatarBackgroundsJson from '~/assets/data/avatar-backgrounds.json';
-import {useSeries} from "#imports";
+import {useSeriesHashed} from "#imports";
 
 export class AvatarBackground {
     name: string

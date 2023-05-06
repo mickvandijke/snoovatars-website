@@ -1,13 +1,13 @@
 <template>
-  <div class="relative flex flex-col items-center w-full">
+  <div class="px-2 relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
-    <template v-if="!token">
+    <template v-if="!user">
       <div class="mt-6 flex flex-col items-center gap-2">
         <div class="text-neutral-300">You need to be signed in for this feature.</div>
         <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Sign In</NuxtLink>
       </div>
     </template>
-    <template v-else-if="loading">
+    <template v-else-if="loading || loadingSeries">
       <div class="mt-6 min-h-full w-full flex flex-col items-center">
         <button disabled type="button" class="text-white border border-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center">
           <svg class="inline mr-3 w-4 h-4 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,7 +21,7 @@
     <template v-else>
       <div class="mt-6 max-w-2xl">
         <div id="alert-list" class="flex flex-col items-center w-full">
-          <div class="flex flex-row items-center w-full">
+          <div class="px-2 flex flex-row items-center w-full">
             <h2 class="text-neutral-100 text-3xl font-semibold">Alerts</h2>
             <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Create Alert</button>
             <NuxtLink v-if="user.tier < 1 && alerts.size >= alertMaxQuota.alerts" to="/home#plans" class="ml-3 px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
@@ -29,7 +29,7 @@
           <ul class="mt-6 grid grid-cols-1 gap-2 w-full rounded-2xl">
             <template v-for="[alertHash, alert] in alerts">
               <div class="p-2 grid grid-cols-12 items-center bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">
-                <img :src="series.get(alert.collection_tier_hash).image">
+                <img :src="getSeries(alert.collection_tier_hash).image">
                 <div class="px-2 col-span-6 flex flex-col text-white">
                   <span>{{alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}</span>
                   <span>{{ alert.alert_type }}: {{ alert.price_threshold }} ETH</span>
@@ -40,7 +40,7 @@
           </ul>
           <p class="p-6 text-sm text-neutral-500 text-center w-full">To prevent price notifications from ending up in your spam folder, you might have to whitelist service@snoovatars.com.</p>
         </div>
-        <div v-if="alerts && alertQuota && alertMaxQuota" class="mt-12 w-full">
+        <div v-if="alerts && alertQuota && alertMaxQuota" class="px-2 mt-12 w-full">
           <div class="flex flex-row items-center w-full">
             <h2 class="text-neutral-100 text-3xl font-semibold">Quota</h2>
             <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
@@ -120,9 +120,10 @@
 
 <script setup lang="ts">
 import {
+  updateSeriesHashed,
   useAlertList,
   useAvatarList,
-  useSeries, useToken,
+  useSeriesHashed, useToken,
   useUser,
 } from "~/composables/states";
 import {Alert, alert_list_from_object, AlertHash, AlertType, AlertMaxQuota, AlertQuota} from "~/types/alert";
@@ -133,10 +134,12 @@ import {SelectSearchOption} from "~/types/select_search";
 import {handleCatch} from "~/composables/api/error";
 import {deleteToken} from "~/composables/api/user";
 import {createAlert, getAlerts} from "~/composables/api/alert";
-import {calculate_hash} from "~/types/series";
+import {calculate_hash, Series} from "~/types/series";
+import {fetchSeries} from "~/composables/api/series";
 
 const loading = ref(true);
-const series = useSeries();
+const loadingSeries = ref(true);
+const series = useSeriesHashed();
 const avatars = useAvatarList();
 const alerts = useAlertList();
 const alertQuota: Ref<AlertQuota> = ref(null);
@@ -160,6 +163,14 @@ watch([token], async () => {
     loadAlerts();
   }
 })
+
+updateSeriesHashed().finally(() => {
+  loadingSeries.value = false;
+});
+
+function getSeries(seriesHash: string) {
+  return series.value.get(seriesHash);
+}
 
 function onSelectedTier() {
   if (newAlert.value.collection_tier_hash) {

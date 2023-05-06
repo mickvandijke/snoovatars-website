@@ -58,7 +58,9 @@
 import {useRoute, useRouter} from "nuxt/app";
 import {onMounted, Ref, ref, watch} from 'vue';
 import {AvatarBackground} from "~/types/avatarBackgrounds";
-import {useSeries} from "~/composables/states";
+import {updateSeriesHashed, useSeriesHashed} from "~/composables/states";
+import {fetchSeries} from "~/composables/api/series";
+import {calculate_hash, Series} from "~/types/series";
 
 enum AvatarSize {
   Normal = "normal",
@@ -73,7 +75,7 @@ enum AvatarPosition {
 const router = useRouter();
 const route = useRoute();
 const user = route.params.user;
-const series = useSeries();
+const series = useSeriesHashed();
 
 const avatar = ref("");
 const queryBackgroundIndex: Ref<number> = ref(route.query.background ? parseInt(route.query.background as string) : -1);
@@ -132,6 +134,8 @@ watch([queryBackgroundIndex, avatarSize, avatarPosition, series], () => {
   });
 })
 
+await updateSeriesHashed();
+
 fetch(apiRoute)
     .then(async (data) => {
       data = await data.json();
@@ -189,7 +193,7 @@ function avatarBackgrounds(): AvatarBackground[] {
     new AvatarBackground("The Singularity", "/images/nfts/TheSingularity.png"),
   ]
 
-  for (let entry of useSeries().value.values()) {
+  for (let entry of useSeriesHashed().value.values()) {
     avatarBackgrounds.push(new AvatarBackground(entry.name, entry.background_image));
   }
 

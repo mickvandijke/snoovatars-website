@@ -3,13 +3,15 @@ import {Collection} from "~/types/collection";
 import {AvatarHash, AvatarList, RedditAvatar} from "~/types/reddit_avatar";
 import {AccountTierAlertQuotas, Alert, AlertHash, AlertList} from "~/types/alert";
 import {User} from "~/types/user";
-import {Series} from "~/types/series";
+import {calculate_hash, Series} from "~/types/series";
 import {SeriesStats} from "~/types/seriesStats";
 import {fetchSeriesStats} from "~/composables/api/seriesStats";
-import {fetchCurrentEthereumPriceInCurrency, fetchCurrentEthereumPriceInUSD} from "~/composables/api/ethereum";
+import {fetchCurrentEthereumPriceInCurrency} from "~/composables/api/ethereum";
+import {fetchSeries} from "~/composables/api/series";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
-export const useSeries = () => useState<Map<string, Series>>('tier-list', () => new Map());
+export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
+export const useSeriesHashed = () => useState<Map<string, Series>>('tier-list', () => new Map());
 export const useSeriesStats = () => useState<Map<string, SeriesStats>>('series-stats', () => new Map());
 export const useAvatarList = () => useState<AvatarList>('avatar-list', () => new Map<AvatarHash, RedditAvatar>());
 export const useAlertQuotas = () => useState<AccountTierAlertQuotas>('alert-max-quotas', () => null);
@@ -22,6 +24,24 @@ export const useEthereumGbpPrice = () => useState<number>('ethereum-gbp', () => 
 export const usePreferredCurrency = () => useState<string>('preferred-currency', () => "USD");
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
+
+export async function updateSeriesHashed() {
+    const seriesMap: Map<string, Series> = new Map();
+    const promises: Promise<void>[] = [];
+
+    const series = await fetchSeries();
+
+    series.forEach(serie => {
+        promises.push((async () => {
+            const hash = await calculate_hash(serie);
+            seriesMap.set(hash, serie);
+        })());
+    });
+
+    await Promise.all(promises);
+    useSeriesHashed().value = seriesMap;
+    console.log(useSeriesHashed().value);
+}
 
 export function setPreferredCurrency(currency: string) {
     usePreferredCurrency().value = currency;
