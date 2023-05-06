@@ -44,7 +44,7 @@ const searchTerm = ref<string>("");
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
 const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
 
-await updateSeriesStats();
+updateSeriesStats();
 
 watch([filterGenOption, sortOption], () => {
   router.push({
