@@ -2,9 +2,9 @@
   <div class="grid grid-cols-1 gap-1">
     <template v-for="(sale, index) in props.items" :key="index">
       <AvatarCard :item="{ name: sale.token.name, contract_address: sale.token.contract_address, image: sale.token.image }" :series-stats="getSeries(sale.token.name)">
-        <div class="flex items-center gap-2">
-          <a :href="'https://opensea.io/collection/' + getSeries(sale.token.name)?.collection.slug + '?search[query]=' + sale.token.name" target="_blank" class="text-white font-bold text-[0.9rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ sale.token.name }}</a>
-          <a :href="`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`" target="_blank" class="text-amber-500 font-bold text-[0.9rem]">#{{ sale.token.mint_number }}</a>
+        <div class="flex items-center gap-2 text-[0.8rem]">
+          <a :href="'https://opensea.io/collection/' + getSeries(sale.token.name)?.collection.slug + '?search[query]=' + sale.token.name" target="_blank" class="text-white font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ sale.token.name }}</a>
+          <a :href="`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`" target="_blank" class="text-amber-500 font-bold">#{{ sale.token.mint_number }}</a>
           <div class="ml-auto">
             <template v-if="watchList.has(sale.token.name)">
               <div @click="removeFromWatchList(sale.token.name)" class="flex items-center justify-center cursor-pointer">
@@ -19,13 +19,13 @@
           </div>
         </div>
         <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
-          <div class="text-neutral-400 text-xs">Buyer:</div>
-          <div class="px-1.5 py-1 flex items-center bg-black/10 text-xs rounded-md gap-0.5">
-            <a :href="`https://opensea.io/${sale.buyer}`" target="_blank" class="text-neutral-200">{{ sale.buyer.slice(2, 7) }}</a>
+          <div class="text-neutral-400">Buyer:</div>
+          <div class="flex items-center gap-0.5">
+            <a :href="`https://opensea.io/${sale.buyer}`" target="_blank" class="text-neutral-200">{{ sale.buyer.slice(2, 6) }}..{{ sale.buyer.slice(6, 10) }}</a>
           </div>
           <div class="text-neutral-400 text-xs">Seller:</div>
-          <div class="px-1.5 py-1 flex items-center bg-black/10 text-xs rounded-md gap-0.5">
-            <a :href="`https://opensea.io/${sale.seller}`" target="_blank" class="text-neutral-200">{{ sale.seller.slice(2, 7) }}</a>
+          <div class="flex items-center gap-0.5">
+            <a :href="`https://opensea.io/${sale.seller}`" target="_blank" class="text-neutral-200">{{ sale.seller.slice(2, 6) }}..{{ sale.seller.slice(6, 10) }}</a>
           </div>
         </div>
         <div class="mt-auto flex items-center gap-2 font-bold text-xs overflow-hidden">
@@ -38,20 +38,21 @@
             </template>
             <div class="text-white text-xs">{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
             <template v-if="sale.payment_token.symbol === 'ETH'">
-              <div class="text-neutral-400 text-xs">(${{ Math.round((sale.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd) }})</div>
+              <div class="text-neutral-400 text-xs">({{ ethereumInLocalCurrency(sale.payment_token.base_price) }})</div>
             </template>
           </div>
           <div class="text-neutral-400 text-xs" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }}</div>
-          <template v-if="getStats(sale.token.name)?.lowest_listing">
-            <a class="ml-auto px-2 py-0.5 flex items-center gap-2 bg-neutral-700 hover:bg-[#2081E2] text-white/50 font-bold rounded-md duration-500" :href="getStats(sale.token.name)?.lowest_listing.permalink">
-              <div class="flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="font-bold text-white text-xs">{{
-                    (getStats(sale.token.name)?.lowest_listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '')
-                  }}</div>
-              </div>
-            </a>
-          </template>
+<!--          <template v-if="getStats(sale.token.name)?.lowest_listing">-->
+<!--            <div class="ml-auto flex gap-0.5">-->
+<!--              <span class="text-neutral-400">F:</span>-->
+<!--              <div class="flex items-center gap-0.5">-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>-->
+<!--                <div class="font-bold text-xs text-white">-->
+<!--                  <span>{{(getStats(sale.token.name)?.lowest_listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </template>-->
         </div>
       </AvatarCard>
     </template>
@@ -70,6 +71,7 @@ import {
 } from "~/composables/states";
 import {StarIcon} from "@heroicons/vue/24/solid";
 import {ref} from "#imports";
+import {ethereumInLocalCurrency} from "#imports";
 
 const props = defineProps({
   items: Array as PropType<Sale[]>
@@ -77,7 +79,6 @@ const props = defineProps({
 
 const seriesStats = useSeriesStats();
 const watchList = useWatchList();
-const ethereumPriceUsd = useEthereumUsdPrice();
 
 const lastSalesToggle = ref(-1);
 

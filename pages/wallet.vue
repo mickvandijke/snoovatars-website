@@ -3,7 +3,7 @@
     <StatsTabs class="hidden md:block" />
     <div class="px-2 py-2 sticky top-[56px] lg:top-0 lg:relative flex justify-center gap-2 bg-neutral-800/90 backdrop-blur-lg lg:bg-transparent z-10 w-full drop-shadow-lg">
       <input v-model="walletAddress" placeholder="Wallet address: 0x.." class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full max-w-sm">
-      <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer">Add Wallet</button>
+      <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': loading }">Add Wallet</button>
       <select v-model="valuationMethod" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
@@ -15,7 +15,7 @@
         <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
           <div class="text-neutral-200 font-bold">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-          <div class="ml-1 text-neutral-200"> (${{ Math.round((getTotalWorth() / 1000000000000000000) * ethereumUsdPrice).toLocaleString("en-US") }})</div>
+          <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getTotalWorth()) }})</div>
         </div>
       </div>
       <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
@@ -28,7 +28,7 @@
             <div class="md:ml-auto md:p-2 flex items-center text-sm rounded">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
               <div class="text-neutral-200 font-bold">{{ (getWalletValue(walletAddress) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-              <div class="ml-1 text-neutral-200"> (${{ Math.round((getWalletValue(walletAddress) / 1000000000000000000) * ethereumUsdPrice).toLocaleString("en-US")}})</div>
+              <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getWalletValue(walletAddress)) }})</div>
             </div>
             <div class="ml-auto md:ml-0 flex gap-2">
               <button @click="removeWallet(walletAddress)" class="px-2 py-1 bg-neutral-600 hover:bg-neutral-500 disabled:bg-neutral-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer">
@@ -48,7 +48,7 @@
                     <div class="px-2 flex items-center text-xs md:text-sm">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                       <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                      <div class="ml-1 text-neutral-200"> (${{ Math.round((getSeriesValue(seriesName) / 1000000000000000000) * ethereumUsdPrice).toLocaleString("en-US")}})</div>
+                      <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }})</div>
                     </div>
                   </div>
                   <div class="flex items-center justify-center text-amber-500 text-sm">
@@ -57,7 +57,7 @@
                   <div class="ml-auto col-span-3 md:col-span-5 flex items-center text-[0.8rem] md:text-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                     <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                    <div class="ml-1 text-neutral-200"> (${{ Math.round((getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length) * ethereumUsdPrice).toLocaleString("en-US")}})</div>
+                    <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }})</div>
                   </div>
                 </div>
               </template>
@@ -83,6 +83,8 @@ import {Ref} from "@vue/reactivity";
 import {fetchWalletTokens} from "~/composables/api/wallet";
 import {WalletTokens} from "~/types/wallet";
 import {TrashIcon} from "@heroicons/vue/24/outline";
+import {ethereumInLocalCurrency} from "#imports";
+import {isValidEthereumAddress} from "~/global/utils";
 
 const seriesStats = useSeriesStats();
 const ethereumUsdPrice = useEthereumUsdPrice();
@@ -122,7 +124,7 @@ function getSeriesStats(name: string) {
 }
 
 function lookupDisabled(): boolean {
-  return walletAddresses.value.has(walletAddress.value) || !walletAddress.value || loading.value;
+  return !isValidEthereumAddress(walletAddress.value) || walletAddresses.value.has(walletAddress.value) || !walletAddress.value || loading.value;
 }
 
 function getWalletValue(wallet: string): number {

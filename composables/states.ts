@@ -6,7 +6,7 @@ import {User} from "~/types/user";
 import {Series} from "~/types/series";
 import {SeriesStats} from "~/types/seriesStats";
 import {fetchSeriesStats} from "~/composables/api/seriesStats";
-import {fetchCurrentEthereumPriceInUSD} from "~/composables/api/ethereum";
+import {fetchCurrentEthereumPriceInCurrency, fetchCurrentEthereumPriceInUSD} from "~/composables/api/ethereum";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('tier-list', () => new Map());
@@ -17,18 +17,43 @@ export const useAlertList = () => useState<AlertList>('alert-list', () => new Ma
 export const useUser = () => useState<User>('user', () => null);
 export const useToken = () => useState<string>('token', () => null);
 export const useEthereumUsdPrice = () => useState<number>('ethereum-usd', () => 0);
+export const useEthereumEurPrice = () => useState<number>('ethereum-eur', () => 0);
+export const useEthereumGbpPrice = () => useState<number>('ethereum-gbp', () => 0);
+export const usePreferredCurrency = () => useState<string>('preferred-currency', () => "USD");
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
-export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set())
+export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
+
+export function setPreferredCurrency(currency: string) {
+    usePreferredCurrency().value = currency;
+
+    localStorage.setItem("preferredCurrency", currency);
+}
+
+export function loadPreferredCurrency() {
+    let json = localStorage.getItem("preferredCurrency");
+
+    if (json) {
+        usePreferredCurrency().value = json;
+    }
+}
+
+export async function updateEthereumPrices() {
+    fetchCurrentEthereumPriceInCurrency("USD").then((value) => {
+        useEthereumUsdPrice().value = value;
+    });
+
+    fetchCurrentEthereumPriceInCurrency("EUR").then((value) => {
+        useEthereumEurPrice().value = value;
+    });
+
+    fetchCurrentEthereumPriceInCurrency("GBP").then((value) => {
+        useEthereumGbpPrice().value = value;
+    });
+}
 
 export async function updateSeriesStats() {
     fetchSeriesStats().then((seriesStats) => {
         useSeriesStats().value = seriesStats;
-    })
-}
-
-export async function updateEthereumUsdPrice() {
-    fetchCurrentEthereumPriceInUSD().then((usd) => {
-        useEthereumUsdPrice().value = usd;
     })
 }
 

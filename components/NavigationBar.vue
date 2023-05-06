@@ -5,7 +5,7 @@
       @mouseleave="closeDropdowns()"
   >
     <nav class="container py-3 px-4 md:py-5 mx-auto md:flex md:justify-between md:items-center">
-      <div class="flex flex-row items-center gap-6">
+      <div class="flex flex-row items-center gap-4 md:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
               class="text-2xl font-bold text-white md:text-3xl duration-500"
@@ -14,9 +14,16 @@
             RCA<span class="italic text-amber-500">X</span>.io
           </NuxtLink>
         </div>
-        <div class="ml-auto flex items-center gap-1">
+        <div class="ml-auto flex items-center flex-nowrap gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-amber-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <span class="font-bold text-white">$ {{ ethereumUsdPrice }}</span>
+          <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>
+        </div>
+        <div>
+          <select v-model="preferredCurrency" class="p-2 rounded-md border border-amber-500 bg-amber-600 text-sm font-bold focus:outline-none max-w-sm">
+            <template v-for="currency in CURRENCIES">
+              <option :value="currency.ticker">{{ currency.ticker }}</option>
+            </template>
+          </select>
         </div>
         <!-- Mobile menu button -->
         <div @click="toggleNav" class="flex md:hidden">
@@ -100,17 +107,23 @@
 
 <script setup lang="ts">
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
-
 import {Ref} from "@vue/reactivity";
-import {ref, useEthereumUsdPrice, useToken, useUser} from "#imports";
+import {ref, useEthereumUsdPrice, useToken, useUser, watch} from "#imports";
 import {deleteToken} from "~/composables/api/user";
+import {CURRENCIES} from "~/types/currency";
+import {setPreferredCurrency, usePreferredCurrency} from "~/composables/states";
+import {ethereumInLocalCurrency} from "#imports";
 
 const user = useUser();
 const token = useToken();
-const ethereumUsdPrice = useEthereumUsdPrice();
 
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
+const preferredCurrency: Ref<string> = ref(usePreferredCurrency().value);
+
+watch([preferredCurrency], () => {
+  setPreferredCurrency(preferredCurrency.value);
+})
 
 const toggleNav = () => (showMenu.value = !showMenu.value);
 

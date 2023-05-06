@@ -4,6 +4,8 @@ export interface Currency {
 }
 
 export const CURRENCIES: Array<Currency> = [
-    { name: "US Dollar", ticker: "USD" }
+    { name: "US Dollar", ticker: "USD" },
+    { name: "Euro", ticker: "EUR" },
+    { name: "British Pound", ticker: "GBP" }
 ]
 

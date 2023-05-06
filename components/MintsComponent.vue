@@ -2,9 +2,9 @@
   <div class="grid grid-cols-1 gap-1">
     <template v-for="(mint, index) in props.items" :key="index">
       <AvatarCard :item="{ name: mint.token.name, contract_address: mint.token.contract_address, image: mint.token.image }" :series-stats="getSeriesStats(mint.token.name)">
-        <div class="flex items-center gap-2">
-          <a :href="`https://opensea.io/collection/${getSeriesStats(mint.token.name)?.collection.slug}?search[query]=${mint.token.name}`" target="_blank" class="text-white font-bold text-[0.9rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ mint.token.name }}</a>
-          <a :href="`https://opensea.io/assets/matic/${mint.token.contract_address}/${mint.token.id}`" target="_blank" class="text-amber-500 font-bold text-[0.9rem]">#{{ mint.token.mint_number }}</a>
+        <div class="flex items-center gap-2 text-[0.8rem]">
+          <a :href="`https://opensea.io/collection/${getSeriesStats(mint.token.name)?.collection.slug}?search[query]=${mint.token.name}`" target="_blank" class="text-white font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ mint.token.name }}</a>
+          <a :href="`https://opensea.io/assets/matic/${mint.token.contract_address}/${mint.token.id}`" target="_blank" class="text-amber-500 font-bold">#{{ mint.token.mint_number }}</a>
           <div class="ml-auto">
             <template v-if="watchList.has(mint.token.name)">
               <div @click="removeFromWatchList(mint.token.name)" class="flex items-center justify-center cursor-pointer">
@@ -19,12 +19,12 @@
           </div>
         </div>
         <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
-          <div class="text-neutral-400 text-xs">Minter:</div>
-          <div class="px-1.5 py-1 flex items-center bg-black/10 text-xs rounded-md gap-0.5">
-            <a :href="`https://opensea.io/${mint.minter}`" target="_blank" class="text-neutral-200">{{ mint.minter.slice(2, 7) }}</a>
+          <div class="text-neutral-400">Minter:</div>
+          <div class="flex items-center gap-0.5">
+            <a :href="`https://opensea.io/${mint.minter}`" target="_blank" class="text-neutral-200">{{ mint.minter.slice(0, 6) }}..{{ mint.minter.slice(6, 12) }}</a>
           </div>
         </div>
-        <div class="text-neutral-400 text-sm font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(mint.date_minted)) }}</div>
+        <div class="text-amber-500 text-xs font-bold">{{ $timeAgo(new Date(mint.date_minted)) }} ago</div>
       </AvatarCard>
     </template>
   </div>
@@ -49,7 +49,6 @@ const props = defineProps({
 
 const seriesStats = useSeriesStats();
 const watchList = useWatchList();
-const ethereumPriceUsd = useEthereumUsdPrice();
 
 const lastSalesToggle = ref(-1);
 

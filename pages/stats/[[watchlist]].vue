@@ -2,9 +2,9 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <div class="px-2 py-2 sticky top-[56px] lg:top-0 lg:relative flex justify-center gap-2 bg-neutral-800/90 backdrop-blur-lg lg:bg-transparent z-10 w-full overflow-x-hidden drop-shadow-lg">
-      <input v-model="searchTerm" placeholder="Search name" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none max-w-sm">
+      <input v-model="searchTerm" placeholder="Filter by search" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none max-w-sm">
       <select v-model="filterGenOption" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
-        <option value="all">All</option>
+        <option value="all">Gen: All</option>
         <option value="gen1">Gen 1</option>
         <option value="gen2">Gen 2</option>
         <option value="gen3">Gen 3</option>
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats} from "~/composables/states";
+import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats, useWatchList} from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
 import {ref, useRoute, useRouter} from "#imports";
 import {watch} from "vue";
@@ -37,7 +37,8 @@ import {watch} from "vue";
 const router = useRouter();
 const route = useRoute();
 const seriesStats = useSeriesStats();
-const ethereumPriceUsd = useEthereumUsdPrice();
+const watchList = useWatchList();
+const ethereumPriceInUsd = useEthereumUsdPrice();
 
 const searchTerm = ref<string>("");
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
@@ -56,6 +57,10 @@ watch([filterGenOption, sortOption], () => {
 
 function filteredAndSortedSeriesStats(): SeriesStats[] {
   let filteredSeriesStats = Array.from(Object.values(seriesStats.value));
+
+  if (route.params?.watchlist) {
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => watchList.value.has(seriesStat.series.name));
+  }
 
   switch (filterGenOption.value) {
     case "gen1":
@@ -138,8 +143,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "lowestFloorMintRatio":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aFloorMintRatio = a.stats.lowest_listing ? Math.round(((a.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd.value) / (a.series.mint_price / 100) * 100) : 999999999;
-        const bFloorMintRatio = b.stats.lowest_listing ? Math.round(((b.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd.value) / (b.series.mint_price / 100) * 100) : 999999999;
+        const aFloorMintRatio = a.stats.lowest_listing ? Math.round(((a.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd.value) / (a.series.mint_price / 100) * 100) : 999999999;
+        const bFloorMintRatio = b.stats.lowest_listing ? Math.round(((b.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd.value) / (b.series.mint_price / 100) * 100) : 999999999;
 
         if (aFloorMintRatio > bFloorMintRatio) {
           return 1;

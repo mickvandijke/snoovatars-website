@@ -2,10 +2,10 @@
   <div class="grid grid-cols-1 gap-1 overflow-hidden">
     <template v-for="(item, index) in props.items" :key="item.series.name">
       <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item">
-        <div class="flex items-center gap-1">
-          <h1 class="text-neutral-500 font-bold text-[0.7rem] rounded-md">#{{ index + 1 }}</h1>
+        <div class="flex items-center gap-1 text-[0.7rem]">
+          <h1 class="text-neutral-500 font-bold rounded-md">#{{ index + 1 }}</h1>
           <a :href="`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`" target="_blank" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.series.name }}</a>
-          <div class="ml-auto flex items-center gap-1 font-bold text-[0.7rem]">
+          <div class="ml-auto flex items-center gap-1 font-bold">
             <div class="flex items-center">
               <div class="text-neutral-400">V:</div>
               <div class="pl-0.5 flex items-center">
@@ -17,7 +17,7 @@
               <div class="flex items-center">
                 <div class="text-neutral-400">M:</div>
                 <div class="pl-0.5 flex items-center">
-                  <div class="text-neutral-200">${{ abbreviateNumber((item.series.total_sold * (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd)) }}</div>
+                  <div class="text-neutral-200">{{ ethereumInLocalCurrency(item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price, true) }}</div>
                 </div>
               </div>
             </template>
@@ -45,10 +45,12 @@
                 </template>
                 <div class="text-neutral-200">{{ (item.stats.last_sale?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
               </div>
+              <span class="text-neutral-300">({{ ethereumInLocalCurrency(item.stats.last_sale?.payment_token.base_price) }})</span>
+              <span class="text-neutral-500">#{{ item.stats.last_sale.token.mint_number }}</span>
               <div class="text-neutral-400" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale?.date_sold)) }}</div>
             </div>
           </template>
-          <div class="ml-auto flex items-center gap-1 font-bold text-[0.74rem] overflow-hidden">
+          <div class="ml-auto flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
             <div class="text-neutral-400">24h:</div>
             <template v-if="item.stats.daily_price_change > 0">
               <div class="flex gap-0.5 items-center text-green-500">
@@ -69,14 +71,14 @@
             </template>
           </div>
         </div>
-        <div class="mt-auto flex gap-2 font-medium text-xs items-center">
+        <div class="flex gap-2 font-medium text-xs items-center">
           <template v-if="item.stats.lowest_listing">
             <div class="flex flex-col">
               <div class="flex items-center gap-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                 <div class="flex gap-1 font-bold text-white">
                   <span>{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                  <span class="text-neutral-300">(${{ Math.round((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd).toLocaleString("en-US") }})</span>
+                  <span class="text-neutral-300">({{ ethereumInLocalCurrency(item.stats.lowest_listing?.payment_token.base_price) }})</span>
                   <span class="text-amber-500">#{{ item.stats.lowest_listing.token.mint_number }}</span>
                 </div>
               </div>
@@ -87,24 +89,11 @@
               <div class="flex items-center gap-1 font-bold overflow-hidden">
                 <div class="text-neutral-400">F/M:</div>
                 <div class="flex items-center">
-                  <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd) / (item.series.mint_price / 100) * 100) }}%</div>
+                  <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
                 </div>
               </div>
             </div>
           </template>
-        </div>
-        <div class="flex items-center gap-1">
-          <a class="px-2 flex items-center gap-1 bg-neutral-700 hover:bg-[#2081E2] text-white/75 text-[0.65rem] font-bold rounded-md duration-500" :href="item.stats.lowest_listing?.permalink" target="_blank">
-            Buy Browser
-            <OpenseaIcon class="w-3 h-3 text-neutral-500" />
-          </a>
-          <a class="px-2 flex items-center gap-1 bg-neutral-700 hover:bg-[#2081E2] text-white/75 text-[0.65rem] font-bold rounded-md duration-500" :href="dappLink(item.stats.lowest_listing?.permalink)" target="_blank">
-            Buy Mobile
-            <OpenseaIcon class="w-3 h-3 text-neutral-500" />
-          </a>
-          <button class="ml-auto px-1 flex items-center gap-1 text-neutral-500 text-[0.6rem] font-bold rounded-md duration-500" :href="dappLink(item.stats.lowest_listing?.permalink)" target="_blank">
-            Toggle Sales
-          </button>
         </div>
       </AvatarCard>
     </template>
@@ -114,52 +103,17 @@
 <script setup lang="ts">
 import {SeriesStats} from "~/types/seriesStats";
 import {PropType} from "@vue/runtime-core";
-import {useEthereumUsdPrice, useWatchList, addToWatchList, removeFromWatchList} from "~/composables/states";
+import {useWatchList, addToWatchList, removeFromWatchList, useEthereumUsdPrice} from "~/composables/states";
 import {StarIcon} from "@heroicons/vue/24/solid";
 import {ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
-import SeriesStatsSalesComponent from "~/components/SeriesStatsSalesComponent.vue";
-import {ref} from "#imports";
+import {ethereumInLocalCurrency} from "#imports";
 
-const ethereumPriceUsd = useEthereumUsdPrice();
 const watchList = useWatchList();
-
-const lastSalesToggle = ref("");
+const ethereumPriceInUsd = useEthereumUsdPrice();
 
 const props = defineProps({
   items: Array as PropType<SeriesStats[]>
 });
-
-function toggleLastSales(series: string) {
-  if (isToggleLastSales(series)) {
-    lastSalesToggle.value = "";
-  } else {
-    lastSalesToggle.value = series;
-  }
-}
-
-function isToggleLastSales(series: string): boolean {
-  return lastSalesToggle.value == series;
-}
-
-function dappLink(url: string) {
-  url = url.replace("https://", "dapp://");
-
-  return url;
-}
-
-function abbreviateNumber(value: number) {
-  let newValue = value;
-  if (value >= 1000000000) {
-    newValue = (value / 1000000000).toFixed(2) + 'B';
-  } else if (value >= 1000000) {
-    newValue = (value / 1000000).toFixed(2) + 'M';
-  } else if (value >= 1000) {
-    newValue = (value / 1000).toFixed(2) + 'K';
-  } else {
-    newValue = Math.round(value);
-  }
-  return newValue;
-}
 </script>
 
 <style scoped>

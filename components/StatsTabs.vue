@@ -8,13 +8,13 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/watchlist" class="inline-flex gap-3 py-6 px-6 text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent hover:border-white/10 duration-200" active-class="text-amber-500 border-amber-500">
+        <NuxtLink to="/stats/watchlist" class="inline-flex gap-3 py-6 px-6 text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent hover:border-white/10 duration-200" exact-active-class="text-amber-500 border-amber-500">
           <StarIcon class="h-6 w-6"/>
           <span class="">Watchlist</span>
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/stats" class="inline-flex gap-3 py-6 px-6 text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent hover:border-white/10 duration-200" active-class="text-amber-500 border-amber-500">
+        <NuxtLink to="/stats" class="inline-flex gap-3 py-6 px-6 text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent hover:border-white/10 duration-200" exact-active-class="text-amber-500 border-amber-500">
           <ChartBarIcon class="h-6 w-6"/>
           <span class="">Stats</span>
         </NuxtLink>
