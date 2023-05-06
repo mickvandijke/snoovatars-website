@@ -23,7 +23,7 @@
           <div class="p-2 flex gap-2 w-full rounded">
             <div class="flex items-center overflow-hidden">
               <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="hidden md:block md:p-2 text-neutral-400 hover:text-white text-sm rounded duration-500">{{ walletAddress }}</a>
-              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="md:hidden md:p-2 text-neutral-400 hover:text-white text-sm rounded duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
+              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="md:hidden md:p-2 text-neutral-400 hover:text-white text-sm font-medium rounded duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
             </div>
             <div class="md:ml-auto md:p-2 flex items-center text-sm rounded">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -188,7 +188,7 @@ function sortedWallets(): Map<string, WalletTokens> {
 function sortedWalletTokens(walletTokens: WalletTokens): WalletTokens {
   return Object.fromEntries(
       Object.entries(walletTokens)
-          .sort(([aSeriesName, aSeriesTokens], [bSeriesName, bSeriesTokens]) => ((getSeriesValue(bSeriesName) * bSeriesTokens.length) - getSeriesValue(aSeriesName) * aSeriesTokens.length))
+          .sort(([aSeriesName, aSeriesTokens], [bSeriesName, bSeriesTokens]) => ((getSeriesValue(aSeriesName) * aSeriesTokens.length) - getSeriesValue(bSeriesName) * bSeriesTokens.length))
   );
 }
 
