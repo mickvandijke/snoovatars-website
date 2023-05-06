@@ -13,6 +13,9 @@
           >
             RCA<span class="italic text-amber-500">X</span>.io
           </NuxtLink>
+          <div class="ml-2 relative rounded overflow-hidden w-10">
+            <UkrainianFlagIcon class="w-full h-full object-cover" />
+          </div>
         </div>
         <div class="ml-auto flex items-center flex-nowrap gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-amber-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
