@@ -21,11 +21,11 @@
         <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
           <div class="text-neutral-400">Buyer:</div>
           <div class="flex items-center gap-0.5">
-            <a :href="`https://opensea.io/${sale.buyer}`" target="_blank" class="text-neutral-200">{{ sale.buyer.slice(2, 6) }}..{{ sale.buyer.slice(6, 10) }}</a>
+            <a :href="`https://opensea.io/${sale.buyer}`" target="_blank" class="text-neutral-200">{{ sale.buyer.slice(2, 6) }}..{{ sale.buyer.slice(sale.buyer.length - 4, sale.buyer.length) }}</a>
           </div>
           <div class="text-neutral-400 text-xs">Seller:</div>
           <div class="flex items-center gap-0.5">
-            <a :href="`https://opensea.io/${sale.seller}`" target="_blank" class="text-neutral-200">{{ sale.seller.slice(2, 6) }}..{{ sale.seller.slice(6, 10) }}</a>
+            <a :href="`https://opensea.io/${sale.seller}`" target="_blank" class="text-neutral-200">{{ sale.seller.slice(2, 6) }}..{{ sale.seller.slice(sale.seller.length - 4, sale.seller.length) }}</a>
           </div>
         </div>
         <div class="mt-auto flex items-center gap-2 font-bold text-xs overflow-hidden">

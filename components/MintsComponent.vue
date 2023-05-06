@@ -21,7 +21,7 @@
         <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
           <div class="text-neutral-400">Minter:</div>
           <div class="flex items-center gap-0.5">
-            <a :href="`https://opensea.io/${mint.minter}`" target="_blank" class="text-neutral-200">{{ mint.minter.slice(0, 6) }}..{{ mint.minter.slice(6, 12) }}</a>
+            <a :href="`https://opensea.io/${mint.minter}`" target="_blank" class="text-neutral-200">{{ mint.minter.slice(0, 6) }}..{{ mint.minter.slice(mint.minter.length - 6, mint.minter.length) }}</a>
           </div>
         </div>
         <div class="text-amber-500 text-xs font-bold">{{ $timeAgo(new Date(mint.date_minted)) }} ago</div>
