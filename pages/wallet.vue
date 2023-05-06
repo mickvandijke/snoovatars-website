@@ -11,11 +11,17 @@
     </div>
     <div class="mt-2 px-2 md:px-4 flex flex-col gap-2 w-full overflow-hidden">
       <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded">
-        <span class="text-white font-medium">Total Worth: </span>
-        <div class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <div class="text-neutral-200 font-bold">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-          <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getTotalWorth()) }})</div>
+        <div class="flex gap-1">
+          <span class="text-white font-medium">Total items:</span>
+          <span class="text-amber-500">{{ getTotalItems() }}</span>
+        </div>
+        <div class="flex gap-1">
+          <span class="text-white font-medium">Total Worth: </span>
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+            <div class="text-neutral-200 font-bold">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+            <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getTotalWorth()) }})</div>
+          </div>
         </div>
       </div>
       <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
@@ -175,6 +181,18 @@ function getTotalWorth(): number {
   }
 
   return value;
+}
+
+function getTotalItems(): number {
+  let items = 0;
+
+  for (let walletTokens of tokens.value.values()) {
+    for (let seriesTokens of Object.values(walletTokens)) {
+      items += seriesTokens.length;
+    }
+  }
+
+  return items;
 }
 
 function sortedWallets(): Map<string, WalletTokens> {
