@@ -1,6 +1,12 @@
 <template>
   <div class="px-4 lg:p-6 mt-6 md:mt-12 flex flex-col items-center w-full max-w-xl">
-    <template v-if="loading || !user?.username">
+    <template v-if="!token">
+      <div class="flex flex-col items-center gap-2">
+        <div class="text-neutral-300">You need to be signed in for this feature.</div>
+        <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Sign In</NuxtLink>
+      </div>
+    </template>
+    <template v-else-if="loading">
       <div class="min-h-full w-full flex flex-col items-center">
         <button disabled type="button" class="text-white border border-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center">
           <svg class="inline mr-3 w-4 h-4 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -141,17 +147,13 @@ const newAlert: Ref<Alert> = ref(new Alert());
 const replacingAlertHash: Ref<AlertHash> = ref(null);
 
 onMounted(async () => {
-  if (!token.value) {
-    await navigateTo("/login", {replace: true});
-  } else {
+  if (token.value) {
     loadAlerts();
   }
 })
 
 watch([token], async () => {
-  if (!token.value) {
-    await navigateTo("/login", {replace: true});
-  } else {
+  if (token.value) {
     loadAlerts();
   }
 })

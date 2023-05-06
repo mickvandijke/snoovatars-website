@@ -48,7 +48,7 @@
               <div class="text-neutral-400" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale?.date_sold)) }}</div>
             </div>
           </template>
-          <div class="ml-auto flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
+          <div class="ml-auto flex items-center gap-1 font-bold text-[0.74rem] overflow-hidden">
             <div class="text-neutral-400">24h:</div>
             <template v-if="item.stats.daily_price_change > 0">
               <div class="flex gap-0.5 items-center text-green-500">
@@ -74,7 +74,7 @@
             <div class="flex flex-col">
               <div class="flex items-center gap-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="flex gap-0.5 font-bold text-white">
+                <div class="flex gap-1 font-bold text-white">
                   <span>{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
                   <span class="text-neutral-300">(${{ Math.round((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceUsd).toLocaleString("en-US") }})</span>
                   <span class="text-amber-500">#{{ item.stats.lowest_listing.token.mint_number }}</span>
@@ -102,6 +102,9 @@
             Buy Mobile
             <OpenseaIcon class="w-3 h-3 text-neutral-500" />
           </a>
+          <button class="ml-auto px-1 flex items-center gap-1 text-neutral-500 text-[0.6rem] font-bold rounded-md duration-500" :href="dappLink(item.stats.lowest_listing?.permalink)" target="_blank">
+            Toggle Sales
+          </button>
         </div>
       </AvatarCard>
     </template>
