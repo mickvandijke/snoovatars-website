@@ -12,10 +12,11 @@ function timeAgo(date: Date): string {
     const year = day * 365;
 
     if (diff < minute) {
-        return 'just now';
+        const secs = Math.round(diff / 1000);
+        return `${secs} ${secs === 1 ? 'sec' : 'secs'} ago`;
     } else if (diff < hour) {
         const mins = Math.round(diff / minute);
-        return `${mins} ${mins === 1 ? 'minute' : 'mins'} ago`;
+        return `${mins} ${mins === 1 ? 'min' : 'mins'} ago`;
     } else if (diff < day) {
         const hours = Math.round(diff / hour);
         return `${hours} ${hours === 1 ? 'hour' : 'hrs'} ago`;
@@ -24,7 +25,7 @@ function timeAgo(date: Date): string {
         return `${days} ${days === 1 ? 'day' : 'days'} ago`;
     } else if (diff < month) {
         const weeks = Math.round(diff / week);
-        return `${weeks} ${weeks === 1 ? 'week' : 'wks'} ago`;
+        return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
     } else if (diff < year) {
         const months = Math.round(diff / month);
         return `${months} ${months === 1 ? 'month' : 'months'} ago`;

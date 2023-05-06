@@ -12,9 +12,9 @@
       <ChartBarIcon class="h-6 w-6"/>
       <span class="text-xs font-medium">Stats</span>
     </NuxtLink>
-    <NuxtLink to="/sales" class="flex flex-col items-center justify-center" active-class="text-amber-500">
-      <TagIcon class="h-6 w-6"/>
-      <span class="text-xs font-medium">Sales</span>
+    <NuxtLink to="/events" class="flex flex-col items-center justify-center" active-class="text-amber-500">
+      <BoltIcon class="h-6 w-6"/>
+      <span class="text-xs font-medium">events</span>
     </NuxtLink>
     <NuxtLink to="/alerts" class="flex flex-col items-center justify-center" active-class="text-amber-500">
       <BellIcon class="h-6 w-6"/>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import {StarIcon, BellIcon, TagIcon, ChartBarIcon, WalletIcon} from "@heroicons/vue/24/solid";
+import {StarIcon, BellIcon, TagIcon, ChartBarIcon, WalletIcon, BoltIcon} from "@heroicons/vue/24/solid";
 </script>
 
 <style>

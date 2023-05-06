@@ -20,9 +20,9 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/sales" class="inline-flex gap-3 py-6 px-6 text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent hover:border-white/10 duration-200" active-class="text-amber-500 border-amber-500">
-          <TagIcon class="h-6 w-6"/>
-          <span class="">Sales</span>
+        <NuxtLink to="/events" class="inline-flex gap-3 py-6 px-6 text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent hover:border-white/10 duration-200" active-class="text-amber-500 border-amber-500">
+          <BoltIcon class="h-6 w-6"/>
+          <span class="">Events</span>
         </NuxtLink>
       </li>
       <li>
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import {StarIcon, BellIcon, TagIcon, ChartBarIcon, WalletIcon} from "@heroicons/vue/24/solid";
+import {StarIcon, BellIcon, TagIcon, ChartBarIcon, WalletIcon, BoltIcon} from "@heroicons/vue/24/solid";
 </script>
 
 <style scoped>
