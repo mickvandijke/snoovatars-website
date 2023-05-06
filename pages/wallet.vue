@@ -40,9 +40,6 @@
             <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 border-t border-neutral-700">
               <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
                 <div class="grid grid-cols-8 md:grid-cols-12">
-                  <a :href="`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`" target="_blank" class="relative rounded w-auto aspect-square rounded overflow-hidden">
-                    <img :src="getSeriesStats(seriesName)?.series.image" :alt="getSeriesStats(seriesName)?.series.name" class="w-full h-full object-cover">
-                  </a>
                   <div class="col-span-3 md:col-span-4 flex flex-col justify-center overflow-hidden">
                     <span class="px-2 text-sm text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(seriesName)?.series.name }}</span>
                     <div class="px-2 flex items-center text-xs md:text-sm">
