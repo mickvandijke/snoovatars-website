@@ -43,7 +43,7 @@
                   <a :href="`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`" target="_blank" class="relative rounded w-auto aspect-square rounded overflow-hidden">
                     <img :src="getSeriesStats(seriesName)?.series.image" :alt="getSeriesStats(seriesName)?.series.name" class="w-full h-full object-cover">
                   </a>
-                  <div class="hidden col-span-3 md:col-span-4 flex flex-col justify-center overflow-hidden">
+                  <div class="col-span-3 md:col-span-4 flex flex-col justify-center overflow-hidden">
                     <span class="px-2 text-sm text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(seriesName)?.series.name}}</span>
                     <div class="px-2 flex items-center text-xs md:text-sm overflow-hidden">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
