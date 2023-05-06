@@ -11,7 +11,7 @@
           <OpenseaIcon />
         </div>
       </a>
-      <div class="col-span-4 px-2 py-1 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden">
+      <div class="col-span-4 px-2 py-1.5 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden">
         <div class="h-full flex flex-col justify-between">
           <slot></slot>
         </div>
