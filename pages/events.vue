@@ -43,8 +43,7 @@ const searchTerm = ref<string>("");
 const filterOption = ref<string>("all");
 const feedView = ref<string>("sales");
 
-await updateSeriesStats();
-
+updateSeriesStats();
 updateSales();
 updateMints();
 

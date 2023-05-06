@@ -40,7 +40,7 @@
             <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 border-t border-neutral-700 w-full">
               <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
                 <div class="grid grid-cols-8 md:grid-cols-12 w-full">
-                  <div class="rounded aspect-square rounded overflow-hidden">
+                  <div class="rounded rounded overflow-hidden">
                     <a :href="`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`" target="_blank">
                       <img :src="getSeriesStats(seriesName)?.series.image" :alt="getSeriesStats(seriesName)?.series.name" class="w-full h-full object-cover">
                     </a>
