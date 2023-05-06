@@ -1,6 +1,6 @@
 <template>
   <div
-      class="flex flex-col sticky top-0 bg-neutral-900/90 md:bg-neutral-800/50 border-b border-neutral-800 md:border-none z-40 w-full"
+      class="flex flex-col sticky md:relative top-0 bg-neutral-900/90 md:bg-neutral-800/50 border-b border-neutral-800 md:border-none z-40 w-full"
       style="backdrop-filter: blur(20px);"
       @mouseleave="closeDropdowns()"
   >
@@ -19,7 +19,7 @@
           <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>
         </div>
         <div>
-          <select v-model="preferredCurrency" class="p-2 rounded-md border border-amber-500 bg-amber-600 text-sm font-bold focus:outline-none max-w-sm">
+          <select v-model="preferredCurrency" class="p-1 md:p-2 rounded-md border border-amber-500 bg-amber-600 text-sm font-bold focus:outline-none max-w-sm">
             <template v-for="currency in CURRENCIES">
               <option :value="currency.ticker">{{ currency.ticker }}</option>
             </template>

@@ -1,6 +1,6 @@
 <template>
-  <div class="py-2">
-    <ul class="flex flex-wrap -mb-px font-medium text-neutral-400 text-center border-b border-neutral-800">
+  <div class="bg-neutral-900 sticky top-0 z-20 w-full">
+    <ul class="flex items-center justify-center -mb-px font-medium text-neutral-400 text-center border-b border-neutral-800 w-full">
       <li>
         <NuxtLink to="/wallet" class="inline-flex gap-3 py-6 px-6 text-center text-neutral-content/50 capitalize hover:text-neutral-content border-b-2 border-transparent hover:border-white/10 duration-200" active-class="text-amber-500 border-amber-500">
           <WalletIcon class="h-6 w-6"/>

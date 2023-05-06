@@ -1,7 +1,7 @@
 <template>
   <div class="px-4 py-3 flex flex-col gap-2 bg-neutral-800 rounded-lg">
     <h1 class="text-xs text-neutral-400 font-bold">Last 5 sales:</h1>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-1">
       <template v-for="(sale, index) in sales.slice(0, 5)" :key="index">
         <div class="grid grid-cols-11 items-center font-bold text-xs gap-2">
           <div class="flex items-center col-span-5">
