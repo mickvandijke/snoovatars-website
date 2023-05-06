@@ -21,6 +21,7 @@
         <option value="lowestVolume">Sort by Lowest Volume</option>
         <option value="highestDailyChange">Sort by Today's Biggest Risers</option>
         <option value="lowestDailyChange">Sort by Today's Biggest Fallers</option>
+        <option value="recentSale">Sort by Most Recent Sale</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
       </select>
       <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
@@ -251,6 +252,20 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
           return 1;
         } else if (aDailyChange < bDailyChange) {
           return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "recentSale":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aBaseDate = a.stats.last_sale?.date_sold;
+        const bBaseDate = b.stats.last_sale?.date_sold;
+
+        if (aBaseDate > bBaseDate) {
+          return -1;
+        } else if (aBaseDate < bBaseDate) {
+          return 1;
         } else {
           return 0;
         }
