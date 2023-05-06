@@ -24,7 +24,7 @@
             <a :href="`https://opensea.io/${mint.minter}`" target="_blank" class="text-neutral-200">{{ mint.minter.slice(0, 6) }}..{{ mint.minter.slice(mint.minter.length - 6, mint.minter.length) }}</a>
           </div>
         </div>
-        <div class="text-amber-500 text-xs font-bold">{{ $timeAgo(new Date(mint.date_minted)) }} ago</div>
+        <div class="text-amber-500 text-[0.8rem] font-bold">{{ $timeAgo(new Date(mint.date_minted)) }} ago</div>
       </AvatarCard>
     </template>
   </div>
