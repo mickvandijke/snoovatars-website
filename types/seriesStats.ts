@@ -1,4 +1,5 @@
 import {Sale} from "~/types/sale";
+import {Listing} from "~/types/listing";
 
 export interface SeriesStats {
     collection: {
@@ -20,24 +21,7 @@ export interface SeriesStats {
     };
     stats: {
         total_volume: number;
-        lowest_listing: {
-            token: {
-                contract_address: string;
-                id: string;
-                name: string;
-                mint_number: number;
-                image: string;
-            };
-            permalink: string;
-            date_listed: string;
-            date_expiration: string;
-            maker_address: string;
-            payment_token: {
-                symbol: string;
-                base_price: number;
-                eth_price: number;
-            };
-        }
+        lowest_listing: Listing;
         last_sale: Sale;
         daily_price_change: number;
         weekly_average_price: number;

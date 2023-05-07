@@ -1,7 +1,7 @@
 <template>
   <div class="relative grid grid-cols-5 gap-1 overflow-hidden">
     <template v-if="seriesStats">
-      <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative rounded-lg overflow-hidden h-fit">
+      <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative rounded-lg overflow-hidden md:h-fit">
         <img v-lazy-pix="getTokenImage(item.image)" src="/img/rcax_placeholder.png" :alt="item.name">
         <template v-if="seriesStats">
           <div class="absolute top-1 left-1 px-1 border-amber-400 py-0.25 bg-amber-500 text-black text-[0.65rem] font-bold rounded">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</div>
@@ -11,7 +11,7 @@
           <OpenseaIcon />
         </div>
       </a>
-      <div class="col-span-4 px-2 py-1.5 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden md:h-fit" :class="{ 'h-full': !showExtraInfo }">
+      <div class="col-span-4 px-2 py-1.5 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden md:h-fit">
         <div class="h-full flex flex-col justify-between">
           <slot></slot>
         </div>
