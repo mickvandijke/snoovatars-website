@@ -15,27 +15,29 @@
         <div class="h-full flex flex-col justify-between">
           <slot></slot>
         </div>
-        <div class="mt-auto flex items-center gap-1">
-          <template v-if="!hideFloor">
-            <div class="flex items-center gap-0.5 text-[0.7rem]">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="flex gap-1 font-bold text-neutral-400">
-                <span>{{ (seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
+        <template v-if="seriesStats.stats.lowest_listing">
+          <div class="mt-auto flex items-center gap-1">
+            <template v-if="!hideFloor">
+              <div class="flex items-center gap-0.5 text-[0.7rem]">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                <div class="flex gap-1 font-bold text-neutral-400">
+                  <span>{{ (seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                </div>
               </div>
-            </div>
-          </template>
-          <a class="px-2 flex items-center gap-1 bg-neutral-700 hover:bg-[#2081E2] text-white/75 text-[0.65rem] font-bold rounded-md duration-500" :href="seriesStats.stats.lowest_listing?.permalink" target="_blank">
-            Buy
-            <OpenseaIcon class="w-3 h-3" />
-          </a>
-          <a class="px-2 flex items-center gap-1 bg-neutral-700 hover:bg-[#2081E2] text-white/75 text-[0.65rem] font-bold rounded-md duration-500" :href="dappLink(seriesStats.stats.lowest_listing?.permalink)" target="_blank">
-            Buy
-            <MetaMaskIcon class="w-3 h-3" />
-          </a>
-          <button @click="toggleExtraInfo()" class="ml-auto px-1 flex items-center gap-1 text-neutral-500 text-[0.7rem] font-bold rounded-md duration-500">
-            Toggle Extra
-          </button>
-        </div>
+            </template>
+            <a class="px-2 flex items-center gap-1 bg-neutral-700 hover:bg-[#2081E2] text-white/75 text-[0.65rem] font-bold rounded-md duration-500" :href="seriesStats.stats.lowest_listing?.permalink" target="_blank">
+              Buy
+              <OpenseaIcon class="w-3 h-3" />
+            </a>
+            <a class="px-2 flex items-center gap-1 bg-neutral-700 hover:bg-[#2081E2] text-white/75 text-[0.65rem] font-bold rounded-md duration-500" :href="dappLink(seriesStats.stats.lowest_listing?.permalink)" target="_blank">
+              Buy
+              <MetaMaskIcon class="w-3 h-3" />
+            </a>
+            <button @click="toggleExtraInfo()" class="ml-auto px-1 flex items-center gap-1 text-neutral-500 text-[0.7rem] font-bold rounded-md duration-500">
+              Toggle Extra
+            </button>
+          </div>
+        </template>
       </div>
       <template v-if="showExtraInfo">
         <ExtraInfoComponent class="col-span-5" :series-stats="seriesStats" :contract="item.contract_address" :series="item.name" />

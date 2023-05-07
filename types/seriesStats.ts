@@ -40,6 +40,9 @@ export interface SeriesStats {
         }
         last_sale: Sale;
         daily_price_change: number;
+        weekly_average_price: number;
+        two_weekly_average_price: number;
+        monthly_average_price: number;
     };
 }
 
