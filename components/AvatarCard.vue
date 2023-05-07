@@ -38,7 +38,7 @@
         </div>
       </div>
       <template v-if="showExtraInfo">
-        <ExtraInfoComponent class="col-span-5" :contract="item.contract_address" :series="item.name" />
+        <ExtraInfoComponent class="col-span-5" :series-stats="seriesStats" :contract="item.contract_address" :series="item.name" />
       </template>
     </template>
   </div>
