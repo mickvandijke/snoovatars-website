@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import {Sale} from "~/types/sale";
+// @ts-ignore
 import {
   BarElement,
   CategoryScale,
