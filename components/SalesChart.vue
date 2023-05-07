@@ -40,7 +40,7 @@ const props = defineProps({
   },
 });
 
-const selectedFilter = ref<string>('last-week');
+const selectedFilter = ref<string>('last-14d');
 
 const options = {
   plugins: {
