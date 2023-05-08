@@ -18,7 +18,7 @@ export function abbreviateNumber(value: number): [number, string] {
 }
 
 export function isValidEthereumAddress(address: string): boolean {
-    return (!address.match(/^0x[0-9a-fA-F]{40}$/));
+    return address.length === 42 && address.startsWith("0x");
 }
 
 export function dappLink(url: string) {

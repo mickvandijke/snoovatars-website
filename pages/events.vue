@@ -52,7 +52,7 @@ const listingsLatest: Ref<Array<Listing>> = ref([]);
 const mintsLatest: Ref<Array<Mint>> = ref([]);
 const searchTerm = ref<string>("");
 const filterOption = ref<string>("all");
-const feedView = ref<string>("listings");
+const feedView = ref<string>("sales");
 const isRefreshing = ref(false);
 
 refresh();

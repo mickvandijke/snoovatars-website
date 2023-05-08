@@ -154,7 +154,7 @@ function getSeriesStats(name: string) {
 }
 
 function lookupDisabled(): boolean {
-  return !isValidEthereumAddress(walletAddress.value) || walletAddresses.value.has(walletAddress.value) || !walletAddress.value || loading.value;
+  return !walletAddress.value || !isValidEthereumAddress(walletAddress.value) || walletAddresses.value.has(walletAddress.value) || loading.value;
 }
 
 function getWalletValue(wallet: string): number {
