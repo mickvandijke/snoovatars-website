@@ -99,7 +99,11 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
   }
 
   if (searchTerm.value.trim() !== "") {
-    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => (seriesStat.series.name.toLowerCase() + seriesStat.collection.name.toLowerCase()).includes(searchTerm.value.toLowerCase()));
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => (
+        seriesStat.series.name.toLowerCase() +
+        seriesStat.collection.name.toLowerCase() +
+        seriesStat.series.name.toLowerCase().replace(/[^a-zA-Z ]/g, "")
+    ).includes(searchTerm.value.toLowerCase()));
   }
 
   let sortedSeriesStats = [];

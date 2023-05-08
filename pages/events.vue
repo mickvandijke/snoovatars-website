@@ -107,7 +107,7 @@ function filteredSales(): Sale[] {
   }
 
   if (searchTerm.value.trim() !== "") {
-    filteredSales = filteredSales.filter((sale) => sale.token.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+    filteredSales = filteredSales.filter((sale) => (sale.token.name.toLowerCase() + sale.token.name.toLowerCase().replace(/[^a-zA-Z ]/g, "")).includes(searchTerm.value.toLowerCase()));
   }
 
   return filteredSales;
@@ -121,7 +121,7 @@ function filteredListings(): Listing[] {
   }
 
   if (searchTerm.value.trim() !== "") {
-    filteredListings = filteredListings.filter((listing) => listing.token.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+    filteredListings = filteredListings.filter((listing) => (listing.token.name.toLowerCase() + listing.token.name.toLowerCase().replace(/[^a-zA-Z ]/g, "")).includes(searchTerm.value.toLowerCase()));
   }
 
   return filteredListings;
@@ -131,7 +131,7 @@ function filteredMints(): Mint[] {
   let filteredMints = Array.from(Object.values(mintsLatest.value));
 
   if (searchTerm.value.trim() !== "") {
-    filteredMints = filteredMints.filter((mint) => mint.token.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+    filteredMints = filteredMints.filter((mint) => (mint.token.name.toLowerCase() + mint.token.name.toLowerCase().replace(/[^a-zA-Z ]/g, "")).includes(searchTerm.value.toLowerCase()));
   }
 
   return filteredMints;
