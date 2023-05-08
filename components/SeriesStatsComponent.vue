@@ -75,8 +75,6 @@
                 </div>
               </div>
             </div>
-          </template>
-          <template v-if="item.stats.lowest_listing">
             <div class="ml-auto flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
               <div class="flex items-center gap-1 font-bold overflow-hidden">
                 <div class="text-neutral-400">F/M:</div>
@@ -85,6 +83,9 @@
                 </div>
               </div>
             </div>
+          </template>
+          <template v-else>
+            <span class="text-amber-500">No floor data.</span>
           </template>
         </div>
       </AvatarCard>
