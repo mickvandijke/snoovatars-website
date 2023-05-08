@@ -40,9 +40,9 @@ const container = ref<HTMLInputElement | null>(null);
 const endIndex = ref(buffer.value);
 
 function handleScroll() {
-  const containerHeight = container.value?.offsetHeight ?? 0;
+  const containerHeight = window?.innerHeight ?? 0;
   const contentHeight = container.value?.scrollHeight ?? 0;
-  const position = container.value?.scrollTop ?? 0;
+  const position = window?.scrollY ?? 0;
 
   if (contentHeight - (position + containerHeight) < loadThreshold.value) {
     const newIndex = visibleItems.value.length + buffer.value;
