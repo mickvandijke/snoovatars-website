@@ -15,7 +15,7 @@
       </button>
     </div>
     <div class="mt-2 px-2 md:px-4 flex flex-col gap-2 w-full overflow-hidden">
-      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded">
+      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
         <div class="flex flex-nowrap gap-1 w-full">
           <input v-model="walletAddress" placeholder="Wallet address: 0x.." class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full">
           <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="p-2 flex items-center justify-center whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer loading">
@@ -31,7 +31,7 @@
           </button>
         </div>
       </div>
-      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded">
+      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
         <div class="flex gap-1">
           <span class="text-white font-medium">Total Worth: </span>
           <div class="flex items-center">
@@ -41,20 +41,20 @@
           </div>
         </div>
       </div>
-      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded">
+      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
         <div class="flex gap-1">
           <span class="text-white font-medium">Total items:</span>
           <span class="text-amber-500">{{ getTotalItems() }}</span>
         </div>
       </div>
       <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
-        <div class="bg-neutral-800/75 flex flex-col items-center overflow-hidden w-full rounded">
+        <div class="bg-neutral-800/75 flex flex-col items-center overflow-hidden w-full rounded-md">
           <div class="p-2 flex gap-2 w-full rounded">
             <div class="flex items-center overflow-hidden">
-              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="hidden md:block md:p-2 text-neutral-400 hover:text-white text-sm rounded duration-500">{{ walletAddress }}</a>
-              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="md:hidden md:p-2 text-neutral-400 hover:text-white text-sm font-medium rounded duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
+              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="hidden md:block md:p-2 text-neutral-400 hover:text-white text-sm rounded-md duration-500">{{ walletAddress }}</a>
+              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="md:hidden md:p-2 text-neutral-400 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
             </div>
-            <div class="md:ml-auto md:p-2 flex items-center text-sm rounded">
+            <div class="md:ml-auto md:p-2 flex items-center text-sm rounded-md">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
               <div class="text-neutral-200 font-bold">{{ (getWalletValue(walletAddress) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
               <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getWalletValue(walletAddress)) }})</div>
@@ -70,7 +70,7 @@
               <template v-if="groupMethod === 'group'">
                 <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
                   <div class="grid grid-cols-8 md:grid-cols-12 w-full">
-                    <div class="relative rounded overflow-hidden" style="padding-top: 100%">
+                    <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                       <a :href="`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`" target="_blank">
                         <img :src="getSeriesStats(seriesName)?.series.image" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                       </a>
@@ -97,7 +97,7 @@
               <template v-else>
                 <template v-for="token in sortedTokens(flattenObject(walletTokens))">
                   <div class="grid grid-cols-8 md:grid-cols-12 w-full">
-                    <div class="relative rounded overflow-hidden" style="padding-top: 100%">
+                    <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                       <a :href="`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`" target="_blank">
                         <img :src="getSeriesStats(token.name)?.series.image" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                       </a>
