@@ -19,13 +19,13 @@
       </button>
     </div>
     <template v-if="feedView === 'sales'">
-      <SalesComponent :items="filteredSales()" class="mt-1 lg:mt-0 px-2 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1" />
+      <SalesComponent :items="filteredSales()"/>
     </template>
     <template v-else-if="feedView === 'listings'">
-      <ListingsComponent :items="filteredListings()" class="mt-1 lg:mt-0 px-2 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1" />
+      <ListingsComponent :items="filteredListings()"/>
     </template>
     <template v-else-if="feedView === 'mints'">
-      <MintsComponent :items="filteredMints()" class="mt-1 lg:mt-0 px-2 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1" />
+      <MintsComponent :items="filteredMints()"/>
     </template>
   </div>
 </template>
