@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-        <div class="flex gap-2 font-medium text-[0.8rem] md:text-[1.1rem] items-center">
+        <div class="flex gap-2 font-medium text-[0.8rem] lg:text-[0.9rem] 2xl:text-[1.1rem] items-center">
           <template v-if="item.stats.lowest_listing">
             <div class="flex flex-col">
               <div class="flex items-center gap-0.5">

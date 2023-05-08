@@ -24,7 +24,7 @@
             <a :href="`https://opensea.io/${item.minter}`" target="_blank" class="text-neutral-200">{{ item.minter.slice(0, 6) }}..{{ item.minter.slice(item.minter.length - 6, item.minter.length) }}</a>
           </div>
         </div>
-        <div class="text-amber-500 text-[0.8rem] md:text-[1.1rem] font-bold">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
+        <div class="text-amber-500 text-[0.8rem] lg:text-[0.9rem] 2xl:text-[1.1rem] font-bold">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
       </AvatarCard>
     </template>
   </VirtualGrid>

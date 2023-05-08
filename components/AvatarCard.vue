@@ -33,7 +33,7 @@
               Buy
               <MetaMaskIcon class="w-3 h-3" />
             </a>
-            <button @click="toggleExtraInfo()" class="ml-auto px-1 flex items-center gap-1 text-neutral-500 text-[0.7rem] font-bold rounded-md duration-500">
+            <button @click="toggleExtraInfo()" class="ml-auto px-1 flex items-center gap-1 text-neutral-500 text-[0.7rem] font-bold whitespace-nowrap rounded-md duration-500">
               Toggle Extra
             </button>
           </div>

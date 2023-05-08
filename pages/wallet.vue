@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
-    <div class="px-2 py-2 sticky top-[56px] lg:top-0 lg:relative flex justify-center gap-2 bg-neutral-800/90 backdrop-blur-lg lg:bg-transparent z-10 w-full drop-shadow-lg">
+    <div class="px-2 py-2 sticky top-[56px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-800/90 backdrop-blur-lg lg:bg-transparent z-10 w-full drop-shadow-lg">
       <input v-model="walletAddress" placeholder="Wallet address: 0x.." class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full max-w-sm">
       <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="p-2 flex items-center justify-center whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer loading">
         <template v-if="loading">
