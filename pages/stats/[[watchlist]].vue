@@ -34,7 +34,7 @@
         <ArrowPathIcon class="w-5 h-5" />
       </button>
     </div>
-    <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" class="mt-1 lg:mt-0 px-2 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1" />
+    <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" />
   </div>
 </template>
 
