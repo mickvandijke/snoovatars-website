@@ -25,6 +25,9 @@
         <option value="highestWeeklyAverage">Sort by Highest 7 Days Average Price</option>
         <option value="highestTwoWeeklyAverage">Sort by Highest 14 Days Average Price</option>
         <option value="highestMonthlyAverage">Sort by Highest 30 Days Average Price</option>
+        <option value="lowestWeeklyAverage">Sort by Lowest 7 Days Average Price</option>
+        <option value="lowestTwoWeeklyAverage">Sort by Lowest 14 Days Average Price</option>
+        <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Price</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
       </select>
       <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
@@ -315,6 +318,48 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
           return -1;
         } else if (aBasePrice < bBasePrice) {
           return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestWeeklyAverage":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aBasePrice = a.stats.weekly_average_price ?? 0;
+        const bBasePrice = b.stats.weekly_average_price ?? 0;
+
+        if (aBasePrice > bBasePrice) {
+          return 1;
+        } else if (aBasePrice < bBasePrice) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestTwoWeeklyAverage":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aBasePrice = a.stats.two_weekly_average_price ?? 0;
+        const bBasePrice = b.stats.two_weekly_average_price ?? 0;
+
+        if (aBasePrice > bBasePrice) {
+          return 1;
+        } else if (aBasePrice < bBasePrice) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestMonthlyAverage":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aBasePrice = a.stats.monthly_average_price ?? 0;
+        const bBasePrice = b.stats.monthly_average_price ?? 0;
+
+        if (aBasePrice > bBasePrice) {
+          return 1;
+        } else if (aBasePrice < bBasePrice) {
+          return -1;
         } else {
           return 0;
         }
