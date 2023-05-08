@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 overflow-x-hidden overflow-y-auto w-full" :class="containerClasses" :style="{ 'max-height': containerMaxHeight }" ref="container" @scroll="handleScroll">
+  <div class="px-2 overflow-x-hidden overflow-y-auto w-full" :class="containerClasses" ref="container" @scroll="handleScroll">
     <div class="mt-1 lg:mt-0 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1">
       <template v-for="(item, index) in visibleItems">
         <slot :item="item" :index="index"></slot>
@@ -32,25 +32,21 @@ const container = ref<HTMLInputElement | null>(null);
 const endIndex = ref(buffer.value);
 
 const containerClasses = computed(() => {
+  let classes = [];
+
   if (visibleItems.value.length < buffer.value) {
-    return ['max-h-fit'];
+    classes.push('max-h-fit');
   }
-
-  return ['h-screen'];
-});
-
-const containerMaxHeight = computed(() => {
-  let maxHeight = "100%";
 
   if (window) {
     if (window.innerWidth < 800 && false) {
-      maxHeight = window.innerHeight - 176 + "px";
+      classes.push("mobile");
     } else {
-      maxHeight = "100vh";
+      classes.push("desktop");
     }
   }
 
-  return maxHeight;
+  return classes;
 });
 
 function handleScroll() {
@@ -72,5 +68,11 @@ const visibleItems = computed(() => {
 </script>
 
 <style scoped>
+.mobile {
+  max-height: calc(100vh - 176px);
+}
 
+.desktop {
+  max-height: 100vh;
+}
 </style>
