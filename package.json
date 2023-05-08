@@ -21,7 +21,6 @@
     "lazy-pix": "^1.0.0",
     "siwe": "1.0.0",
     "vue-chartjs": "^5.2.0",
-    "vue-select": "^4.0.0-beta.5",
-    "vue-virtual-scroller": "^2.0.0-beta.8"
+    "vue-select": "^4.0.0-beta.5"
   }
 }

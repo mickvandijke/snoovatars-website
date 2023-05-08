@@ -66,8 +66,6 @@ function refresh() {
 
   let promises = [];
 
-  promises.push(updateSeriesStats());
-
   if (feedView.value === "sales") {
     promises.push(updateSales());
   } else if (feedView.value === "listings") {
@@ -75,6 +73,8 @@ function refresh() {
   } else if (feedView.value === "mints") {
     promises.push(updateMints());
   }
+
+  promises.push(updateSeriesStats());
 
   Promise.all(promises).finally(() => {
     isRefreshing.value = false;

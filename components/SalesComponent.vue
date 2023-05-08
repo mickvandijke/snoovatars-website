@@ -1,9 +1,9 @@
 <template>
   <div class="grid grid-cols-1 gap-1">
     <template v-for="(sale, index) in props.items" :key="index">
-      <AvatarCard :item="{ name: sale.token.name, contract_address: sale.token.contract_address, image: sale.token.image }" :series-stats="getSeries(sale.token.name)">
+      <AvatarCard :item="{ name: sale.token.name, contract_address: sale.token.contract_address, image: sale.token.image }" :series-stats="getSeriesStats(sale.token.name)">
         <div class="flex items-center gap-2 text-[0.8rem]">
-          <a :href="'https://opensea.io/collection/' + getSeries(sale.token.name)?.collection.slug + '?search[query]=' + sale.token.name" target="_blank" class="text-white font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ sale.token.name }}</a>
+          <a :href="'https://opensea.io/collection/' + getSeriesStats(sale.token.name)?.collection.slug + '?search[query]=' + sale.token.name" target="_blank" class="text-white font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ sale.token.name }}</a>
           <a :href="`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`" target="_blank" class="text-amber-500 font-bold">#{{ sale.token.mint_number }}</a>
           <div class="ml-auto">
             <template v-if="watchList.has(sale.token.name)">
@@ -42,17 +42,6 @@
             </template>
           </div>
           <div class="text-amber-500" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }} ago</div>
-<!--          <template v-if="getStats(sale.token.name)?.lowest_listing">-->
-<!--            <div class="ml-auto flex gap-0.5">-->
-<!--              <span class="text-neutral-400">F:</span>-->
-<!--              <div class="flex items-center gap-0.5">-->
-<!--                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>-->
-<!--                <div class="font-bold text-xs text-white">-->
-<!--                  <span>{{(getStats(sale.token.name)?.lowest_listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </template>-->
         </div>
       </AvatarCard>
     </template>
@@ -66,11 +55,9 @@ import {
   useSeriesStats,
   useWatchList,
   addToWatchList,
-  removeFromWatchList,
-  useEthereumUsdPrice
+  removeFromWatchList
 } from "~/composables/states";
 import {StarIcon} from "@heroicons/vue/24/solid";
-import {ref} from "#imports";
 import {ethereumInLocalCurrency} from "#imports";
 
 const props = defineProps({
@@ -80,26 +67,8 @@ const props = defineProps({
 const seriesStats = useSeriesStats();
 const watchList = useWatchList();
 
-const lastSalesToggle = ref(-1);
-
-function getSeries(name: string) {
+function getSeriesStats(name: string) {
   return seriesStats.value[name];
-}
-
-function getStats(name: string) {
-  return seriesStats.value[name]?.stats;
-}
-
-function toggleLastSales(index: number) {
-  if (isToggleLastSales(index)) {
-    lastSalesToggle.value = -1;
-  } else {
-    lastSalesToggle.value = index;
-  }
-}
-
-function isToggleLastSales(index: number): boolean {
-  return lastSalesToggle.value == index;
 }
 </script>
 
