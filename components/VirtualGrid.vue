@@ -43,7 +43,7 @@ const containerMaxHeight = computed(() => {
   let maxHeight = "100%";
 
   if (window) {
-    if (window.innerWidth < 800) {
+    if (window.innerWidth < 800 && false) {
       maxHeight = window.innerHeight - 176 + "px";
     } else {
       maxHeight = "100vh";
