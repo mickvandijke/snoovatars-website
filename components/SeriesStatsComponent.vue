@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-x-hidden overflow-y-auto w-full" :class="containerClasses" :style="{ 'max-height': containerMaxHeight }" ref="container" @scroll="handleScroll">
     <div class="mt-1 lg:mt-0 px-2 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1">
-      <template v-for="(item, index) in visibleItems" :key="item.series.name">
+      <template v-for="(item, index) in visibleItems">
         <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" hide-floor>
           <div class="flex items-center gap-1 text-[0.7rem]">
             <h1 class="text-neutral-500 font-bold rounded-md">#{{ index + 1 }}</h1>
