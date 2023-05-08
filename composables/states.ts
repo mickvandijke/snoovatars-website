@@ -8,6 +8,7 @@ import {SeriesStats} from "~/types/seriesStats";
 import {fetchSeriesStats} from "~/composables/api/seriesStats";
 import {fetchCurrentEthereumPriceInCurrency} from "~/composables/api/ethereum";
 import {fetchSeries} from "~/composables/api/series";
+import {ExtraInfoOptions} from "~/types/extra_info";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
@@ -24,6 +25,33 @@ export const useEthereumGbpPrice = () => useState<number>('ethereum-gbp', () => 
 export const usePreferredCurrency = () => useState<string>('preferred-currency', () => "USD");
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
+export const useExtraInfoOptions = () => useState<ExtraInfoOptions>('extra-info-options', () => null);
+
+export function updateExtraInfoOptions(options: ExtraInfoOptions) {
+    useExtraInfoOptions().value = options;
+
+    localStorage.setItem("extraInfoOptions", JSON.stringify(options));
+}
+
+export function loadExtraInfoOptions() {
+    let json = localStorage.getItem("extraInfoOptions");
+
+    if (json) {
+        let options: ExtraInfoOptions = JSON.parse(json);
+
+        if (options) {
+            useExtraInfoOptions().value = options;
+            return;
+        }
+    }
+
+    useExtraInfoOptions().value = {
+        marketData: true,
+        listings: true,
+        salesGraph: true,
+        sales: true
+    };
+}
 
 export async function updateSeriesHashed() {
     const seriesMap: Map<string, Series> = new Map();
@@ -40,7 +68,6 @@ export async function updateSeriesHashed() {
 
     await Promise.all(promises);
     useSeriesHashed().value = seriesMap;
-    console.log(useSeriesHashed().value);
 }
 
 export function setPreferredCurrency(currency: string) {

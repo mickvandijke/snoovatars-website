@@ -30,11 +30,12 @@
             <template v-for="[alertHash, alert] in alerts">
               <div class="p-2 grid grid-cols-12 items-center bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">
                 <img :src="getSeries(alert.collection_tier_hash).image">
-                <div class="px-2 col-span-6 flex flex-col text-white">
+                <div class="px-2 col-span-7 flex flex-col text-white">
                   <span>{{alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}</span>
                   <span>{{ alert.alert_type }}: {{ alert.price_threshold }} ETH</span>
                 </div>
-                <button @click="openAlertModal(alertHash, alert)" class="ml-auto px-4 py-2 col-span-5 bg-sky-600 hover:bg-sky-500 font-semibold text-white rounded-md duration-200">Edit</button>
+                <button @click="openAlertModal(alertHash, alert)" class="ml-auto px-4 py-2 col-span-2 bg-sky-600 hover:bg-sky-500 font-semibold text-white rounded-md duration-200">Edit</button>
+                <button @click="deleteAlert(alertHash)" class="ml-auto px-4 py-2 col-span-2 bg-red-600 hover:bg-red-500 font-semibold text-white rounded-md duration-200">Delete</button>
               </div>
             </template>
           </ul>
@@ -60,56 +61,56 @@
           </ul>
           <p class="p-6 text-sm text-neutral-500 text-center w-full">*Free tier quotas might change at any moment without notice.</p>
         </div>
+      </div>
 
-        <!--modal content-->
-        <div v-if="addingAlert" class="fixed mx-auto py-6 border-2 border-neutral-700 drop-shadow-2xl rounded-2xl bg-neutral-800">
-          <div class="mt-2 text-center max-h-96 overflow-y-auto">
-            <h3 class="text-lg leading-6 font-medium text-white">{{ !!replacingAlertHash ? "Update" : "New" }} Alert</h3>
-            <div class="mt-2 px-6 py-2 max-h-xs overflow-y-auto">
-              <label for="collection" class="block mb-2 text-sm font-medium text-neutral-400 text-left">Select avatar (Type to search)</label>
-              <select-search
-                  id="tier"
-                  v-model="newAlert.collection_tier_hash"
-                  :options="selectSeries()"
-                  :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Select avatar'"
-                  @change="onSelectedTier()"
-              >
-              </select-search>
-              <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">[Optional] Select a specific mint number</label>
-              <select-search
-                  id="avatar"
-                  v-model="newAlert.item_hash"
-                  :options="selectAvatars()"
-                  :placeholder="newAlert.item_hash ? avatars.get(newAlert.item_hash).fullname() : 'None'"
-                  :disabled="!newAlert.collection_tier_hash"
-                  @change="onSelectedAvatar()"
-              >
-              </select-search>
-              <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Max mint number (0 = any mint)</label>
-              <input type="number" min="0" :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="light">
-              <label for="type" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Select an event type</label>
-              <select required v-model="newAlert.alert_type" id="type" class="light">
-                <option :value="AlertType.ListingBelow">Listing below price threshold</option>
-                <option :value="AlertType.SaleAbove">Sale above price threshold</option>
-              </select>
-              <label for="price-threshold" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Price threshold in ETH</label>
-              <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="light">
-              <label for="repeating" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Repeating</label>
-              <select required v-model="newAlert.repeating" id="repeating" class="light">
-                <option :value="false">Only alert once</option>
-                <option :value="true">Repeating alert</option>
-              </select>
-              <div class="mt-4 flex flex-col items-center gap-2">
-                <button @click="submitAlert" :disabled="!newAlert.isValid()" class="px-4 py-2 bg-sky-500 disabled:bg-gray-500 text-white text-base font-medium rounded-2xl w-full hover:bg-sky-600 disabled:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-green-300 duration-200">
-                  Submit
-                </button>
-                <button @click="cancelAlert" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-2xl w-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 duration-200">
-                  Cancel
-                </button>
-                <template v-if="replacingAlertHash">
-                  <button @click="deleteAlert(replacingAlertHash)" class="mt-4 px-4 py-2 w-full bg-red-600 hover:bg-red-500 font-semibold text-white rounded-2xl duration-200">Delete</button>
-                </template>
-              </div>
+      <!--modal content-->
+      <div v-if="addingAlert" class="fixed mx-auto py-6 border-2 border-neutral-700 drop-shadow-2xl rounded-2xl bg-neutral-800 z-40">
+        <div class="mt-2 text-center max-h-96 overflow-y-auto">
+          <h3 class="text-lg leading-6 font-medium text-white">{{ !!replacingAlertHash ? "Update" : "New" }} Alert</h3>
+          <div class="mt-2 px-6 py-2 max-h-xs overflow-y-auto">
+            <label for="collection" class="block mb-2 text-sm font-medium text-neutral-400 text-left">Select avatar (Type to search)</label>
+            <select-search
+                id="tier"
+                v-model="newAlert.collection_tier_hash"
+                :options="selectSeries()"
+                :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Select avatar'"
+                @change="onSelectedTier()"
+            >
+            </select-search>
+            <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">[Optional] Select a specific mint number</label>
+            <select-search
+                id="avatar"
+                v-model="newAlert.item_hash"
+                :options="selectAvatars()"
+                :placeholder="newAlert.item_hash ? avatars.get(newAlert.item_hash).fullname() : 'None'"
+                :disabled="!newAlert.collection_tier_hash"
+                @change="onSelectedAvatar()"
+            >
+            </select-search>
+            <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Max mint number (0 = any mint)</label>
+            <input type="number" min="0" :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="light">
+            <label for="type" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Select an event type</label>
+            <select required v-model="newAlert.alert_type" id="type" class="light">
+              <option :value="AlertType.ListingBelow">Listing below price threshold</option>
+              <option :value="AlertType.SaleAbove">Sale above price threshold</option>
+            </select>
+            <label for="price-threshold" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Price threshold in ETH</label>
+            <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="light">
+            <label for="repeating" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Repeating</label>
+            <select required v-model="newAlert.repeating" id="repeating" class="light">
+              <option :value="false">Only alert once</option>
+              <option :value="true">Repeating alert</option>
+            </select>
+            <div class="mt-4 flex flex-col items-center gap-2">
+              <button @click="submitAlert" :disabled="!newAlert.isValid()" class="px-4 py-2 bg-sky-500 disabled:bg-gray-500 text-white text-base font-medium rounded-2xl w-full hover:bg-sky-600 disabled:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-green-300 duration-200">
+                Submit
+              </button>
+              <button @click="cancelAlert" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-2xl w-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 duration-200">
+                Cancel
+              </button>
+              <template v-if="replacingAlertHash">
+                <button @click="deleteAlert(replacingAlertHash)" class="mt-4 px-4 py-2 w-full bg-red-600 hover:bg-red-500 font-semibold text-white rounded-2xl duration-200">Delete</button>
+              </template>
             </div>
           </div>
         </div>

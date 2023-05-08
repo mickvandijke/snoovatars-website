@@ -33,7 +33,13 @@ import {
   useUser,
   watch
 } from "#imports";
-import {loadPreferredCurrency, loadWalletAddresses, updateEthereumPrices, useToken} from "~/composables/states";
+import {
+  loadExtraInfoOptions,
+  loadPreferredCurrency,
+  loadWalletAddresses,
+  updateEthereumPrices,
+  useToken
+} from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 import {fetchSeries} from "~/composables/api/series";
@@ -57,6 +63,7 @@ const user = useUser();
 loadWalletAddresses();
 loadWatchList();
 loadPreferredCurrency();
+loadExtraInfoOptions();
 updateEthereumPrices();
 
 onBeforeMount(async () => {
