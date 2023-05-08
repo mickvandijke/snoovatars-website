@@ -27,9 +27,6 @@ import {
   loadWatchList,
   onBeforeMount,
   useCollections,
-  useNuxtApp,
-  useSeries,
-  useSeriesHashed,
   useUser,
   watch
 } from "#imports";
@@ -42,13 +39,6 @@ import {
 } from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
-import {fetchSeries} from "~/composables/api/series";
-import {calculate_hash, Series} from "~/types/series";
-import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
-// @ts-ignore
-import VueVirtualScroller from "vue-virtual-scroller";
-
-useNuxtApp().vueApp.use(VueVirtualScroller);
 
 useHead({
   title: 'rcax.io',

@@ -1,6 +1,6 @@
 <template>
-  <div class="grid grid-cols-1 gap-1 overflow-hidden">
-    <template v-for="(item, index) in props.items" :key="item.series.name">
+  <div class="grid grid-cols-1 gap-1 overflow-x-hidden overflow-y-auto" :class="containerClasses" ref="container" @scroll="handleScroll">
+    <template v-for="(item, index) in visibleItems" :key="item.series.name">
       <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" hide-floor>
         <div class="flex items-center gap-1 text-[0.7rem]">
           <h1 class="text-neutral-500 font-bold rounded-md">#{{ index + 1 }}</h1>
@@ -98,13 +98,69 @@ import {PropType} from "@vue/runtime-core";
 import {useWatchList, addToWatchList, removeFromWatchList, useEthereumUsdPrice} from "~/composables/states";
 import {StarIcon} from "@heroicons/vue/24/solid";
 import {ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
-import {ethereumInLocalCurrency} from "#imports";
+import {computed, ethereumInLocalCurrency, ref, watchEffect} from "#imports";
 
 const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
 
 const props = defineProps({
   items: Array as PropType<SeriesStats[]>
+});
+
+const loadThreshold = 180;
+const buffer = 60
+
+const container = ref<HTMLInputElement | null>(null);
+const visibleItems = ref<SeriesStats[]>([]);
+const scrollPosition = ref(0);
+const loadingMore = ref(false);
+
+const containerClasses = computed(() => {
+  if (visibleItems.value.length < buffer) {
+    return ['max-h-fit'];
+  }
+
+  let maxH = window.innerHeight - 353;
+
+  if (window.innerWidth < 800) {
+    maxH = window.innerHeight - 176;
+  }
+
+  return ['h-screen', `max-h-[${maxH}px]`];
+});
+
+function handleScroll() {
+  const containerHeight = container.value.offsetHeight;
+  const contentHeight = container.value.scrollHeight;
+  const position = container.value.scrollTop;
+
+  if (contentHeight - (position + containerHeight) < loadThreshold) {
+    loadMoreItems();
+  }
+
+  scrollPosition.value = position;
+}
+
+const loadMoreItems = () => {
+  if (loadingMore.value) {
+    return;
+  }
+
+  loadingMore.value = true;
+
+  const startIndex = visibleItems.value.length;
+  const endIndex = startIndex + buffer;
+
+  visibleItems.value = visibleItems.value.concat(props.items.slice(startIndex, endIndex));
+  loadingMore.value = false;
+
+  if (props.items?.length - visibleItems.value.length > buffer) {
+    container.value.scrollTop = scrollPosition.value;
+  }
+};
+
+watchEffect(() => {
+  visibleItems.value = props.items.slice(0, buffer);
 });
 </script>
 

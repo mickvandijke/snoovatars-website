@@ -1,7 +1,7 @@
 <template>
-  <div class="relative grid grid-cols-5 gap-1 overflow-hidden">
+  <div class="relative grid grid-cols-5 gap-1 overflow-hidden" style="min-height: 90px">
     <template v-if="seriesStats">
-      <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative rounded-lg overflow-hidden md:h-fit">
+      <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative rounded-lg overflow-hidden max-h-full md:h-fit">
         <img v-lazy-pix="getTokenImage(item.image)" src="/img/rcax_placeholder.png" :alt="item.name">
         <template v-if="seriesStats">
           <div class="absolute top-1 left-1 px-1 border-amber-400 py-0.25 bg-amber-500 text-black text-[0.65rem] font-bold rounded">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</div>
