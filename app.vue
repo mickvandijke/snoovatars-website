@@ -32,8 +32,9 @@ import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 
 useHead({
-  title: 'RCAX',
+  title: 'RCA Floor Prices - RCAX.io',
   meta: [
+    { name: "title", content: "RCAX" },
     { name: 'description', content: 'Real-time data tracking and price alerts for the Reddit Collectible Avatars space!' },
     { name: 'keywords', content: 'Reddit, Collectible, Avatars, NFT, Floor, RCA, RedditCollectibleAvatars, RCAX, rcax, Polygon' },
     { name: 'robots', content: 'index, follow' },
