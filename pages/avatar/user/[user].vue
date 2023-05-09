@@ -1,56 +1,60 @@
 <template>
-  <div class="px-4 flex flex-col items-center w-full">
+  <div class="px-4 py-12 flex flex-col items-center gap-6 w-full">
     <h2 class="py-2 text-xl text-amber-500 font-semibold">u/{{ user }}</h2>
-    <div class="mt-6">
+    <div class="flex flex-col">
       <div v-if="pending" class="w-24 w-24 bg-neutral-800 rounded-xl animate-pulse"></div>
       <div v-else-if="avatar" class="w-24">
         <img :src="avatar" :alt="avatarAltText" class="m-auto max-w-full max-h-full">
       </div>
       <h2 v-else class="px-4 py-2 bg-red-600/10 text-red-500 font-semibold rounded-3xl">Could not load avatar!</h2>
     </div>
-    <div class="mt-6 py-6 flex flex-col items-center max-w-4xl gap-3">
-      <div>
-        <input v-model="searchTerm" placeholder="Search backgrounds" class="p-2 rounded-2xl border-2 border-neutral-700 focus:outline-none max-w-md">
+    <div class="flex flex-col md:flex-row gap-6">
+      <div class="flex flex-col items-center md:w-2/3 gap-3">
+        <div class="px-3 flex md:items-start w-full">
+          <input v-model="searchTerm" placeholder="Filter backgrounds" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full max-w-sm">
+        </div>
+        <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[38rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3">
+          <template v-for="(background, index) in filteredAvatarBackgrounds()">
+            <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 border-2 border-transparent rounded-xl hover:bg-neutral-700 drop-shadow duration-200" :class="{ 'border-amber-500': selectedBackgroundIndex() === index }">
+              <img v-lazy-pix="background.path" src="/img/rcax_placeholder.png" :alt="background.name">
+              <div class="mt-2 text-neutral-200 text-xs text-center font-semibold">{{ background.name }}</div>
+            </div>
+          </template>
+        </div>
       </div>
-      <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[32rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3">
-        <template v-for="(background, index) in filteredAvatarBackgrounds()">
-          <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 border-2 border-transparent rounded-xl hover:bg-neutral-700 drop-shadow duration-200" :class="{ 'border-amber-500': selectedBackgroundIndex() === index }">
-            <img v-lazy-pix="background.path" src="/img/rcax_placeholder.png" :alt="background.name">
-            <div class="mt-2 text-neutral-200 text-xs text-center font-semibold">{{ background.name }}</div>
+      <div class="flex flex-col gap-6 items-center md:w-1/3">
+        <div class="flex justify-center">
+          <div class="w-72 h-96 relative">
+            <img
+                class="w-full h-full absolute"
+                :src="selectedBackground().path"
+                :alt="avatarAltText"
+            >
+            <img
+                class="absolute"
+                :class="{ 'w-36': avatarSize === 'small', 'w-48': avatarSize === AvatarSize.Normal, 'centered': avatarPosition === AvatarPosition.Centered, 'normal': avatarPosition === AvatarPosition.Normal }"
+                style="left: 50%;"
+                :src="avatar"
+                :alt="avatarAltText"
+            >
           </div>
-        </template>
+        </div>
+        <div class="mt-2 flex flex-col items-center text-neutral-400 w-full max-w-xs">
+          <label class="">Avatar size</label>
+          <select class="mt-2 py-3 capitalize" v-model="avatarSize" @change="drawAvatar">
+            <option v-for="size in AvatarSize" :value="size">{{ size }}</option>
+          </select>
+          <label class="mt-6">Avatar position</label>
+          <select class="mt-2 py-3 capitalize" v-model="avatarPosition" @change="drawAvatar">
+            <option v-for="position in AvatarPosition" :value="position">{{ position }}</option>
+          </select>
+          <button v-if="!pending && avatar" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Export avatar</button>
+        </div>
+        <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground().path}?not-from-cache-please`" alt="background">
+        <img ref="foreground" crossorigin="anonymous" class="hidden" :src="`${avatar}?not-from-cache-please`" alt="foreground">
+        <canvas ref="canvas" width="552" height="736" class="hidden"></canvas>
       </div>
     </div>
-    <div class="mt-6 py-6">
-      <div class="w-72 h-96 relative">
-        <img
-            class="w-full h-full absolute"
-            :src="selectedBackground().path"
-            :alt="avatarAltText"
-        >
-        <img
-            class="absolute"
-            :class="{ 'w-36': avatarSize === 'small', 'w-48': avatarSize === AvatarSize.Normal, 'centered': avatarPosition === AvatarPosition.Centered, 'normal': avatarPosition === AvatarPosition.Normal }"
-            style="left: 50%;"
-            :src="avatar"
-            :alt="avatarAltText"
-        >
-      </div>
-    </div>
-    <div class="mt-2 flex flex-col items-center text-neutral-400 w-32">
-      <label class="">Avatar size</label>
-      <select class="mt-2 py-2 capitalize" v-model="avatarSize" @change="drawAvatar">
-        <option v-for="size in AvatarSize" :value="size">{{ size }}</option>
-      </select>
-      <label class="mt-6">Avatar position</label>
-      <select class="mt-2 py-2 capitalize" v-model="avatarPosition" @change="drawAvatar">
-        <option v-for="position in AvatarPosition" :value="position">{{ position }}</option>
-      </select>
-    </div>
-    <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground().path}?not-from-cache-please`" alt="background">
-    <img ref="foreground" crossorigin="anonymous" class="hidden" :src="`${avatar}?not-from-cache-please`" alt="foreground">
-    <canvas ref="canvas" width="552" height="736" class="hidden"></canvas>
-    <button v-if="!pending && avatar" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Export avatar</button>
   </div>
 </template>
 
