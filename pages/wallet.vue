@@ -2,11 +2,11 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <div class="px-2 py-2 sticky top-[56px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-800/90 backdrop-blur-lg lg:bg-transparent z-10 w-full drop-shadow-lg">
-      <select v-model="valuationMethod" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
+      <select v-model="valuationMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
       </select>
-      <select v-model="groupMethod" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
+      <select v-model="groupMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="group">Group by Series</option>
         <option value="mint">Show Mint Numbers</option>
       </select>

@@ -4,12 +4,12 @@
     <div class="px-2 py-2 sticky top-[56px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-800/90 backdrop-blur-lg lg:bg-transparent z-10 w-full drop-shadow-lg">
       <input v-model="searchTerm" placeholder="Filter by search" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none max-w-sm">
       <template v-if="feedView !== 'mints'">
-        <select v-model="filterOption" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <select v-model="filterOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
           <option value="all">Show All</option>
           <option value="watchlist">Show Watchlist</option>
         </select>
       </template>
-      <select v-model="feedView" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
+      <select v-model="feedView" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="sales">Latest Sales</option>
         <option value="listings">Latest Listings</option>
         <option value="mints">Latest Mints</option>

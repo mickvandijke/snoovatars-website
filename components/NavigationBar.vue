@@ -22,7 +22,7 @@
           <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>
         </div>
         <div>
-          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
+          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
             <template v-for="currency in CURRENCIES">
               <option :value="currency.ticker">{{ currency.ticker }}</option>
             </template>

@@ -3,14 +3,14 @@
     <StatsTabs class="hidden md:block" />
     <div class="px-2 py-2 sticky top-[56px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-800/90 backdrop-blur-lg lg:bg-transparent z-10 w-full overflow-x-hidden drop-shadow-lg">
       <input v-model="searchTerm" placeholder="Filter by search" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none max-w-sm">
-      <select v-model="filterGenOption" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
+      <select v-model="filterGenOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="all">Gen: All</option>
         <option value="gen1">Gen 1</option>
         <option value="gen2">Gen 2</option>
         <option value="gen3">Gen 3</option>
         <option value="wsb">WSB</option>
       </select>
-      <select v-model="sortOption" class="p-2 rounded-md border border-neutral-600 bg-neutral-700 text-sm focus:outline-none max-w-sm">
+      <select v-model="sortOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="highestPrice">Sort by Highest Price</option>
         <option value="lowestPrice">Sort by Lowest Price</option>
         <option value="highestLastSale">Sort by Highest Last Sale</option>
