@@ -5,6 +5,9 @@
       <select v-model="valuationMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
+        <option value="weeklyAvg">Value by 7 Days Average Sale Price</option>
+        <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
+        <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
       </select>
       <select v-model="groupMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="group">Group by Series</option>
@@ -215,14 +218,7 @@ function getWalletValue(wallet: string): number {
     }
 
     for (let [seriesName, seriesTokens] of Object.entries(walletTokens)) {
-      switch (valuationMethod.value) {
-        case "floor":
-          value += (getSeriesStats(seriesName)?.stats.lowest_listing?.payment_token.base_price * seriesTokens.length);
-          break;
-        case "lastSale":
-          value += (getSeriesStats(seriesName)?.stats.last_sale?.payment_token.base_price * seriesTokens.length);
-          break;
-      }
+      value += getSeriesValue(seriesName) * seriesTokens.length;
     }
   }
 
@@ -238,6 +234,15 @@ function getSeriesValue(series: string): number {
       break;
     case "lastSale":
       price = getSeriesStats(series)?.stats.last_sale?.payment_token.base_price;
+      break;
+    case "weeklyAvg":
+      price = getSeriesStats(series)?.stats.weekly_average_price * 1000000000000000000;
+      break;
+    case "twoWeeklyAvg":
+      price = getSeriesStats(series)?.stats.two_weekly_average_price * 1000000000000000000;
+      break;
+    case "monthlyAvg":
+      price = getSeriesStats(series)?.stats.monthly_average_price * 1000000000000000000;
       break;
   }
 
