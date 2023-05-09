@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="bg-neutral-800 text-sm py-4 rounded-lg md:rounded-none">
-        <div class="container mx-auto text-center">
+        <div class="px-3 mx-auto text-center">
           <p>&copy; 2023 RCAX.io. This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</p>
         </div>
       </div>
