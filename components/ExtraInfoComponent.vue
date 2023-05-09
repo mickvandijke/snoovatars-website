@@ -206,8 +206,8 @@ const salesSortDirection = ref('desc');
 const salesCurrentPage = ref(1);
 
 const listings: Ref<Array<Listing>> = ref([]);
-const listingsSortColumn = ref('date_listed');
-const listingsSortDirection = ref('desc');
+const listingsSortColumn = ref('price');
+const listingsSortDirection = ref('asc');
 const listingsCurrentPage = ref(1);
 
 const props = defineProps({
@@ -265,6 +265,8 @@ function sortSales(column: string) {
     salesSortColumn.value = column;
     salesSortDirection.value = 'asc';
   }
+
+  salesCurrentPage.value = 1;
 }
 
 const slicedListings = computed(() => {
@@ -303,6 +305,8 @@ function sortListings(column: string) {
     listingsSortColumn.value = column;
     listingsSortDirection.value = 'asc';
   }
+
+  listingsCurrentPage.value = 1;
 }
 
 
