@@ -43,6 +43,7 @@ const props = defineProps({
 const selectedFilter = ref<string>('last-14d');
 
 const options = {
+  spanGaps: true,
   plugins: {
     legend: false,
     tooltip: {
@@ -176,7 +177,7 @@ function getData() {
     });
 
     if (salesOnDay.length === 0) {
-      return 0;
+      return null;
     }
 
     const totalSalePrice = salesOnDay.reduce((total, sale) => {
