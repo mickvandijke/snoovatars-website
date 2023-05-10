@@ -51,8 +51,8 @@
                 <div class="text-neutral-200">{{ (item.stats.last_sale?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
               </div>
               <span class="text-neutral-300">({{ ethereumInLocalCurrency(item.stats.last_sale?.payment_token.base_price) }})</span>
-              <span class="text-neutral-500">#{{ item.stats.last_sale.token.mint_number }}</span>
-              <div class="text-neutral-400" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale?.date_sold)) }}</div>
+              <span class="text-neutral-400">#{{ item.stats.last_sale.token.mint_number }}</span>
+              <div class="text-neutral-500" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale?.date_sold)) }}</div>
             </div>
           </template>
           <div class="ml-auto flex items-center">

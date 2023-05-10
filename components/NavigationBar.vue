@@ -1,14 +1,14 @@
 <template>
   <div
-      class="flex flex-col sticky md:relative top-0 bg-neutral-900/90 md:bg-neutral-800/50 border-b border-neutral-800 md:border-none z-40 w-full"
+      class="flex flex-col sticky md:relative top-0 bg-neutral-900/90 lg:bg-neutral-800/50 border-b border-neutral-800 lg:border-none z-40 w-full"
       style="backdrop-filter: blur(20px);"
       @mouseleave="closeDropdowns()"
   >
-    <nav class="container py-3 px-4 md:py-5 mx-auto md:flex md:justify-between md:items-center">
-      <div class="flex flex-row items-center gap-4 md:gap-6">
+    <nav class="container py-3 px-4 lg:py-5 mx-auto lg:flex lg:justify-between lg:items-center">
+      <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
-              class="text-2xl font-bold text-white md:text-3xl duration-500"
+              class="text-2xl font-bold text-white lg:text-3xl duration-500"
               to="/home"
           >
             RCA<span class="italic text-amber-500">X</span>.io
@@ -22,14 +22,14 @@
           <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>
         </div>
         <div>
-          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md border-transparent lg:border-neutral-700 bg-neutral-800 text-sm focus:outline-none max-w-sm">
             <template v-for="currency in CURRENCIES">
               <option :value="currency.ticker">{{ currency.ticker }}</option>
             </template>
           </select>
         </div>
         <!-- Mobile menu button -->
-        <div @click="toggleNav" class="flex md:hidden">
+        <div @click="toggleNav" class="flex lg:hidden">
           <button
               type="button"
               class="
@@ -50,11 +50,11 @@
 
       <ul
           :class="showMenu ? 'flex' : 'hidden'"
-          class="flex-col mt-8 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-3 md:mt-0"
+          class="flex-col mt-8 text-neutral-400 space-y-4 lg:flex lg:space-y-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
       >
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer" to="/stats">Dashboard</NuxtLink>
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer" to="/avatar/exporter">Avatar Exporter</NuxtLink>
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 text-neutral-400 font-semibold rounded-2xl duration-200 cursor-pointer" to="/alerts">Price Alerts</NuxtLink>
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-2xl duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-2xl duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-2xl duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
         <template v-if="token && user?.username">
           <div
               @mouseover="userDropDown = true"
@@ -78,7 +78,7 @@
                 leave-to-class="transform opacity-0 scale-95"
             >
               <template v-if="userDropDown">
-                <div class="absolute left-0 md:left-auto md:right-0 top-10 z-10 mt-2 w-56 bg-neutral-800 rounded-2xl shadow">
+                <div class="absolute left-0 lg:left-auto lg:right-0 top-10 z-10 mt-2 w-56 bg-neutral-800 rounded-2xl shadow">
                   <ul class="p-3 font-semibold capitalize">
                     <template v-if="user?.tier < 1">
                       <NuxtLink
@@ -89,8 +89,8 @@
                         Upgrade to premium
                       </NuxtLink>
                     </template>
-                    <li class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-neutral-400 rounded-2xl duration-200">
-                      <a @click="logout()" class="inline-flex items-center">
+                    <li @click="logout()" class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-neutral-400 rounded-2xl duration-200">
+                      <a class="inline-flex items-center">
                         <span class="flex flex-nowrap whitespace-nowrap">Sign out</span>
                       </a>
                     </li>
