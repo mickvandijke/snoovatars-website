@@ -156,7 +156,7 @@ const walletAddresses = useWalletAddresses();
 
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
-const valuationMethod = ref<string>("lastSale");
+const valuationMethod = ref<string>("floor");
 const groupMethod = ref<string>("group");
 const loading = ref(false);
 const isRefreshing = ref(false);
@@ -227,22 +227,23 @@ function getWalletValue(wallet: string): number {
 
 function getSeriesValue(series: string): number {
   let price = 0;
+  let stats = getSeriesStats(series)?.stats;
 
   switch (valuationMethod.value) {
     case "floor":
-      price = getSeriesStats(series)?.stats.lowest_listing?.payment_token.base_price;
+      price = stats?.lowest_listing?.payment_token.base_price;
       break;
     case "lastSale":
-      price = getSeriesStats(series)?.stats.last_sale?.payment_token.base_price;
+      price = stats?.last_sale?.payment_token.base_price;
       break;
     case "weeklyAvg":
-      price = getSeriesStats(series)?.stats.weekly_average_price * 1000000000000000000;
+      price = ((stats?.weekly_average_price ?? stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price;
       break;
     case "twoWeeklyAvg":
-      price = getSeriesStats(series)?.stats.two_weekly_average_price * 1000000000000000000;
+      price = ((stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price;
       break;
     case "monthlyAvg":
-      price = getSeriesStats(series)?.stats.monthly_average_price * 1000000000000000000;
+      price = (stats.monthly_average_price  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price;
       break;
   }
 
