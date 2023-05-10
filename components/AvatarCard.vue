@@ -12,7 +12,7 @@
             <OpenseaIcon />
           </div>
         </a>
-        <div class="px-2 py-1.5 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden" style="width: 81%">
+        <div class="px-2 py-1.5 bg-neutral-800/75 flex flex-col rounded-lg gap-1 overflow-hidden" style="width: 81%">
           <div class="h-full flex flex-col justify-between">
             <slot></slot>
           </div>

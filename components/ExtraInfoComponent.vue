@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 py-3 flex flex-col gap-2 bg-neutral-800 rounded-lg">
+  <div class="px-4 py-3 flex flex-col gap-2 bg-neutral-800/75 rounded-lg">
     <div class="flex flex-col gap-2">
       <div class="flex justify-between items-center">
         <h1 class="text-xs text-neutral-200 font-bold">Advanced Details:</h1>

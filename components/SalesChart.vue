@@ -162,18 +162,10 @@ function getData() {
     ],
   };
 
-  sales.forEach((sale) => {
-    if (sale.payment_token.symbol === "ETH") {
-      const date = new Date(sale.date_sold);
-      const day = date.getDay();
-      data.datasets[0].data[day] += sale.payment_token.base_price / 1000000000000000000;
-    }
-  });
-
   data.datasets[0].data = data.datasets[0].data.map((totalPrice, index) => {
     const salesOnDay = sales.filter((sale) => {
       const date = new Date(sale.date_sold);
-      return date.toLocaleDateString() === labels[0][index];
+      return sale.payment_token.symbol === "ETH" && date.toLocaleDateString() === labels[0][index];
     });
 
     if (salesOnDay.length === 0) {
