@@ -14,7 +14,7 @@
               target="_blank"
               to="https://commerce.coinbase.com/checkout/c83f3cd4-adcf-4d3e-9349-3c1892f94472"
               class="mt-6 inline-flex p-4 bg-blue-700 hover:bg-blue-600 font-semibold text-white rounded-2xl duration-200"
-          >Pay with Coinbase Commerce</NuxtLink>
+          >Pay with Crypto</NuxtLink>
         </div>
         <div class="mt-12 flex flex-col w-full">
           <h3 class="font-semibold text-neutral-400">Step 2. Redeem your PREMIUM upgrade by filling in your order code.</h3>
