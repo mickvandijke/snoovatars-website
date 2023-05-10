@@ -28,7 +28,7 @@
             <a :href="`https://opensea.io/${item.seller}`" target="_blank" class="text-neutral-200">{{ item.seller.slice(2, 6) }}..{{ item.seller.slice(item.seller.length - 4, item.seller.length) }}</a>
           </div>
         </div>
-        <div class="flex items-center gap-1 font-bold text-[0.8rem] lg:text-[0.9rem] 2xl:text-[1.1rem] overflow-hidden">
+        <div class="flex items-center gap-1 font-bold text-[0.8rem] lg:text-[0.9rem] overflow-hidden">
           <div class="flex items-center rounded-md gap-0.5">
             <template v-if="item.payment_token.symbol === 'ETH'">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
