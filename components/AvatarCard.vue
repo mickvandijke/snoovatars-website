@@ -1,8 +1,8 @@
 <template>
-  <div class="relative grid grid-cols-5 gap-1 overflow-hidden" style="min-height: 90px">
-    <template v-if="seriesStats">
-      <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative rounded-lg overflow-hidden max-h-full md:h-fit">
-        <img v-lazy-pix="getTokenImage(item.image)" src="/img/rcax_placeholder.png" :alt="item.name">
+  <div class="relative flex flex-col gap-1 overflow-hidden">
+    <div class="flex gap-1" style="height: 90px">
+      <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative flex items-center rounded-lg overflow-hidden" style="width: 19%">
+        <img :src="getTokenImage(item.image)" :alt="item.name">
         <template v-if="seriesStats">
           <div class="absolute top-1 left-1 px-1 border-amber-400 py-0.25 bg-amber-500 text-black text-[0.65rem] font-bold rounded">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</div>
           <div class="absolute bottom-0 w-full px-1 py-0.25 text-white text-[0.65rem] text-center font-bold bg-opacity-90" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">${{ seriesStats.series.mint_price / 100.00 }}</div>
@@ -11,7 +11,7 @@
           <OpenseaIcon />
         </div>
       </a>
-      <div class="col-span-4 px-2 py-1.5 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden md:h-fit">
+      <div class="px-2 py-1.5 bg-neutral-800 flex flex-col rounded-lg gap-1 overflow-hidden" style="width: 81%">
         <div class="h-full flex flex-col justify-between">
           <slot></slot>
         </div>
@@ -44,9 +44,9 @@
           </template>
         </div>
       </div>
-      <template v-if="showExtraInfo">
-        <ExtraInfoComponent class="col-span-5" :series-stats="seriesStats" :contract="item.contract_address" :series="item.name" />
-      </template>
+    </div>
+    <template v-if="showExtraInfo">
+      <ExtraInfoComponent class="h-full" :series-stats="seriesStats" :contract="item.contract_address" :series="item.name" />
     </template>
   </div>
 </template>
@@ -71,7 +71,7 @@ const props = defineProps({
   },
   seriesStats: {
     type: Object as PropType<SeriesStats>,
-    required: false
+    required: true
   },
   hideFloor: {
     type: Boolean,
