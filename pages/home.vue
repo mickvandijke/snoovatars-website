@@ -118,7 +118,7 @@
                 <strong class="text-amber-500">Premium</strong>
               </p>
               <h3 class="text-2xl mb-6">
-                <strong>€ 10</strong>
+                <strong>€ 20</strong>
                 <small class="text-neutral-400"> / lifetime</small>
               </h3>
               <NuxtLink

@@ -6,7 +6,7 @@
       </template>
       <template v-else-if="user.tier === 0">
         <h1 class="text-2xl font-semibold text-white">Upgrade to a lifetime of PREMIUM!</h1>
-        <p class="mt-6 text-white text-center">With snoovatars PREMIUM, you will enjoy all the premium features on our platform. This includes higher limits for price alerts and all the premium features we will release in the future. THANK YOU for supporting us!</p>
+        <p class="mt-6 text-white text-center">With PREMIUM, you will enjoy all the premium features on our platform. This includes higher limits for price alerts and all the premium features we will release in the future. THANK YOU for supporting us!</p>
         <p class="mt-6 font-semibold text-amber-600 text-center">20% of all PREMIUM sales will be donated to the r/AvatarTrading community wallet.</p>
         <div class="mt-12 w-full">
           <h3 class="font-semibold text-neutral-400">Step 1. Buy a PREMIUM upgrade using Coinbase Commerce. Make sure to save your order code! The order code looks like "AAAAAAAA".</h3>
