@@ -1,6 +1,6 @@
 <template>
   <div class="px-4 py-12 flex flex-col items-center w-full max-w-sm">
-    <input class="input" placeholder='Reddit username. Example: "WarmBiertje".' v-model="user" @keyup.enter.prevent="searchUser">
+    <input type="search" class="input" placeholder='Reddit username. Example: "WarmBiertje".' v-model="user" @keyup.enter.prevent="searchUser">
     <button :disabled="!user" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 disabled:bg-amber-900 text-white font-semibold rounded-2xl duration-200" @click="searchUser">Let's go!</button>
     <div class="w-72 h-96 mt-6 ">
       <img

@@ -8,16 +8,16 @@
       </div>
       <h2 v-else class="px-4 py-2 bg-red-600/10 text-red-500 font-semibold rounded-3xl">Could not load avatar!</h2>
     </div>
-    <div class="flex flex-col md:flex-row gap-6">
+    <div class="flex flex-col md:flex-row gap-6 w-full">
       <div class="flex flex-col items-center md:w-2/3 gap-3">
         <div class="px-3 flex md:items-start w-full">
           <input v-model="searchTerm" placeholder="Filter backgrounds" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full max-w-sm">
         </div>
-        <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[38rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3">
+        <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[38rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3 w-full h-full">
           <template v-for="(background, index) in filteredAvatarBackgrounds()">
-            <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 border-2 border-transparent rounded-xl hover:bg-neutral-700 drop-shadow duration-200" :class="{ 'border-amber-500': selectedBackgroundIndex() === index }">
+            <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 text-neutral-200 rounded-xl hover:bg-neutral-700 drop-shadow duration-200">
               <img v-lazy-pix="background.path" src="/img/rcax_placeholder.png" :alt="background.name">
-              <div class="mt-2 text-neutral-200 text-xs text-center font-semibold">{{ background.name }}</div>
+              <div class="mt-2 text-xs text-center font-semibold">{{ background.name }}</div>
             </div>
           </template>
         </div>

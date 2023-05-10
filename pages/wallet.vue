@@ -288,7 +288,14 @@ function sortedWalletTokens(walletTokens: WalletTokens): WalletTokens {
 }
 
 function sortedTokens(tokens: Array<Token>): Array<Token> {
-  return tokens.sort((a, b) => ((getSeriesValue(a.name)) - getSeriesValue(b.name)));
+  return tokens.sort((a, b) => {
+    const seriesValueComparison = getSeriesValue(a.name) - getSeriesValue(b.name);
+    if (seriesValueComparison !== 0) {
+      return seriesValueComparison;
+    } else {
+      return a.mint_number - b.mint_number;
+    }
+  });
 }
 
 function removeWallet(wallet: string) {

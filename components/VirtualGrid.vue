@@ -33,7 +33,7 @@ const buffer = computed(() => {
     return 24;
   }
 
-  return 60;
+  return 90;
 });
 
 const container = ref<HTMLInputElement | null>(null);
