@@ -5,7 +5,7 @@
         <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative flex items-center rounded-lg overflow-hidden" style="width: 19%">
           <img :src="getTokenImage(item.image)" :alt="item.name">
           <template v-if="seriesStats">
-            <div class="absolute top-1 left-1 px-1 border-amber-400 py-0.25 bg-amber-500 text-black text-[0.65rem] font-bold rounded">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</div>
+            <div class="absolute top-1 left-1 px-1 border-amber-400 py-0.25 text-black text-[0.65rem] font-bold rounded" :class="getMintBackgroundClass(seriesStats.series.total_quantity)">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</div>
             <div class="absolute bottom-0 w-full px-1 py-0.25 text-white text-[0.65rem] text-center font-bold bg-opacity-90" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">${{ seriesStats.series.mint_price / 100.00 }}</div>
           </template>
           <div class="absolute top-1 right-1 w-4 h-4 rounded-full">
@@ -94,6 +94,16 @@ function getTokenImage(url: string): string {
   }
 
   return url;
+}
+
+function getMintBackgroundClass(totalQuantity: number) {
+  if (totalQuantity <= 250) {
+    return "bg-yellow-500";
+  } else if (totalQuantity <= 777) {
+    return "bg-gray-300";
+  } else {
+    return "bg-amber-700";
+  }
 }
 </script>
 
