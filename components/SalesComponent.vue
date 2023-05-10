@@ -38,7 +38,7 @@
             </template>
             <div class="text-white">{{ (item.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
             <template v-if="item.payment_token.symbol === 'ETH'">
-              <div class="text-amber-500">({{ ethereumInLocalCurrency(item.payment_token.base_price) }})</div>
+              <div class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>)</div>
             </template>
           </div>
           <div class="text-neutral-400" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.date_sold)) }} ago</div>

@@ -40,7 +40,7 @@
           <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
             <div class="text-neutral-200 font-bold">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-            <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getTotalWorth()) }})</div>
+            <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth()) }}</span>)</div>
           </div>
         </div>
       </div>
@@ -83,7 +83,7 @@
                       <div class="px-2 flex items-center text-xs md:text-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                         <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                        <div class="ml-1 text-amber-500"> ({{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }})</div>
+                        <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }}</span>)</div>
                       </div>
                     </div>
                     <div class="flex items-center justify-center text-amber-500 text-sm">
@@ -92,7 +92,7 @@
                     <div class="ml-auto col-span-3 md:col-span-5 flex items-center text-[0.8rem] md:text-sm md:pr-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                       <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                      <div class="ml-1 text-amber-500"> ({{ ethereumInLocalCurrency(getSeriesValue(seriesName) * seriesTokens.length) }})</div>
+                      <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName) * seriesTokens.length) }}</span>)</div>
                     </div>
                   </div>
                 </template>
@@ -110,7 +110,7 @@
                       <div class="px-2 flex items-center text-xs md:text-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                         <div class="text-neutral-200 font-bold">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                        <div class="ml-1 text-amber-500"> ({{ ethereumInLocalCurrency(getSeriesValue(token.name)) }})</div>
+                        <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
                       </div>
                     </div>
                     <div class="flex items-center justify-center text-amber-500 text-sm">
@@ -119,7 +119,7 @@
                     <div class="ml-auto col-span-3 md:col-span-5 flex items-center text-[0.8rem] md:text-sm md:pr-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                       <div class="text-neutral-200 font-bold">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                      <div class="ml-1 text-amber-500"> ({{ ethereumInLocalCurrency(getSeriesValue(token.name)) }})</div>
+                      <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
                     </div>
                   </div>
                 </template>
