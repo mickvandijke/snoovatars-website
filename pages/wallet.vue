@@ -87,13 +87,13 @@
                         <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }}</span>)</div>
                       </div>
                     </div>
-                    <div class="flex items-center justify-center text-amber-500 text-sm">
-                      <span>{{ seriesTokens.length }}</span>
-                    </div>
-                    <div class="ml-auto col-span-3 md:col-span-5 flex items-center text-[0.8rem] md:text-sm md:pr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                      <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName) * seriesTokens.length) }}</span>)</div>
+                    <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-center text-[0.8rem] md:text-sm md:pr-2">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                        <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                        <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName) * seriesTokens.length) }}</span>)</div>
+                      </div>
+                      <span class="w-full text-orange-500 text-right">{{ seriesTokens.length }}</span>
                     </div>
                   </div>
                 </template>
@@ -114,13 +114,13 @@
                         <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
                       </div>
                     </div>
-                    <div class="flex items-center justify-center text-amber-500 text-sm">
-                      <span>#{{ token.mint_number }}</span>
-                    </div>
-                    <div class="ml-auto col-span-3 md:col-span-5 flex items-center text-[0.8rem] md:text-sm md:pr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                      <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
+                    <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-center text-[0.8rem] md:text-sm md:pr-2">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                        <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                        <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
+                      </div>
+                      <span class="w-full text-orange-500 text-right">#{{ token.mint_number }}</span>
                     </div>
                   </div>
                 </template>
