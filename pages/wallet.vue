@@ -36,18 +36,18 @@
         </div>
       </div>
       <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
-        <div class="flex gap-1">
-          <span class="text-white font-medium">Total Worth: </span>
+        <div class="flex gap-1 font-bold">
+          <span class="text-white">Total Worth: </span>
           <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-            <div class="text-neutral-200 font-bold">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+            <div class="text-neutral-200">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
             <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth()) }}</span>)</div>
           </div>
         </div>
       </div>
       <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
-        <div class="flex gap-1">
-          <span class="text-white font-medium">Total items:</span>
+        <div class="flex gap-1 font-bold">
+          <span class="text-white">Total items:</span>
           <span class="text-amber-500">{{ getTotalItems() }}</span>
         </div>
       </div>
@@ -73,17 +73,17 @@
             <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-neutral-700 w-full">
               <template v-if="groupMethod === 'group'">
                 <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
-                  <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border border-neutral-700/50 rounded-lg">
+                  <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full md:border border-neutral-700/50 rounded-lg font-bold">
                     <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                       <a :href="`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`" target="_blank">
                         <img :src="getSeriesStats(seriesName)?.series.image" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                       </a>
                     </div>
                     <div class="col-span-3 md:col-span-5 flex flex-col justify-center">
-                      <span class="px-2 text-sm text-white font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(seriesName)?.series.name }}</span>
+                      <span class="px-2 text-sm text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(seriesName)?.series.name }}</span>
                       <div class="px-2 flex items-center text-xs md:text-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                        <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
                         <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }}</span>)</div>
                       </div>
                     </div>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="ml-auto col-span-3 md:col-span-5 flex items-center text-[0.8rem] md:text-sm md:pr-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="text-neutral-200 font-bold">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                      <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
                       <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName) * seriesTokens.length) }}</span>)</div>
                     </div>
                   </div>
@@ -100,17 +100,17 @@
               </template>
               <template v-else>
                 <template v-for="token in sortedTokens(flattenObject(walletTokens))">
-                  <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border border-neutral-700/50 rounded-lg">
+                  <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full md:border border-neutral-700/50 rounded-lg font-bold">
                     <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                       <a :href="`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`" target="_blank">
                         <img :src="getSeriesStats(token.name)?.series.image" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                       </a>
                     </div>
                     <div class="col-span-3 md:col-span-5 flex flex-col justify-center">
-                      <span class="px-2 text-sm text-white font-bold" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.name)?.series.name }}</span>
+                      <span class="px-2 text-sm text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.name)?.series.name }}</span>
                       <div class="px-2 flex items-center text-xs md:text-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-neutral-200 font-bold">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                        <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
                         <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
                       </div>
                     </div>
@@ -119,7 +119,7 @@
                     </div>
                     <div class="ml-auto col-span-3 md:col-span-5 flex items-center text-[0.8rem] md:text-sm md:pr-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="text-neutral-200 font-bold">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                      <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
                       <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
                     </div>
                   </div>

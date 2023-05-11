@@ -3,3 +3,4 @@ snoovatars-website.iml
 .nuxt
 /node_modules/
 /.env
+/.output/
