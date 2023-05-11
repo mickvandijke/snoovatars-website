@@ -19,6 +19,7 @@
     "ethers": "5.5.3",
     "hash-wasm": "^4.9.0",
     "lazy-pix": "^1.0.0",
+    "nuxt-cloudflare-analytics": "^1.0.8",
     "siwe": "1.0.0",
     "vue-chartjs": "^5.2.0",
     "vue-gtag-next": "^1.14.0",
