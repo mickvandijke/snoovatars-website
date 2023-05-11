@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-        <div class="flex gap-2 font-medium text-[0.8rem] lg:text-[0.85rem] items-center">
+        <div class="flex gap-2 font-medium text-[0.8rem] lg:text-[0.8rem] items-center">
           <template v-if="item.stats.lowest_listing">
             <div class="flex flex-col">
               <div class="flex items-center gap-0.5">
@@ -90,7 +90,7 @@
             </template>
             <template v-else-if="sorting === 'fiveLastSales'">
               <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">5 LS Avg:</div>
+                <div class="text-neutral-400">5 Avg:</div>
                 <div class="flex gap-0.5 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="text-neutral-200">{{ item.stats.five_last_sales_average.toFixed(2) }}</div>
