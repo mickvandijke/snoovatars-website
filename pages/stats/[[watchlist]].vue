@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
-    <div class="px-2 py-2 sticky top-[70px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-900/90 backdrop-blur-lg lg:bg-transparent z-10 w-full overflow-x-hidden drop-shadow-lg lg:shadow-none">
+    <div class="px-2 py-2 sticky top-[74px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-900/90 backdrop-blur-lg lg:bg-transparent z-10 w-full overflow-x-hidden drop-shadow-lg lg:shadow-none">
       <input v-model="searchTerm" placeholder="Filter by search" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none max-w-sm">
       <select v-model="filterGenOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="all">Gen: All</option>
@@ -17,24 +17,26 @@
         <option value="lowestLastSale">Sort by Lowest Last Sale</option>
         <option value="highestMarketCap">Sort by Highest Market Cap</option>
         <option value="lowestMarketCap">Sort by Lowest Market Cap</option>
-        <option value="highestVolume">Sort by Highest Volume</option>
-        <option value="lowestVolume">Sort by Lowest Volume</option>
+        <option value="highestDailyVolume">Sort by Highest Daily Volume</option>
+        <option value="highestVolume">Sort by Highest Total Volume</option>
+        <option value="lowestVolume">Sort by Lowest Total Volume</option>
         <option value="highestDailyChange">Sort by Today's Biggest Risers</option>
         <option value="lowestDailyChange">Sort by Today's Biggest Fallers</option>
         <option value="recentSale">Sort by Most Recent Sale</option>
-        <option value="highestWeeklyAverage">Sort by Highest 7 Days Average Price</option>
-        <option value="highestTwoWeeklyAverage">Sort by Highest 14 Days Average Price</option>
-        <option value="highestMonthlyAverage">Sort by Highest 30 Days Average Price</option>
-        <option value="lowestWeeklyAverage">Sort by Lowest 7 Days Average Price</option>
-        <option value="lowestTwoWeeklyAverage">Sort by Lowest 14 Days Average Price</option>
-        <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Price</option>
+        <option value="fiveLastSales">Sort by Highest 5 Last Sales Average</option>
+        <option value="highestWeeklyAverage">Sort by Highest 7 Days Average Sale</option>
+        <option value="highestTwoWeeklyAverage">Sort by Highest 14 Days Average Sale</option>
+        <option value="highestMonthlyAverage">Sort by Highest 30 Days Average Sale</option>
+        <option value="lowestWeeklyAverage">Sort by Lowest 7 Days Average Sale</option>
+        <option value="lowestTwoWeeklyAverage">Sort by Lowest 14 Days Average Sale</option>
+        <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Sale</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
       </select>
       <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
         <ArrowPathIcon class="w-5 h-5" />
       </button>
     </div>
-    <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" />
+    <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" :sorting="sortOption" />
   </div>
 </template>
 
@@ -211,6 +213,20 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
         }
       });
       break;
+    case "highestDailyVolume":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aVolume = a.stats.daily_volume;
+        const bVolume = b.stats.daily_volume;
+
+        if (aVolume > bVolume) {
+          return -1;
+        } else if (aVolume < bVolume) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
     case "highestVolume":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
         const aVolume = a.stats.total_volume;
@@ -275,6 +291,20 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
         if (aBaseDate > bBaseDate) {
           return -1;
         } else if (aBaseDate < bBaseDate) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "fiveLastSales":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aBasePrice = a.stats.five_last_sales_average;
+        const bBasePrice = b.stats.five_last_sales_average;
+
+        if (aBasePrice > bBasePrice) {
+          return -1;
+        } else if (aBasePrice < bBasePrice) {
           return 1;
         } else {
           return 0;

@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-        <div class="flex gap-2 font-medium text-[0.8rem] lg:text-[0.9rem] items-center">
+        <div class="flex gap-2 font-medium text-[0.8rem] lg:text-[0.85rem] items-center">
           <template v-if="item.stats.lowest_listing">
             <div class="flex flex-col">
               <div class="flex items-center gap-0.5">
@@ -75,18 +75,75 @@
                 </div>
               </div>
             </div>
-            <div class="ml-auto flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
+          </template>
+          <template v-else>
+            <span class="text-amber-500">No floor data.</span>
+          </template>
+          <div class="ml-auto flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden whitespace-nowrap">
+            <template v-if="sorting === 'lowestFloorMintRatio'">
               <div class="flex items-center gap-1 font-bold overflow-hidden">
                 <div class="text-neutral-400">Flo/Mint:</div>
                 <div class="flex items-center">
                   <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
                 </div>
               </div>
-            </div>
-          </template>
-          <template v-else>
-            <span class="text-amber-500">No floor data.</span>
-          </template>
+            </template>
+            <template v-else-if="sorting === 'fiveLastSales'">
+              <div class="flex items-center gap-1 font-bold overflow-hidden">
+                <div class="text-neutral-400">5 LS Avg:</div>
+                <div class="flex gap-0.5 items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-neutral-200">{{ item.stats.five_last_sales_average.toFixed(2) }}</div>
+                </div>
+              </div>
+            </template>
+            <template v-else-if="sorting === 'highestVolume' || sorting === 'lowestVolume'">
+              <div class="flex items-center gap-1 font-bold overflow-hidden">
+                <div class="text-neutral-400">Vol:</div>
+                <div class="flex gap-0.5 items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-neutral-200">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
+                </div>
+              </div>
+            </template>
+            <template v-else-if="sorting === 'highestMarketCap' || sorting === 'lowestMarketCap'">
+              <div class="flex items-center gap-1 font-bold overflow-hidden">
+                <div class="text-neutral-400">MC:</div>
+                <div class="pl-0.5 flex gap-0.5 items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-neutral-200">{{ (item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(2) }}</div>
+                  <div class="text-neutral-200">({{ ethereumInLocalCurrency(item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price, true) }})</div>
+                </div>
+              </div>
+            </template>
+            <template v-else-if="sorting === 'lowestTwoWeeklyAverage' || sorting === 'highestTwoWeeklyAverage'">
+              <div class="flex items-center gap-1 font-bold overflow-hidden">
+                <div class="text-neutral-400">14D Avg:</div>
+                <div class="flex gap-0.5 items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-neutral-200">{{ (item.stats.two_weekly_average_price ?? 0).toFixed(2) }}</div>
+                </div>
+              </div>
+            </template>
+            <template v-else-if="sorting === 'lowestMonthlyAverage' || sorting === 'highestMonthlyAverage'">
+              <div class="flex items-center gap-1 font-bold overflow-hidden">
+                <div class="text-neutral-400">30D Avg:</div>
+                <div class="flex gap-0.5 items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-neutral-200">{{ (item.stats.monthly_average_price ?? 0).toFixed(2) }}</div>
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <div class="flex items-center gap-1 font-bold overflow-hidden">
+                <div class="text-neutral-400">24h Vol:</div>
+                <div class="flex gap-0.5 items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-neutral-200">{{ item.stats.daily_volume.toFixed(2) }}</div>
+                </div>
+              </div>
+            </template>
+          </div>
         </div>
       </AvatarCard>
     </template>
@@ -105,7 +162,8 @@ const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
 
 const props = defineProps({
-  items: Array as PropType<SeriesStats[]>
+  items: Array as PropType<SeriesStats[]>,
+  sorting: String
 });
 </script>
 

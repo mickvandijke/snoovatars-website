@@ -5,7 +5,7 @@
       @mouseleave="closeDropdowns()"
   >
     <div class="px-4 py-1 bg-neutral-800 text-xs md:text-sm overflow-hidden">
-      <div class="flex whitespace-nowrap items-center md:justify-center gap-2 overflow-x-auto scrollbar-hide">
+      <div class="flex whitespace-nowrap items-center sm:justify-center gap-2 overflow-x-auto scrollbar-hide">
         <div class="flex items-center gap-0.5">
           <span class="text-neutral-400 font-bold">24hr Vol:</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -28,7 +28,7 @@
         </a>
       </div>
     </div>
-    <nav class="container py-2 px-4 lg:py-3 mx-auto lg:flex lg:justify-between lg:items-center">
+    <nav class="py-2 px-4 lg:py-3 lg:flex lg:justify-between lg:items-center">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
