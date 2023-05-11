@@ -74,6 +74,8 @@ export function setPreferredCurrency(currency: string) {
     usePreferredCurrency().value = currency;
 
     localStorage.setItem("preferredCurrency", currency);
+
+    updateEthereumPrices();
 }
 
 export function loadPreferredCurrency() {
@@ -89,10 +91,10 @@ export async function updateEthereumPrices() {
         useEthereumUsdPrice().value = value;
     });
 
-    CURRENCIES.forEach((currency) => {
-        fetchCurrentEthereumPriceInCurrency(currency.ticker).then((value) => {
-            useEthereumPriceMap().value.set(currency.ticker, value);
-        });
+    let ticker = usePreferredCurrency().value;
+
+    fetchCurrentEthereumPriceInCurrency(ticker).then((value) => {
+        useEthereumPriceMap().value.set(ticker, value);
     });
 }
 
