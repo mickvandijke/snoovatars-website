@@ -9,6 +9,7 @@ import {fetchSeriesStats} from "~/composables/api/seriesStats";
 import {fetchCurrentEthereumPriceInCurrency} from "~/composables/api/ethereum";
 import {fetchSeries} from "~/composables/api/series";
 import {ExtraInfoOptions} from "~/types/extra_info";
+import {CURRENCIES} from "~/types/currency";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
@@ -20,8 +21,7 @@ export const useAlertList = () => useState<AlertList>('alert-list', () => new Ma
 export const useUser = () => useState<User>('user', () => null);
 export const useToken = () => useState<string>('token', () => null);
 export const useEthereumUsdPrice = () => useState<number>('ethereum-usd', () => 0);
-export const useEthereumEurPrice = () => useState<number>('ethereum-eur', () => 0);
-export const useEthereumGbpPrice = () => useState<number>('ethereum-gbp', () => 0);
+export const useEthereumPriceMap = () => useState<Map<string, number>>('ethereum-price-map', () => new Map());
 export const usePreferredCurrency = () => useState<string>('preferred-currency', () => "USD");
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
@@ -89,12 +89,10 @@ export async function updateEthereumPrices() {
         useEthereumUsdPrice().value = value;
     });
 
-    fetchCurrentEthereumPriceInCurrency("EUR").then((value) => {
-        useEthereumEurPrice().value = value;
-    });
-
-    fetchCurrentEthereumPriceInCurrency("GBP").then((value) => {
-        useEthereumGbpPrice().value = value;
+    CURRENCIES.forEach((currency) => {
+        fetchCurrentEthereumPriceInCurrency(currency.ticker).then((value) => {
+            useEthereumPriceMap().value.set(currency.ticker, value);
+        });
     });
 }
 

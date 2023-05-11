@@ -56,10 +56,10 @@ import {
 } from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
-import * as amplitude from '@amplitude/analytics-browser';
 
 useHead({
   title: 'RCA Floor Prices - RCAX.io',
+  link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
   meta: [
     { name: "title", content: "RCAX" },
     { name: 'description', content: 'Real-time data tracking and price alerts for the Reddit Collectible Avatars space!' },
@@ -69,8 +69,6 @@ useHead({
     { name: "language", content: "English" }
   ]
 });
-
-amplitude.init('29c98e31f025b6d6a70bfcba0e1767d4', undefined, { defaultTracking: { sessions: true, pageViews: true, formInteractions: true, fileDownloads: true }});
 
 const token = useToken();
 const user = useUser();

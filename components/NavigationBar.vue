@@ -4,7 +4,7 @@
       style="backdrop-filter: blur(20px);"
       @mouseleave="closeDropdowns()"
   >
-    <nav class="container py-3 px-4 lg:py-5 mx-auto lg:flex lg:justify-between lg:items-center">
+    <nav class="container py-2 px-4 lg:py-5 mx-auto lg:flex lg:justify-between lg:items-center">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
@@ -13,9 +13,9 @@
           >
             RCA<span class="italic text-amber-500">X</span>.io
           </NuxtLink>
-          <a href="https://www.youtube.com/watch?v=xDeQVaoTvJM" class="ml-2 relative rounded overflow-hidden w-10">
-            <UkrainianFlagIcon class="w-full h-full object-cover" />
-          </a>
+<!--          <a href="https://www.youtube.com/watch?v=xDeQVaoTvJM" class="ml-2 relative rounded overflow-hidden w-10">-->
+<!--            <UkrainianFlagIcon class="w-full h-full object-cover" />-->
+<!--          </a>-->
         </div>
         <div class="ml-auto flex items-center flex-nowrap gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-amber-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -105,26 +105,28 @@
         </template>
       </ul>
     </nav>
-    <div class="p-1 bg-neutral-800 flex items-center justify-center text-xs md:text-sm gap-2">
-      <div class="flex items-center gap-0.5">
-        <span class="text-neutral-400 font-bold">24hr Vol:</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-        <div class="flex gap-1 font-bold text-white">
-          <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
-          <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * 1000000000000000000) }}</span>)</span>
+    <div class="px-4 py-0.5 md:py-1 bg-neutral-800 text-xs md:text-sm overflow-hidden">
+      <div class="flex whitespace-nowrap items-center md:justify-center gap-2 overflow-x-auto scrollbar-hide">
+        <div class="flex items-center gap-0.5">
+          <span class="text-neutral-400 font-bold">24hr Vol:</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+          <div class="flex gap-1 font-bold text-white">
+            <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
+            <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * 1000000000000000000) }}</span>)</span>
+          </div>
         </div>
-      </div>
-      <div class="flex items-center gap-0.5">
-        <span class="text-neutral-400 font-bold">Market Cap:</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-        <div class="flex gap-1 font-bold text-white">
-          <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
-          <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * 1000000000000000000) }}</span>)</span>
+        <div class="flex items-center gap-0.5">
+          <span class="text-neutral-400 font-bold">Market Cap:</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+          <div class="flex gap-1 font-bold text-white">
+            <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
+            <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * 1000000000000000000) }}</span>)</span>
+          </div>
         </div>
-      </div>
-      <div class="hidden sm:flex items-center gap-0.5">
-        <span class="text-neutral-400 font-bold">BitCone:</span>
-        <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
+        <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" class="flex items-center gap-0.5">
+          <span class="text-yellow-500 font-bold">BitCone:</span>
+          <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
+        </a>
       </div>
     </div>
   </div>
@@ -133,7 +135,16 @@
 <script setup lang="ts">
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
-import {ref, useEthereumEurPrice, useEthereumGbpPrice, useEthereumUsdPrice, useToken, useUser, watch} from "#imports";
+import {
+  ref,
+  useEthereumEurPrice,
+  useEthereumGbpPrice,
+  useEthereumPriceMap,
+  useEthereumUsdPrice,
+  useToken,
+  useUser,
+  watch
+} from "#imports";
 import {deleteToken} from "~/composables/api/user";
 import {CURRENCIES} from "~/types/currency";
 import {setPreferredCurrency, usePreferredCurrency} from "~/composables/states";
@@ -179,33 +190,49 @@ function closeDropdowns() {
 }
 
 function coneInLocalCurrency(eth: number): string {
-  let price = 0;
-  let symbol = "";
-  let abb = "";
   let localeString = ""
+  const currency = usePreferredCurrency().value;
 
-  switch (usePreferredCurrency().value) {
+  let price = eth * (useEthereumPriceMap().value.get(currency) ?? 0);
+
+  switch (currency) {
+    case "AUD":
+    case "CNY":
+    case "INR":
+    case "CAD":
     case "USD":
-      price = eth * useEthereumUsdPrice().value;
-      symbol = "$";
       localeString = "en-US";
       break;
-    case "EUR":
-      price = eth * useEthereumEurPrice().value;
-      symbol = "€";
+    default:
       localeString = "nl-NL";
-      break;
-    case "GBP":
-      price = eth * useEthereumGbpPrice().value;
-      symbol = "£";
-      localeString = "en-GB";
       break;
   }
 
-  return `${symbol}${price.toLocaleString(localeString, { minimumFractionDigits: 10 })}${abb}`;
+  const currencyFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+  });
+
+  let symbol = currencyFormatter.formatToParts(0)[0].value;
+
+  return `${symbol}${price.toLocaleString(localeString, { minimumFractionDigits: 10 })}`;
 }
 </script>
 
 <style scoped>
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.right-box
+{
+  box-shadow: inset -70px 0 90px -70px rgba(38,38,38,0.9);
+}
 </style>
