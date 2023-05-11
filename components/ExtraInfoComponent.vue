@@ -29,6 +29,14 @@
             </div>
           </div>
           <div class="flex items-center">
+            <div class="text-neutral-400">24h Volume:</div>
+            <div class="pl-0.5 flex gap-0.5 items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <div class="text-neutral-200">{{ (seriesStats.stats.daily_volume).toFixed(2) }}</div>
+              <div class="text-neutral-200">({{ ethereumInLocalCurrency(seriesStats.stats.daily_volume * 1000000000000000000, true) }})</div>
+            </div>
+          </div>
+          <div class="flex items-center">
             <div class="text-neutral-400">Total Volume:</div>
             <div class="pl-0.5 flex gap-0.5 items-center">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -46,6 +54,14 @@
               </div>
             </div>
           </template>
+          <div class="flex items-center">
+            <div class="text-neutral-400">5 Last Sales Avg:</div>
+            <div class="pl-0.5 flex gap-0.5 items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <div class="text-neutral-200">{{ (seriesStats.stats.five_last_sales_average).toFixed(4) }}</div>
+              <div class="text-neutral-200">({{ ethereumInLocalCurrency(seriesStats.stats.five_last_sales_average * 1000000000000000000) }})</div>
+            </div>
+          </div>
           <template v-if="seriesStats.stats.weekly_average_price">
             <div class="flex items-center">
               <div class="text-neutral-400">7D Avg Sale Price:</div>

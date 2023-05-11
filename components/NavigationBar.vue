@@ -28,7 +28,7 @@
         </a>
       </div>
     </div>
-    <nav class="container py-2 px-4 lg:py-5 mx-auto lg:flex lg:justify-between lg:items-center">
+    <nav class="container py-2 px-4 lg:py-3 mx-auto lg:flex lg:justify-between lg:items-center">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
@@ -76,14 +76,14 @@
           :class="showMenu ? 'flex' : 'hidden'"
           class="flex-col mt-8 text-neutral-400 space-y-4 lg:flex lg:space-y-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
       >
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-2xl duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-2xl duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-2xl duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
         <template v-if="token && user?.username">
           <div
               @mouseover="userDropDown = true"
               @click="userDropDown = !userDropDown"
-              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700/50 hover:bg-neutral-600/50 text-amber-500 font-semibold rounded-2xl duration-200 cursor-pointer">
+              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700/50 hover:bg-neutral-600/50 text-amber-500 font-semibold rounded-lg duration-200 cursor-pointer">
             <div>
               <button
                   class="flex flex-row flex-nowrap font-semibold"
@@ -102,18 +102,18 @@
                 leave-to-class="transform opacity-0 scale-95"
             >
               <template v-if="userDropDown">
-                <div class="absolute left-0 lg:left-auto lg:right-0 top-10 z-10 mt-2 w-56 bg-neutral-800 rounded-2xl shadow">
+                <div class="absolute left-0 lg:left-auto lg:right-0 top-10 z-10 mt-2 w-56 bg-neutral-800 rounded-lg shadow">
                   <ul class="p-3 font-semibold capitalize">
                     <template v-if="user?.tier < 1">
                       <NuxtLink
-                          class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-amber-500 rounded-2xl duration-200"
+                          class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-amber-500 rounded-lg duration-200"
                           replace
                           to="/upgrade"
                       >
                         Upgrade to premium
                       </NuxtLink>
                     </template>
-                    <li @click="logout()" class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-neutral-400 rounded-2xl duration-200">
+                    <li @click="logout()" class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-neutral-400 rounded-lg duration-200">
                       <a class="inline-flex items-center">
                         <span class="flex flex-nowrap whitespace-nowrap">Sign out</span>
                       </a>
@@ -125,7 +125,7 @@
           </div>
         </template>
         <template v-else>
-          <NuxtLink class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200 cursor-pointer" to="/login">Login</NuxtLink>
+          <NuxtLink class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-lg duration-200 cursor-pointer" to="/login">Login</NuxtLink>
         </template>
       </ul>
     </nav>

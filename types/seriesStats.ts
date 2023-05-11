@@ -27,6 +27,8 @@ export interface SeriesStats {
         weekly_average_price: number;
         two_weekly_average_price: number;
         monthly_average_price: number;
+        daily_volume: number;
+        five_last_sales_average: number;
     };
 }
 
