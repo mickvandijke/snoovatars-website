@@ -105,17 +105,43 @@
         </template>
       </ul>
     </nav>
+    <div class="p-1 bg-neutral-800 flex items-center justify-center text-xs md:text-sm gap-2">
+      <div class="flex items-center gap-0.5">
+        <span class="text-neutral-400 font-bold">24hr Vol:</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+        <div class="flex gap-1 font-bold text-white">
+          <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
+          <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * 1000000000000000000) }}</span>)</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-0.5">
+        <span class="text-neutral-400 font-bold">Market Cap:</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+        <div class="flex gap-1 font-bold text-white">
+          <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
+          <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * 1000000000000000000) }}</span>)</span>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center gap-0.5">
+        <span class="text-neutral-400 font-bold">BitCone:</span>
+        <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
-import {ref, useEthereumUsdPrice, useToken, useUser, watch} from "#imports";
+import {ref, useEthereumEurPrice, useEthereumGbpPrice, useEthereumUsdPrice, useToken, useUser, watch} from "#imports";
 import {deleteToken} from "~/composables/api/user";
 import {CURRENCIES} from "~/types/currency";
 import {setPreferredCurrency, usePreferredCurrency} from "~/composables/states";
 import {ethereumInLocalCurrency} from "#imports";
+import {onMounted} from "vue";
+import {fetchInfoMarket} from "~/composables/api/info";
+import {fetchBitconePrice} from "~/composables/api/bitcone";
+import {abbreviateNumber} from "~/global/utils";
 
 const user = useUser();
 const token = useToken();
@@ -123,10 +149,24 @@ const token = useToken();
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
 const preferredCurrency: Ref<string> = ref(usePreferredCurrency().value);
+const dailyVol = ref(0);
+const mCap = ref(0);
+const cone = ref(0);
 
 watch([preferredCurrency], () => {
   setPreferredCurrency(preferredCurrency.value);
 })
+
+onMounted(() => {
+  fetchInfoMarket().then(([vol, mc]) => {
+    dailyVol.value = vol;
+    mCap.value = mc;
+  });
+
+  fetchBitconePrice().then((price) => {
+    cone.value = Number(price);
+  });
+});
 
 const toggleNav = () => (showMenu.value = !showMenu.value);
 
@@ -136,6 +176,33 @@ function logout() {
 
 function closeDropdowns() {
   userDropDown.value = false;
+}
+
+function coneInLocalCurrency(eth: number): string {
+  let price = 0;
+  let symbol = "";
+  let abb = "";
+  let localeString = ""
+
+  switch (usePreferredCurrency().value) {
+    case "USD":
+      price = eth * useEthereumUsdPrice().value;
+      symbol = "$";
+      localeString = "en-US";
+      break;
+    case "EUR":
+      price = eth * useEthereumEurPrice().value;
+      symbol = "€";
+      localeString = "nl-NL";
+      break;
+    case "GBP":
+      price = eth * useEthereumGbpPrice().value;
+      symbol = "£";
+      localeString = "en-GB";
+      break;
+  }
+
+  return `${symbol}${price.toLocaleString(localeString, { minimumFractionDigits: 10 })}${abb}`;
 }
 </script>
 
