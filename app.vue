@@ -58,7 +58,7 @@ import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 
 useHead({
-  title: 'RCA Floor Prices - RCAX.io',
+  title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
   link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
   meta: [
     { name: "title", content: "RCAX" },
