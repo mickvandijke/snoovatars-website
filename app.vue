@@ -56,6 +56,7 @@ import {
 } from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
+import * as amplitude from '@amplitude/analytics-browser';
 
 useHead({
   title: 'RCA Floor Prices - RCAX.io',
@@ -67,7 +68,9 @@ useHead({
     { 'http-equiv': "content-type", content: "text/html; charset=utf-8" },
     { name: "language", content: "English" }
   ]
-})
+});
+
+amplitude.init('29c98e31f025b6d6a70bfcba0e1767d4', undefined, { defaultTracking: { sessions: true, pageViews: true, formInteractions: true, fileDownloads: true }});
 
 const token = useToken();
 const user = useUser();
