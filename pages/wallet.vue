@@ -5,6 +5,7 @@
       <select v-model="valuationMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
+        <option value="fiveLastSales">Value by 5 Last Sales Average</option>
         <option value="weeklyAvg">Value by 7 Days Average Sale Price</option>
         <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
         <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
@@ -235,6 +236,9 @@ function getSeriesValue(series: string): number {
       break;
     case "lastSale":
       price = stats?.last_sale?.payment_token.base_price;
+      break;
+    case "fiveLastSales":
+      price = stats?.five_last_sales_average * 1000000000000000000;
       break;
     case "weeklyAvg":
       price = ((stats?.weekly_average_price ?? stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price;
