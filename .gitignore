@@ -4,3 +4,4 @@ snoovatars-website.iml
 /node_modules/
 /.env
 /.output/
+/dist/
