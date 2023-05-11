@@ -222,7 +222,7 @@ const salesSortDirection = ref('desc');
 const salesCurrentPage = ref(1);
 
 const listings: Ref<Array<Listing>> = ref([]);
-const listingsSortColumn = ref('price');
+const listingsSortColumn = ref('payment_token.base_price');
 const listingsSortDirection = ref('asc');
 const listingsCurrentPage = ref(1);
 
