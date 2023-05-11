@@ -4,6 +4,30 @@
       style="backdrop-filter: blur(20px);"
       @mouseleave="closeDropdowns()"
   >
+    <div class="px-4 py-1 bg-neutral-800 text-xs md:text-sm overflow-hidden">
+      <div class="flex whitespace-nowrap items-center md:justify-center gap-2 overflow-x-auto scrollbar-hide">
+        <div class="flex items-center gap-0.5">
+          <span class="text-neutral-400 font-bold">24hr Vol:</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+          <div class="flex gap-1 font-bold text-white">
+            <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
+            <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * 1000000000000000000) }}</span>)</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-0.5">
+          <span class="text-neutral-400 font-bold">Market Cap:</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+          <div class="flex gap-1 font-bold text-white">
+            <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
+            <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * 1000000000000000000) }}</span>)</span>
+          </div>
+        </div>
+        <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank" class="flex items-center gap-0.5">
+          <span class="text-orange-400 font-bold">BitCone:</span>
+          <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
+        </a>
+      </div>
+    </div>
     <nav class="container py-2 px-4 lg:py-5 mx-auto lg:flex lg:justify-between lg:items-center">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
@@ -105,30 +129,6 @@
         </template>
       </ul>
     </nav>
-    <div class="px-4 py-0.5 md:py-1 bg-neutral-800 text-xs md:text-sm overflow-hidden">
-      <div class="flex whitespace-nowrap items-center md:justify-center gap-2 overflow-x-auto scrollbar-hide">
-        <div class="flex items-center gap-0.5">
-          <span class="text-neutral-400 font-bold">24hr Vol:</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <div class="flex gap-1 font-bold text-white">
-            <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
-            <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * 1000000000000000000) }}</span>)</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-0.5">
-          <span class="text-neutral-400 font-bold">Market Cap:</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <div class="flex gap-1 font-bold text-white">
-            <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
-            <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * 1000000000000000000) }}</span>)</span>
-          </div>
-        </div>
-        <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank" class="flex items-center gap-0.5">
-          <span class="text-orange-400 font-bold">BitCone:</span>
-          <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
-        </a>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -137,10 +137,7 @@ import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
 import {
   ref,
-  useEthereumEurPrice,
-  useEthereumGbpPrice,
   useEthereumPriceMap,
-  useEthereumUsdPrice,
   useToken,
   useUser,
   watch
@@ -152,7 +149,6 @@ import {ethereumInLocalCurrency} from "#imports";
 import {onMounted} from "vue";
 import {fetchInfoMarket} from "~/composables/api/info";
 import {fetchBitconePrice} from "~/composables/api/bitcone";
-import {abbreviateNumber} from "~/global/utils";
 
 const user = useUser();
 const token = useToken();

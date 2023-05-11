@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
-    <div class="px-2 py-2 sticky top-[69px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-900/90 backdrop-blur-lg lg:bg-transparent z-10 w-full overflow-x-hidden drop-shadow-lg lg:shadow-none">
+    <div class="px-2 py-2 sticky top-[70px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-900/90 backdrop-blur-lg lg:bg-transparent z-10 w-full overflow-x-hidden drop-shadow-lg lg:shadow-none">
       <select v-model="valuationMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
