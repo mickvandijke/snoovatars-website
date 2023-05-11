@@ -18,5 +18,6 @@ export const CURRENCIES: Array<Currency> = [
     { name: "Turkish Lira", ticker: "TRY" },
     { name: "Saudi Arabian Riyal", ticker: "SAR" },
     { name: "Malaysian Ringgit", ticker: "MYR" },
-    { name: "Philippine Peso", ticker: "PHP" }
+    { name: "Philippine Peso", ticker: "PHP" },
+    { name: "South Korean Won", ticker: "KRW" }
 ];
