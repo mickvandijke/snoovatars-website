@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import {updateSeriesStats, useSeriesStats, useWatchList} from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
-import {ref, watch} from "#imports";
+import {ref, useRoute, useRouter, watch} from "#imports";
 import {fetchSalesLatest} from "~/composables/api/sales";
 import SalesComponent from "~/components/SalesComponent.vue";
 import {Ref} from "@vue/reactivity";
@@ -46,18 +46,26 @@ import {Listing} from "~/types/listing";
 import {fetchListingsLatest} from "~/composables/api/listings";
 
 const watchList = useWatchList();
+const router = useRouter();
+const route = useRoute();
 
 const salesLatest: Ref<Array<Sale>> = ref([]);
 const listingsLatest: Ref<Array<Listing>> = ref([]);
 const mintsLatest: Ref<Array<Mint>> = ref([]);
 const searchTerm = ref<string>("");
 const filterOption = ref<string>("all");
-const feedView = ref<string>("sales");
+const feedView = ref<string>(route.query.feed as string ?? "sales");
 const isRefreshing = ref(false);
 
 refresh();
 
 watch([feedView], () => {
+  router.push({
+    query: {
+      feed: feedView.value
+    },
+  });
+
   refresh();
 })
 
