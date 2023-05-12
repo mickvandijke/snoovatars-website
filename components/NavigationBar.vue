@@ -5,8 +5,8 @@
       @mouseleave="closeDropdowns()"
   >
     <div class="px-4 py-1 bg-neutral-800 text-xs md:text-sm overflow-hidden">
-      <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide" ref="scrollable" @mouseover="stopScroll" @mouseleave="startScroll" @touchstart="stopScroll" @touchend="startScroll">
-        <div class="inline-flex gap-2" ref="content">
+      <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
+        <div class="inline-flex gap-2">
           <div class="flex items-center gap-0.5">
             <span class="text-neutral-400 font-bold">24hr Vol:</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -167,8 +167,6 @@ watch([preferredCurrency], () => {
 })
 
 onMounted(() => {
-  startScroll();
-
   fetchInfoMarket().then(([vol, mc]) => {
     dailyVol.value = vol;
     mCap.value = mc;
@@ -178,38 +176,6 @@ onMounted(() => {
     cone.value = Number(price);
   });
 });
-
-const scrollable = ref(null);
-const content = ref(null);
-let interval = null;
-
-const waitForSeconds = (seconds: number): Promise<void> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, seconds * 1000)
-  })
-}
-
-const startScroll = () => {
-  interval = setInterval(async () => {
-    const scrollLeft = scrollable.value.scrollLeft;
-    const maxScrollLeft = content.value.offsetWidth - scrollable.value.offsetWidth;
-    if (scrollLeft >= maxScrollLeft) {
-      stopScroll();
-      await waitForSeconds(2);
-      scrollable.value.scrollLeft = 0;
-      await waitForSeconds(2);
-      startScroll();
-    } else {
-      scrollable.value.scrollLeft += 1; // adjust the scroll speed as needed
-    }
-  }, 50);
-}
-
-const stopScroll = () => {
-  clearInterval(interval);
-}
 
 const toggleNav = () => (showMenu.value = !showMenu.value);
 
