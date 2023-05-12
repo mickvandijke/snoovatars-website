@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="flex items-center">
-            <div class="text-neutral-400">Total Minted (DELAYED):</div>
+            <div class="text-neutral-400">Total Minted:</div>
             <div class="pl-0.5 flex gap-0.5 items-center">
               <div class="text-neutral-200">{{ seriesStats.series.total_sold }}</div>
             </div>
