@@ -1,15 +1,8 @@
 <template>
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
-    <div class="px-2 py-2 sticky top-[73px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-900/90 backdrop-blur-lg lg:bg-transparent z-10 w-full overflow-x-hidden drop-shadow-lg lg:shadow-none">
+    <MenuBar>
       <input v-model="searchTerm" placeholder="Filter by search" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none max-w-sm">
-      <select v-model="filterGenOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
-        <option value="all">Gen: All</option>
-        <option value="gen1">Gen 1</option>
-        <option value="gen2">Gen 2</option>
-        <option value="gen3">Gen 3</option>
-        <option value="wsb">WSB</option>
-      </select>
       <select v-model="sortOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="highestPrice">Sort by Highest Price</option>
         <option value="lowestPrice">Sort by Lowest Price</option>
@@ -32,10 +25,39 @@
         <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Sale</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
       </select>
+      <div
+          @click.self="showFilters = !showFilters"
+          class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700 hover:bg-neutral-600 text-white rounded-md duration-200 cursor-pointer">
+        <button @click.prevent="showFilters = !showFilters" class="flex flex-row flex-nowrap" :class="{ 'text-amber-500': usingFilter() }">
+          <AdjustmentsHorizontalIcon class="w-5 h-5" />
+        </button>
+        <template v-if="showFilters">
+          <div class="absolute right-0 top-full mt-2 z-10 w-fit max-w-lg bg-neutral-800 border border-neutral-700 rounded-md shadow">
+            <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
+              <select v-model="filterGenOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+                <option value="all">Gen: All</option>
+                <option value="gen1">Gen 1</option>
+                <option value="gen2">Gen 2</option>
+                <option value="gen3">Gen 3</option>
+                <option value="wsb">WSB</option>
+              </select>
+              <select v-model="filterRarityOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+                <option value="all">Supply: All</option>
+                <option value="250">Supply: Max 250</option>
+                <option value="777">Supply: Max 777</option>
+                <option value="1000">Supply: Max 1000</option>
+              </select>
+              <template v-if="usingFilter()">
+                <button @click="clearFilters()" class="p-2 bg-amber-500/20 text-amber-500 text-sm rounded-md">Clear All</button>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
       <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
         <ArrowPathIcon class="w-5 h-5" />
       </button>
-    </div>
+    </MenuBar>
     <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" :sorting="sortOption" />
   </div>
 </template>
@@ -45,7 +67,8 @@ import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats, useWatchList} fr
 import {SeriesStats} from "~/types/seriesStats";
 import {ref, useRoute, useRouter} from "#imports";
 import {watch} from "vue";
-import {ArrowPathIcon} from "@heroicons/vue/24/solid";
+import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
+import MenuBar from "~/components/MenuBar.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -55,19 +78,31 @@ const ethereumPriceInUsd = useEthereumUsdPrice();
 
 const searchTerm = ref<string>("");
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
+const filterRarityOption = ref<string>(route.query.supply as string ?? "all");
 const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
 const isRefreshing = ref(false);
+const showFilters = ref(false);
 
 updateSeriesStats();
 
-watch([filterGenOption, sortOption], () => {
+watch([filterGenOption, filterRarityOption, sortOption], () => {
   router.push({
     query: {
       gen: filterGenOption.value,
+      supply: filterRarityOption.value,
       sort: sortOption.value
     },
   });
 })
+
+function usingFilter(): boolean {
+  return filterGenOption.value !== "all" || filterRarityOption.value !== "all";
+}
+
+function clearFilters() {
+  filterGenOption.value = "all";
+  filterRarityOption.value = "all";
+}
 
 function refresh() {
   isRefreshing.value = true;
@@ -100,6 +135,18 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "wsb":
       filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Memetic Traders"));
+      break;
+  }
+
+  switch (filterRarityOption.value) {
+    case "250":
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_quantity <= 250);
+      break;
+    case "777":
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_quantity <= 777);
+      break;
+    case "1000":
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_quantity <= 1000);
       break;
   }
 

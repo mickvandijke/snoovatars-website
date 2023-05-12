@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
-    <div class="px-2 py-2 sticky top-[73px] md:top-0 lg:relative flex justify-center gap-2 bg-neutral-900/90 backdrop-blur-lg lg:bg-transparent z-10 w-full overflow-x-hidden drop-shadow-lg lg:shadow-none">
+    <MenuBar>
       <select v-model="valuationMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
@@ -17,8 +17,8 @@
       <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
         <ArrowPathIcon class="w-5 h-5" />
       </button>
-    </div>
-    <div class="mt-2 px-2 md:px-4 flex flex-col gap-2 w-full overflow-hidden">
+    </MenuBar>
+    <div class="p-2 lg:p-4 flex flex-col gap-2 w-full overflow-hidden">
       <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
         <div class="flex flex-nowrap gap-1 w-full">
           <input v-model="walletAddress" placeholder="Wallet address: 0x.." class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full">
