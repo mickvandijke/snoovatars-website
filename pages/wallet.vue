@@ -18,7 +18,7 @@
         <ArrowPathIcon class="w-5 h-5" />
       </button>
     </MenuBar>
-    <div class="p-2 lg:p-4 flex flex-col gap-2 w-full overflow-hidden">
+    <div class="px-2 py-1 lg:p-4 flex flex-col gap-2 w-full overflow-hidden">
       <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
         <div class="flex flex-nowrap gap-1 w-full">
           <input v-model="walletAddress" placeholder="Wallet address: 0x.." class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full">
