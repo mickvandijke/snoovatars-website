@@ -5,7 +5,7 @@
       @mouseleave="closeDropdowns()"
   >
     <div class="px-4 py-1 bg-neutral-800 text-xs md:text-sm overflow-hidden">
-      <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide" ref="scrollable" @mouseover="stopScroll" @mouseleave="startScroll">
+      <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide" ref="scrollable" @mouseover="stopScroll" @mouseleave="startScroll" @touchstart="stopScroll" @touchend="startScroll">
         <div class="inline-flex gap-2" ref="content">
           <div class="flex items-center gap-0.5">
             <span class="text-neutral-400 font-bold">24hr Vol:</span>
