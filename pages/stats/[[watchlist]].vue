@@ -34,14 +34,14 @@
         <template v-if="showFilters">
           <div class="absolute right-0 top-full mt-2 z-10 w-fit max-w-lg bg-neutral-800 border border-neutral-700 rounded-md shadow">
             <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
-              <select v-model="filterGenOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+              <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
                 <option value="all">Gen: All</option>
                 <option value="gen1">Gen 1</option>
                 <option value="gen2">Gen 2</option>
                 <option value="gen3">Gen 3</option>
                 <option value="wsb">WSB</option>
               </select>
-              <select v-model="filterRarityOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+              <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
                 <option value="all">Supply: All</option>
                 <option value="250">Supply: Max 250</option>
                 <option value="777">Supply: Max 777</option>
