@@ -53,6 +53,12 @@
                 <div class="text-neutral-200">({{ ethereumInLocalCurrency(seriesStats.series.total_sold * seriesStats.stats.lowest_listing?.payment_token.base_price, true) }})</div>
               </div>
             </div>
+            <div class="flex items-center">
+              <div class="text-neutral-400">Floor / Mint Percentage:</div>
+              <div class="pl-0.5 flex gap-0.5 items-center">
+                <div class="text-neutral-200">{{ Math.round(((seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (seriesStats.series.mint_price / 100) * 100) }}%</div>
+              </div>
+            </div>
           </template>
           <div class="flex items-center">
             <div class="text-neutral-400">5 Last Sales Avg:</div>
@@ -203,7 +209,7 @@
 <script setup lang="ts">
 import {Ref} from "@vue/reactivity";
 import {Sale} from "~/types/sale";
-import {computed, onBeforeMount, ref, watch} from "#imports";
+import {computed, onBeforeMount, ref, useEthereumUsdPrice, watch} from "#imports";
 import {fetchSalesForSeries} from "~/composables/api/sales";
 import {ethereumInLocalCurrency} from "#imports";
 import {PropType} from "@vue/runtime-core";
@@ -212,6 +218,8 @@ import {fetchListingsForSeries} from "~/composables/api/listings";
 import {Listing} from "~/types/listing";
 import {ExtraInfoOptions} from "~/types/extra_info";
 import {useExtraInfoOptions, updateExtraInfoOptions} from "~/composables/states";
+
+const ethereumPriceInUsd = useEthereumUsdPrice();
 
 const pageSize = 5;
 const options: Ref<ExtraInfoOptions> = ref(JSON.parse(JSON.stringify(useExtraInfoOptions().value)));
