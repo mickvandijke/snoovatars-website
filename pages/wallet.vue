@@ -58,69 +58,74 @@
               <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="hidden md:block md:p-2 text-neutral-400 hover:text-white text-sm rounded-md duration-500">{{ walletAddress }}</a>
               <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="md:hidden md:p-2 text-neutral-400 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
             </div>
-            <div class="md:ml-auto md:p-2 flex items-center text-sm rounded-md">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="text-neutral-200 font-bold">{{ (getWalletValue(walletAddress) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-              <div class="ml-1 text-neutral-200"> ({{ ethereumInLocalCurrency(getWalletValue(walletAddress)) }})</div>
+            <div class="flex gap-2">
+              <button @click="removeWallet(walletAddress)" class="px-1 py-1 bg-neutral-700 disabled:bg-neutral-900 text-white font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
+                <TrashIcon class="w-5 h-5 text-neutral-400 group-hover:text-red-400 duration-200" />
+              </button>
             </div>
-            <div class="ml-auto md:ml-0 flex gap-2">
-              <button @click="removeWallet(walletAddress)" class="px-2 py-1 bg-neutral-600 hover:bg-neutral-500 disabled:bg-neutral-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer">
-                <TrashIcon class="w-5 h-5 text-neutral-300" />
+            <div class="ml-auto md:p-2 flex items-center text-sm rounded-md font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <div class="text-neutral-200">{{ (getWalletValue(walletAddress) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+              <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getWalletValue(walletAddress)) }}</span>)</div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button @click="toggleCollapse(walletAddress)" class="px-1 py-1 font-semibold text-sm flex items-center border border-transparent rounded-md duration-200 cursor-pointer">
+                <ChevronDownIcon class="w-5 h-5 text-neutral-400 group-hover:text-red-400 duration-200" :class="{ 'rotate-90': isCollapsed(walletAddress) }" />
               </button>
             </div>
           </div>
-          <template v-if="Object.entries(walletTokens).length > 0">
-            <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-neutral-700 w-full">
+          <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
+            <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-neutral-700 w-full">
               <template v-if="groupMethod === 'group'">
                 <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
-                  <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full md:border border-neutral-700/50 rounded-lg font-bold">
+                  <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                     <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                       <a :href="`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`" target="_blank">
                         <img :src="getSeriesStats(seriesName)?.series.image" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                       </a>
                     </div>
-                    <div class="col-span-3 md:col-span-5 flex flex-col justify-center">
-                      <span class="px-2 text-sm text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(seriesName)?.series.name }}</span>
-                      <div class="px-2 flex items-center text-xs md:text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                        <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }}</span>)</div>
-                      </div>
+                    <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">
+                      <span class="text-white whitespace-nowrap text-ellipsis overflow-hidden">{{getSeriesStats(seriesName)?.series.name }}</span>
+                      <span class="text-amber-500">{{ seriesTokens.length }}</span>
                     </div>
-                    <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-center text-[0.8rem] md:text-sm md:pr-2">
+                    <div class="col-span-3 md:col-span-5 flex flex-col items-end justify-center text-[0.8rem] md:text-sm md:mr-1">
                       <div class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                         <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
                         <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName) * seriesTokens.length) }}</span>)</div>
                       </div>
-                      <span class="w-full text-orange-500 text-right">{{ seriesTokens.length }}</span>
+                      <div class="flex items-center text-xs md:text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                        <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                        <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }}</span>)</div>
+                      </div>
                     </div>
                   </div>
                 </template>
               </template>
               <template v-else>
                 <template v-for="token in sortedTokens(flattenObject(walletTokens))">
-                  <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full md:border border-neutral-700/50 rounded-lg font-bold">
+                  <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                     <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                       <a :href="`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`" target="_blank">
                         <img :src="getSeriesStats(token.name)?.series.image" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                       </a>
                     </div>
-                    <div class="col-span-3 md:col-span-5 flex flex-col justify-center">
-                      <span class="px-2 text-sm text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.name)?.series.name }}</span>
-                      <div class="px-2 flex items-center text-xs md:text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                        <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
-                      </div>
+                    <div class="px-2 col-span-3 md:col-span-5 flex flex-col justify-center items-start text-sm">
+                      <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.name)?.series.name}}</span>
+                      <span class="text-amber-500">#{{ token.mint_number }}</span>
                     </div>
-                    <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-center text-[0.8rem] md:text-sm md:pr-2">
+                    <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-end justify-center text-[0.8rem] md:text-sm md:pr-2">
                       <div class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                        <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
+                        <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000 * (walletTokens[token.name]?.length ?? 1)).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                        <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name) * (walletTokens[token.name]?.length ?? 1)) }}</span>)</div>
                       </div>
-                      <span class="w-full text-orange-500 text-right">#{{ token.mint_number }}</span>
+                      <div class="flex items-center text-xs md:text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                        <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                        <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
+                      </div>
                     </div>
                   </div>
                 </template>
@@ -138,7 +143,6 @@ import {
   addToWalletAddresses,
   removeFromWalletAddresses,
   updateSeriesStats,
-  useEthereumUsdPrice,
   useSeriesStats,
   useWalletAddresses
 } from "~/composables/states";
@@ -149,7 +153,7 @@ import {WalletTokens} from "~/types/wallet";
 import {TrashIcon} from "@heroicons/vue/24/outline";
 import {ethereumInLocalCurrency} from "#imports";
 import {isValidEthereumAddress} from "~/global/utils";
-import {ArrowPathIcon} from "@heroicons/vue/24/solid";
+import {ArrowPathIcon, ChevronDownIcon} from "@heroicons/vue/24/solid";
 import {Token} from "~/types/token";
 
 const seriesStats = useSeriesStats();
@@ -161,6 +165,7 @@ const valuationMethod = ref<string>("floor");
 const groupMethod = ref<string>("group");
 const loading = ref(false);
 const isRefreshing = ref(false);
+const collapsedWallets: Ref<Set<string>> = ref(new Set<string>());
 
 await updateSeriesStats();
 
@@ -169,6 +174,18 @@ onMounted(() => {
     getWalletTokens(wallet);
   });
 });
+
+function toggleCollapse(walletAddress: string) {
+  if (collapsedWallets.value.has(walletAddress)) {
+    collapsedWallets.value.delete(walletAddress);
+  } else {
+    collapsedWallets.value.add(walletAddress);
+  }
+}
+
+function isCollapsed(walletAddress: string): boolean {
+  return collapsedWallets.value.has(walletAddress);
+}
 
 function refresh() {
   isRefreshing.value = true;
