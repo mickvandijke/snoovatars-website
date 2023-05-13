@@ -24,6 +24,7 @@
         <option value="lowestTwoWeeklyAverage">Sort by Lowest 14 Days Average Sale</option>
         <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Sale</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
+        <option value="lowestListedPercentage">Sort by Lowest Listed Percentage</option>
       </select>
       <div
           @click.self="showFilters = !showFilters"
@@ -432,6 +433,20 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
         const aBasePrice = a.stats.monthly_average_price ?? 0;
         const bBasePrice = b.stats.monthly_average_price ?? 0;
+
+        if (aBasePrice > bBasePrice) {
+          return 1;
+        } else if (aBasePrice < bBasePrice) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestListedPercentage":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aBasePrice = a.stats.listed_percentage;
+        const bBasePrice = b.stats.listed_percentage;
 
         if (aBasePrice > bBasePrice) {
           return 1;

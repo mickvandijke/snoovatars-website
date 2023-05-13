@@ -59,8 +59,8 @@
               <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="md:hidden md:p-2 text-neutral-400 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
             </div>
             <div class="flex gap-2">
-              <button @click="removeWallet(walletAddress)" class="px-1 py-1 bg-neutral-700 disabled:bg-neutral-900 text-white font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
-                <TrashIcon class="w-5 h-5 text-neutral-400 group-hover:text-red-400 duration-200" />
+              <button @click="removeWallet(walletAddress)" class="px-1 py-1 text-white font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
+                <XMarkIcon class="w-5 h-5 text-neutral-400 group-hover:text-red-400 duration-200" />
               </button>
             </div>
             <div class="ml-auto md:p-2 flex items-center text-sm rounded-md font-bold">
@@ -72,6 +72,32 @@
               <button @click="toggleCollapse(walletAddress)" class="px-1 py-1 font-semibold text-sm flex items-center border border-transparent rounded-md duration-200 cursor-pointer">
                 <ChevronDownIcon class="w-5 h-5 text-neutral-400 group-hover:text-red-400 duration-200" :class="{ 'rotate-90': isCollapsed(walletAddress) }" />
               </button>
+            </div>
+          </div>
+          <div class="p-2 md:p-4 gap-1 border-t border-neutral-700 w-full">
+            <div class="p-1 flex items-center justify-start w-full font-bold">
+              <div class="w-10 h-10 relative rounded-md overflow-hidden">
+                <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank">
+                  <img src="/img/bitcone.png">
+                </a>
+              </div>
+              <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
+                <a
+                    href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank"
+                    class="text-orange-400 whitespace-nowrap text-ellipsis overflow-hidden"
+                >BitCone (CONE)</a>
+                <span class="text-amber-500">{{ ((getCones(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
+              </div>
+              <div class="ml-auto flex flex-col items-end text-[0.8rem] md:text-sm">
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-neutral-200">{{ coneToEth((getCones(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                  <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(coneToEth((getCones(walletAddress) ?? 0))) }}</span>)</div>
+                </div>
+                <div class="flex items-center text-xs md:text-sm">
+                  <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ coneInLocalCurrency(cone) }}</span>)</div>
+                </div>
+              </div>
             </div>
           </div>
           <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
@@ -144,23 +170,26 @@ import {
   removeFromWalletAddresses,
   updateSeriesStats,
   useSeriesStats,
-  useWalletAddresses
+  useWalletAddresses,
+  useConeEthPrice
 } from "~/composables/states";
 import {onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
 import {fetchWalletTokens} from "~/composables/api/wallet";
 import {WalletTokens} from "~/types/wallet";
 import {TrashIcon} from "@heroicons/vue/24/outline";
-import {ethereumInLocalCurrency} from "#imports";
+import {ethereumInLocalCurrency, coneToEth, coneInLocalCurrency} from "#imports";
 import {isValidEthereumAddress} from "~/global/utils";
-import {ArrowPathIcon, ChevronDownIcon} from "@heroicons/vue/24/solid";
+import {ArrowPathIcon, ChevronDownIcon, XMarkIcon} from "@heroicons/vue/24/solid";
 import {Token} from "~/types/token";
 
 const seriesStats = useSeriesStats();
 const walletAddresses = useWalletAddresses();
+const cone = useConeEthPrice();
 
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
+const cones: Ref<Map<string, number>> = ref(new Map());
 const valuationMethod = ref<string>("floor");
 const groupMethod = ref<string>("group");
 const loading = ref(false);
@@ -208,8 +237,9 @@ async function getWalletTokens(wallet: string) {
 
   loading.value = true;
 
-  await fetchWalletTokens(wallet).then((walletTokens) => {
-    tokens.value.set(wallet, walletTokens);
+  await fetchWalletTokens(wallet).then((data) => {
+    tokens.value.set(wallet, data.tokens);
+    cones.value.set(wallet, data.cones);
 
     walletAddress.value = "";
 
@@ -217,6 +247,10 @@ async function getWalletTokens(wallet: string) {
   }).finally(() => {
     loading.value = false;
   })
+}
+
+function getCones(wallet: string) {
+  return cones.value.get(wallet);
 }
 
 function getSeriesStats(name: string) {

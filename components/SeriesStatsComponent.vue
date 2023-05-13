@@ -88,6 +88,14 @@
                 </div>
               </div>
             </template>
+            <template v-else-if="sorting === 'lowestListedPercentage'">
+              <div class="flex items-center gap-1 font-bold overflow-hidden">
+                <div class="text-neutral-400">Listed:</div>
+                <div class="flex items-center">
+                  <div class="text-neutral-200">{{ item.stats.listed_percentage.toFixed(2) }}%</div>
+                </div>
+              </div>
+            </template>
             <template v-else-if="sorting === 'fiveLastSales'">
               <div class="flex items-center gap-1 font-bold overflow-hidden">
                 <div class="text-neutral-400">5 Avg:</div>

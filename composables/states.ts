@@ -10,6 +10,7 @@ import {fetchCurrentEthereumPriceInCurrency} from "~/composables/api/ethereum";
 import {fetchSeries} from "~/composables/api/series";
 import {ExtraInfoOptions} from "~/types/extra_info";
 import {CURRENCIES} from "~/types/currency";
+import {fetchBitconePrice} from "~/composables/api/bitcone";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
@@ -22,10 +23,17 @@ export const useUser = () => useState<User>('user', () => null);
 export const useToken = () => useState<string>('token', () => null);
 export const useEthereumUsdPrice = () => useState<number>('ethereum-usd', () => 0);
 export const useEthereumPriceMap = () => useState<Map<string, number>>('ethereum-price-map', () => new Map());
+export const useConeEthPrice = () => useState<number>('cone-eth', () => 0);
 export const usePreferredCurrency = () => useState<string>('preferred-currency', () => "USD");
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
 export const useExtraInfoOptions = () => useState<ExtraInfoOptions>('extra-info-options', () => null);
+
+export function updateConeEthPrice() {
+    fetchBitconePrice().then((price) => {
+        useConeEthPrice().value = Number(price);
+    });
+}
 
 export function updateExtraInfoOptions(options: ExtraInfoOptions) {
     useExtraInfoOptions().value = options;

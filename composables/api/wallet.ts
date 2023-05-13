@@ -1,7 +1,7 @@
 import {useRuntimeConfig} from "#app";
-import {ApiResponse, WalletTokens} from "~/types/wallet";
+import {ApiResponse} from "~/types/wallet";
 
-export async function fetchWalletTokens(wallet_address: string): Promise<WalletTokens> {
+export async function fetchWalletTokens(wallet_address: string): Promise<ApiResponse> {
     const config = useRuntimeConfig();
     const BACKEND_ADDR = config.public.API_BASE_URL;
     const url = `${BACKEND_ADDR}/wallet/${wallet_address}`;
@@ -13,5 +13,5 @@ export async function fetchWalletTokens(wallet_address: string): Promise<WalletT
         return {};
     }
 
-    return data.tokens;
+    return data;
 }

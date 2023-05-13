@@ -29,6 +29,7 @@ export interface SeriesStats {
         monthly_average_price: number;
         daily_volume: number;
         five_last_sales_average: number;
+        listed_percentage: number;
     };
 }
 

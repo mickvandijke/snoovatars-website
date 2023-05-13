@@ -6,4 +6,5 @@ export interface WalletTokens {
 
 export interface ApiResponse {
     tokens: WalletTokens;
+    cones: number
 }
