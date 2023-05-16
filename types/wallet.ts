@@ -1,10 +1,11 @@
 import {Token} from "~/types/token";
+import {WalletAddress} from "~/types/user";
 
 export interface WalletTokens {
     [key: string]: Token[];
 }
 
 export interface ApiResponse {
-    tokens: WalletTokens;
-    cones: number
+    wallets: Record<WalletAddress, Record<string, Token[]>>;
+    cones: number;
 }

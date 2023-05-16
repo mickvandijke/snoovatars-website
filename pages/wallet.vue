@@ -19,9 +19,9 @@
       </button>
     </MenuBar>
     <div class="px-2 py-1 lg:p-4 flex flex-col gap-2 w-full overflow-hidden">
-      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
-        <div class="flex flex-nowrap gap-1 w-full">
-          <input v-model="walletAddress" placeholder="Wallet address: 0x.." class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full">
+      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center text-sm rounded-md">
+        <div class="flex flex-nowrap gap-2 w-full">
+          <input v-model="walletAddress" placeholder="Reddit username (without u/) or wallet address" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full">
           <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="p-2 flex items-center justify-center whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer loading">
             <template v-if="loading">
               <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -233,20 +233,21 @@ function refresh() {
 }
 
 async function getWalletTokens(wallet: string) {
-  addToWalletAddresses(wallet);
-
   loading.value = true;
 
   await fetchWalletTokens(wallet).then((data) => {
-    tokens.value.set(wallet, data.tokens);
-    cones.value.set(wallet, data.cones);
+    const wallets = Object.entries(data.wallets);
+    const [firstWalletAddress, firstWalletValue] = wallets[0];
+
+    addToWalletAddresses(firstWalletAddress);
+
+    tokens.value.set(firstWalletAddress, firstWalletValue);
+    cones.value.set(firstWalletAddress, data.cones);
 
     walletAddress.value = "";
+  });
 
-    loading.value = false;
-  }).finally(() => {
-    loading.value = false;
-  })
+  loading.value = false;
 }
 
 function getCones(wallet: string) {
@@ -258,7 +259,7 @@ function getSeriesStats(name: string) {
 }
 
 function lookupDisabled(): boolean {
-  return !walletAddress.value || !isValidEthereumAddress(walletAddress.value) || walletAddresses.value.has(walletAddress.value) || loading.value;
+  return !walletAddress.value || walletAddresses.value.has(walletAddress.value) || loading.value;
 }
 
 function getWalletValue(wallet: string): number {

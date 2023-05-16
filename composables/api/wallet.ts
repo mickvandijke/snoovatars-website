@@ -9,9 +9,5 @@ export async function fetchWalletTokens(wallet_address: string): Promise<ApiResp
     const response = await fetch(url);
     const data: ApiResponse = await response.json();
 
-    if (!data.tokens) {
-        return {};
-    }
-
     return data;
 }
