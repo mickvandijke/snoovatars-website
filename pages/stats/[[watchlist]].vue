@@ -30,6 +30,7 @@
         <option value="highestShopAvailablePercentage">Sort by Most Available in Shop (Percentage)</option>
         <option value="lowestShopAvailablePercentage">Sort by Least Available in Shop (Percentage)</option>
         <option value="lowestShopNextMint">Sort by Lowest Next Mint Number in Shop</option>
+        <option value="lowestShopAvailablePercentage">test</option>
       </select>
       <div
           @click.self="showFilters = !showFilters"
