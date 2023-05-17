@@ -96,7 +96,7 @@ const showFilters = ref(false);
 
 updateSeriesStats();
 
-watch([filterGenOption, filterRarityOption, sortOption], () => {
+watch([filterGenOption, filterRarityOption, sortOption, filterSoldOut], () => {
   router.push({
     query: {
       gen: filterGenOption.value,
