@@ -108,13 +108,13 @@ watch([filterGenOption, filterRarityOption, sortOption, filterSoldOut], () => {
 })
 
 function usingFilter(): boolean {
-  return filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "hide";
+  return filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show";
 }
 
 function clearFilters() {
   filterGenOption.value = "all";
   filterRarityOption.value = "all";
-  filterSoldOut.value = "hide";
+  filterSoldOut.value = "show";
 }
 
 function refresh() {
