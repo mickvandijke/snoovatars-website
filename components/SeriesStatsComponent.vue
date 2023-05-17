@@ -63,9 +63,9 @@
               </div>
             </template>
           </div>
-          <div class="flex items-center gap-1 font-bold text-[0.8rem] lg:text-[0.9rem] overflow-hidden">
+          <div class="flex items-center overflow-hidden">
             <div class="w-full bg-amber-900 rounded-full overflow-hidden">
-              <div class="bg-amber-600 text-xs font-medium text-amber-100 text-center p-0.5 leading-none rounded-full overflow-hidden" :style="{ 'width': `${Math.min(100, Math.round((item.series.total_sold / item.series.total_quantity) * 100 ))}%` }"> {{ Math.round((item.series.total_sold / item.series.total_quantity) * 100 ) }}%</div>
+              <div class="bg-amber-600 text-xs font-medium text-amber-100 text-center py-0.5 leading-none rounded-full overflow-hidden" :style="{ 'width': `${Math.min(100, Math.round((item.series.total_sold / item.series.total_quantity) * 100 ))}%` }"> {{ Math.round((item.series.total_sold / item.series.total_quantity) * 100 ) }}%</div>
             </div>
           </div>
         </template>
