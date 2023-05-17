@@ -1,7 +1,7 @@
 <template>
   <VirtualGrid :items="items">
     <template #default="{ item, index }">
-      <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" hide-floor>
+      <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" :hide-floor="!sortingOnShop">
         <div class="flex items-center gap-1 text-[0.7rem]">
           <h1 class="text-neutral-500 font-bold rounded-md">#{{ index + 1 }}</h1>
           <a :href="`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`" target="_blank" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.series.name }}</a>
@@ -38,16 +38,28 @@
             </template>
           </div>
         </div>
-        <template v-if="sorting === 'highestShopAvailableAbsolute' || sorting === 'lowestShopAvailableAbsolute' || sorting === 'highestShopAvailablePercentage' || sorting === 'lowestShopAvailablePercentage' || sorting === 'lowestShopNextMint'">
+        <template v-if="sortingOnShop">
           <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
-            <div class="text-neutral-400">Available:</div>
             <div class="flex items-center gap-0.5">
-              <span class="text-amber-500">{{ Math.max((item.series.total_quantity - item.series.total_sold), 0) }}</span>
+              <div class="text-neutral-400">Available:</div>
+              <div class="flex items-center gap-0.5">
+                <span class="text-amber-500">{{ Math.max((item.series.total_quantity - item.series.total_sold), 0) }}</span>
+              </div>
             </div>
             <template v-if="item.series.total_sold < item.series.total_quantity">
-              <div class="text-neutral-400">Next Mint:</div>
               <div class="flex items-center gap-0.5">
-                <span class="text-amber-500">#{{ item.series.total_quantity - (item.series.total_quantity - item.series.total_sold) + 1 }}</span>
+                <div class="text-neutral-400">Next Mint:</div>
+                <div class="flex items-center gap-0.5">
+                  <span class="text-amber-500">#{{ item.series.total_quantity - (item.series.total_quantity - item.series.total_sold) + 1 }}</span>
+                </div>
+              </div>
+            </template>
+            <template v-if="item.stats.lowest_listing">
+              <div class="flex items-center gap-0.5">
+                <div class="text-neutral-400">F/M:</div>
+                <div class="flex items-center">
+                  <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
+                </div>
               </div>
             </template>
           </div>
@@ -185,7 +197,7 @@ import {PropType} from "@vue/runtime-core";
 import {useWatchList, addToWatchList, removeFromWatchList, useEthereumUsdPrice} from "~/composables/states";
 import {StarIcon} from "@heroicons/vue/24/solid";
 import {ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
-import {ethereumInLocalCurrency} from "#imports";
+import {computed, ethereumInLocalCurrency} from "#imports";
 
 const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
@@ -193,6 +205,10 @@ const ethereumPriceInUsd = useEthereumUsdPrice();
 const props = defineProps({
   items: Array as PropType<SeriesStats[]>,
   sorting: String
+});
+
+const sortingOnShop = computed(() => {
+  return props.sorting === 'highestShopAvailableAbsolute' || props.sorting === 'lowestShopAvailableAbsolute' || props.sorting === 'highestShopAvailablePercentage' || props.sorting === 'lowestShopAvailablePercentage' || props.sorting === 'lowestShopNextMint';
 });
 </script>
 
