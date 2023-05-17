@@ -331,7 +331,7 @@ function getTotalItems(): number {
 function sortedWallets(): Map<string, WalletTokens> {
   const mapArray = Array.from(tokens.value.entries());
 
-  mapArray.sort((a, b) => getWalletValue(a[0]) - getWalletValue(b[0]));
+  mapArray.sort((a, b) => getWalletValue(b[0]) - getWalletValue(a[0]));
 
   return new Map(mapArray);
 }
@@ -339,7 +339,7 @@ function sortedWallets(): Map<string, WalletTokens> {
 function sortedWalletTokens(walletTokens: WalletTokens): WalletTokens {
   return Object.fromEntries(
       Object.entries(walletTokens)
-          .sort(([aSeriesName, aSeriesTokens], [bSeriesName, bSeriesTokens]) => ((getSeriesValue(aSeriesName) * aSeriesTokens.length) - getSeriesValue(bSeriesName) * bSeriesTokens.length))
+          .sort(([aSeriesName, aSeriesTokens], [bSeriesName, bSeriesTokens]) => ((getSeriesValue(bSeriesName) * bSeriesTokens.length) - getSeriesValue(aSeriesName) * aSeriesTokens.length))
   );
 }
 
