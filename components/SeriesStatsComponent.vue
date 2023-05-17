@@ -1,7 +1,7 @@
 <template>
   <VirtualGrid :items="items">
     <template #default="{ item, index }">
-      <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" :hide-floor="true">
+      <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" :hide-floor="!sortingOnShop">
         <div class="flex items-center gap-1 text-[0.7rem]">
           <h1 class="text-neutral-500 font-bold rounded-md">#{{ index + 1 }}</h1>
           <a :href="`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`" target="_blank" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.series.name }}</a>
