@@ -167,7 +167,7 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
   }
 
-  if (filterSoldOut.value === "hide" || sortingOnShop) {
+  if (filterSoldOut.value === "hide" || sortingOnShop.value) {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_sold < seriesStat.series.total_quantity);
   }
 
