@@ -21,7 +21,7 @@
     <div class="px-2 py-1 lg:p-4 flex flex-col gap-2 w-full overflow-hidden">
       <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center text-sm rounded-md">
         <div class="flex flex-nowrap gap-2 w-full">
-          <input type="text" autocomplete="off" v-model="walletAddress" placeholder="Reddit username (without u/) or wallet address" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full">
+          <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit username (without u/) or wallet address" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full">
           <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="p-2 flex items-center justify-center whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer loading">
             <template v-if="loading">
               <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
