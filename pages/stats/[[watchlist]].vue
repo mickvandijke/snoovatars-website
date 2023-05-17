@@ -75,7 +75,7 @@
 <script setup lang="ts">
 import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats, useWatchList} from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
-import {ref, useRoute, useRouter} from "#imports";
+import {computed, ref, useRoute, useRouter} from "#imports";
 import {watch} from "vue";
 import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import MenuBar from "~/components/MenuBar.vue";
@@ -89,7 +89,7 @@ const ethereumPriceInUsd = useEthereumUsdPrice();
 const searchTerm = ref<string>("");
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
 const filterRarityOption = ref<string>(route.query.supply as string ?? "all");
-const filterSoldOut = ref<string>(route.query.soldOut as string ?? "hide");
+const filterSoldOut = ref<string>(route.query.soldOut as string ?? "show");
 const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
 const isRefreshing = ref(false);
 const showFilters = ref(false);
@@ -129,6 +129,10 @@ function refresh() {
   })
 }
 
+const sortingOnShop = computed(() => {
+  return sortOption.value === 'highestShopAvailableAbsolute' || sortOption.value === 'lowestShopAvailableAbsolute' || sortOption.value === 'highestShopAvailablePercentage' || sortOption.value === 'lowestShopAvailablePercentage' || sortOption.value === 'lowestShopNextMint';
+});
+
 function filteredAndSortedSeriesStats(): SeriesStats[] {
   let filteredSeriesStats = Array.from(Object.values(seriesStats.value));
 
@@ -163,7 +167,7 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
   }
 
-  if (filterSoldOut.value === "hide") {
+  if (filterSoldOut.value === "hide" || sortingOnShop) {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_sold < seriesStat.series.total_quantity);
   }
 
