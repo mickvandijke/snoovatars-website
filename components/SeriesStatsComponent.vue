@@ -40,14 +40,14 @@
         </div>
         <template v-if="sortingOnShop">
           <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
-            <div class="flex items-center gap-0.5">
+            <div class="flex items-center gap-0.5 overflow-hidden">
               <div class="text-neutral-400">Available:</div>
               <div class="flex items-center gap-0.5">
                 <span class="text-amber-500">{{ Math.max((item.series.total_quantity - item.series.total_sold), 0) }}</span>
               </div>
             </div>
             <template v-if="item.series.total_sold < item.series.total_quantity">
-              <div class="flex items-center gap-0.5">
+              <div class="flex items-center gap-0.5 overflow-hidden">
                 <div class="text-neutral-400">Next Mint:</div>
                 <div class="flex items-center gap-0.5">
                   <span class="text-amber-500">#{{ item.series.total_quantity - (item.series.total_quantity - item.series.total_sold) + 1 }}</span>
@@ -55,7 +55,7 @@
               </div>
             </template>
             <template v-if="item.stats.lowest_listing">
-              <div class="flex items-center gap-0.5">
+              <div class="flex items-center gap-0.5 overflow-hidden">
                 <div class="text-neutral-400">F/M:</div>
                 <div class="flex items-center">
                   <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
