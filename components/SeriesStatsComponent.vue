@@ -63,6 +63,9 @@
               </div>
             </template>
           </div>
+          <div class="w-full bg-amber-900 rounded-full overflow-hidden">
+            <div class="bg-amber-600 text-xs font-medium text-amber-100 text-center rounded-full overflow-hidden" :style="{ 'width': `${Math.min(100, Math.round((item.series.total_sold / item.series.total_quantity) * 100 ))}%` }"> {{ Math.round((item.series.total_sold / item.series.total_quantity) * 100 ) }}%</div>
+          </div>
         </template>
         <template v-else>
           <div class="flex font-bold text-[0.7rem]">
