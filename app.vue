@@ -1,7 +1,7 @@
 <template>
-  <div class="relative flex flex-col items-center min-h-screen">
+  <div class="relative flex flex-col items-center min-h-screen w-full overflow-hidden">
     <NavigationBar/>
-    <div class="relative flex flex-col grow items-center w-full">
+    <div class="relative flex flex-col grow items-center w-full overflow-hidden">
       <NuxtPage/>
     </div>
     <Footer/>
