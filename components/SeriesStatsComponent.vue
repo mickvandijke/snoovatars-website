@@ -38,7 +38,7 @@
             </template>
           </div>
         </div>
-        <template v-if="!sortingOnShop">
+        <template v-if="sortingOnShop">
           <div class="flex items-center gap-1 font-bold text-[0.7rem] w-full overflow-hidden">
             <div class="flex items-center gap-0.5 overflow-hidden">
               <div class="text-neutral-400">Available:</div>
