@@ -1,7 +1,7 @@
 <template>
-  <div class="relative flex flex-col items-center min-h-screen w-full">
+  <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <NavigationBar/>
-    <div class="relative flex flex-col grow items-center w-full">
+    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;">
       <NuxtPage/>
     </div>
     <Footer/>
