@@ -149,10 +149,16 @@ export function loadWalletAddresses() {
     const walletAddressesJson = localStorage.getItem("walletAddresses");
 
     if (walletAddressesJson) {
-        const walletAddresses = JSON.parse(walletAddressesJson);
+        const walletAddresses: string[] = JSON.parse(walletAddressesJson);
 
         if (walletAddresses) {
-            useWalletAddresses().value = new Set<string>(walletAddresses);
+            let was: Set<string> = new Set<string>();
+
+            walletAddresses.forEach((wa) => {
+                was.add(wa.toLowerCase());
+            });
+
+            useWalletAddresses().value = was;
             return;
         }
     }
