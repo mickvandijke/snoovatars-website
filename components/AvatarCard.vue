@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col gap-1 overflow-hidden">
+  <div class="relative flex flex-col gap-1 w-full overflow-hidden">
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative flex items-center rounded-lg overflow-hidden" style="width: 19%">
