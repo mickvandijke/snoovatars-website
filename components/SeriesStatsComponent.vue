@@ -38,121 +38,142 @@
             </template>
           </div>
         </div>
-        <div class="flex font-bold text-[0.7rem]">
-          <template v-if="item.stats.last_sale">
-            <div class="flex flex-nowrap items-center gap-1 overflow-hidden">
-              <div class="flex items-center gap-0.5">
-                <template v-if="item.stats.last_sale?.payment_token.symbol === 'ETH'">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                </template>
-                <template v-else>
-                  <div class="flex items-center w-3 h-3 text-orange-500">M</div>
-                </template>
-                <div class="text-neutral-200">{{ (item.stats.last_sale?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-              </div>
-              <span class="text-neutral-300">({{ ethereumInLocalCurrency(item.stats.last_sale?.payment_token.base_price) }})</span>
-              <span class="text-neutral-400">#{{ item.stats.last_sale.token.mint_number }}</span>
-              <div class="text-neutral-500" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale?.date_sold)) }}</div>
+        <template v-if="sorting === 'highestShopAvailableAbsolute' || sorting === 'lowestShopAvailableAbsolute' || sorting === 'highestShopAvailablePercentage' || sorting === 'lowestShopAvailablePercentage' || sorting === 'lowestShopNextMint'">
+          <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
+            <div class="text-neutral-400">Available:</div>
+            <div class="flex items-center gap-0.5">
+              <span class="text-amber-500">{{ Math.max((item.series.total_quantity - item.series.total_sold), 0) }}</span>
             </div>
-          </template>
-          <div class="ml-auto flex items-center">
-            <div class="text-neutral-400 whitespace-nowrap">7D Avg:</div>
-            <div class="pl-0.5 flex gap-0.5 items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="text-neutral-200">{{ (item.stats.weekly_average_price ?? 0).toFixed(4).replace(/\.?0+$/, '') }}</div>
+            <template v-if="item.series.total_sold < item.series.total_quantity">
+              <div class="text-neutral-400">Next Mint:</div>
+              <div class="flex items-center gap-0.5">
+                <span class="text-amber-500">#{{ item.series.total_quantity - (item.series.total_quantity - item.series.total_sold) + 1 }}</span>
+              </div>
+            </template>
+          </div>
+          <div class="flex items-center gap-1 font-bold text-[0.8rem] lg:text-[0.9rem] overflow-hidden">
+            <div class="w-full bg-amber-900 rounded-full">
+              <div class="bg-amber-600 text-xs font-medium text-amber-100 text-center p-0.5 leading-none rounded-full" :style="{ 'width': `${Math.min(100, Math.round((item.series.total_sold / item.series.total_quantity) * 100 ))}%` }"> {{ Math.round((item.series.total_sold / item.series.total_quantity) * 100 ) }}%</div>
             </div>
           </div>
-        </div>
-        <div class="flex gap-2 font-medium text-[0.8rem] lg:text-[0.8rem] items-center">
-          <template v-if="item.stats.lowest_listing">
-            <div class="flex flex-col">
-              <div class="flex items-center gap-0.5">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="flex gap-1 font-bold text-white">
-                  <span>{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                  <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
-                  <span class="text-neutral-400">#{{ item.stats.lowest_listing.token.mint_number }}</span>
+        </template>
+        <template v-else>
+          <div class="flex font-bold text-[0.7rem]">
+            <template v-if="item.stats.last_sale">
+              <div class="flex flex-nowrap items-center gap-1 overflow-hidden">
+                <div class="flex items-center gap-0.5">
+                  <template v-if="item.stats.last_sale?.payment_token.symbol === 'ETH'">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  </template>
+                  <template v-else>
+                    <div class="flex items-center w-3 h-3 text-orange-500">M</div>
+                  </template>
+                  <div class="text-neutral-200">{{ (item.stats.last_sale?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
                 </div>
+                <span class="text-neutral-300">({{ ethereumInLocalCurrency(item.stats.last_sale?.payment_token.base_price) }})</span>
+                <span class="text-neutral-400">#{{ item.stats.last_sale.token.mint_number }}</span>
+                <div class="text-neutral-500" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale?.date_sold)) }}</div>
+              </div>
+            </template>
+            <div class="ml-auto flex items-center">
+              <div class="text-neutral-400 whitespace-nowrap">7D Avg:</div>
+              <div class="pl-0.5 flex gap-0.5 items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                <div class="text-neutral-200">{{ (item.stats.weekly_average_price ?? 0).toFixed(4).replace(/\.?0+$/, '') }}</div>
               </div>
             </div>
-          </template>
-          <template v-else>
-            <span class="text-amber-500">No floor data.</span>
-          </template>
-          <div class="ml-auto flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden whitespace-nowrap">
-            <template v-if="sorting === 'lowestFloorMintRatio'">
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">Flo/Mint:</div>
-                <div class="flex items-center">
-                  <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
-                </div>
-              </div>
-            </template>
-            <template v-else-if="sorting === 'lowestListedPercentage'">
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">Listed:</div>
-                <div class="flex items-center">
-                  <div class="text-neutral-200">{{ item.stats.listed_percentage.toFixed(2) }}%</div>
-                </div>
-              </div>
-            </template>
-            <template v-else-if="sorting === 'fiveLastSales'">
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">5 Avg:</div>
-                <div class="flex gap-0.5 items-center">
+          </div>
+          <div class="flex gap-2 font-medium text-[0.8rem] lg:text-[0.8rem] items-center">
+            <template v-if="item.stats.lowest_listing">
+              <div class="flex flex-col">
+                <div class="flex items-center gap-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ item.stats.five_last_sales_average.toFixed(2) }}</div>
-                </div>
-              </div>
-            </template>
-            <template v-else-if="sorting === 'highestVolume' || sorting === 'lowestVolume'">
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">Vol:</div>
-                <div class="flex gap-0.5 items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
-                </div>
-              </div>
-            </template>
-            <template v-else-if="sorting === 'highestMarketCap' || sorting === 'lowestMarketCap'">
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">MC:</div>
-                <div class="pl-0.5 flex gap-0.5 items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ (item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(2) }}</div>
-                  <div class="text-neutral-200">({{ ethereumInLocalCurrency(item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price, true) }})</div>
-                </div>
-              </div>
-            </template>
-            <template v-else-if="sorting === 'lowestTwoWeeklyAverage' || sorting === 'highestTwoWeeklyAverage'">
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">14D Avg:</div>
-                <div class="flex gap-0.5 items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ (item.stats.two_weekly_average_price ?? 0).toFixed(2) }}</div>
-                </div>
-              </div>
-            </template>
-            <template v-else-if="sorting === 'lowestMonthlyAverage' || sorting === 'highestMonthlyAverage'">
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">30D Avg:</div>
-                <div class="flex gap-0.5 items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ (item.stats.monthly_average_price ?? 0).toFixed(2) }}</div>
+                  <div class="flex gap-1 font-bold text-white">
+                    <span>{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                    <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
+                    <span class="text-neutral-400">#{{ item.stats.lowest_listing.token.mint_number }}</span>
+                  </div>
                 </div>
               </div>
             </template>
             <template v-else>
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-400">24h Vol:</div>
-                <div class="flex gap-0.5 items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ item.stats.daily_volume.toFixed(2) }}</div>
-                </div>
-              </div>
+              <span class="text-amber-500">No floor data.</span>
             </template>
+            <div class="ml-auto flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden whitespace-nowrap">
+              <template v-if="sorting === 'lowestFloorMintRatio'">
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <div class="text-neutral-400">Flo/Mint:</div>
+                  <div class="flex items-center">
+                    <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
+                  </div>
+                </div>
+              </template>
+              <template v-else-if="sorting === 'lowestListedPercentage'">
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <div class="text-neutral-400">Listed:</div>
+                  <div class="flex items-center">
+                    <div class="text-neutral-200">{{ item.stats.listed_percentage.toFixed(2) }}%</div>
+                  </div>
+                </div>
+              </template>
+              <template v-else-if="sorting === 'fiveLastSales'">
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <div class="text-neutral-400">5 Avg:</div>
+                  <div class="flex gap-0.5 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="text-neutral-200">{{ item.stats.five_last_sales_average.toFixed(2) }}</div>
+                  </div>
+                </div>
+              </template>
+              <template v-else-if="sorting === 'highestVolume' || sorting === 'lowestVolume'">
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <div class="text-neutral-400">Vol:</div>
+                  <div class="flex gap-0.5 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="text-neutral-200">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
+                  </div>
+                </div>
+              </template>
+              <template v-else-if="sorting === 'highestMarketCap' || sorting === 'lowestMarketCap'">
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <div class="text-neutral-400">MC:</div>
+                  <div class="pl-0.5 flex gap-0.5 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="text-neutral-200">{{ (item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(2) }}</div>
+                    <div class="text-neutral-200">({{ ethereumInLocalCurrency(item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price, true) }})</div>
+                  </div>
+                </div>
+              </template>
+              <template v-else-if="sorting === 'lowestTwoWeeklyAverage' || sorting === 'highestTwoWeeklyAverage'">
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <div class="text-neutral-400">14D Avg:</div>
+                  <div class="flex gap-0.5 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="text-neutral-200">{{ (item.stats.two_weekly_average_price ?? 0).toFixed(2) }}</div>
+                  </div>
+                </div>
+              </template>
+              <template v-else-if="sorting === 'lowestMonthlyAverage' || sorting === 'highestMonthlyAverage'">
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <div class="text-neutral-400">30D Avg:</div>
+                  <div class="flex gap-0.5 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="text-neutral-200">{{ (item.stats.monthly_average_price ?? 0).toFixed(2) }}</div>
+                  </div>
+                </div>
+              </template>
+              <template v-else>
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <div class="text-neutral-400">24h Vol:</div>
+                  <div class="flex gap-0.5 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="text-neutral-200">{{ item.stats.daily_volume.toFixed(2) }}</div>
+                  </div>
+                </div>
+              </template>
+            </div>
           </div>
-        </div>
+        </template>
       </AvatarCard>
     </template>
   </VirtualGrid>

@@ -25,6 +25,11 @@
         <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Sale</option>
         <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
         <option value="lowestListedPercentage">Sort by Lowest Listed Percentage</option>
+        <option value="highestShopAvailableAbsolute">Sort by Most Available in Shop (Absolute)</option>
+        <option value="lowestShopAvailableAbsolute">Sort by Least Available in Shop (Absolute)</option>
+        <option value="highestShopAvailablePercentage">Sort by Most Available in Shop (Percentage)</option>
+        <option value="lowestShopAvailablePercentage">Sort by Least Available in Shop (Percentage)</option>
+        <option value="lowestShopNextMint">Sort by Lowest Next Mint Number in Shop</option>
       </select>
       <div
           @click.self="showFilters = !showFilters"
@@ -47,6 +52,10 @@
                 <option value="250">Supply: Max 250</option>
                 <option value="777">Supply: Max 777</option>
                 <option value="1000">Supply: Max 1000</option>
+              </select>
+              <select v-model="filterSoldOut" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+                <option value="show">Sold Out: Show</option>
+                <option value="hide">Sold Out: Hide</option>
               </select>
               <template v-if="usingFilter()">
                 <button @click="clearFilters()" class="p-2 bg-amber-500/20 text-amber-500 text-sm rounded-md">Clear All</button>
@@ -80,6 +89,7 @@ const ethereumPriceInUsd = useEthereumUsdPrice();
 const searchTerm = ref<string>("");
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
 const filterRarityOption = ref<string>(route.query.supply as string ?? "all");
+const filterSoldOut = ref<string>(route.query.soldOut as string ?? "hide");
 const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
 const isRefreshing = ref(false);
 const showFilters = ref(false);
@@ -91,18 +101,20 @@ watch([filterGenOption, filterRarityOption, sortOption], () => {
     query: {
       gen: filterGenOption.value,
       supply: filterRarityOption.value,
-      sort: sortOption.value
+      sort: sortOption.value,
+      soldOut: filterSoldOut.value
     },
   });
 })
 
 function usingFilter(): boolean {
-  return filterGenOption.value !== "all" || filterRarityOption.value !== "all";
+  return filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "hide";
 }
 
 function clearFilters() {
   filterGenOption.value = "all";
   filterRarityOption.value = "all";
+  filterSoldOut.value = "hide";
 }
 
 function refresh() {
@@ -149,6 +161,10 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
     case "1000":
       filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_quantity <= 1000);
       break;
+  }
+
+  if (filterSoldOut.value === "hide") {
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_sold < seriesStat.series.total_quantity);
   }
 
   if (searchTerm.value.trim() !== "") {
@@ -451,6 +467,76 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
         if (aBasePrice > bBasePrice) {
           return 1;
         } else if (aBasePrice < bBasePrice) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "highestShopAvailableAbsolute":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.series.total_quantity - a.series.total_sold;
+        const bValue = b.series.total_quantity - b.series.total_sold;
+
+        if (aValue > bValue) {
+          return -1;
+        } else if (aValue < bValue) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestShopAvailableAbsolute":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.series.total_quantity - a.series.total_sold;
+        const bValue = b.series.total_quantity - b.series.total_sold;
+
+        if (aValue > bValue) {
+          return 1;
+        } else if (aValue < bValue) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "highestShopAvailablePercentage":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.series.total_sold / a.series.total_quantity;
+        const bValue = b.series.total_sold / b.series.total_quantity;
+
+        if (aValue > bValue) {
+          return 1;
+        } else if (aValue < bValue) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestShopAvailablePercentage":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.series.total_sold / a.series.total_quantity;
+        const bValue = b.series.total_sold / b.series.total_quantity;
+
+        if (aValue > bValue) {
+          return -1;
+        } else if (aValue < bValue) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestShopNextMint":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.series.total_quantity - (a.series.total_quantity - a.series.total_sold) + 1;
+        const bValue = b.series.total_quantity - (b.series.total_quantity - b.series.total_sold) + 1;
+
+        if (aValue > bValue) {
+          return 1;
+        } else if (aValue < bValue) {
           return -1;
         } else {
           return 0;
