@@ -284,22 +284,22 @@ function getSeriesValue(series: string): number {
 
   switch (valuationMethod.value) {
     case "floor":
-      price = stats?.lowest_listing?.payment_token.base_price;
+      price = stats?.lowest_listing?.payment_token.base_price ?? 0;
       break;
     case "lastSale":
-      price = stats?.last_sale?.payment_token.base_price;
+      price = stats?.last_sale?.payment_token.base_price ?? 0;
       break;
     case "fiveLastSales":
-      price = stats?.five_last_sales_average * 1000000000000000000;
+      price = stats?.five_last_sales_average * 1000000000000000000 ?? 0;
       break;
     case "weeklyAvg":
-      price = ((stats?.weekly_average_price ?? stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price;
+      price = ((stats?.weekly_average_price ?? stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
       break;
     case "twoWeeklyAvg":
-      price = ((stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price;
+      price = ((stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
       break;
     case "monthlyAvg":
-      price = (stats.monthly_average_price  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price;
+      price = (stats.monthly_average_price  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
       break;
   }
 
