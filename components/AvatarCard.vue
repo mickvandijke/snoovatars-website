@@ -41,7 +41,7 @@
               </div>
             </template>
             <button @click="toggleExtraInfo()" class="ml-auto flex items-center gap-1 text-neutral-500 text-[0.7rem] font-bold whitespace-nowrap rounded-md duration-500">
-              Toggle Extra
+              <span>{{ showExtraInfo ? "Hide details" : "Show more" }}</span>
             </button>
           </div>
         </div>
