@@ -9,7 +9,6 @@ import {fetchSeriesStats} from "~/composables/api/seriesStats";
 import {fetchCurrentEthereumPriceInCurrency} from "~/composables/api/ethereum";
 import {fetchSeries} from "~/composables/api/series";
 import {ExtraInfoOptions} from "~/types/extra_info";
-import {CURRENCIES} from "~/types/currency";
 import {fetchBitconePrice} from "~/composables/api/bitcone";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
@@ -28,6 +27,19 @@ export const usePreferredCurrency = () => useState<string>('preferred-currency',
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
 export const useExtraInfoOptions = () => useState<ExtraInfoOptions>('extra-info-options', () => null);
+export const useCookies = () => useState<boolean>('cookies', () => false);
+
+export function loadCookiesPreference() {
+    let json = localStorage.getItem("cookiesAccepted");
+
+    useCookies().value = json ? JSON.parse(json) : false;
+}
+
+export function setCookiesPreference(enabled: boolean) {
+    useCookies().value = enabled;
+
+    localStorage.setItem("cookiesAccepted", JSON.stringify(enabled));
+}
 
 export function updateConeEthPrice() {
     fetchBitconePrice().then((price) => {

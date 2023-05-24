@@ -6,6 +6,9 @@
     </div>
     <Footer/>
     <MobileNavigationBar/>
+    <template v-if="!cookies">
+      <CookieWarning/>
+    </template>
   </div>
 </template>
 
@@ -14,11 +17,12 @@ import {useHead} from "nuxt/app";
 import {
   loadWatchList,
   onBeforeMount,
-  useCollections,
+  useCollections, useCookies,
   useUser,
   watch
 } from "#imports";
 import {
+  loadCookiesPreference,
   loadExtraInfoOptions,
   loadPreferredCurrency,
   loadWalletAddresses,
@@ -28,6 +32,7 @@ import {
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 import Footer from "~/components/Footer.vue";
+import { useState } from "vue-gtag-next";
 
 useHead({
   title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
@@ -38,18 +43,26 @@ useHead({
     { name: 'keywords', content: 'Reddit, Collectible, Avatars, NFT, Floor, RCA, RedditCollectibleAvatars, RCAX, rcax, Polygon' },
     { name: 'robots', content: 'index, follow' },
     { 'http-equiv': "content-type", content: "text/html; charset=utf-8" },
-    { name: "language", content: "English" }
+    { name: "language", content: "English" },
+    { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1"},
   ]
 });
 
 const token = useToken();
 const user = useUser();
+const cookies = useCookies();
+const { isEnabled } = useState();
 
+loadCookiesPreference();
 loadWalletAddresses();
 loadWatchList();
 loadPreferredCurrency();
 loadExtraInfoOptions();
 updateEthereumPrices();
+
+if (cookies.value) {
+  loadGoogleAnalytics();
+}
 
 onBeforeMount(async () => {
   let tokenOpt = localStorage.getItem("Token");
@@ -71,12 +84,15 @@ watch([token], async () => {
   }
 });
 
-useHead({
-  meta: [{
-    name: "viewport",
-    content: "width=device-width, initial-scale=1, maximum-scale=1"
-  }]
-})
+watch([cookies], () => {
+  if (cookies.value) {
+    loadGoogleAnalytics();
+  }
+});
+
+function loadGoogleAnalytics() {
+  isEnabled.value = true;
+}
 </script>
 
 <style>
