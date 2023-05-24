@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-12 flex flex-col items-center w-full max-w-xl">
+  <div class="py-12 flex flex-col items-center w-full max-w-xl">
     <div class="flex flex-col items-center w-full">
       <template v-if="!user">
         <h1 class="text-2xl font-semibold text-white">Please sign in before upgrading to PREMIUM!</h1>

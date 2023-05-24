@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-12 flex flex-col items-center w-full max-w-xl">
+  <div class="py-12 flex flex-col items-center w-full max-w-xl">
     <div class="mx-auto p-5 md:w-96 max-w-full border-2 border-neutral-700 shadow-lg rounded-2xl bg-neutral-800">
       <div class="mt-3 text-center">
         <h3 class="text-lg leading-6 font-medium text-white">Login</h3>
