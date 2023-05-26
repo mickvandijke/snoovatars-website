@@ -33,6 +33,12 @@ import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 import Footer from "~/components/Footer.vue";
 import { useState } from "vue-gtag-next";
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from "@capacitor/push-notifications";
 
 useHead({
   title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
