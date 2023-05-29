@@ -21,6 +21,7 @@
     "@capacitor/browser": "^5.0.2",
     "@capacitor/core": "^5.0.4",
     "@capacitor/ios": "^5.0.3",
+    "@capacitor/local-notifications": "^5.0.2",
     "@capacitor/push-notifications": "^5.0.2",
     "@capacitor/share": "^5.0.2",
     "@heroicons/vue": "^2.0.13",

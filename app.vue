@@ -33,9 +33,10 @@ import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 import Footer from "~/components/Footer.vue";
 import { useState } from "vue-gtag-next";
-import { PushNotifications } from "@capacitor/push-notifications";
+import {PushNotifications, PushNotificationSchema, ActionPerformed} from "@capacitor/push-notifications";
 import { Capacitor } from "@capacitor/core";
 import { Browser } from '@capacitor/browser';
+import {LocalNotifications} from "@capacitor/local-notifications";
 
 useHead({
   title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
@@ -111,28 +112,60 @@ async function addListeners() {
       console.error('Registration error: ', err.error);
     });
 
-    await PushNotifications.addListener('pushNotificationReceived', notification => {
-      console.log('Push notification received: ', notification);
-      console.log(JSON.stringify(notification));
-    });
+    await PushNotifications.addListener(
+        'pushNotificationReceived',
+        async (notification: PushNotificationSchema) => {
+          //only for android foreground push notification
+          //since capacitor has still not implemented tap on android //foreground notif
+          if (Capacitor.getPlatform() == "android") {
+            await PushNotifications.getDeliveredNotifications().then((x) => {
+              PushNotifications.removeDeliveredNotifications(x);
+            });
 
-    await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
-      console.log('Push notification action performed', notification.actionId, notification.inputValue);
-      console.log(JSON.stringify(notification));
+            addLocalNotification(notification);
+          }
+        },
+    );
 
-      if (notification.notification.data['link']) {
-        let url = notification.notification.data['link'];
+    await PushNotifications.addListener('pushNotificationActionPerformed', payload => {
+      if (payload.actionId === 'tap') {
+        const link = payload.notification.data['link'];
 
-        if (Capacitor.isNativePlatform()) {
-          // If running in a native Capacitor app
-          Browser.open({ url });
-        } else {
-          // If running in a web browser
-          window.open(url, '_blank');
+        if (link) {
+          handleNotificationLink(link);
         }
       }
     });
+
+    await LocalNotifications.addListener(
+        'localNotificationActionPerformed',
+        (payload: ActionPerformed) => {
+          if (payload.actionId === 'tap') {
+            const link = payload.notification.extra['link'];
+
+            if (link) {
+              handleNotificationLink(link);
+            }
+          }
+        },
+    );
   }
+}
+
+function addLocalNotification(notification: any) {
+  LocalNotifications.schedule({
+    notifications: [
+      {
+        id: 1,
+        title: notification.title,
+        body: notification.body,
+        schedule: { at: new Date(Date.now() + 100) },
+        extra: notification.data,
+        smallIcon: "ic_stat_notification_icon",
+        iconColor: "#f59e0b"
+      },
+    ],
+  });
 }
 
 async function registerNotifications() {
@@ -148,6 +181,18 @@ async function registerNotifications() {
     }
 
     await PushNotifications.register();
+  }
+}
+
+function handleNotificationLink(link: string) {
+  let url = link;
+
+  if (Capacitor.isNativePlatform()) {
+    // If running in a native Capacitor app
+    Browser.open({ url });
+  } else {
+    // If running in a web browser
+    window.open(url, '_blank');
   }
 }
 

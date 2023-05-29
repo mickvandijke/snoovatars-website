@@ -7,6 +7,8 @@ PODS:
     - Capacitor
     - SDWebImage
   - CapacitorCordova (5.0.3)
+  - CapacitorLocalNotifications (5.0.2):
+    - Capacitor
   - CapacitorPushNotifications (5.0.2):
     - Capacitor
   - CapacitorShare (5.0.2):
@@ -20,6 +22,7 @@ DEPENDENCIES:
   - "CapacitorBrowser (from `../../node_modules/@capacitor/browser`)"
   - "CapacitorCommunityMedia (from `../../node_modules/@capacitor-community/media`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - "CapacitorPushNotifications (from `../../node_modules/@capacitor/push-notifications`)"
   - "CapacitorShare (from `../../node_modules/@capacitor/share`)"
 
@@ -36,6 +39,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor-community/media"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
+  CapacitorLocalNotifications:
+    :path: "../../node_modules/@capacitor/local-notifications"
   CapacitorPushNotifications:
     :path: "../../node_modules/@capacitor/push-notifications"
   CapacitorShare:
@@ -46,10 +51,11 @@ SPEC CHECKSUMS:
   CapacitorBrowser: 7986ee35377383fc40f7c1a0a793e0d9a49fe527
   CapacitorCommunityMedia: 127fa3d3a0ef5f00661c4d61ef07cdb2ecd46ff3
   CapacitorCordova: def732a63679698df6fb392bbe6d269a0b61e937
+  CapacitorLocalNotifications: db01feb38f85b4fd8c0a0d0fa94a4a6410239563
   CapacitorPushNotifications: 0566429afa72fe083a4142a58321f0ad83837096
   CapacitorShare: 931224a0e17615e799d35b26286ab1d05f37d8fb
   SDWebImage: cb032eba469c54e0000e78bcb0a13cdde0a52798
 
-PODFILE CHECKSUM: fe7a96e9c1ffbe076de67aea7c1f48b18f06b8bd
+PODFILE CHECKSUM: 8c01c79be3a7eba75236a3a3d0d5e10293034d4b
 
 COCOAPODS: 1.12.1
