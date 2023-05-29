@@ -26,6 +26,7 @@
     "@capacitor/share": "^5.0.2",
     "@heroicons/vue": "^2.0.13",
     "chart.js": "^4.3.0",
+    "cordova-plugin-purchase": "^13.4.2",
     "ethers": "5.5.3",
     "firebase": "^9.22.1",
     "hash-wasm": "^4.9.0",

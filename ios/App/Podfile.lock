@@ -13,6 +13,8 @@ PODS:
     - Capacitor
   - CapacitorShare (5.0.2):
     - Capacitor
+  - CordovaPlugins (5.0.3):
+    - CapacitorCordova
   - SDWebImage (5.15.8):
     - SDWebImage/Core (= 5.15.8)
   - SDWebImage/Core (5.15.8)
@@ -25,6 +27,7 @@ DEPENDENCIES:
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - "CapacitorPushNotifications (from `../../node_modules/@capacitor/push-notifications`)"
   - "CapacitorShare (from `../../node_modules/@capacitor/share`)"
+  - CordovaPlugins (from `../capacitor-cordova-ios-plugins`)
 
 SPEC REPOS:
   trunk:
@@ -45,6 +48,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/push-notifications"
   CapacitorShare:
     :path: "../../node_modules/@capacitor/share"
+  CordovaPlugins:
+    :path: "../capacitor-cordova-ios-plugins"
 
 SPEC CHECKSUMS:
   Capacitor: 304a960e431f9e6f78556554ca71c41c1b2b9680
@@ -54,8 +59,9 @@ SPEC CHECKSUMS:
   CapacitorLocalNotifications: db01feb38f85b4fd8c0a0d0fa94a4a6410239563
   CapacitorPushNotifications: 0566429afa72fe083a4142a58321f0ad83837096
   CapacitorShare: 931224a0e17615e799d35b26286ab1d05f37d8fb
+  CordovaPlugins: 976e2e0807dcbaa7eeb1a20d5d431facec33eff5
   SDWebImage: cb032eba469c54e0000e78bcb0a13cdde0a52798
 
-PODFILE CHECKSUM: 8c01c79be3a7eba75236a3a3d0d5e10293034d4b
+PODFILE CHECKSUM: ce811f301b62a5d8fb852537418c81da337fb93e
 
 COCOAPODS: 1.12.1
