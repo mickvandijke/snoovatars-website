@@ -31,7 +31,7 @@
     <p>We reserve the right to modify this privacy policy at any time. Changes become effective once posted on this page. We recommend that you regularly review our privacy policy for updates.</p>
 
     <h2>7. Contact Information</h2>
-    <p>If you have any questions or comments about this privacy policy or the way we process your personal data, please contact us via email: <a href="mailto:mick@dutchbits.nl">mick@dutchbits.nl</a>.</p>
+    <p>If you have any questions or comments about this privacy policy or the way we process your personal data, please contact us via email: <a href="mailto:snoovatars@gmail.com">snoovatars@gmail.com</a>.</p>
   </div>
 </template>
 
