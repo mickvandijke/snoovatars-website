@@ -357,8 +357,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "recentSale":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aBaseDate = a.stats.last_sale?.date_sold;
-        const bBaseDate = b.stats.last_sale?.date_sold;
+        const aBaseDate = new Date(a.stats.last_sale?.date_sold ?? 0);
+        const bBaseDate = new Date(b.stats.last_sale?.date_sold ?? 0);
 
         if (aBaseDate > bBaseDate) {
           return -1;

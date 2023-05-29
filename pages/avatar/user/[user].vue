@@ -1,6 +1,9 @@
 <template>
   <div class="px-4 py-12 flex flex-col items-center gap-6 w-full">
-    <h2 class="py-2 text-xl text-amber-500 font-semibold">u/{{ user }}</h2>
+    <div class="flex flex-col items-center gap-3">
+      <NuxtLink to="/avatar/exporter" class="px-4 py-2 flex gap-1 items-center bg-neutral-700 text-neutral-200 hover:text-white font-bold rounded-2xl duration-200"><ChevronLeftIcon class="w-4"/>Back</NuxtLink>
+      <h2 class="py-2 text-xl text-amber-500 font-semibold">u/{{ user }}</h2>
+    </div>
     <div class="flex flex-col">
       <div v-if="pending" class="w-24 w-24 bg-neutral-800 rounded-xl animate-pulse"></div>
       <div v-else-if="avatar" class="w-24">
@@ -48,7 +51,7 @@
           <select class="mt-2 py-3 capitalize" v-model="avatarPosition" @change="drawAvatar">
             <option v-for="position in AvatarPosition" :value="position">{{ position }}</option>
           </select>
-          <button v-if="!pending && avatar" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Export avatar</button>
+          <button v-if="!pending && avatar" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Download</button>
         </div>
         <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground().path}?not-from-cache-please`" alt="background">
         <img ref="foreground" crossorigin="anonymous" class="hidden" :src="`${avatar}?not-from-cache-please`" alt="foreground">
@@ -63,8 +66,10 @@ import {useRoute, useRouter} from "nuxt/app";
 import {onMounted, Ref, ref, watch} from 'vue';
 import {AvatarBackground} from "~/types/avatarBackgrounds";
 import {updateSeriesHashed, useSeriesHashed} from "~/composables/states";
-import {fetchSeries} from "~/composables/api/series";
-import {calculate_hash, Series} from "~/types/series";
+import { Capacitor } from "@capacitor/core";
+import {Share, ShareOptions} from "@capacitor/share";
+import { Media, MediaSaveOptions } from "@capacitor-community/media";
+import {ChevronLeftIcon} from "@heroicons/vue/24/solid";
 
 enum AvatarSize {
   Normal = "normal",
@@ -262,15 +267,65 @@ function avatarAltText() {
   return `${user}'s avatar`;
 }
 
-function saveImage() {
-  let link = document.createElement("a");
-  link.download = `${user}.png`;
-  link.href = canvas.value.toDataURL("image/png").replace("image/png", "image/octet-stream");
+async function saveImage() {
+  const fileName = `${user}.png`;
 
-  document.body.appendChild(link);
-  link.click();
+  if (Capacitor.isNativePlatform()) {
+    try {
+      const albumName = "RCAX";
+      const { albums } = await Media.getAlbums();
 
-  document.body.removeChild(link);
+      let album = albums.find(a => a.name === albumName);
+
+      if (!album) {
+        await Media.createAlbum({ name: albumName });
+        album = albums.find(a => a.name === albumName);
+      }
+
+      const dataUrl = canvas.value.toDataURL();
+
+      let opts: MediaSaveOptions = { path: dataUrl, albumIdentifier: album.identifier };
+      let savedFile = await Media.savePhoto(opts);
+
+      // Get the file URL
+      const fileUrl = savedFile.filePath;
+
+      // Prepare the options for sharing
+      const shareOptions: ShareOptions = {
+        files: [`file://${fileUrl}`],
+        dialogTitle: 'Share Image'
+      };
+
+      // Open the sharing dialog
+      await Share.share(shareOptions);
+
+    } catch (error) {
+      console.error('Error saving or sharing image:', error);
+    }
+  } else {
+    let link = document.createElement("a");
+    link.download = fileName;
+    link.href = canvas.value.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+  }
+}
+
+async function savePermissions() {
+  if (Capacitor.isNativePlatform()) {
+    let permStatus = await Filesystem.checkPermissions();
+
+    if (permStatus.publicStorage === 'prompt') {
+      permStatus = await Filesystem.requestPermissions();
+    }
+
+    if (permStatus.publicStorage !== 'granted') {
+      throw new Error('User denied permissions!');
+    }
+  }
 }
 </script>
 

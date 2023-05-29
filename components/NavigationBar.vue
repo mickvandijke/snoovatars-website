@@ -76,11 +76,11 @@
 
       <ul
           :class="showMenu ? 'flex' : 'hidden'"
-          class="flex-col mt-8 text-neutral-400 space-y-4 lg:flex lg:space-y-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
+          class="flex-col my-4 lg:my-0 text-neutral-400 gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
       >
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
         <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
         <template v-if="token && user?.username">
           <div
               @mouseover="userDropDown = true"

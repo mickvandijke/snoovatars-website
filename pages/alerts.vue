@@ -63,9 +63,11 @@
             <h2 class="text-neutral-100 text-2xl md:text-3xl font-semibold">Alerts</h2>
             <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Create Alert</button>
           </div>
-          <div class="p-6 text-center text-sm text-neutral-200 border-2 border-red-500 rounded-2xl w-full">
-            <span>Although you can create alerts, they will not fire until you <NuxtLink to="/home#plans" class="text-amber-500 font-bold">upgrade to Pro</NuxtLink> and enable email and/or push notifications.</span>
-          </div>
+          <template v-if="user.tier < 1">
+            <div class="p-6 text-center text-sm text-neutral-200 border-2 border-red-500 rounded-2xl w-full">
+              <span>Although you can create alerts, they will not fire until you <NuxtLink to="/home#plans" class="text-amber-500 font-bold">upgrade to Pro</NuxtLink> and enable email and/or push notifications.</span>
+            </div>
+          </template>
           <ul class="grid grid-cols-1 gap-2 w-full rounded-2xl">
             <template v-for="[alertHash, alert] in alerts">
               <div class="p-2 grid grid-cols-12 items-center bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">

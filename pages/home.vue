@@ -97,16 +97,6 @@
               </NuxtLink>
             </div>
             <div class="p-6">
-              <ol class="list-inside text-neutral-200 font-semibold text-sm">
-                <li class="mb-4 flex items-center">
-                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
-                  *2 concurrent price alerts
-                </li>
-                <li class="mb-4 flex items-center">
-                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
-                  *Unlimited price alert notifications
-                </li>
-              </ol>
             </div>
           </div>
         </div>
@@ -138,15 +128,19 @@
                 </li>
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
-                  *50 concurrent price alerts
+                  *Price alerts
                 </li>
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
-                  *Unlimited price alert notifications
+                  *New collection alerts
                 </li>
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
-                  *New collection warnings
+                  *Mobile push notifications
+                </li>
+                <li class="mb-4 flex items-center">
+                  <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
+                  *Email notifications
                 </li>
               </ol>
             </div>
