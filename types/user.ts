@@ -8,3 +8,10 @@ export class User {
     public tier: number;
     public snooze_holder: boolean;
 }
+
+export interface UserSettings {
+    shop_new_paid_avatars_alert: boolean;
+    new_deployed_contracts_alert: boolean;
+    email_notifications: boolean;
+    push_notifications: boolean;
+}

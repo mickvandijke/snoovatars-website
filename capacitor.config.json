@@ -1,8 +1,16 @@
 {
-  "appId": "com.rcaxio.rcax",
+  "appId": "io.rcax.rcax",
   "appName": "RCAX",
   "webDir": ".output/public",
   "server": {
     "androidScheme": "https"
+  },
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  },
+  "android": {
+    "allowMixedContent": true
   }
 }

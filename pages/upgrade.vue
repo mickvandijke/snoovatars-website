@@ -1,15 +1,15 @@
 <template>
-  <div class="py-12 flex flex-col items-center w-full max-w-xl">
+  <div class="py-12 px-4 flex flex-col items-center w-full max-w-xl">
     <div class="flex flex-col items-center w-full">
       <template v-if="!user">
-        <h1 class="text-2xl font-semibold text-white">Please sign in before upgrading to PREMIUM!</h1>
+        <h1 class="text-2xl font-semibold text-white">Please sign in before upgrading to PRO!</h1>
       </template>
       <template v-else-if="user.tier === 0">
-        <h1 class="text-2xl font-semibold text-white">Upgrade to a lifetime of PREMIUM!</h1>
-        <p class="mt-6 text-white text-center">With PREMIUM, you will enjoy all the premium features on our platform. This includes higher limits for price alerts and all the premium features we will release in the future. THANK YOU for supporting us!</p>
-        <p class="mt-6 font-semibold text-amber-600 text-center">20% of all PREMIUM sales will be donated to the r/AvatarTrading community wallet.</p>
+        <h1 class="text-2xl font-semibold text-white">Upgrade to a lifetime of PRO!</h1>
+        <p class="mt-6 text-white text-center">With PRO, you will enjoy all the Pro features on our platform. This includes higher limits for price alerts and all the Pro features we will release in the future. THANK YOU for supporting us!</p>
+        <p class="mt-6 font-semibold text-amber-600 text-center">20% of all PRO sales will be donated to the r/AvatarTrading community wallet.</p>
         <div class="mt-12 w-full">
-          <h3 class="font-semibold text-neutral-400">Step 1. Buy a PREMIUM upgrade using Coinbase Commerce. Make sure to save your order code! The order code looks like "AAAAAAAA".</h3>
+          <h3 class="font-semibold text-neutral-400">Step 1. Buy a PRO upgrade using Coinbase Commerce. Make sure to save your order code! The order code looks like "AAAAAAAA".</h3>
           <NuxtLink
               target="_blank"
               to="https://commerce.coinbase.com/checkout/c83f3cd4-adcf-4d3e-9349-3c1892f94472"
@@ -17,7 +17,7 @@
           >Pay with Crypto</NuxtLink>
         </div>
         <div class="mt-12 flex flex-col w-full">
-          <h3 class="font-semibold text-neutral-400">Step 2. Redeem your PREMIUM upgrade by filling in your order code.</h3>
+          <h3 class="font-semibold text-neutral-400">Step 2. Redeem your PRO upgrade by filling in your order code.</h3>
           <div class="mt-6 flex flex-row gap-2 w-full">
             <input v-model="orderId" type="text">
             <button @click="redeem" :disabled="!orderId" class="p-4 bg-amber-600 hover:bg-amber-500 font-semibold text-white rounded-2xl duration-200">
@@ -31,7 +31,7 @@
         </div>
       </template>
       <template v-else-if="user.tier > 0">
-        <h1 class="text-2xl font-semibold text-white">Thank you for upgrading to PREMIUM! &lt;3</h1>
+        <h1 class="text-2xl font-semibold text-white">Thank you for upgrading to PRO! &lt;3</h1>
       </template>
     </div>
   </div>

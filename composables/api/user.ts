@@ -1,8 +1,12 @@
-import {User} from "~/types/user";
-import {useToken, useUser} from "#imports";
+import {User, UserSettings} from "~/types/user";
+import {useAlertList, useAlertQuotas, useToken, useUser} from "#imports";
 import {handleCatch, handleResponseError} from "~/composables/api/error";
 import {useRuntimeConfig} from "#app";
-import {API_UNRECOGNIZED_RESPONSE} from "~/global/constants";
+import {API_UNREACHABLE, API_UNRECOGNIZED_RESPONSE} from "~/global/constants";
+import {useFcmDeviceToken} from "~/composables/states";
+import {registerFcmDeviceToken} from "~/composables/api/fcm";
+import {ApiResponse} from "~/types/wallet";
+import {AccountTierAlertQuotas, Alert, alert_list_from_object} from "~/types/alert";
 
 export function setToken(token: string) {
     localStorage.setItem("Token", token);
@@ -116,6 +120,10 @@ export async function getUser() {
                     Object.assign(_user, data['user']);
 
                     useUser().value = _user;
+
+                    if (useFcmDeviceToken().value) {
+                        await registerFcmDeviceToken(useFcmDeviceToken().value);
+                    }
                 }
             }
         })
@@ -139,6 +147,58 @@ export async function verifyUser(verificationCode: string) {
                 await handleResponseError(res);
             } else {
                 return Promise.resolve();
+            }
+        })
+}
+
+export async function getUserSettings(): Promise<UserSettings> {
+    const config = useRuntimeConfig();
+    const BACKEND_ADDR = config.public.API_BASE_URL;
+
+    let url = `${BACKEND_ADDR}/jwt/user/settings`;
+
+    return await fetch(url, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${useToken().value}`
+        }
+    })
+        .then(async (res) => {
+            let data: { user_settings: UserSettings } = await res.json();
+
+            return Promise.resolve(data.user_settings);
+        })
+        .catch((err) => {
+            return Promise.reject(API_UNREACHABLE);
+        });
+}
+
+export async function updateUserSettings(userSettings: UserSettings): Promise<UserSettings> {
+    const config = useRuntimeConfig();
+    const BACKEND_ADDR = config.public.API_BASE_URL;
+
+    let url = `${BACKEND_ADDR}/jwt/user/settings`;
+
+    return await fetch(url, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${useToken().value}`
+        },
+        body: JSON.stringify({
+            user_settings: userSettings
+        })
+    })
+        .then(async (res) => {
+            if (!res.ok) {
+                await handleResponseError(res);
+
+                return Promise.reject();
+            } else {
+                let data: { user_settings: UserSettings } = await res.json();
+
+                return Promise.resolve(data.user_settings);
             }
         })
 }

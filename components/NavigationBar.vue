@@ -112,7 +112,7 @@
                           replace
                           to="/upgrade"
                       >
-                        Upgrade to premium
+                        Upgrade to Pro
                       </NuxtLink>
                     </template>
                     <li @click="logout()" class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-neutral-400 rounded-lg duration-200">

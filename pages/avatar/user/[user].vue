@@ -264,7 +264,7 @@ function avatarAltText() {
 
 function saveImage() {
   let link = document.createElement("a");
-  link.download = 'reddit-collectible-avatar.png';
+  link.download = `${user}.png`;
   link.href = canvas.value.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
   document.body.appendChild(link);

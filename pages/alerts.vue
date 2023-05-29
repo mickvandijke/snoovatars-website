@@ -1,14 +1,14 @@
 <template>
-  <div class="px-2 relative flex flex-col items-center w-full">
+  <div class="px-2 relative flex flex-col items-center gap-6 w-full">
     <StatsTabs class="hidden md:block" />
     <template v-if="!user">
-      <div class="mt-6 flex flex-col items-center gap-2">
+      <div class="flex flex-col items-center gap-2">
         <div class="text-neutral-300">You need to be signed in for this feature.</div>
         <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Sign In</NuxtLink>
       </div>
     </template>
     <template v-else-if="loading || loadingSeries">
-      <div class="mt-6 min-h-full w-full flex flex-col items-center">
+      <div class="min-h-full w-full flex flex-col items-center">
         <button disabled type="button" class="text-white border border-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center">
           <svg class="inline mr-3 w-4 h-4 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
@@ -19,48 +19,89 @@
       </div>
     </template>
     <template v-else>
-      <div class="mt-6 max-w-2xl">
-        <div id="alert-list" class="flex flex-col items-center w-full">
-          <div class="px-2 flex flex-row items-center w-full">
-            <h2 class="text-neutral-100 text-3xl font-semibold">Alerts</h2>
-            <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Create Alert</button>
-            <NuxtLink v-if="user.tier < 1 && alerts.size >= alertMaxQuota.alerts" to="/home#plans" class="ml-3 px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
+      <div class="py-6 flex flex-col gap-12 max-w-2xl">
+        <template v-if="userSettings">
+          <div class="flex flex-col gap-6">
+            <div class="px-2 flex flex-row items-center w-full">
+              <h2 class="text-neutral-100 text-2xl md:text-3xl font-semibold">Settings</h2>
+              <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
+            </div>
+            <div class="p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
+              <template v-if="user.tier > 0">
+                <template v-for="[key, value] in Object.entries(userSettings)">
+                  <div class="flex justify-between items-center">
+                    <div class="flex gap-1 items-center">
+                      <span class="text-sm text-neutral-200">{{ key }}</span>
+                      <NuxtLink to="/home#plans" class="text-amber-500 text-xs font-bold">Pro</NuxtLink>
+                    </div>
+                    <label class="relative flex justify-between items-center group p-1 cursor-pointer">
+                      <input v-model="userSettings[key]" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
+                      <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
+                    </label>
+                  </div>
+                </template>
+              </template>
+              <template v-else>
+                <template v-for="[key, value] in Object.entries(userSettings)">
+                  <div class="flex justify-between items-center">
+                    <div class="flex gap-1 items-center">
+                      <span class="text-sm text-neutral-200">{{ key }}</span>
+                      <NuxtLink to="/home#plans" class="text-amber-500 text-xs font-bold">Pro</NuxtLink>
+                    </div>
+                    <label class="relative flex justify-between items-center group p-1 cursor-pointer">
+                      <input value="false" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
+                      <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full after:w-4 after:h-4 after:bg-gray-400 after:rounded-full after:shadow-md after:duration-300 group-hover:after:translate-x-1"></span>
+                    </label>
+                  </div>
+                </template>
+              </template>
+            </div>
           </div>
-          <ul class="mt-6 grid grid-cols-1 gap-2 w-full rounded-2xl">
+        </template>
+        <div id="alert-list" class="flex flex-col items-center gap-6 w-full">
+          <div class="px-2 flex flex-row items-center w-full">
+            <h2 class="text-neutral-100 text-2xl md:text-3xl font-semibold">Alerts</h2>
+            <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Create Alert</button>
+          </div>
+          <div class="p-6 text-center text-sm text-neutral-200 border-2 border-red-500 rounded-2xl w-full">
+            <span>Although you can create alerts, they will not fire until you <NuxtLink to="/home#plans" class="text-amber-500 font-bold">upgrade to Pro</NuxtLink> and enable email and/or push notifications.</span>
+          </div>
+          <ul class="grid grid-cols-1 gap-2 w-full rounded-2xl">
             <template v-for="[alertHash, alert] in alerts">
               <div class="p-2 grid grid-cols-12 items-center bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">
                 <img :src="getSeries(alert.collection_tier_hash).image">
-                <div class="px-2 col-span-7 flex flex-col text-white">
+                <div class="px-2 col-span-6 flex flex-col text-white">
                   <span>{{alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}</span>
                   <span>{{ alert.alert_type }}: {{ alert.price_threshold }} ETH</span>
                 </div>
-                <button @click="openAlertModal(alertHash, alert)" class="ml-auto px-4 py-2 col-span-2 bg-sky-600 hover:bg-sky-500 font-semibold text-white rounded-md duration-200">Edit</button>
-                <button @click="deleteAlert(alertHash)" class="ml-auto px-4 py-2 col-span-2 bg-red-600 hover:bg-red-500 font-semibold text-white rounded-md duration-200">Delete</button>
+                <div class="ml-auto col-span-5 flex gap-2">
+                  <button @click="openAlertModal(alertHash, alert)" class="px-2 py-2 bg-sky-600 hover:bg-sky-500 font-semibold text-white rounded-md duration-200">Edit</button>
+                  <button @click="deleteAlert(alertHash)" class="px-2 py-2 bg-red-600 hover:bg-red-500 font-semibold text-white rounded-md duration-200">Delete</button>
+                </div>
               </div>
             </template>
           </ul>
-          <p class="p-6 text-sm text-neutral-500 text-center w-full">To prevent price notifications from ending up in your spam folder, you might have to whitelist service@snoovatars.com.</p>
+          <p class="px-6 text-sm text-neutral-500 text-center w-full">To prevent price notifications from ending up in your spam folder, you might have to whitelist service@snoovatars.com.</p>
         </div>
-        <div v-if="alerts && alertQuota && alertMaxQuota" class="px-2 mt-12 w-full">
-          <div class="flex flex-row items-center w-full">
-            <h2 class="text-neutral-100 text-3xl font-semibold">Quota</h2>
-            <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
+        <template v-if="alerts && alertQuota && alertMaxQuota">
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-row items-center w-full">
+              <h2 class="px-2 text-neutral-100 text-2xl md:text-3xl font-semibold">Quota</h2>
+              <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
+            </div>
+            <ul class="p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
+              <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
+                <span>Concurrent Alerts:</span>
+                <span class="ml-auto">{{ alerts.size }}/{{ alertMaxQuota.alerts }}</span>
+              </li>
+<!--              <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">-->
+<!--                <span>Email Notifications:</span>-->
+<!--                <span class="ml-auto">{{ alertQuota.emails_sent }}/{{ alertMaxQuota.emails_sent }}</span>-->
+<!--              </li>-->
+            </ul>
+            <p class="px-6 text-sm text-neutral-500 text-center w-full">*Free tier quotas might change at any moment without notice.</p>
           </div>
-          <div v-if="user.tier < 1" class="mt-6 p-3 flex flex-col items-center gap-y-4 border-2 border-neutral-400 w-full rounded-2xl">
-            <span class="text-sm text-neutral-400 text-center">Upgrade to PREMIUM to get 50 concurrent alerts.</span>
-          </div>
-          <ul class="mt-6 p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
-            <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
-              <span>Concurrent Alerts:</span>
-              <span class="ml-auto">{{ alerts.size }}/{{ alertMaxQuota.alerts }}</span>
-            </li>
-            <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
-              <span>Email Notifications:</span>
-              <span class="ml-auto">{{ alertQuota.emails_sent }}/{{ alertMaxQuota.emails_sent }}</span>
-            </li>
-          </ul>
-          <p class="p-6 text-sm text-neutral-500 text-center w-full">*Free tier quotas might change at any moment without notice.</p>
-        </div>
+        </template>
       </div>
 
       <!--modal content-->
@@ -121,11 +162,12 @@
 
 <script setup lang="ts">
 import {
+  loadUserSettings, setUserSettings,
   updateSeriesHashed,
   useAlertList,
   useAvatarList,
   useSeriesHashed, useToken,
-  useUser,
+  useUser, useUserSettings,
 } from "~/composables/states";
 import {Alert, alert_list_from_object, AlertHash, AlertType, AlertMaxQuota, AlertQuota} from "~/types/alert";
 import {navigateTo, useRuntimeConfig} from "#app";
@@ -133,10 +175,11 @@ import {onMounted, ref, watch} from "#imports";
 import {Ref} from "@vue/reactivity";
 import {SelectSearchOption} from "~/types/select_search";
 import {handleCatch} from "~/composables/api/error";
-import {deleteToken} from "~/composables/api/user";
+import {deleteToken, getUserSettings, updateUserSettings} from "~/composables/api/user";
 import {createAlert, getAlerts} from "~/composables/api/alert";
 import {calculate_hash, Series} from "~/types/series";
 import {fetchSeries} from "~/composables/api/series";
+import {UserSettings} from "~/types/user";
 
 const loading = ref(true);
 const loadingSeries = ref(true);
@@ -152,18 +195,36 @@ const BACKEND_ADDR = config.API_BASE_URL;
 const addingAlert = ref(false);
 const newAlert: Ref<Alert> = ref(new Alert());
 const replacingAlertHash: Ref<AlertHash> = ref(null);
+const userSettings: Ref<UserSettings> = ref({
+  shop_new_paid_avatars_alert: false,
+  new_deployed_contracts_alert: false,
+  email_notifications: false,
+  push_notifications: false
+});
 
 onMounted(async () => {
   if (token.value) {
     loadAlerts();
+    loadUserSettings().then(() => {
+      userSettings.value = JSON.parse(JSON.stringify(useUserSettings().value));
+    });
   }
-})
+});
 
 watch([token], async () => {
   if (token.value) {
     loadAlerts();
+    loadUserSettings().then(() => {
+      userSettings.value = JSON.parse(JSON.stringify(useUserSettings().value));
+    });
   }
-})
+});
+
+watch(userSettings, () => {
+  if (JSON.stringify(userSettings.value) !== JSON.stringify(useUserSettings().value)) {
+    setUserSettings(userSettings.value);
+  }
+}, { deep: true });
 
 updateSeriesHashed().finally(() => {
   loadingSeries.value = false;

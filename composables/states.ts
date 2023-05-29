@@ -2,7 +2,7 @@ import {useState} from "nuxt/app";
 import {Collection} from "~/types/collection";
 import {AvatarHash, AvatarList, RedditAvatar} from "~/types/reddit_avatar";
 import {AccountTierAlertQuotas, Alert, AlertHash, AlertList} from "~/types/alert";
-import {User} from "~/types/user";
+import {User, UserSettings} from "~/types/user";
 import {calculate_hash, Series} from "~/types/series";
 import {SeriesStats} from "~/types/seriesStats";
 import {fetchSeriesStats} from "~/composables/api/seriesStats";
@@ -10,6 +10,7 @@ import {fetchCurrentEthereumPriceInCurrency} from "~/composables/api/ethereum";
 import {fetchSeries} from "~/composables/api/series";
 import {ExtraInfoOptions} from "~/types/extra_info";
 import {fetchBitconePrice} from "~/composables/api/bitcone";
+import {getUserSettings, updateUserSettings} from "~/composables/api/user";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
@@ -20,6 +21,7 @@ export const useAlertQuotas = () => useState<AccountTierAlertQuotas>('alert-max-
 export const useAlertList = () => useState<AlertList>('alert-list', () => new Map<AlertHash, Alert>());
 export const useUser = () => useState<User>('user', () => null);
 export const useToken = () => useState<string>('token', () => null);
+export const useFcmDeviceToken = () => useState<string>('fcm-device-token', () => null);
 export const useEthereumUsdPrice = () => useState<number>('ethereum-usd', () => 0);
 export const useEthereumPriceMap = () => useState<Map<string, number>>('ethereum-price-map', () => new Map());
 export const useConeEthPrice = () => useState<number>('cone-eth', () => 0);
@@ -27,7 +29,20 @@ export const usePreferredCurrency = () => useState<string>('preferred-currency',
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
 export const useExtraInfoOptions = () => useState<ExtraInfoOptions>('extra-info-options', () => null);
+export const useUserSettings = () => useState<UserSettings>('user-settings', () => null);
 export const useCookies = () => useState<boolean>('cookies', () => false);
+
+export async function loadUserSettings() {
+    await getUserSettings().then((value) => {
+        useUserSettings().value = value;
+    });
+}
+
+export async function setUserSettings(userSettings: UserSettings) {
+    await updateUserSettings(userSettings).then((value) => {
+        useUserSettings().value = value;
+    })
+}
 
 export function loadCookiesPreference() {
     let json = localStorage.getItem("cookiesAccepted");

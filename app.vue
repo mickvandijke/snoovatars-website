@@ -16,7 +16,7 @@
 import {useHead} from "nuxt/app";
 import {
   loadWatchList,
-  onBeforeMount,
+  onBeforeMount, ref,
   useCollections, useCookies,
   useUser,
   watch
@@ -26,19 +26,16 @@ import {
   loadExtraInfoOptions,
   loadPreferredCurrency,
   loadWalletAddresses,
-  updateEthereumPrices,
+  updateEthereumPrices, useFcmDeviceToken,
   useToken
 } from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
 import {fetchCollections} from "~/composables/api/collection";
 import Footer from "~/components/Footer.vue";
 import { useState } from "vue-gtag-next";
-import {
-  ActionPerformed,
-  PushNotificationSchema,
-  PushNotifications,
-  Token,
-} from "@capacitor/push-notifications";
+import { PushNotifications } from "@capacitor/push-notifications";
+import { Capacitor } from "@capacitor/core";
+import { Browser } from '@capacitor/browser';
 
 useHead({
   title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
@@ -57,6 +54,7 @@ useHead({
 const token = useToken();
 const user = useUser();
 const cookies = useCookies();
+const fcmDeviceToken = useFcmDeviceToken();
 const { isEnabled } = useState();
 
 loadCookiesPreference();
@@ -65,6 +63,8 @@ loadWatchList();
 loadPreferredCurrency();
 loadExtraInfoOptions();
 updateEthereumPrices();
+addListeners();
+registerNotifications();
 
 if (cookies.value) {
   loadGoogleAnalytics();
@@ -98,6 +98,62 @@ watch([cookies], () => {
 
 function loadGoogleAnalytics() {
   isEnabled.value = true;
+}
+
+async function addListeners() {
+  if (Capacitor.isNativePlatform()) {
+    await PushNotifications.addListener('registration', token => {
+      console.info('Registration token: ', token.value);
+      fcmDeviceToken.value = token.value;
+    });
+
+    await PushNotifications.addListener('registrationError', err => {
+      console.error('Registration error: ', err.error);
+    });
+
+    await PushNotifications.addListener('pushNotificationReceived', notification => {
+      console.log('Push notification received: ', notification);
+      console.log(JSON.stringify(notification));
+    });
+
+    await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
+      console.log('Push notification action performed', notification.actionId, notification.inputValue);
+      console.log(JSON.stringify(notification));
+
+      if (notification.notification.data['link']) {
+        let url = notification.notification.data['link'];
+
+        if (Capacitor.isNativePlatform()) {
+          // If running in a native Capacitor app
+          Browser.open({ url });
+        } else {
+          // If running in a web browser
+          window.open(url, '_blank');
+        }
+      }
+    });
+  }
+}
+
+async function registerNotifications() {
+  if (Capacitor.isNativePlatform()) {
+    let permStatus = await PushNotifications.checkPermissions();
+
+    if (permStatus.receive === 'prompt') {
+      permStatus = await PushNotifications.requestPermissions();
+    }
+
+    if (permStatus.receive !== 'granted') {
+      throw new Error('User denied permissions!');
+    }
+
+    await PushNotifications.register();
+  }
+}
+
+const getDeliveredNotifications = async () => {
+  const notificationList = await PushNotifications.getDeliveredNotifications();
+  console.log('delivered notifications', notificationList);
 }
 </script>
 

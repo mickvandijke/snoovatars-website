@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "756989209990",
+    "project_id": "rcaxio",
+    "storage_bucket": "rcaxio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756989209990:android:1f8856c7791d5e5af61007",
+        "android_client_info": {
+          "package_name": "io.rcax.rcax"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl5-RPOsaE_U0MXpwhbB9iXFs389ryHqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

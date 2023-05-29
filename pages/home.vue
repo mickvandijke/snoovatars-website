@@ -23,7 +23,7 @@
     <div id="shop-alerts" class="relative w-full py-16 flex flex-col lg:flex-row">
       <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
         <h2 class="text-xl md:text-3xl font-bold text-center"><span class="text-amber-500 italic mr-1">NEW</span> Reddit Shop Alerts 🚨️</h2>
-        <h3 class="mb-12 font-semibold text-amber-500">PREMIUM ONLY</h3>
+        <h3 class="mb-12 font-semibold text-amber-500">PRO ONLY</h3>
         <p class="max-w-xl text-neutral-200 font-bold">
           Get notified whenever a new collection is available on the Reddit Avatar Shop! Along with a link to take you directly to the shop gallery.
         </p>
@@ -52,7 +52,7 @@
     <div id="collection-alerts" class="relative w-full py-16 flex flex-col lg:flex-row">
       <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
         <h2 class="text-xl md:text-3xl font-bold text-center">New Collection Warnings 🚨️</h2>
-        <h3 class="mb-12 font-semibold text-amber-500">PREMIUM ONLY</h3>
+        <h3 class="mb-12 font-semibold text-amber-500">PRO ONLY</h3>
         <p class="max-w-xl text-neutral-200 font-bold">
           With our realtime connection to the Polygon transaction pool, we are able to tell whenever Reddit deploys a new contract. We will send you an email notification before the contract is even confirmed on the network!
         </p>
@@ -115,7 +115,7 @@
           <div class="block max-w-xs w-full shadow-lg bg-neutral-800 border-2 border-amber-500 h-full rounded-2xl">
             <div class="p-6 border-b border-neutral-700 text-center">
               <p class="uppercase mb-4 text-sm">
-                <strong class="text-amber-500">Premium</strong>
+                <strong class="text-amber-500">Pro</strong>
               </p>
               <h3 class="text-2xl mb-6">
                 <strong>€ 20</strong>
@@ -126,9 +126,9 @@
                   target="_blank"
                   to="/upgrade"
               >
-                Buy a premium code
+                Buy a Pro code
               </NuxtLink>
-              <p class="mt-3 text-sm text-neutral-400">You can redeem your premium code by signing up for a free account and then going to <a href="/upgrade" class="text-amber-500 hover:text-amber-400 duration-200  cursor-pointer">upgrade</a>.</p>
+              <p class="mt-3 text-sm text-neutral-400">You can redeem your Pro code by signing up for a free account and then going to <a href="/upgrade" class="text-amber-500 hover:text-amber-400 duration-200  cursor-pointer">upgrade</a>.</p>
             </div>
             <div class="p-6">
               <ol class="list-inside text-neutral-200 font-semibold text-sm">
