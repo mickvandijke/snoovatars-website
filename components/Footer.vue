@@ -42,7 +42,10 @@
       <div class="bg-neutral-800 text-sm py-4 rounded-lg md:rounded-none">
         <div class="px-3 mx-auto text-center">
           <p>&copy; 2023 RCAX.io. This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</p>
-          <p><NuxtLink class="text-amber-500" to="/privacy">Privacy policy</NuxtLink>.</p>
+          <div class="flex gap-1 justify-center">
+            <p><NuxtLink class="text-amber-500" to="/privacy">Privacy policy</NuxtLink>.</p>
+            <p><NuxtLink class="text-amber-500" to="/tos">Terms of service</NuxtLink>.</p>
+          </div>
         </div>
       </div>
     </div>
