@@ -11,6 +11,7 @@ import {fetchSeries} from "~/composables/api/series";
 import {ExtraInfoOptions} from "~/types/extra_info";
 import {fetchBitconePrice} from "~/composables/api/bitcone";
 import {getUserSettings, updateUserSettings} from "~/composables/api/user";
+import {fetchMarketInfo} from "~/composables/api/info";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
@@ -24,6 +25,8 @@ export const useToken = () => useState<string>('token', () => null);
 export const useFcmDeviceToken = () => useState<string>('fcm-device-token', () => null);
 export const useEthereumUsdPrice = () => useState<number>('ethereum-usd', () => 0);
 export const useEthereumPriceMap = () => useState<Map<string, number>>('ethereum-price-map', () => new Map());
+export const useTotalDailyVolume = () => useState<number>('total-daily-volume', () => 0);
+export const useTotalMarketCap = () => useState<number>('total-market-cap', () => 0);
 export const useConeEthPrice = () => useState<number>('cone-eth', () => 0);
 export const usePreferredCurrency = () => useState<string>('preferred-currency', () => "USD");
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
@@ -31,6 +34,15 @@ export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses'
 export const useExtraInfoOptions = () => useState<ExtraInfoOptions>('extra-info-options', () => null);
 export const useUserSettings = () => useState<UserSettings>('user-settings', () => null);
 export const useCookies = () => useState<boolean>('cookies', () => false);
+
+export async function updateMarketInfo() {
+    fetchMarketInfo().then(([vol, mc]) => {
+        useTotalDailyVolume().value = vol;
+        useTotalMarketCap().value = mc;
+    });
+
+    updateConeEthPrice();
+}
 
 export async function loadUserSettings() {
     await getUserSettings().then((value) => {

@@ -139,38 +139,39 @@ import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
 import {
   ref,
-  useToken,
+  useToken, useTotalDailyVolume, useTotalMarketCap,
   useUser,
   watch
 } from "#imports";
 import {deleteToken} from "~/composables/api/user";
 import {CURRENCIES} from "~/types/currency";
-import {setPreferredCurrency, updateConeEthPrice, useConeEthPrice, usePreferredCurrency} from "~/composables/states";
+import {
+  setPreferredCurrency,
+  updateConeEthPrice,
+  updateMarketInfo,
+  useConeEthPrice,
+  usePreferredCurrency
+} from "~/composables/states";
 import {ethereumInLocalCurrency, coneInLocalCurrency} from "#imports";
 import {onMounted} from "vue";
-import {fetchInfoMarket} from "~/composables/api/info";
+import {fetchMarketInfo} from "~/composables/api/info";
 
 const user = useUser();
 const token = useToken();
 const cone = useConeEthPrice();
+const dailyVol = useTotalDailyVolume();
+const mCap = useTotalMarketCap()
 
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
 const preferredCurrency: Ref<string> = ref(usePreferredCurrency().value);
-const dailyVol = ref(0);
-const mCap = ref(0);
 
 watch([preferredCurrency], () => {
   setPreferredCurrency(preferredCurrency.value);
 })
 
 onMounted(() => {
-  fetchInfoMarket().then(([vol, mc]) => {
-    dailyVol.value = vol;
-    mCap.value = mc;
-  });
-
-  updateConeEthPrice()
+  updateMarketInfo();
 });
 
 const toggleNav = () => (showMenu.value = !showMenu.value);

@@ -16,8 +16,8 @@
 import {useHead} from "nuxt/app";
 import {
   loadWatchList,
-  onBeforeMount, ref,
-  useCollections, useCookies,
+  onBeforeMount, ref, updateMarketInfo,
+  useCollections, useCookies, useRouter,
   useUser,
   watch
 } from "#imports";
@@ -57,6 +57,7 @@ const user = useUser();
 const cookies = useCookies();
 const fcmDeviceToken = useFcmDeviceToken();
 const { isEnabled } = useState();
+const router = useRouter();
 
 loadCookiesPreference();
 loadWalletAddresses();
@@ -95,6 +96,10 @@ watch([cookies], () => {
   if (cookies.value) {
     loadGoogleAnalytics();
   }
+});
+
+router.afterEach(() => {
+  updateMarketInfo();
 });
 
 function loadGoogleAnalytics() {
@@ -203,8 +208,13 @@ const getDeliveredNotifications = async () => {
 </script>
 
 <style>
+:focus {
+  outline: none !important;
+}
+
 html, body {
   @apply bg-neutral-900;
+  -webkit-tap-highlight-color: transparent;
 }
 
 input, select {

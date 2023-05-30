@@ -1,7 +1,7 @@
 import {useRuntimeConfig} from "#app";
 import {ApiResponseMarket} from "~/types/info";
 
-export async function fetchInfoMarket(): Promise<[number, number]> {
+export async function fetchMarketInfo(): Promise<[number, number]> {
     const config = useRuntimeConfig();
     const BACKEND_ADDR = config.public.API_BASE_URL;
     const url = `${BACKEND_ADDR}/info/market`;
