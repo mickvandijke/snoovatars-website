@@ -2,8 +2,8 @@
   <div class="px-2 relative flex flex-col items-center gap-6 w-full">
     <StatsTabs class="hidden md:block" />
     <template v-if="!user">
-      <div class="flex flex-col items-center gap-2">
-        <div class="text-neutral-300">You need to be signed in for this feature.</div>
+      <div class="py-6 flex flex-col items-center gap-2">
+        <div class="text-neutral-300">Please sign in to create price alerts.</div>
         <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Sign In</NuxtLink>
       </div>
     </template>
