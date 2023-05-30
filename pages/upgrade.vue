@@ -50,6 +50,8 @@ import {getUser} from "~/composables/api/user";
 import {navigateTo} from "#app";
 import {Capacitor} from "@capacitor/core";
 
+const PRODUCT_PRO_KEY = 'pro';
+
 const token = useToken();
 const user = useUser();
 
@@ -60,7 +62,7 @@ onMounted(async () => {
   if (!token.value) {
     await navigateTo("/login", {replace: true});
   }
-})
+});
 
 function redeem() {
   if (!orderId.value) return;

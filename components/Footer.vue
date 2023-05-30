@@ -1,6 +1,6 @@
 <template>
   <footer class="text-sm mt-1 md:mt-0 md:text-lg pb-20 md:pb-0 px-2 md:px-0 text-neutral-500 text-center w-full">
-    <div class="p-4 md:p-0 bg-neutral-800/50 flex flex-col gap-2 rounded-md md:rounded-none w-full">
+    <div class="p-4 md:p-0 bg-neutral-800/50 flex flex-col gap-2 rounded-2xl md:rounded-none w-full">
       <div class="py-4 md:py-16 flex flex-col md:flex-row md:justify-between md:items-center gap-6 w-full">
         <div class="w-full justify-center md:justify-start text-center">
           <h2 class="text-xl text-neutral-400 font-bold mb-2">Socials</h2>
@@ -41,7 +41,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-neutral-800 text-sm py-4 rounded-lg md:rounded-none">
+      <div class="bg-neutral-800 text-sm py-4 rounded-2xl md:rounded-none">
         <div class="px-3 mx-auto text-center">
           <p>&copy; 2023 RCAX.io. This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</p>
           <div class="flex gap-1 justify-center">

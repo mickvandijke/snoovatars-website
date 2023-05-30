@@ -171,7 +171,7 @@ import {
   updateSeriesStats,
   useSeriesStats,
   useWalletAddresses,
-  useConeEthPrice
+  useConeEthPrice, updateEthereumPrices, updateMarketInfo
 } from "~/composables/states";
 import {onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
@@ -222,6 +222,8 @@ function refresh() {
   let promises = [];
 
   promises.push(updateSeriesStats());
+  promises.push(updateMarketInfo());
+  promises.push(updateEthereumPrices());
 
   walletAddresses.value.forEach((wallet) => {
     promises.push(getWalletTokens(wallet));

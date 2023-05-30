@@ -74,7 +74,14 @@
 </template>
 
 <script setup lang="ts">
-import {updateSeriesStats, useEthereumUsdPrice, useSeriesStats, useWatchList} from "~/composables/states";
+import {
+  updateEthereumPrices,
+  updateMarketInfo,
+  updateSeriesStats,
+  useEthereumUsdPrice,
+  useSeriesStats,
+  useWatchList
+} from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
 import {computed, ref, useRoute, useRouter} from "#imports";
 import {watch} from "vue";
@@ -124,6 +131,8 @@ function refresh() {
   let promises = [];
 
   promises.push(updateSeriesStats());
+  promises.push(updateMarketInfo());
+  promises.push(updateEthereumPrices());
 
   Promise.all(promises).finally(() => {
     isRefreshing.value = false;

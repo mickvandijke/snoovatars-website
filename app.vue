@@ -99,6 +99,7 @@ watch([cookies], () => {
 });
 
 router.afterEach(() => {
+  updateEthereumPrices();
   updateMarketInfo();
 });
 

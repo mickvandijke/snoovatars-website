@@ -31,7 +31,13 @@
 </template>
 
 <script setup lang="ts">
-import {updateSeriesStats, useSeriesStats, useWatchList} from "~/composables/states";
+import {
+  updateEthereumPrices,
+  updateMarketInfo,
+  updateSeriesStats,
+  useSeriesStats,
+  useWatchList
+} from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
 import {ref, useRoute, useRouter, watch} from "#imports";
 import {fetchSalesLatest} from "~/composables/api/sales";
@@ -83,6 +89,9 @@ function refresh() {
     promises.push(updateMints());
     promises.push(updateSeriesStats());
   }
+
+  promises.push(updateMarketInfo());
+  promises.push(updateEthereumPrices());
 
   Promise.all(promises).finally(() => {
     isRefreshing.value = false;
