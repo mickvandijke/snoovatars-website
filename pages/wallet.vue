@@ -35,7 +35,7 @@
           </button>
         </div>
       </div>
-      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
+      <div class="p-2 md:p-4 bg-neutral-800/75 flex flex-col items-start justify-center gap-2 text-sm rounded-2xl">
         <div class="flex gap-1 font-bold">
           <span class="text-white">Total Worth: </span>
           <div class="flex items-center">
@@ -44,15 +44,13 @@
             <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth()) }}</span>)</div>
           </div>
         </div>
-      </div>
-      <div class="p-2 md:p-4 bg-neutral-800/75 flex items-center gap-2 text-sm rounded-md">
         <div class="flex gap-1 font-bold">
           <span class="text-white">Total items:</span>
           <span class="text-amber-500">{{ getTotalItems() }}</span>
         </div>
       </div>
       <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
-        <div class="bg-neutral-800/75 flex flex-col items-center overflow-hidden w-full rounded-md">
+        <div class="bg-neutral-800/75 flex flex-col items-center overflow-hidden w-full rounded-2xl">
           <div class="p-2 flex gap-2 w-full rounded">
             <div class="flex items-center overflow-hidden">
               <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="hidden md:block md:p-2 text-neutral-400 hover:text-white text-sm rounded-md duration-500">{{ walletAddress }}</a>
