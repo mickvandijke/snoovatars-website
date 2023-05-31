@@ -153,7 +153,9 @@ async function sendGoogleOrder(order: CdvPurchase.Transaction) {
   loading.value = true;
 
   await postGoogleOrder(order)
-      .then((orderId) => {
+      .then(async (orderId) => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         redeemOrder(orderId)
             .then(() => {
               loading.value = false;
