@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col gap-1 w-full overflow-hidden">
+  <div ref="componentRef" class="py-0.5 sm:py-0 relative flex flex-col gap-1 w-full overflow-hidden">
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative flex items-center rounded-lg overflow-hidden" style="width: 19%">
@@ -12,7 +12,7 @@
             <OpenseaIcon />
           </div>
         </a>
-        <div class="px-2 py-1.5 bg-neutral-800/75 flex flex-col rounded-lg gap-1 overflow-hidden" style="width: 81%">
+        <div class="px-2 py-1.5 sm:bg-neutral-900 flex flex-col rounded-lg gap-1 overflow-hidden" style="width: 81%">
           <div class="h-full flex flex-col justify-between">
             <slot></slot>
           </div>
@@ -40,14 +40,15 @@
                 <span>No floor data.</span>
               </div>
             </template>
-            <button @click="toggleExtraInfo()" class="ml-auto flex items-center gap-1 text-neutral-500 text-[0.7rem] font-bold whitespace-nowrap rounded-md duration-500">
+            <button @click="toggleExtraInfo()" class="ml-auto flex items-center text-neutral-500 text-[0.7rem] whitespace-nowrap rounded-md duration-500">
               <span>{{ showExtraInfo ? "Hide details" : "Show more" }}</span>
+              <ChevronDownIcon class="w-5 h-5 duration-200" :class="{ 'rotate-180': showExtraInfo }" />
             </button>
           </div>
         </div>
       </div>
       <template v-if="showExtraInfo">
-        <ExtraInfoComponent class="h-full" :series-stats="seriesStats" :contract="item.contract_address" :series="item.name" />
+        <ExtraInfoComponent @close="closeExtraInfo()" class="h-full" :series-stats="seriesStats" :contract="item.contract_address" :series="item.name" />
       </template>
     </template>
   </div>
@@ -59,12 +60,15 @@ import {PropType} from "@vue/runtime-core";
 import {SeriesStats} from "~/types/seriesStats";
 import OpenseaIcon from "~/components/OpenseaIcon.vue";
 import {dappLink} from "~/global/utils";
+import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 
 export interface AvatarCardItem {
   name: string;
   contract_address: string;
   image: string;
 }
+
+const componentRef = ref(null);
 
 const props = defineProps({
   item: {
@@ -83,6 +87,14 @@ const props = defineProps({
 });
 
 const showExtraInfo = ref(false);
+
+function closeExtraInfo() {
+  showExtraInfo.value = false;
+
+  if (componentRef.value) {
+    componentRef.value.scrollIntoView({ block: "start", behavior: "smooth" })
+  }
+}
 
 function toggleExtraInfo() {
   showExtraInfo.value = !showExtraInfo.value;

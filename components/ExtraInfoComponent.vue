@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 py-3 flex flex-col gap-2 bg-neutral-800/75 rounded-lg">
+  <div class="px-1 sm:px-4 py-2 flex flex-col gap-2 sm:bg-neutral-900 rounded-lg">
     <div class="flex flex-col gap-2">
       <div class="flex justify-between items-center">
         <h1 class="text-xs text-neutral-200 font-bold">Advanced Details:</h1>
@@ -209,6 +209,10 @@
         </template>
       </div>
     </template>
+    <button @click="closeExtraInfo()" class="ml-auto flex items-center text-neutral-500 text-[0.7rem] whitespace-nowrap rounded-md duration-500">
+      <span>Hide details</span>
+      <ChevronUpIcon class="w-5 h-5 duration-200" />
+    </button>
   </div>
 </template>
 
@@ -224,6 +228,7 @@ import {fetchListingsForSeries} from "~/composables/api/listings";
 import {Listing} from "~/types/listing";
 import {ExtraInfoOptions} from "~/types/extra_info";
 import {useExtraInfoOptions, updateExtraInfoOptions} from "~/composables/states";
+import {ChevronUpIcon} from "@heroicons/vue/20/solid";
 
 const ethereumPriceInUsd = useEthereumUsdPrice();
 
@@ -255,6 +260,8 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(["close"]);
+
 watch(options, () => {
   updateExtraInfoOptions(options.value);
 }, { deep: true });
@@ -264,6 +271,10 @@ const slicedSales = computed(() => {
   const end = start + pageSize;
   return sortedSales().slice(start, end);
 });
+
+function closeExtraInfo() {
+  emit("close");
+}
 
 function sortedSales(): Sale[] {
   return sales.value.sort((a, b) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col items-center min-h-full safe-area-padding w-full" style="max-width: 100vw;">
+  <div class="relative flex flex-col items-center min-h-screen safe-area-padding w-full" style="max-width: 100vw;">
     <NavigationBar/>
     <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;">
       <NuxtPage/>
@@ -219,7 +219,7 @@ const getDeliveredNotifications = async () => {
 }
 
 html, body {
-  @apply bg-neutral-900;
+  @apply bg-black;
   -webkit-tap-highlight-color: transparent;
 }
 

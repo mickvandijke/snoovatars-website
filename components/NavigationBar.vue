@@ -1,10 +1,10 @@
 <template>
   <div
-      class="flex flex-col sticky top-0 bg-neutral-900/90 lg:bg-neutral-800/75 border-b border-neutral-800 z-40 w-full"
+      class=" sticky top-[-24px] md:top-[-28px] flex flex-col bg-neutral-900/90 border-b border-neutral-800/90 z-40 w-full"
       style="backdrop-filter: blur(20px);"
       @mouseleave="closeDropdowns()"
   >
-    <div class="px-4 py-1 bg-neutral-800 text-xs md:text-sm overflow-hidden">
+    <div class="px-4 py-1 text-xs md:text-sm border-b border-neutral-800/90 overflow-hidden">
       <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
         <div class="inline-flex gap-2">
           <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank" class="flex items-center gap-0.5">
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <nav class="py-2 px-4 lg:py-3 lg:flex lg:justify-between lg:items-center">
+    <nav class="py-2 px-4 lg:flex lg:justify-between lg:items-center">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
@@ -48,7 +48,7 @@
           <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>
         </div>
         <div>
-          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md border-transparent lg:border-neutral-700 bg-neutral-800 text-sm focus:outline-none max-w-sm">
+          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md bg-neutral-800 text-sm focus:outline-none max-w-sm">
             <template v-for="currency in CURRENCIES">
               <option :value="currency.ticker">{{ currency.ticker }}</option>
             </template>
@@ -78,17 +78,17 @@
           :class="showMenu ? 'flex' : 'hidden'"
           class="flex-col my-4 lg:my-0 text-neutral-400 gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
       >
-        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 font-semibold rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
+        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
         <template v-if="token && user?.username">
           <div
               @mouseover="userDropDown = true"
               @click="userDropDown = !userDropDown"
-              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700/50 hover:bg-neutral-600/50 text-amber-500 font-semibold rounded-lg duration-200 cursor-pointer">
+              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700/50 hover:bg-neutral-600/50 text-amber-500 rounded-lg duration-200 cursor-pointer">
             <div>
               <button
-                  class="flex flex-row flex-nowrap font-semibold"
+                  class="flex flex-row flex-nowrap"
               >
                 {{ user.username }}
                 <ChevronDownIcon class="ml-1 w-5 opacity-50"/>
@@ -138,7 +138,7 @@
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
 import {
-  ref,
+  ref, useRouter,
   useToken, useTotalDailyVolume, useTotalMarketCap,
   useUser,
   watch
@@ -160,11 +160,16 @@ const user = useUser();
 const token = useToken();
 const cone = useConeEthPrice();
 const dailyVol = useTotalDailyVolume();
-const mCap = useTotalMarketCap()
+const mCap = useTotalMarketCap();
+const router = useRouter();
 
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
 const preferredCurrency: Ref<string> = ref(usePreferredCurrency().value);
+
+router.afterEach(() => {
+  showMenu.value = false;
+});
 
 watch([preferredCurrency], () => {
   setPreferredCurrency(preferredCurrency.value);
