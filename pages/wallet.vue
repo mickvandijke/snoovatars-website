@@ -235,17 +235,22 @@ function refresh() {
 async function getWalletTokens(wallet: string) {
   loading.value = true;
 
-  await fetchWalletTokens(wallet).then((data) => {
-    const wallets = Object.entries(data.wallets);
-    const [firstWalletAddress, firstWalletValue] = wallets[0];
+  await fetchWalletTokens(wallet)
+      .then((data) => {
+        const wallets = Object.entries(data.wallets);
+        const [firstWalletAddress, firstWalletValue] = wallets[0];
 
-    addToWalletAddresses(firstWalletAddress);
+        addToWalletAddresses(firstWalletAddress);
 
-    tokens.value.set(firstWalletAddress, firstWalletValue);
-    cones.value.set(firstWalletAddress, data.cones);
+        tokens.value.set(firstWalletAddress, firstWalletValue);
+        cones.value.set(firstWalletAddress, data.cones);
 
-    walletAddress.value = "";
-  });
+        walletAddress.value = "";
+      })
+      .catch((err) => {
+        loading.value = false;
+        alert(err);
+      });
 
   loading.value = false;
 }

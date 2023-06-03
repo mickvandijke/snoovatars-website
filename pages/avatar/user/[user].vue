@@ -51,7 +51,7 @@
           <select class="mt-2 py-3 capitalize" v-model="avatarPosition" @change="drawAvatar">
             <option v-for="position in AvatarPosition" :value="position">{{ position }}</option>
           </select>
-          <button v-if="!pending && avatar" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Download</button>
+          <button v-if="!pending && avatar" :disabled="savingImage" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Download</button>
         </div>
         <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground().path}?not-from-cache-please`" alt="background">
         <img ref="foreground" crossorigin="anonymous" class="hidden" :src="`${avatar}?not-from-cache-please`" alt="foreground">
@@ -91,6 +91,7 @@ const queryBackgroundIndex: Ref<number> = ref(route.query.background ? parseInt(
 const randomBackgroundIndex: number = Math.floor(Math.random() * avatarBackgrounds().length);
 const searchTerm = ref<string>("");
 const avatarSize: Ref<AvatarSize> = ref(AvatarSize.Normal);
+const savingImage = ref(false);
 
 function selectedBackgroundIndex(): number {
   if (queryBackgroundIndex.value >= 0 && queryBackgroundIndex.value <= avatarBackgrounds().length) {
@@ -268,6 +269,12 @@ function avatarAltText() {
 }
 
 async function saveImage() {
+  if (savingImage.value) {
+    return;
+  }
+
+  savingImage.value = true;
+
   const fileName = `${user}.png`;
 
   if (Capacitor.isNativePlatform()) {
@@ -287,17 +294,23 @@ async function saveImage() {
       let opts: MediaSaveOptions = { path: dataUrl, albumIdentifier: album.identifier };
       let savedFile = await Media.savePhoto(opts);
 
-      // Get the file URL
-      const fileUrl = savedFile.filePath;
+      alert("Mashup saved to gallery!");
 
-      // Prepare the options for sharing
-      const shareOptions: ShareOptions = {
-        files: [`file://${fileUrl}`],
-        dialogTitle: 'Share Image'
-      };
-
-      // Open the sharing dialog
-      await Share.share(shareOptions);
+      // console.log(JSON.stringify(savedFile));
+      //
+      // // Get the file URL
+      // const fileUrl = savedFile.filePath;
+      //
+      // // Prepare the options for sharing
+      // const shareOptions: ShareOptions = {
+      //   title: 'Share your mashup',
+      //   text: 'Share your mashup with friends!',
+      //   url: `file://${fileUrl}`,
+      //   dialogTitle: 'Share your mashup'
+      // };
+      //
+      // // Open the sharing dialog
+      // await Share.share(shareOptions);
 
     } catch (error) {
       console.error('Error saving or sharing image:', error);
@@ -312,6 +325,8 @@ async function saveImage() {
 
     document.body.removeChild(link);
   }
+
+  savingImage.value = false;
 }
 
 async function savePermissions() {

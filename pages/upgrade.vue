@@ -108,7 +108,9 @@ onMounted(async () => {
         .approved((tx: CdvPurchase.Transaction) => {
           console.log(`[IAP] approved ${JSON.stringify(tx)}`);
 
-          sendGoogleOrder(tx);
+          if (Capacitor.getPlatform() == "android") {
+            sendGoogleOrder(tx);
+          }
 
           tx.verify();
         })

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
+  <div class="relative flex flex-col items-center min-h-full safe-area-padding w-full" style="max-width: 100vw;">
     <NavigationBar/>
     <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;">
       <NuxtPage/>
@@ -37,6 +37,7 @@ import {PushNotifications, PushNotificationSchema, ActionPerformed} from "@capac
 import { Capacitor } from "@capacitor/core";
 import { Browser } from '@capacitor/browser';
 import {LocalNotifications} from "@capacitor/local-notifications";
+import {registerFcmDeviceToken} from "~/composables/api/fcm";
 
 useHead({
   title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
@@ -48,7 +49,7 @@ useHead({
     { name: 'robots', content: 'index, follow' },
     { 'http-equiv': "content-type", content: "text/html; charset=utf-8" },
     { name: "language", content: "English" },
-    { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1"},
+    { name: "viewport", content: "viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1"},
   ]
 });
 
@@ -112,6 +113,10 @@ async function addListeners() {
     await PushNotifications.addListener('registration', token => {
       console.info('Registration token: ', token.value);
       fcmDeviceToken.value = token.value;
+
+      if (user.value.username) {
+        registerFcmDeviceToken(fcmDeviceToken.value);
+      }
     });
 
     await PushNotifications.addListener('registrationError', err => {
@@ -224,5 +229,9 @@ input, select {
 
 input.light, select.light {
   @apply border-neutral-700 hover:border-neutral-600;
+}
+
+.safe-area-padding {
+  padding-top: env(safe-area-inset-top);
 }
 </style>
