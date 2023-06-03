@@ -11,7 +11,7 @@
         <template v-if="!Capacitor.isNativePlatform()">
           <h2 class="mt-6 font-semibold text-amber-500 text-center">20% of all Website PRO sales will be donated to the r/AvatarTrading community wallet.</h2>
         </template>
-        <template v-if="Capacitor.isNativePlatform()">
+        <template v-if="Capacitor.getPlatform() === 'android'">
           <div class="mt-6 flex flex-col items-center w-full shadow">
             <template v-for="product in iapProducts">
               <div class="px-2 py-2 flex justify-between gap-3 bg-neutral-800 text-neutral-200 rounded-2xl w-full">
@@ -33,6 +33,9 @@
               </div>
             </template>
           </div>
+        </template>
+        <template v-else-if="Capacitor.getPlatform() === 'ios'">
+
         </template>
         <template v-else>
           <div class="mt-6 w-full">
@@ -73,9 +76,9 @@ import {getUser} from "~/composables/api/user";
 import {navigateTo} from "#app";
 import {Capacitor} from "@capacitor/core";
 import "cordova-plugin-purchase";
-import {postGoogleOrder} from "~/composables/api/order";
+import {postAppleOrder, postGoogleOrder} from "~/composables/api/order";
 
-const PRODUCT_PRO_KEY = 'pro';
+const PRODUCT_ID = 'pro';
 
 const token = useToken();
 const user = useUser();
@@ -99,7 +102,7 @@ onMounted(async () => {
     const {store} = CdvPurchase;
 
     store.register({
-      id: PRODUCT_PRO_KEY,
+      id: PRODUCT_ID,
       type: CdvPurchase.ProductType.CONSUMABLE,
       platform: store.defaultPlatform(),
     });
@@ -110,10 +113,14 @@ onMounted(async () => {
 
           if (Capacitor.getPlatform() == "android") {
             sendGoogleOrder(tx);
+          } else if (Capacitor.getPlatform() == "ios") {
+            sendAppleOrder(tx);
           }
 
           tx.verify();
-        })
+        });
+
+    store.when()
         .verified((rc: CdvPurchase.VerifiedReceipt) => {
           console.log(`[IAP] receipt ${JSON.stringify(rc)}`);
           rc.finish()
@@ -126,6 +133,8 @@ onMounted(async () => {
 
     await store.initialize([store.defaultPlatform()]);
     await store.update();
+
+    console.log(store.products);
 
     iapProducts.value = store.products;
   }
@@ -155,6 +164,29 @@ async function sendGoogleOrder(order: CdvPurchase.Transaction) {
   loading.value = true;
 
   await postGoogleOrder(order)
+      .then(async (orderId) => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        redeemOrder(orderId)
+            .then(() => {
+              loading.value = false;
+              getUser();
+            })
+            .catch((err) => {
+              loading.value = false;
+              alert(err);
+            });
+      })
+      .catch((err) => {
+        loading.value = false;
+        alert(err);
+      });
+}
+
+async function sendAppleOrder(order: CdvPurchase.Transaction) {
+  loading.value = true;
+
+  await postAppleOrder(order)
       .then(async (orderId) => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 

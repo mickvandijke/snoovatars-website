@@ -65,7 +65,7 @@
           </div>
           <template v-if="user.tier < 1">
             <div class="p-6 text-center text-sm text-neutral-200 border-2 border-red-500 rounded-2xl w-full">
-              <span>Although you can create alerts, they will not fire until you <NuxtLink to="/home#plans" class="text-amber-500 font-bold">upgrade to Pro</NuxtLink> and enable email and/or push notifications.</span>
+              <span>Although you can create alerts, they will not fire until you <NuxtLink to="/upgrade" class="text-amber-500 font-bold">upgrade to Pro</NuxtLink> and enable email and/or push notifications.</span>
             </div>
           </template>
           <ul class="grid grid-cols-1 gap-2 w-full rounded-2xl">
