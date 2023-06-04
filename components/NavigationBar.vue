@@ -1,7 +1,7 @@
 <template>
   <div
-      class=" sticky top-[-24px] md:top-[-28px] flex flex-col bg-black/80 border-b border-neutral-800 z-40 w-full"
-      style="backdrop-filter: blur(20px);"
+      class=" sticky top-0 flex flex-col bg-black/80 border-b border-neutral-800 z-40 w-full"
+      style="backdrop-filter: blur(20px);padding-top: env(safe-area-inset-top);"
       @mouseleave="closeDropdowns()"
   >
     <div class="px-4 py-1 text-xs md:text-sm border-b border-neutral-800 overflow-hidden">
@@ -147,14 +147,13 @@ import {deleteToken} from "~/composables/api/user";
 import {CURRENCIES} from "~/types/currency";
 import {
   setPreferredCurrency,
-  updateConeEthPrice,
   updateMarketInfo,
   useConeEthPrice,
   usePreferredCurrency
 } from "~/composables/states";
 import {ethereumInLocalCurrency, coneInLocalCurrency} from "#imports";
 import {onMounted} from "vue";
-import {fetchMarketInfo} from "~/composables/api/info";
+import {Capacitor} from "@capacitor/core";
 
 const user = useUser();
 const token = useToken();

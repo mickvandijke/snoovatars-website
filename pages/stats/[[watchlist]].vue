@@ -8,6 +8,8 @@
         <option value="lowestPrice">Sort by Lowest Price</option>
         <option value="highestLastSale">Sort by Highest Last Sale</option>
         <option value="lowestLastSale">Sort by Lowest Last Sale</option>
+        <option value="highestSupply">Sort by Highest Supply</option>
+        <option value="lowestSupply">Sort by Lowest Supply</option>
         <option value="highestMarketCap">Sort by Highest Market Cap</option>
         <option value="lowestMarketCap">Sort by Lowest Market Cap</option>
         <option value="highestDailyVolume">Sort by Highest Daily Volume</option>
@@ -217,6 +219,34 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
         if (aBasePrice > bBasePrice) {
           return 1;
         } else if (aBasePrice < bBasePrice) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "highestSupply":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = Math.max(a.series.total_sold, a.series.total_quantity);
+        const bValue = Math.max(b.series.total_sold, b.series.total_quantity);
+
+        if (aValue > bValue) {
+          return -1;
+        } else if (aValue < bValue) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestSupply":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = Math.max(a.series.total_sold, a.series.total_quantity);
+        const bValue = Math.max(b.series.total_sold, b.series.total_quantity);
+
+        if (aValue > bValue) {
+          return 1;
+        } else if (aValue < bValue) {
           return -1;
         } else {
           return 0;

@@ -19,8 +19,8 @@
       </button>
     </MenuBar>
     <div class="px-2 py-2 lg:p-4 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
-      <div class="flex items-center justify-center text-sm w-full max-w-lg">
-        <div class="flex flex-nowrap gap-2 w-full">
+      <div class="flex items-center lg:justify-end text-sm w-full">
+        <div class="flex flex-nowrap gap-2 max-w-lg w-full">
           <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit username (without u/) or wallet address" class="light">
           <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 py-3 flex items-center h-full bg-amber-600 hover:bg-amber-500 disabled:bg-neutral-800 text-white disabled:text-neutral-400 font-medium whitespace-nowrap rounded-md duration-200">
             <template v-if="loading">
@@ -35,7 +35,7 @@
           </button>
         </div>
       </div>
-      <div class="px-2 flex flex-col md:flex-row items-start justify-center gap-2 text-sm rounded-2xl">
+      <div class="px-2 flex flex-col md:flex-row items-start gap-2 text-sm rounded-2xl w-full">
         <div class="flex gap-1">
           <span class="text-neutral-400">Total Worth: </span>
           <div class="flex items-center font-bold">

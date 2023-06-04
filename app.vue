@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col items-center min-h-screen safe-area-padding w-full" style="max-width: 100vw;">
+  <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <NavigationBar/>
     <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;">
       <NuxtPage/>
@@ -233,5 +233,11 @@ input.light, select.light {
 
 .safe-area-padding {
   padding-top: env(safe-area-inset-top);
+}
+
+.iphone-notch {
+  height: env(safe-area-inset-top);
+  position: sticky;
+  top: 0;
 }
 </style>
