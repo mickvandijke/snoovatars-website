@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 relative flex flex-col items-center gap-6 w-full">
+  <div class="relative flex flex-col items-center gap-6 w-full">
     <StatsTabs class="hidden md:block" />
     <template v-if="!user">
       <div class="py-6 flex flex-col items-center gap-2">
