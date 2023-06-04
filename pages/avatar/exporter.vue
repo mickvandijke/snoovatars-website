@@ -1,7 +1,7 @@
 <template>
   <div class="px-4 py-6 sm:py-12 flex flex-col gap-6 items-center w-full max-w-md">
     <h1 class="text-3xl text-neutral-200 font-bold">Avatar Exporter</h1>
-    <div class="flex items-center gap-3 w-full">
+    <div class="flex items-center gap-2 w-full">
       <input type="text" autocomplete="off" name=“searchTerm” class="light" placeholder='Reddit username. Eg: "WarmBiertje".' v-model="user" @keyup.enter.prevent="searchUser">
       <button :disabled="!user" class="px-4 py-3 h-full bg-amber-600 hover:bg-amber-500 disabled:bg-neutral-800 text-white disabled:text-neutral-400 font-medium whitespace-nowrap rounded-md duration-200" @click="searchUser">Let's go!</button>
     </div>
