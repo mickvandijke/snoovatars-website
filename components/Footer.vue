@@ -1,8 +1,8 @@
 <template>
   <footer class="text-sm mt-1 md:mt-0 pb-16 md:pb-0 text-neutral-500 text-center w-full">
     <div class="flex flex-col gap-2 w-full">
-      <div class="p-6 md:p-6">
-        <div class="px-4 py-6 md:py-12 flex flex-col md:flex-row md:justify-between md:items-start gap-6 bg-neutral-900/90 border border-neutral-700/50 rounded-2xl w-full">
+      <div class="p-4 md:p-6">
+        <div class="p-6 md:py-12 flex flex-col md:flex-row md:justify-between md:items-start gap-6 bg-neutral-900/90 border border-neutral-700/50 rounded-2xl w-full">
           <div class="w-full justify-center md:justify-start text-center">
             <h2 class="text-xl text-neutral-200 font-bold mb-2">Socials</h2>
             <div class="flex items-center justify-center">
@@ -74,9 +74,9 @@
       <div class="bg-neutral-900/90 border-t border-neutral-800/90 text-sm py-4">
         <div class="px-3 mx-auto text-center">
           <p>&copy; 2023 RCAX.io. This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</p>
-          <div class="flex gap-1 justify-center">
-            <p><NuxtLink class="text-amber-500" to="/privacy">Privacy Policy</NuxtLink>.</p>
-            <p><NuxtLink class="text-amber-500" to="/tos">Terms of Service</NuxtLink>.</p>
+          <div class="mt-3 flex justify-center items-center divide-x divide-neutral-800">
+            <p><NuxtLink class="text-amber-500 px-3" to="/privacy">Privacy Policy</NuxtLink></p>
+            <p><NuxtLink class="text-amber-500 px-3" to="/tos">Terms of Service</NuxtLink></p>
           </div>
         </div>
       </div>

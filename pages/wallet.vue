@@ -2,7 +2,7 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <select v-model="valuationMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+      <select v-model="valuationMethod" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
         <option value="fiveLastSales">Value by 5 Last Sales Average</option>
@@ -10,7 +10,7 @@
         <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
         <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
       </select>
-      <select v-model="groupMethod" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+      <select v-model="groupMethod" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="group">Group by Series</option>
         <option value="mint">Show Mint Numbers</option>
       </select>
@@ -18,11 +18,11 @@
         <ArrowPathIcon class="w-5 h-5" />
       </button>
     </MenuBar>
-    <div class="px-2 py-2 lg:p-4 flex flex-col gap-2 w-full overflow-hidden">
-      <div class="flex items-center text-sm">
+    <div class="px-2 py-2 lg:p-4 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
+      <div class="flex items-center justify-center text-sm w-full max-w-lg">
         <div class="flex flex-nowrap gap-2 w-full">
-          <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit username (without u/) or wallet address" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full">
-          <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="p-2 flex items-center justify-center whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer loading">
+          <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit username (without u/) or wallet address" class="light">
+          <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 py-3 flex items-center h-full bg-amber-600 hover:bg-amber-500 disabled:bg-neutral-800 text-white disabled:text-neutral-400 font-medium whitespace-nowrap rounded-md duration-200">
             <template v-if="loading">
               <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
@@ -35,26 +35,28 @@
           </button>
         </div>
       </div>
-      <div class="p-2 md:p-4 bg-neutral-800/75 flex flex-col items-start justify-center gap-2 text-sm rounded-2xl">
-        <div class="flex gap-1 font-bold">
-          <span class="text-white">Total Worth: </span>
-          <div class="flex items-center">
+      <div class="px-2 flex flex-col md:flex-row items-start justify-center gap-2 text-sm rounded-2xl">
+        <div class="flex gap-1">
+          <span class="text-neutral-400">Total Worth: </span>
+          <div class="flex items-center font-bold">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
             <div class="text-neutral-200">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
             <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth()) }}</span>)</div>
           </div>
         </div>
-        <div class="flex gap-1 font-bold">
-          <span class="text-white">Total items:</span>
-          <span class="text-amber-500">{{ getTotalItems() }}</span>
+        <div class="flex gap-1">
+          <span class="text-neutral-400">Total items:</span>
+          <span class="text-amber-500 font-bold">{{ getTotalItems() }}</span>
         </div>
       </div>
+    </div>
+    <div class="mt-2 lg:mt-0 px-2 lg:px-4 flex flex-col gap-3 w-full overflow-hidden">
       <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
-        <div class="bg-neutral-800/75 flex flex-col items-center overflow-hidden w-full rounded-2xl">
+        <div class="bg-neutral-900/90 flex flex-col items-center overflow-hidden w-full rounded-2xl">
           <div class="p-2 flex gap-2 w-full rounded">
-            <div class="flex items-center overflow-hidden">
-              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="hidden md:block md:p-2 text-neutral-400 hover:text-white text-sm rounded-md duration-500">{{ walletAddress }}</a>
-              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="md:hidden md:p-2 text-neutral-400 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
+            <div class="pl-2 flex items-center overflow-hidden">
+              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="hidden md:block p-2 text-neutral-500 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</a>
+              <a :href="`https://opensea.io/${walletAddress}`" target="_blank" class="md:hidden text-neutral-500 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
             </div>
             <div class="flex gap-2">
               <button @click="removeWallet(walletAddress)" class="px-1 py-1 text-white font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
@@ -72,7 +74,7 @@
               </button>
             </div>
           </div>
-          <div class="p-2 md:p-4 gap-1 border-t border-neutral-700 w-full">
+          <div class="p-2 md:p-4 gap-1 border-t border-neutral-800 w-full">
             <div class="p-1 flex items-center justify-start w-full font-bold">
               <div class="w-10 h-10 relative rounded-md overflow-hidden">
                 <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank">
@@ -99,7 +101,7 @@
             </div>
           </div>
           <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
-            <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-neutral-700 w-full">
+            <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-neutral-800 w-full">
               <template v-if="groupMethod === 'group'">
                 <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
                   <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">

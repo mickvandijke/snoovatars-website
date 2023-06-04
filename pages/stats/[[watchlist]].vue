@@ -2,8 +2,8 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <input v-model="searchTerm" placeholder="Filter by search" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none max-w-sm">
-      <select v-model="sortOption" class="p-2 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm overflow-x-hidden">
+      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none max-w-sm">
+      <select v-model="sortOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="highestPrice">Sort by Highest Price</option>
         <option value="lowestPrice">Sort by Lowest Price</option>
         <option value="highestLastSale">Sort by Highest Last Sale</option>
@@ -33,7 +33,7 @@
       </select>
       <div
           @click.self="showFilters = !showFilters"
-          class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700 hover:bg-neutral-600 text-white rounded-md duration-200 cursor-pointer">
+          class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-800 hover:bg-neutral-700 text-white rounded-md duration-200 cursor-pointer">
         <button @click.prevent="showFilters = !showFilters" class="flex flex-row flex-nowrap" :class="{ 'text-amber-500': usingFilter() }">
           <AdjustmentsHorizontalIcon class="w-5 h-5" />
         </button>

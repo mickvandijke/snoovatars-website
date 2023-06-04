@@ -209,7 +209,7 @@
         </template>
       </div>
     </template>
-    <button @click="closeExtraInfo()" class="ml-auto flex items-center text-neutral-500 text-[0.7rem] whitespace-nowrap rounded-md duration-500">
+    <button @click="closeExtraInfo()" class="ml-auto flex items-center text-neutral-500 text-[0.7rem] font-semibold whitespace-nowrap rounded-md duration-500">
       <span>Hide details</span>
       <ChevronUpIcon class="w-5 h-5 duration-200" />
     </button>

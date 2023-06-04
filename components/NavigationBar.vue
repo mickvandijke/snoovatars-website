@@ -1,10 +1,10 @@
 <template>
   <div
-      class=" sticky top-[-24px] md:top-[-28px] flex flex-col bg-neutral-900/90 border-b border-neutral-800/90 z-40 w-full"
+      class=" sticky top-[-24px] md:top-[-28px] flex flex-col bg-black/80 border-b border-neutral-800 z-40 w-full"
       style="backdrop-filter: blur(20px);"
       @mouseleave="closeDropdowns()"
   >
-    <div class="px-4 py-1 text-xs md:text-sm border-b border-neutral-800/90 overflow-hidden">
+    <div class="px-4 py-1 text-xs md:text-sm border-b border-neutral-800 overflow-hidden">
       <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
         <div class="inline-flex gap-2">
           <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank" class="flex items-center gap-0.5">
@@ -48,7 +48,7 @@
           <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>
         </div>
         <div>
-          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md bg-neutral-800 text-sm focus:outline-none max-w-sm">
+          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md bg-neutral-900 border-none text-sm focus:outline-none max-w-sm">
             <template v-for="currency in CURRENCIES">
               <option :value="currency.ticker">{{ currency.ticker }}</option>
             </template>
@@ -76,16 +76,16 @@
 
       <ul
           :class="showMenu ? 'flex' : 'hidden'"
-          class="flex-col my-4 lg:my-0 text-neutral-400 gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
+          class="flex-col my-4 lg:my-0 text-neutral-200 gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
       >
-        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
-        <NuxtLink class="px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-700/50 hover:bg-neutral-600/50 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
+        <NuxtLink class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
         <template v-if="token && user?.username">
           <div
               @mouseover="userDropDown = true"
               @click="userDropDown = !userDropDown"
-              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-700/50 hover:bg-neutral-600/50 text-amber-500 rounded-lg duration-200 cursor-pointer">
+              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-900 hover:bg-neutral-800 text-amber-500 rounded-lg duration-200 cursor-pointer">
             <div>
               <button
                   class="flex flex-row flex-nowrap"
@@ -104,7 +104,7 @@
                 leave-to-class="transform opacity-0 scale-95"
             >
               <template v-if="userDropDown">
-                <div class="absolute left-0 lg:left-auto lg:right-0 top-10 z-10 mt-2 w-56 bg-neutral-800 rounded-lg shadow">
+                <div class="absolute left-0 lg:left-auto lg:right-0 top-10 z-10 mt-2 w-56 bg-neutral-900 rounded-lg shadow">
                   <ul class="p-3 font-semibold capitalize">
                     <template v-if="user?.tier < 1">
                       <NuxtLink
@@ -127,7 +127,7 @@
           </div>
         </template>
         <template v-else>
-          <NuxtLink class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-lg duration-200 cursor-pointer" to="/login">Login</NuxtLink>
+          <NuxtLink class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg duration-200 cursor-pointer" to="/login">Login</NuxtLink>
         </template>
       </ul>
     </nav>

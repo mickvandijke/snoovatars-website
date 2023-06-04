@@ -224,11 +224,11 @@ html, body {
 }
 
 input, select {
-  @apply p-2.5 bg-transparent text-neutral-100 placeholder-neutral-400 border-2 border-neutral-800 hover:border-neutral-700 rounded-2xl w-full duration-200 cursor-pointer;
+  @apply p-2.5 bg-transparent text-neutral-100 placeholder-neutral-400 border-2 border-neutral-700 hover:border-neutral-600 rounded-md w-full duration-200 cursor-pointer;
 }
 
 input.light, select.light {
-  @apply border-neutral-700 hover:border-neutral-600;
+  @apply border-neutral-800 hover:border-neutral-700;
 }
 
 .safe-area-padding {

@@ -1,8 +1,8 @@
 <template>
-  <div class="px-4 py-12 flex flex-col items-center gap-6 w-full">
+  <div class="px-4 py-6 sm:py-12 flex flex-col items-center gap-6 w-full">
     <div class="flex items-center gap-3">
-      <NuxtLink to="/avatar/exporter" class="px-4 py-2 flex gap-1 items-center bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white font-bold rounded-lg duration-200"><ChevronLeftIcon class="w-4"/>Back</NuxtLink>
-      <h2 class="py-2 text-xl text-amber-500 font-semibold">u/{{ user }}</h2>
+      <NuxtLink to="/avatar/exporter" class="px-4 py-2 flex gap-1 items-center bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-md duration-200"><ChevronLeftIcon class="w-4"/>Back</NuxtLink>
+      <h2 class="px-4 py-2 bg-neutral-800 text-white rounded-md">u/{{ user }}</h2>
     </div>
     <div class="flex flex-col">
       <div v-if="pending" class="w-24 w-24 bg-neutral-800 rounded-xl animate-pulse"></div>
@@ -14,7 +14,7 @@
     <div class="flex flex-col md:flex-row gap-6 w-full">
       <div class="flex flex-col items-center md:w-2/3 gap-3">
         <div class="px-3 flex md:items-start w-full">
-          <input v-model="searchTerm" placeholder="Filter backgrounds" class="p-2 rounded-md border border-neutral-600/50 bg-neutral-700/50 text-sm focus:outline-none w-full max-w-sm">
+          <input v-model="searchTerm" placeholder="Filter backgrounds" class="light">
         </div>
         <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[38rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3 w-full h-full">
           <template v-for="(background, index) in filteredAvatarBackgrounds()">
