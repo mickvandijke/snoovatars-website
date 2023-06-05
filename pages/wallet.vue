@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col items-center w-full">
+  <div class="pb-2 md:pb-0 relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <select v-model="valuationMethod" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
