@@ -1,6 +1,6 @@
 <template>
   <div class="z-20 w-full">
-    <ul class="py-1 flex items-center justify-center -mb-px font-medium text-neutral-500 text-center border-b border-neutral-800 w-full">
+    <ul class="py-1 flex items-center justify-center -mb-px font-medium text-neutral-500 text-center border-b border-neutral-900 w-full">
       <li>
         <NuxtLink to="/wallet" class="nlink" active-class="active">
           <WalletIcon class="nlinkicon"/>

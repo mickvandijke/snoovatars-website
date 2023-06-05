@@ -4,7 +4,7 @@
       style="backdrop-filter: blur(20px);padding-top: env(safe-area-inset-top);"
       @mouseleave="closeDropdowns()"
   >
-    <div class="px-4 py-1 text-xs md:text-sm border-b border-neutral-800 overflow-hidden">
+    <div class="px-4 py-1 text-xs md:text-sm border-b border-neutral-900 overflow-hidden">
       <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
         <div class="inline-flex gap-2">
           <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank" class="flex items-center gap-0.5">
