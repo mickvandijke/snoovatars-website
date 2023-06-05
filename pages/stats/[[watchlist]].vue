@@ -67,11 +67,15 @@
           </div>
         </template>
       </div>
-      <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
-        <ArrowPathIcon class="w-5 h-5" />
-      </button>
+      <template v-if="!Capacitor.isNativePlatform()">
+        <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+          <ArrowPathIcon class="w-5 h-5" />
+        </button>
+      </template>
     </MenuBar>
-    <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" :sorting="sortOption" />
+    <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
+      <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" :sorting="sortOption" />
+    </PullToRefresh>
   </div>
 </template>
 
@@ -89,6 +93,7 @@ import {computed, ref, useRoute, useRouter} from "#imports";
 import {watch} from "vue";
 import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import MenuBar from "~/components/MenuBar.vue";
+import {Capacitor} from "@capacitor/core";
 
 const router = useRouter();
 const route = useRoute();

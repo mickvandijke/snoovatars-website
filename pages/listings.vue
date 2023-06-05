@@ -92,7 +92,7 @@ const seriesStats = useSeriesStats();
 const searchTerm = ref("");
 const maxMint = ref(undefined);
 const paymentToken = ref("eth");
-const listingsSortColumn = ref('token.mint_number');
+const listingsSortColumn = ref('payment_token.base_price');
 const listingsSortDirection = ref('asc');
 const listingsCurrentPage = ref(1);
 const listings: Ref<Array<Listing>> = ref([]);
@@ -147,7 +147,7 @@ const filteredListings: ComputedRef<Listing[]> = computed(() => {
   }
 
   if (searchTerm.value) {
-    filteredListings = filteredListings.filter((listing) => listing.token.name.toLowerCase().includes(searchTerm.value.toLowerCase()))
+    filteredListings = filteredListings.filter((listing) => (listing.token.name.toLowerCase() + listing.token.name.toLowerCase().replace(/[^a-zA-Z ]/g, "")).includes(searchTerm.value.toLowerCase()))
   }
 
   if (maxMint.value) {

@@ -14,19 +14,23 @@
         <option value="listings">Latest Listings</option>
         <option value="mints">Latest Mints</option>
       </select>
-      <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
-        <ArrowPathIcon class="w-5 h-5" />
-      </button>
+      <template v-if="!Capacitor.isNativePlatform()">
+        <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+          <ArrowPathIcon class="w-5 h-5" />
+        </button>
+      </template>
     </MenuBar>
-    <template v-if="feedView === 'sales'">
-      <SalesComponent :items="filteredSales()"/>
-    </template>
-    <template v-else-if="feedView === 'listings'">
-      <ListingsComponent :items="filteredListings()"/>
-    </template>
-    <template v-else-if="feedView === 'mints'">
-      <MintsComponent :items="filteredMints()"/>
-    </template>
+    <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
+      <template v-if="feedView === 'sales'">
+        <SalesComponent :items="filteredSales()"/>
+      </template>
+      <template v-else-if="feedView === 'listings'">
+        <ListingsComponent :items="filteredListings()"/>
+      </template>
+      <template v-else-if="feedView === 'mints'">
+        <MintsComponent :items="filteredMints()"/>
+      </template>
+    </PullToRefresh>
   </div>
 </template>
 
@@ -38,7 +42,6 @@ import {
   useSeriesStats,
   useWatchList
 } from "~/composables/states";
-import {SeriesStats} from "~/types/seriesStats";
 import {ref, useRoute, useRouter, watch} from "#imports";
 import {fetchSalesLatest} from "~/composables/api/sales";
 import SalesComponent from "~/components/SalesComponent.vue";
@@ -50,6 +53,7 @@ import {fetchMintsLatest} from "~/composables/api/mints";
 import {ArrowPathIcon} from "@heroicons/vue/24/solid";
 import {Listing} from "~/types/listing";
 import {fetchListingsLatest} from "~/composables/api/listings";
+import {Capacitor} from "@capacitor/core";
 
 const watchList = useWatchList();
 const router = useRouter();

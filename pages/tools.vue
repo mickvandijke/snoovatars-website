@@ -9,14 +9,14 @@
     </NuxtLink>
     <NuxtLink to="/listings" class="w-full max-w-sm">
       <div class="group tool w-full">
-        <h1 class="text-white text-xl font-semibold">Listings Browser</h1>
+        <h1 class="text-white text-xl font-semibold">Listings Browser <span class="text-amber-500 font-bold italic">Pro</span></h1>
         <TagIcon class="w-8 h-8 text-neutral-500" />
         <p class="text-neutral-500 text-sm">Browse through all listings. Get those cheap #1's!</p>
       </div>
     </NuxtLink>
     <NuxtLink to="/alerts" class="w-full max-w-sm">
       <div class="group tool">
-        <h1 class="text-white text-xl font-semibold">Price Alerts</h1>
+        <h1 class="text-white text-xl font-semibold">Price Alerts <span class="text-amber-500 font-bold italic">Pro</span></h1>
         <BellIcon class="w-8 h-8 text-neutral-500" />
         <p class="text-neutral-500 text-sm">Set Custom Real-Time Price Alerts. Get notified over Mobile Push Notifications or Email.</p>
       </div>

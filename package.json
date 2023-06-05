@@ -25,6 +25,7 @@
     "@capacitor/push-notifications": "^5.0.2",
     "@capacitor/share": "^5.0.2",
     "@heroicons/vue": "^2.0.13",
+    "@ionic/vue": "^7.0.10",
     "chart.js": "^4.3.0",
     "cordova-plugin-purchase": "^13.4.3",
     "ethers": "5.5.3",

@@ -1,7 +1,7 @@
 <template>
   <div class="px-4 py-6 sm:py-12 flex flex-col items-center gap-6 w-full">
     <div class="flex items-center gap-3">
-      <NuxtLink to="/avatar/exporter" class="px-4 py-2 flex gap-1 items-center bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-md duration-200"><ChevronLeftIcon class="w-4"/>Back</NuxtLink>
+      <NuxtLink to="/avatar/exporter" class="px-4 py-2 flex gap-1 items-center bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-md duration-200"><ChevronLeftIcon class="w-4"/>Change</NuxtLink>
       <h2 class="px-4 py-2 bg-neutral-800 text-white rounded-md">u/{{ user }}</h2>
     </div>
     <div class="flex flex-col">
