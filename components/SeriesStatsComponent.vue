@@ -1,43 +1,7 @@
 <template>
   <VirtualGrid :items="items">
     <template #default="{ item, index }">
-      <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" :hide-floor="!sortingOnShop">
-        <div class="flex items-center gap-1 text-[0.7rem]">
-          <h1 class="text-neutral-500 font-bold rounded-md">#{{ index + 1 }}</h1>
-          <a :href="`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`" target="_blank" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.series.name }}</a>
-          <div class="ml-auto flex items-center gap-1 font-bold">
-            <div class="flex items-center gap-1 font-bold overflow-hidden">
-              <div class="text-neutral-400">24h:</div>
-              <template v-if="item.stats.daily_price_change > 0">
-                <div class="flex gap-0.5 items-center text-green-500">
-                  <ArrowTrendingUpIcon class="w-4 h-4" />
-                  <span>{{ item.stats.daily_price_change.toFixed(2) }}%</span>
-                </div>
-              </template>
-              <template v-else-if="item.stats.daily_price_change < 0">
-                <div class="flex gap-0.5 items-center text-red-500">
-                  <ArrowTrendingDownIcon class="w-4 h-4" />
-                  <span>{{ item.stats.daily_price_change.toFixed(2) }}%</span>
-                </div>
-              </template>
-              <template v-else>
-                <div class="flex gap-0.5 items-center text-neutral-200">
-                  <span>0%</span>
-                </div>
-              </template>
-            </div>
-            <template v-if="watchList.has(item.series.name)">
-              <div @click.stop="removeFromWatchList(item.series.name)" class="flex items-center justify-center cursor-pointer">
-                <StarIcon class="w-5 h-5 text-yellow-500" />
-              </div>
-            </template>
-            <template v-else>
-              <div @click.stop="addToWatchList(item.series.name)" class="flex items-center justify-center cursor-pointer">
-                <StarIcon class="w-5 h-5 text-neutral-500 hover:text-yellow-500/50" />
-              </div>
-            </template>
-          </div>
-        </div>
+      <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" :hide-floor="!sortingOnShop" :ranking="index + 1">
         <template v-if="sortingOnShop">
           <div class="flex items-center gap-1 font-bold text-[0.7rem] w-full overflow-hidden">
             <div class="flex items-center gap-0.5 overflow-hidden">
@@ -93,7 +57,7 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-2 font-medium text-[0.8rem] lg:text-[0.8rem] items-center">
+          <div class="flex gap-2 font-medium text-[0.8rem] items-center">
             <template v-if="item.stats.lowest_listing">
               <div class="flex flex-col">
                 <div class="flex items-center gap-0.5">

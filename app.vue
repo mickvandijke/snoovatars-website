@@ -1,10 +1,12 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <NavigationBar/>
-    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;">
+    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }">
       <NuxtPage/>
     </div>
-    <Footer/>
+    <template v-if="!Capacitor.isNativePlatform()">
+      <Footer/>
+    </template>
     <MobileNavigationBar/>
     <template v-if="!cookies">
       <CookieWarning/>
@@ -231,13 +233,7 @@ input.light, select.light {
   @apply border-neutral-800 hover:border-neutral-700;
 }
 
-.safe-area-padding {
-  padding-top: env(safe-area-inset-top);
-}
-
-.iphone-notch {
-  height: env(safe-area-inset-top);
-  position: sticky;
-  top: 0;
+.page-mobile-padding {
+  padding-bottom: calc(54px + env(safe-area-inset-bottom));
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <footer class="text-sm mt-1 md:mt-0 pb-16 md:pb-0 text-neutral-500 text-center w-full">
+  <footer class="text-sm mt-6 md:mt-0 pb-[53px] md:pb-0 text-neutral-500 text-center w-full">
     <div class="flex flex-col gap-2 w-full">
-      <div class="p-4 md:p-6">
-        <div class="p-6 md:py-12 flex flex-col md:flex-row md:justify-between md:items-start gap-6 bg-neutral-900/90 border border-neutral-700/50 rounded-2xl w-full">
+      <div class="bg-neutral-900/90 border-t border-neutral-800/90 text-sm py-4">
+        <div class="px-6 pb-6 flex flex-col md:flex-row md:justify-between md:items-start gap-6 w-full">
           <div class="w-full justify-center md:justify-start text-center">
-            <h2 class="text-xl text-neutral-200 font-bold mb-2">Socials</h2>
+            <h2 class="text-xl text-neutral-500 font-semibold mb-2">Socials</h2>
             <div class="flex items-center justify-center">
               <div class="flex flex-col items-center">
                 <a href="https://twitter.com/RCAX_io" class="p-2 md:p-1 flex items-center gap-2 text-white font-semibold">
@@ -23,7 +23,7 @@
           </div>
           <template v-if="!Capacitor.isNativePlatform()">
             <div class="w-full justify-center md:justify-start text-center">
-              <h2 class="text-xl text-neutral-200 font-bold mb-4">Our Partners</h2>
+              <h2 class="text-xl text-neutral-500 font-semibold mb-4">Our Partners</h2>
               <div class="flex items-center justify-center">
                 <div class="flex flex-col items-center gap-3">
                   <div class="flex flex-col gap-1 items-center">
@@ -31,9 +31,9 @@
                       <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
                         <defs>
                         </defs>
-                            <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                        <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
                           <circle cx="45" cy="45" r="45" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,69,0); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
-                              <path d="M 75.011 45 c -0.134 -3.624 -3.177 -6.454 -6.812 -6.331 c -1.611 0.056 -3.143 0.716 -4.306 1.823 c -5.123 -3.49 -11.141 -5.403 -17.327 -5.537 l 2.919 -14.038 l 9.631 2.025 c 0.268 2.472 2.483 4.262 4.955 3.993 c 2.472 -0.268 4.262 -2.483 3.993 -4.955 s -2.483 -4.262 -4.955 -3.993 c -1.421 0.145 -2.696 0.973 -3.4 2.204 L 48.68 17.987 c -0.749 -0.168 -1.499 0.302 -1.667 1.063 c 0 0.011 0 0.011 0 0.022 l -3.322 15.615 c -6.264 0.101 -12.36 2.025 -17.55 5.537 c -2.64 -2.483 -6.801 -2.36 -9.284 0.291 c -2.483 2.64 -2.36 6.801 0.291 9.284 c 0.515 0.481 1.107 0.895 1.767 1.186 c -0.045 0.66 -0.045 1.32 0 1.98 c 0 10.078 11.745 18.277 26.23 18.277 c 14.485 0 26.23 -8.188 26.23 -18.277 c 0.045 -0.66 0.045 -1.32 0 -1.98 C 73.635 49.855 75.056 47.528 75.011 45 z M 30.011 49.508 c 0 -2.483 2.025 -4.508 4.508 -4.508 c 2.483 0 4.508 2.025 4.508 4.508 s -2.025 4.508 -4.508 4.508 C 32.025 53.993 30.011 51.991 30.011 49.508 z M 56.152 62.058 v -0.179 c -3.199 2.405 -7.114 3.635 -11.119 3.468 c -4.005 0.168 -7.919 -1.063 -11.119 -3.468 c -0.425 -0.515 -0.347 -1.286 0.168 -1.711 c 0.447 -0.369 1.085 -0.369 1.544 0 c 2.707 1.98 6.007 2.987 9.362 2.83 c 3.356 0.179 6.667 -0.783 9.407 -2.74 c 0.492 -0.481 1.297 -0.47 1.779 0.022 C 56.655 60.772 56.644 61.577 56.152 62.058 z M 55.537 54.34 c -0.078 0 -0.145 0 -0.224 0 l 0.034 -0.168 c -2.483 0 -4.508 -2.025 -4.508 -4.508 s 2.025 -4.508 4.508 -4.508 s 4.508 2.025 4.508 4.508 C 59.955 52.148 58.02 54.239 55.537 54.34 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/>
+                          <path d="M 75.011 45 c -0.134 -3.624 -3.177 -6.454 -6.812 -6.331 c -1.611 0.056 -3.143 0.716 -4.306 1.823 c -5.123 -3.49 -11.141 -5.403 -17.327 -5.537 l 2.919 -14.038 l 9.631 2.025 c 0.268 2.472 2.483 4.262 4.955 3.993 c 2.472 -0.268 4.262 -2.483 3.993 -4.955 s -2.483 -4.262 -4.955 -3.993 c -1.421 0.145 -2.696 0.973 -3.4 2.204 L 48.68 17.987 c -0.749 -0.168 -1.499 0.302 -1.667 1.063 c 0 0.011 0 0.011 0 0.022 l -3.322 15.615 c -6.264 0.101 -12.36 2.025 -17.55 5.537 c -2.64 -2.483 -6.801 -2.36 -9.284 0.291 c -2.483 2.64 -2.36 6.801 0.291 9.284 c 0.515 0.481 1.107 0.895 1.767 1.186 c -0.045 0.66 -0.045 1.32 0 1.98 c 0 10.078 11.745 18.277 26.23 18.277 c 14.485 0 26.23 -8.188 26.23 -18.277 c 0.045 -0.66 0.045 -1.32 0 -1.98 C 73.635 49.855 75.056 47.528 75.011 45 z M 30.011 49.508 c 0 -2.483 2.025 -4.508 4.508 -4.508 c 2.483 0 4.508 2.025 4.508 4.508 s -2.025 4.508 -4.508 4.508 C 32.025 53.993 30.011 51.991 30.011 49.508 z M 56.152 62.058 v -0.179 c -3.199 2.405 -7.114 3.635 -11.119 3.468 c -4.005 0.168 -7.919 -1.063 -11.119 -3.468 c -0.425 -0.515 -0.347 -1.286 0.168 -1.711 c 0.447 -0.369 1.085 -0.369 1.544 0 c 2.707 1.98 6.007 2.987 9.362 2.83 c 3.356 0.179 6.667 -0.783 9.407 -2.74 c 0.492 -0.481 1.297 -0.47 1.779 0.022 C 56.655 60.772 56.644 61.577 56.152 62.058 z M 55.537 54.34 c -0.078 0 -0.145 0 -0.224 0 l 0.034 -0.168 c -2.483 0 -4.508 -2.025 -4.508 -4.508 s 2.025 -4.508 4.508 -4.508 s 4.508 2.025 4.508 4.508 C 59.955 52.148 58.02 54.239 55.537 54.34 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/>
                         </g>
                       </svg>
                       <span>r/AvatarTrading</span>
@@ -53,7 +53,7 @@
             </div>
           </template>
           <div class="flex flex-col w-full justify-center md:justify-start text-center">
-            <h2 class="text-xl font-bold mb-2 text-neutral-200">Contact</h2>
+            <h2 class="text-xl font-semibold mb-2 text-neutral-500">Contact</h2>
             <div class="flex flex-col gap-3 items-center justify-center font-semibold">
               <a href="mailto:snoovatars@gmail.com" class="text-amber-500">snoovatars@gmail.com</a>
               <a href="https://www.reddit.com/u/WarmBiertje/" class="flex items-center gap-2 text-white font-semibold">
@@ -70,11 +70,9 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="bg-neutral-900/90 border-t border-neutral-800/90 text-sm py-4">
-        <div class="px-3 mx-auto text-center">
-          <p>&copy; 2023 RCAX.io. This website is not affiliated with or endorsed by reddit Inc. or OpenSea.</p>
-          <div class="mt-3 flex justify-center items-center divide-x divide-neutral-800">
+        <div class="px-3 flex flex-col items-center">
+          <div class="py-3 border-t border-neutral-800/90 w-fit">&copy; 2023 RCAX.io. This {{ Capacitor.isNativePlatform() ? "app" : "website" }} is not affiliated with or endorsed by reddit Inc. or OpenSea.</div>
+          <div class="flex justify-center items-center divide-x divide-neutral-800">
             <p><NuxtLink class="text-amber-500 px-3" to="/privacy">Privacy Policy</NuxtLink></p>
             <p><NuxtLink class="text-amber-500 px-3" to="/tos">Terms of Service</NuxtLink></p>
           </div>

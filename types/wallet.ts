@@ -8,4 +8,5 @@ export interface WalletTokens {
 export interface ApiResponse {
     wallets: Record<WalletAddress, Record<string, Token[]>>;
     cones: number;
+    weth: number;
 }

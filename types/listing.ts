@@ -1,4 +1,5 @@
 import {Token} from "~/types/token";
+import {Collection} from "~/types/collection";
 
 export interface Listing {
     token: Token;
@@ -11,6 +12,10 @@ export interface Listing {
         base_price: number;
         eth_price: number;
     };
+}
+
+export interface ApiResponse {
+    listings: Record<string, Record<string, Record<string, Listing>>>
 }
 
 export interface ApiResponseLatest {

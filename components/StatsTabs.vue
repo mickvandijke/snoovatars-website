@@ -26,6 +26,12 @@
         </NuxtLink>
       </li>
       <li>
+        <NuxtLink to="/listings" class="nlink" active-class="active">
+          <TagIcon class="nlinkicon"/>
+          <span class="">Listings</span>
+        </NuxtLink>
+      </li>
+      <li>
         <NuxtLink to="/alerts" class="nlink" active-class="active">
           <BellIcon class="nlinkicon"/>
           <span class="">Alerts</span>
@@ -36,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import {StarIcon, BellIcon, ChartBarIcon, WalletIcon, BoltIcon} from "@heroicons/vue/24/solid";
+import {StarIcon, BellIcon, ChartBarIcon, WalletIcon, TagIcon, BoltIcon} from "@heroicons/vue/24/solid";
 </script>
 
 <style scoped>

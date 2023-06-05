@@ -44,11 +44,11 @@
         </div>
         <div class="mt-2 flex flex-col items-center text-neutral-400 w-full max-w-xs">
           <label class="">Avatar size</label>
-          <select class="mt-2 py-3 capitalize" v-model="avatarSize" @change="drawAvatar">
+          <select class="mt-2 p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm capitalize border-none focus:outline-none max-w-sm overflow-x-hidden" v-model="avatarSize" @change="drawAvatar">
             <option v-for="size in AvatarSize" :value="size">{{ size }}</option>
           </select>
           <label class="mt-6">Avatar position</label>
-          <select class="mt-2 py-3 capitalize" v-model="avatarPosition" @change="drawAvatar">
+          <select class="mt-2 p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm capitalize border-none focus:outline-none max-w-sm overflow-x-hidden" v-model="avatarPosition" @change="drawAvatar">
             <option v-for="position in AvatarPosition" :value="position">{{ position }}</option>
           </select>
           <button v-if="!pending && avatar" :disabled="savingImage" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Download</button>

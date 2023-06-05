@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-2 lg:mt-0 px-2 lg:px-4 flex flex-col gap-3 w-full overflow-hidden">
+    <div class="mt-2 lg:mt-0 px-2 lg:px-4 lg:pb-4 flex flex-col gap-3 w-full overflow-hidden">
       <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
         <div class="bg-neutral-900/90 flex flex-col items-center overflow-hidden w-full rounded-2xl">
           <div class="p-2 flex gap-2 w-full rounded">
@@ -74,7 +74,7 @@
               </button>
             </div>
           </div>
-          <div class="p-2 md:p-4 gap-1 border-t border-neutral-800 w-full">
+          <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-neutral-800 w-full">
             <div class="p-1 flex items-center justify-start w-full font-bold">
               <div class="w-10 h-10 relative rounded-md overflow-hidden">
                 <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank">
@@ -96,6 +96,30 @@
                 </div>
                 <div class="flex items-center text-xs md:text-sm">
                   <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ coneInLocalCurrency(cone) }}</span>)</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-1 flex items-center justify-start w-full font-bold">
+              <div class="w-10 h-10 relative rounded-md overflow-hidden">
+                <a href="https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619" target="_blank" class="flex justify-center w-full h-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="p-1 h-full text-purple-800"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                </a>
+              </div>
+              <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
+                <a
+                    :href="`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619?a=${ walletAddress }`" target="_blank"
+                    class="text-neutral-200 whitespace-nowrap text-ellipsis overflow-hidden"
+                >wETH</a>
+                <span class="text-amber-500">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
+              </div>
+              <div class="ml-auto flex flex-col items-end text-[0.8rem] md:text-sm">
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-neutral-200">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                  <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(((getWeth(walletAddress) ?? 0))) }}</span>)</div>
+                </div>
+                <div class="flex items-center text-xs md:text-sm">
+                  <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>)</div>
                 </div>
               </div>
             </div>
@@ -190,6 +214,7 @@ const cone = useConeEthPrice();
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
 const cones: Ref<Map<string, number>> = ref(new Map());
+const weth: Ref<Map<string, number>> = ref(new Map());
 const valuationMethod = ref<string>("floor");
 const groupMethod = ref<string>("group");
 const loading = ref(false);
@@ -246,6 +271,7 @@ async function getWalletTokens(wallet: string) {
 
         tokens.value.set(firstWalletAddress, firstWalletValue);
         cones.value.set(firstWalletAddress, data.cones);
+        weth.value.set(firstWalletAddress, data.weth ?? 0);
 
         walletAddress.value = "";
       })
@@ -259,6 +285,10 @@ async function getWalletTokens(wallet: string) {
 
 function getCones(wallet: string) {
   return cones.value.get(wallet);
+}
+
+function getWeth(wallet: string) {
+  return weth.value.get(wallet);
 }
 
 function getSeriesStats(name: string) {

@@ -1,6 +1,6 @@
 <template>
   <div
-      class=" sticky top-0 flex flex-col bg-black/80 border-b border-neutral-800 z-40 w-full"
+      class=" sticky top-0 flex flex-col bg-black/80 border-b border-neutral-900 z-40 w-full"
       style="backdrop-filter: blur(20px);padding-top: env(safe-area-inset-top);"
       @mouseleave="closeDropdowns()"
   >

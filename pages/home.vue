@@ -67,7 +67,7 @@
     <h2 class="mb-12 text-xl text-white font-bold text-center">We continually want to improve the service, so stay tuned for new updates!</h2>
 
     <NuxtLink
-        class="px-6 py-4 max-w-xs bg-neutral-700/50 hover:bg-amber-500/20 font-bold text-lg text-amber-500 rounded-2xl duration-200"
+        class="px-6 py-4 max-w-xs bg-neutral-800/50 hover:bg-amber-500/20 font-bold text-lg text-amber-500 rounded-2xl duration-200"
         to="/signup"
     >
       Sign up for free
@@ -79,7 +79,7 @@
       <div class="grid lg:grid-cols-2 gap-6 lg:gap-x-12">
 
         <div class="mb-6 lg:mb-0 flex flex-col items-center">
-          <div class="block max-w-xs w-full shadow-lg bg-neutral-800 border-2 border-neutral-700 h-full rounded-2xl">
+          <div class="block max-w-xs w-full shadow-lg bg-neutral-900 border-2 border-neutral-700 h-full rounded-2xl">
             <div class="p-6 border-b border-neutral-700 text-center">
               <p class="uppercase mb-4 text-sm">
                 <strong>Free</strong>
@@ -102,18 +102,17 @@
         </div>
 
         <div class="mb-6 lg:mb-0 flex flex-col items-center">
-          <div class="block max-w-xs w-full shadow-lg bg-neutral-800 border-2 border-amber-500 h-full rounded-2xl">
+          <div class="block max-w-xs w-full shadow-lg bg-neutral-900 border-2 border-amber-500 h-full rounded-2xl">
             <div class="p-6 border-b border-neutral-700 text-center">
               <p class="uppercase mb-4 text-sm">
                 <strong class="text-amber-500">Pro</strong>
               </p>
               <h3 class="text-2xl mb-6">
-                <strong>~ € 10</strong>
+                <strong>Variable</strong>
                 <small class="text-neutral-400"> / lifetime</small>
               </h3>
               <NuxtLink
                   class="signup"
-                  target="_blank"
                   to="/upgrade"
               >
                 Buy a Pro code

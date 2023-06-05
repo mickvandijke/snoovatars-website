@@ -1,12 +1,12 @@
 <template>
-  <div class="py-12 px-4 flex flex-col items-center w-full max-w-xl">
+  <div class="py-6 md:py-12 px-4 flex flex-col items-center w-full max-w-xl">
     <div class="flex flex-col items-center w-full">
       <template v-if="!user">
         <h1 class="text-2xl font-semibold text-white">Please sign in before upgrading to PRO!</h1>
       </template>
       <template v-else-if="user.tier === 0">
         <h1 class="text-2xl font-semibold text-white">Upgrade to a lifetime of PRO!</h1>
-        <p class="mt-6 text-white text-center">With PRO, you will enjoy all the current and future Pro features on our platform. This includes price alerts via email and mobile push notifications. THANK YOU for supporting RCAX!</p>
+        <p class="mt-6 text-white text-center">With PRO, you will enjoy all the current and future Pro features on our platform. This includes price alerts via email and mobile push notifications. The upgrade is a one-time payment and will support the development of RCAX :).</p>
         <p class="mt-6 text-white text-center">Accounts are cross-platform, so you only need to upgrade once to enjoy PRO on Web, Android and iOS!</p>
         <template v-if="!Capacitor.isNativePlatform()">
           <h2 class="mt-6 font-semibold text-amber-500 text-center">20% of all Website PRO sales will be donated to the r/AvatarTrading community wallet.</h2>

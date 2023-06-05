@@ -5,14 +5,52 @@
         <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
           <img :src="getTokenImage(item.image)" :alt="item.name">
           <template v-if="seriesStats">
-            <div class="absolute top-1 left-1 px-1 border-amber-400 text-black/75 font-bold border rounded" :class="getMintClasses(seriesStats.series.total_quantity)">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</div>
             <div class="absolute bottom-0 w-full px-1 py-0.25 text-white text-[0.65rem] text-center font-bold" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">${{ seriesStats.series.mint_price / 100.00 }}</div>
           </template>
           <div class="absolute top-1 right-1 w-4 h-4 rounded-full">
             <OpenseaIcon />
           </div>
         </a>
-        <div class="pl-2 sm:px-2 py-1.5 sm:bg-neutral-900 flex flex-col rounded-lg gap-1 overflow-hidden" style="width: 81%">
+        <div class="pl-2 sm:px-2 py-1.5 sm:bg-neutral-900 flex flex-col rounded-lg gap-0.5 overflow-hidden" style="width: 81%">
+          <div class="flex items-center gap-1 text-[0.7rem]">
+            <template v-if="ranking">
+              <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
+            </template>
+            <div class="px-1 border-amber-400 text-black/75 font-bold rounded shadow" :class="getMintClasses(seriesStats.series.total_quantity)">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</div>
+            <a :href="`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`" target="_blank" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</a>
+            <div class="ml-auto flex items-center gap-1 font-bold">
+              <div class="flex items-center gap-1 font-bold overflow-hidden">
+                <div class="text-neutral-400">24h:</div>
+                <template v-if="seriesStats.stats.daily_price_change > 0">
+                  <div class="flex gap-0.5 items-center text-green-500">
+                    <ArrowTrendingUpIcon class="w-4 h-4" />
+                    <span>{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
+                  </div>
+                </template>
+                <template v-else-if="seriesStats.stats.daily_price_change < 0">
+                  <div class="flex gap-0.5 items-center text-red-500">
+                    <ArrowTrendingDownIcon class="w-4 h-4" />
+                    <span>{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="flex gap-0.5 items-center text-neutral-200">
+                    <span>0%</span>
+                  </div>
+                </template>
+              </div>
+              <template v-if="watchList.has(seriesStats.series.name)">
+                <div @click.stop="removeFromWatchList(seriesStats.series.name)" class="p-0.5 bg-yellow-500/20 flex items-center justify-center rounded-md cursor-pointer">
+                  <StarIcon class="w-4 h-4 text-yellow-500" />
+                </div>
+              </template>
+              <template v-else>
+                <div @click.stop="addToWatchList(seriesStats.series.name)" class="group p-0.5 bg-neutral-800/90 sm:bg-neutral-700/90 hover:bg-yellow-500/20 flex items-center justify-center rounded-md cursor-pointer">
+                  <StarIcon class="w-4 h-4 text-neutral-500 group-hover:text-yellow-500/50" />
+                </div>
+              </template>
+            </div>
+          </div>
           <div class="h-full flex flex-col justify-between">
             <slot></slot>
           </div>
@@ -61,12 +99,16 @@ import {SeriesStats} from "~/types/seriesStats";
 import OpenseaIcon from "~/components/OpenseaIcon.vue";
 import {dappLink} from "~/global/utils";
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
+import {useWatchList, addToWatchList, removeFromWatchList} from "#imports";
+import {StarIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
 
 export interface AvatarCardItem {
   name: string;
   contract_address: string;
   image: string;
 }
+
+const watchList = useWatchList();
 
 const componentRef = ref(null);
 
@@ -83,6 +125,10 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: () => false
+  },
+  ranking: {
+    type: Number,
+    required: false
   }
 });
 
@@ -114,13 +160,13 @@ function getTokenImage(url: string): string {
 
 function getMintClasses(totalQuantity: number) {
   if (totalQuantity <= 250) {
-    return ["text-[0.65rem] bg-yellow-500 border-yellow-400"];
+    return ["text-[0.65rem] bg-yellow-500 shadow-yellow-500/50"];
   } else if (totalQuantity <= 777) {
-    return ["text-[0.65rem] bg-gray-300 border-gray-200"];
+    return ["text-[0.65rem] bg-gray-300 shadow-gray-300/50"];
   } else if (totalQuantity <= 10000) {
-    return ["text-[0.65rem] bg-amber-600 border-amber-500"];
+    return ["text-[0.65rem] bg-amber-600 shadow-amber-600/50"];
   } else {
-    return ["text-[0.5rem] bg-amber-600 border-amber-500"];
+    return ["text-[0.65rem] bg-amber-600 shadow-amber-600/50"];
   }
 }
 </script>
