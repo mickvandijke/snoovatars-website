@@ -18,7 +18,7 @@
         <option value="highestDailyChange">Sort by Today's Biggest Risers</option>
         <option value="lowestDailyChange">Sort by Today's Biggest Fallers</option>
         <option value="recentSale">Sort by Most Recent Sale</option>
-        <option value="fiveLastSales">Sort by Highest 5 Last Sales Average</option>
+        <option value="fiveLastSales">Sort by Highest Last 5 Sales Average</option>
         <option value="highestWeeklyAverage">Sort by Highest 7 Days Average Sale</option>
         <option value="highestTwoWeeklyAverage">Sort by Highest 14 Days Average Sale</option>
         <option value="highestMonthlyAverage">Sort by Highest 30 Days Average Sale</option>
