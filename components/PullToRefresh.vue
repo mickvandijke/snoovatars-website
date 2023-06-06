@@ -31,8 +31,8 @@ import { ref } from "vue";
 import { IonSpinner } from "@ionic/vue";
 import {ArrowDownIcon} from "@heroicons/vue/24/solid";
 
-const pullToRefreshThreshold = 120;
-const pullMaxDistance = 90;
+const pullToRefreshThreshold = 75;
+const pullMaxDistance = 75;
 
 const pullDistance = ref(0);
 const pullIndicator = ref(null);
@@ -65,10 +65,12 @@ const onTouchMove = (event: TouchEvent) => {
   if (window.pageYOffset === 0) {
     currentY.value = event.touches[0].clientY;
 
-    if (currentY.value - startY.value > 0) {
-      pullDistance.value = currentY.value - startY.value;
+    const distance = currentY.value - startY.value;
+
+    if (distance > 0) {
+      pullDistance.value = distance;
       pullIndicator.value.style.height = Math.min(
-          (currentY.value - startY.value) / 2,
+          distance,
           pullMaxDistance
       ) + "px"; // Limit the height to a maximum of 90 pixels
     }
