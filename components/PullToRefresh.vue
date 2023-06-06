@@ -12,7 +12,7 @@
     <template v-else>
       <div class="flex flex-col items-center justify-center" :style="{ height: pullIndicatorHeight + 'px' }" id="pullIndicator">
         <template v-if="pullDistance > 0">
-          <ArrowDownIcon class="w-5 h-5 text-amber-500" :class="{ 'rotate-180': pullDistance > pullToRefreshThreshold }" />
+          <ArrowDownIcon class="w-5 h-5 text-amber-500 duration-200" :class="{ 'rotate-180': pullDistance > pullToRefreshThreshold }" />
         </template>
       </div>
     </template>

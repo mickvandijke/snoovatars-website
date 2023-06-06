@@ -4,32 +4,41 @@
       style="backdrop-filter: blur(20px);padding-top: env(safe-area-inset-top);"
       @mouseleave="closeDropdowns()"
   >
-    <div class="px-4 py-1 text-xs md:text-sm border-b border-neutral-900 overflow-hidden">
-      <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
-        <div class="inline-flex gap-2">
-          <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank" class="flex items-center gap-0.5">
-            <span class="text-orange-400 font-bold">BitCone:</span>
-            <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
-          </a>
-          <div class="flex items-center gap-0.5">
-            <span class="text-neutral-400 font-bold">24hr Vol:</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-            <div class="flex gap-1 font-bold text-white">
-              <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
-              <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * 1000000000000000000) }}</span>)</span>
+    <transition
+        enter-active-class="transition ease-out duration-200"
+        enter-from-class="transform opacity-0 scale-95"
+        enter-to-class="transform opacity-100 scale-100"
+        leave-active-class="transition ease-in duration-100"
+        leave-from-class="transform opacity-100 scale-100"
+        leave-to-class="transform opacity-0 scale-95"
+    >
+      <div v-if="showingBarMarketInfo" class="px-4 py-1 text-xs md:text-sm border-b border-neutral-900 overflow-hidden" ref="barMarketInfo">
+        <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
+          <div class="inline-flex gap-2">
+            <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank" class="flex items-center gap-0.5">
+              <span class="text-orange-400 font-bold">BitCone:</span>
+              <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
+            </a>
+            <div class="flex items-center gap-0.5">
+              <span class="text-neutral-400 font-bold">24hr Vol:</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <div class="flex gap-1 font-bold text-white">
+                <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
+                <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * 1000000000000000000) }}</span>)</span>
+              </div>
             </div>
-          </div>
-          <div class="flex items-center gap-0.5">
-            <span class="text-neutral-400 font-bold">Market Cap:</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-            <div class="flex gap-1 font-bold text-white">
-              <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
-              <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * 1000000000000000000) }}</span>)</span>
+            <div class="flex items-center gap-0.5">
+              <span class="text-neutral-400 font-bold">Market Cap:</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <div class="flex gap-1 font-bold text-white">
+                <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
+                <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * 1000000000000000000) }}</span>)</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
     <nav class="py-2 px-4 lg:flex lg:justify-between lg:items-center">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
@@ -138,6 +147,7 @@
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
 import {
+  onBeforeUnmount,
   ref, useRouter,
   useToken, useTotalDailyVolume, useTotalMarketCap,
   useUser,
@@ -165,6 +175,9 @@ const router = useRouter();
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
 const preferredCurrency: Ref<string> = ref(usePreferredCurrency().value);
+const scrollThreshold = 25; // Adjust this threshold value as needed
+const prevScrollPos = ref(window.pageYOffset);
+const showingBarMarketInfo = ref(true);
 
 router.afterEach(() => {
   showMenu.value = false;
@@ -176,7 +189,36 @@ watch([preferredCurrency], () => {
 
 onMounted(() => {
   updateMarketInfo();
+  window.addEventListener('scroll', handleScroll);
 });
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+
+const handleScroll = () => {
+  const currentScrollPos = window.pageYOffset;
+
+  if (currentScrollPos > prevScrollPos.value) {
+    // Scrolling down
+    if (showingBarMarketInfo.value) {
+      if (currentScrollPos > scrollThreshold) {
+        // Hide barMarketInfo
+        showingBarMarketInfo.value = false;
+      }
+    }
+  } else {
+    // Scrolling up
+    if (!showingBarMarketInfo.value) {
+      if (currentScrollPos <= scrollThreshold / 2) {
+        // Show barMarketInfo
+        showingBarMarketInfo.value = true;
+      }
+    }
+  }
+
+  prevScrollPos.value = currentScrollPos;
+};
 
 const toggleNav = () => (showMenu.value = !showMenu.value);
 
