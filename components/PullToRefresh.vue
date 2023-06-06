@@ -4,15 +4,21 @@
        @touchmove="onTouchMove"
        @touchend="onTouchEnd"
   >
-    <template v-if="isRefreshing">
-      <div class="flex flex-col items-center justify-center" style="height: 40px;">
-        <IonSpinner class="w-5 h-5 text-neutral-200" />
-      </div>
-    </template>
-    <template v-else>
-      <div class="flex flex-col items-center justify-center" :style="{ height: pullIndicatorHeight + 'px' }" id="pullIndicator">
+    <transition
+        leave-active-class="transition ease-in duration-300"
+        leave-from-class="transform opacity-100 scale-100"
+        leave-to-class="transform opacity-0 scale-95"
+    >
+      <template v-if="isRefreshing">
+        <div class="flex flex-col items-center justify-center" style="height: 40px;">
+          <IonSpinner class="w-5 h-5 text-amber-500" />
+        </div>
+      </template>
+    </transition>
+    <template v-if="!isRefreshing">
+      <div class="flex flex-col items-center justify-center" ref="pullIndicator">
         <template v-if="pullDistance > 0">
-          <ArrowDownIcon class="w-5 h-5 text-amber-500 duration-200" :class="{ 'rotate-180': pullDistance > pullToRefreshThreshold }" />
+          <ArrowDownIcon class="w-5 h-5 text-neutral-500 duration-200" :class="{ 'rotate-180': pullDistance > pullToRefreshThreshold }" />
         </template>
       </div>
     </template>
@@ -29,10 +35,9 @@ const pullToRefreshThreshold = 120;
 const pullMaxDistance = 90;
 
 const pullDistance = ref(0);
-const pullIndicatorHeight = ref(null);
-
-let startY = 0;
-let currentY = 0;
+const pullIndicator = ref(null);
+const startY = ref(0);
+const currentY = ref(0);
 
 const props = defineProps({
   isRefreshing: {
@@ -48,7 +53,7 @@ const onTouchStart = (event: TouchEvent) => {
     return;
   }
 
-  startY = event.touches[0].clientY;
+  startY.value = event.touches[0].clientY;
 };
 
 const onTouchMove = (event: TouchEvent) => {
@@ -58,13 +63,14 @@ const onTouchMove = (event: TouchEvent) => {
 
   // Check if the user is scrolled all the way to the top
   if (window.pageYOffset === 0) {
-    currentY = event.touches[0].clientY;
-    if (currentY - startY > 0) {
-      pullDistance.value = currentY - startY;
-      pullIndicatorHeight.value = Math.min(
-          (currentY - startY) / 2,
+    currentY.value = event.touches[0].clientY;
+
+    if (currentY.value - startY.value > 0) {
+      pullDistance.value = currentY.value - startY.value;
+      pullIndicator.value.style.height = Math.min(
+          (currentY.value - startY.value) / 2,
           pullMaxDistance
-      ); // Limit the height to a maximum of 90 pixels
+      ) + "px"; // Limit the height to a maximum of 90 pixels
     }
   }
 };
@@ -75,7 +81,7 @@ const onTouchEnd = () => {
   }
 
   pullDistance.value = 0;
-  pullIndicatorHeight.value = 0
+  pullIndicator.value.style.height = 0 + "px"
 };
 </script>
 
