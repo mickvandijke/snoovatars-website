@@ -20,7 +20,13 @@
               <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
             </template>
             <div class="relative px-1 bg-opacity-90 text-black font-bold rounded" :class="getMintClasses(seriesStats.series.total_quantity)">
-              <div class="absolute inset-0 blur-sm animate-pulse-slow rounded-full" :class="getMintClasses(seriesStats.series.total_quantity)"></div>
+              <template v-if="seriesStats.series.total_quantity <= 250">
+                <div class="absolute inset-0 bg-white/30 rounded-lg animate-pulse"></div>
+                <div class="absolute inset-0 blur-sm animate-pulse-slow" :class="getMintClasses(seriesStats.series.total_quantity)"></div>
+              </template>
+              <template v-else-if="seriesStats.series.total_quantity <= 777">
+                <div class="absolute inset-0.5 blur-sm animate-pulse-slow" :class="getMintClasses(seriesStats.series.total_quantity)"></div>
+              </template>
               <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
             </div>
             <a :href="`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`" target="_blank" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</a>
@@ -168,11 +174,11 @@ function getMintClasses(totalQuantity: number) {
   if (totalQuantity <= 250) {
     return ["text-[0.65rem] bg-yellow-500 shadow-yellow-500/50"];
   } else if (totalQuantity <= 777) {
-    return ["text-[0.65rem] bg-gray-300 shadow-gray-300/50"];
+    return ["text-[0.65rem] bg-gray-300 shadow-gray-300/50 shadow"];
   } else if (totalQuantity <= 10000) {
-    return ["text-[0.65rem] bg-amber-600 shadow-amber-600/50"];
+    return ["text-[0.65rem] bg-amber-600 shadow-amber-600/50 shadow"];
   } else {
-    return ["text-[0.65rem] bg-amber-600 shadow-amber-600/50"];
+    return ["text-[0.65rem] bg-amber-600 shadow-amber-600/50 shadow"];
   }
 }
 </script>
