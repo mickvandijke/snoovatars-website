@@ -13,12 +13,12 @@
         <template v-if="!Capacitor.isNativePlatform()">
           <h2 class="mt-6 font-semibold text-amber-500 text-center">20% of all Website PRO sales will be donated to the r/AvatarTrading community wallet.</h2>
         </template>
-        <template v-if="Capacitor.getPlatform() === 'android'">
+        <template v-if="Capacitor.isNativePlatform()">
           <div class="mt-6 flex flex-col items-center w-full shadow">
             <template v-for="product in iapProducts">
               <div class="px-2 py-2 flex justify-between gap-3 bg-neutral-800 text-neutral-200 rounded-2xl w-full">
                 <div class="px-2 flex flex-col">
-                  <h2 class="text-amber-500 font-bold">{{ product.title }}</h2>
+                  <h2 class="text-amber-500 font-bold">PRO Upgrade</h2>
                   <p class="text-sm">{{ product.description }}</p>
                 </div>
                 <button @click="orderIap(product.id)" class="p-2 flex items-center justify-center whitespace-nowrap bg-neutral-700 hover:bg-neutral-600 disabled:bg-gray-500 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer loading" :disabled="buttonDisabled()">
@@ -35,9 +35,6 @@
               </div>
             </template>
           </div>
-        </template>
-        <template v-else-if="Capacitor.getPlatform() === 'ios'">
-          <span class="mt-6 text-white text-center">iOS does not support upgrading at this time.</span>
         </template>
         <template v-else>
           <div class="mt-6 w-full">
@@ -116,7 +113,9 @@ onMounted(async () => {
           if (Capacitor.getPlatform() == "android") {
             sendGoogleOrder(tx);
           } else if (Capacitor.getPlatform() == "ios") {
-            sendAppleOrder(tx);
+            if (!tx.transactionId.includes("appstore.application")) {
+              sendAppleOrder(tx);
+            }
           }
 
           tx.verify();
