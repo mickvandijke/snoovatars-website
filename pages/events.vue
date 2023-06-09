@@ -6,6 +6,10 @@
       <template v-if="feedView !== 'mints'">
         <select v-model="filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
           <option value="all">Show All</option>
+          <template v-if="feedView === 'sales' || feedView === 'listings'">
+            <option value="eth">Show ETH</option>
+            <option value="matic">Show Matic</option>
+          </template>
           <option value="watchlist">Show Watchlist</option>
         </select>
       </template>
@@ -63,7 +67,7 @@ const salesLatest: Ref<Array<Sale>> = ref([]);
 const listingsLatest: Ref<Array<Listing>> = ref([]);
 const mintsLatest: Ref<Array<Mint>> = ref([]);
 const searchTerm = ref<string>("");
-const filterOption = ref<string>("all");
+const filterOption = ref<string>("eth");
 const feedView = ref<string>(route.query.feed as string ?? "sales");
 const isRefreshing = ref(false);
 
@@ -124,8 +128,16 @@ async function updateMints() {
 function filteredSales(): Sale[] {
   let filteredSales = Array.from(Object.values(salesLatest.value));
 
-  if (filterOption.value == "watchlist") {
-    filteredSales = filteredSales.filter((sale) => watchList.value.has(sale.token.name));
+  switch (filterOption.value) {
+    case "watchlist":
+      filteredSales = filteredSales.filter((sale) => watchList.value.has(sale.token.name));
+      break;
+    case "eth":
+      filteredSales = filteredSales.filter((sale) => sale.payment_token.symbol === "ETH");
+      break;
+    case "matic":
+      filteredSales = filteredSales.filter((sale) => sale.payment_token.symbol === "MATIC");
+      break;
   }
 
   if (searchTerm.value.trim() !== "") {
@@ -138,8 +150,16 @@ function filteredSales(): Sale[] {
 function filteredListings(): Listing[] {
   let filteredListings = Array.from(Object.values(listingsLatest.value));
 
-  if (filterOption.value == "watchlist") {
-    filteredListings = filteredListings.filter((listing) => watchList.value.has(listing.token.name));
+  switch (filterOption.value) {
+    case "watchlist":
+      filteredListings = filteredListings.filter((listing) => watchList.value.has(listing.token.name));
+      break;
+    case "eth":
+      filteredListings = filteredListings.filter((listing) => listing.payment_token.symbol === "ETH");
+      break;
+    case "matic":
+      filteredListings = filteredListings.filter((listing) => listing.payment_token.symbol === "MATIC");
+      break;
   }
 
   if (searchTerm.value.trim() !== "") {
