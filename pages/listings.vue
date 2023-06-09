@@ -217,7 +217,7 @@ const filteredListings: ComputedRef<ListingWithStats[]> = computed(() => {
   }
 
   if (maxPrice.value) {
-    filteredListings = filteredListings.filter((listing) => listing.listing.payment_token.base_price <= maxPrice.value)
+    filteredListings = filteredListings.filter((listing) => listing.listing.payment_token.base_price <= maxPrice.value * 1000000000000000000)
   }
 
   if (minMint.value) {
