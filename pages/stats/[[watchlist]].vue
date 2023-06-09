@@ -40,7 +40,7 @@
           <AdjustmentsHorizontalIcon class="w-5 h-5" />
         </button>
         <template v-if="showFilters">
-          <div class="absolute right-0 top-full mt-2 z-10 w-fit max-w-lg bg-neutral-800 border border-neutral-700 rounded-md shadow">
+          <div class="absolute right-0 top-full mt-2 z-10 w-fit max-w-lg bg-neutral-900 border border-neutral-800 rounded-md shadow">
             <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
               <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
                 <option value="all">Gen: All</option>
@@ -159,7 +159,12 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
 
   switch (filterGenOption.value) {
     case "gen1":
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => !seriesStat.collection.name.includes("Future") && !seriesStat.collection.name.includes("Spooky") && !seriesStat.collection.name.includes("Memetic") && !seriesStat.collection.name.includes("Fiesta Dog"));
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) =>
+          !seriesStat.collection.name.includes("Future") &&
+          !seriesStat.collection.name.includes("Spooky") &&
+          !seriesStat.collection.name.includes("Memetic") &&
+          !seriesStat.collection.name.includes("Fiesta Dog") &&
+          !seriesStat.collection.name.includes("Rabbids"));
       break;
     case "gen2":
       filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Spooky Season"));
