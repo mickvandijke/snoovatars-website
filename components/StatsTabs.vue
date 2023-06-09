@@ -22,7 +22,7 @@
       <li>
         <NuxtLink to="/events" class="nlink" active-class="active">
           <BoltIcon class="nlinkicon"/>
-          <span class="">Events</span>
+          <span class="">Activity</span>
         </NuxtLink>
       </li>
       <li>

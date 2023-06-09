@@ -15,7 +15,7 @@
       </NuxtLink>
       <NuxtLink to="/events" class="flex flex-col items-center justify-center" active-class="text-amber-500">
         <BoltIcon class="h-6 w-6"/>
-        <span class="text-xs font-medium">Events</span>
+        <span class="text-xs font-medium">Activity</span>
       </NuxtLink>
       <NuxtLink to="/tools" class="flex flex-col items-center justify-center" active-class="text-amber-500">
         <Squares2X2Icon class="h-6 w-6"/>
