@@ -5,6 +5,10 @@ export interface Collection {
     name: string;
     description: string;
     contract_address: string;
+    artist: {
+        id: string;
+        displayName: string;
+    }
 }
 
 export interface ApiResponse {

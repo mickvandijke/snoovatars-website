@@ -7,6 +7,10 @@ export interface SeriesStats {
         description: string;
         contract_address: string;
         slug: string;
+        artist: {
+            id: string;
+            displayName: string;
+        }
     };
     series: {
         name: string;

@@ -103,7 +103,7 @@
                 </div>
               </div>
               <div class="p-1 flex items-center justify-start w-full font-bold">
-                <div class="w-10 h-10 relative rounded-md overflow-hidden">
+                <div class="w-10 h-10 relative bg-gray-800 rounded-full overflow-hidden">
                   <a href="https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619" target="_blank" class="flex justify-center w-full h-full">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="p-1 h-full text-purple-800"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   </a>
@@ -203,7 +203,7 @@ import {
 } from "~/composables/states";
 import {onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
-import {fetchWalletTokens} from "~/composables/api/wallet";
+import {fetchWalletTokenBalance, fetchWalletTokens} from "~/composables/api/wallet";
 import {WalletTokens} from "~/types/wallet";
 import {ethereumInLocalCurrency, coneToEth, coneInLocalCurrency} from "#imports";
 import {ArrowPathIcon, ChevronDownIcon, XMarkIcon} from "@heroicons/vue/24/solid";
@@ -276,7 +276,44 @@ async function getWalletTokens(wallet: string) {
         cones.value.set(firstWalletAddress, data.cones);
         weth.value.set(firstWalletAddress, data.weth ?? 0);
 
+        getConeBalance(firstWalletAddress);
+        getWethBalance(firstWalletAddress);
+
         walletAddress.value = "";
+      })
+      .catch((err) => {
+        loading.value = false;
+        alert(err);
+      });
+
+  loading.value = false;
+}
+
+async function getConeBalance(wallet: string) {
+  loading.value = true;
+
+  const CONE_TOKEN_ADDRESS = "0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c";
+
+  await fetchWalletTokenBalance(CONE_TOKEN_ADDRESS, wallet)
+      .then((data) => {
+        cones.value.set(wallet, data);
+      })
+      .catch((err) => {
+        loading.value = false;
+        alert(err);
+      });
+
+  loading.value = false;
+}
+
+async function getWethBalance(wallet: string) {
+  loading.value = true;
+
+  const WETH_TOKEN_ADDRESS = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619";
+
+  await fetchWalletTokenBalance(WETH_TOKEN_ADDRESS, wallet)
+      .then((data) => {
+        weth.value.set(wallet, data);
       })
       .catch((err) => {
         loading.value = false;

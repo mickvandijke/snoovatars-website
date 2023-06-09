@@ -32,6 +32,8 @@
         <option value="highestShopAvailablePercentage">Sort by Most Available in Shop (Percentage)</option>
         <option value="lowestShopAvailablePercentage">Sort by Least Available in Shop (Percentage)</option>
         <option value="lowestShopNextMint">Sort by Lowest Next Mint Number in Shop</option>
+        <option value="artistAsc">Sort by Artist (Ascending)</option>
+        <option value="artistDesc">Sort by Artist (Descending)</option>
       </select>
       <div
           @click.self="showFilters = !showFilters"
@@ -42,6 +44,7 @@
         <template v-if="showFilters">
           <div class="absolute right-0 top-full mt-2 z-10 w-fit max-w-lg bg-neutral-900 border border-neutral-800 rounded-md shadow">
             <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
+              <input type="number" v-model="maxPriceEth" placeholder="Max price (ETH)" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
               <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
                 <option value="all">Gen: All</option>
                 <option value="gen1">Gen 1</option>
@@ -102,6 +105,7 @@ const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
 
 const searchTerm = ref<string>("");
+const maxPriceEth = ref<number>(parseFloat(route.query.maxPrice as string) ?? undefined);
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
 const filterRarityOption = ref<string>(route.query.supply as string ?? "all");
 const filterSoldOut = ref<string>(route.query.soldOut as string ?? "show");
@@ -111,9 +115,10 @@ const showFilters = ref(false);
 
 updateSeriesStats();
 
-watch([filterGenOption, filterRarityOption, sortOption, filterSoldOut], () => {
+watch([maxPriceEth, filterGenOption, filterRarityOption, sortOption, filterSoldOut], () => {
   router.push({
     query: {
+      maxPrice: maxPriceEth.value,
       gen: filterGenOption.value,
       supply: filterRarityOption.value,
       sort: sortOption.value,
@@ -123,10 +128,11 @@ watch([filterGenOption, filterRarityOption, sortOption, filterSoldOut], () => {
 })
 
 function usingFilter(): boolean {
-  return filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show";
+  return !!maxPriceEth.value || filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show";
 }
 
 function clearFilters() {
+  maxPriceEth.value = undefined;
   filterGenOption.value = "all";
   filterRarityOption.value = "all";
   filterSoldOut.value = "show";
@@ -155,6 +161,10 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
 
   if (route.params?.watchlist) {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => watchList.value.has(seriesStat.series.name));
+  }
+
+  if (maxPriceEth.value) {
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.stats.lowest_listing?.payment_token.base_price <= maxPriceEth.value * 1000000000000000000);
   }
 
   switch (filterGenOption.value) {
@@ -595,6 +605,34 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
           return 1;
         } else if (aValue < bValue) {
           return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "artistAsc":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.collection.artist.displayName;
+        const bValue = b.collection.artist.displayName;
+
+        if (aValue > bValue) {
+          return 1;
+        } else if (aValue < bValue) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "artistDesc":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.collection.artist.displayName;
+        const bValue = b.collection.artist.displayName;
+
+        if (aValue > bValue) {
+          return -1;
+        } else if (aValue < bValue) {
+          return 1;
         } else {
           return 0;
         }

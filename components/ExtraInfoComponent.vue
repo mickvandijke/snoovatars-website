@@ -23,6 +23,12 @@
             </div>
           </div>
           <div class="flex items-center">
+            <div class="text-neutral-400">Artist:</div>
+            <div class="pl-0.5 flex gap-0.5 items-center">
+              <a :href="`https://reddit.com/u/${seriesStats?.collection.artist.displayName}`" target="_blank" class="text-amber-500">{{ seriesStats.collection.artist.displayName }}</a>
+            </div>
+          </div>
+          <div class="flex items-center">
             <div class="text-neutral-400">Total Shop:</div>
             <div class="pl-0.5 flex gap-0.5 items-center">
               <div class="text-neutral-200">{{ seriesStats.series.total_quantity }}</div>

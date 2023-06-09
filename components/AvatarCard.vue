@@ -4,8 +4,11 @@
       <div class="flex gap-1" style="height: 90px">
         <a :href="`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`" target="_blank" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
           <img :src="getTokenImage(item.image)" :alt="item.name">
-          <template v-if="seriesStats">
-            <div class="absolute bottom-0 w-full px-1 py-0.25 text-white text-[0.65rem] text-center font-bold" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">${{ seriesStats.series.mint_price / 100.00 }}</div>
+          <template v-if="seriesStats && seriesStats.series.mint_price > 0">
+            <div class="absolute bottom-1 left-0.5 px-1 py-0.25 text-white text-[0.65rem] text-center font-bold rounded-lg" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">${{ seriesStats.series.mint_price / 100.00 }}</div>
+          </template>
+          <template v-else>
+            <div class="absolute bottom-1 left-0.5 px-1 py-0.25 text-white text-[0.65rem] text-center font-bold rounded-lg" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">FREE</div>
           </template>
           <div class="absolute top-1 right-1 w-4 h-4 rounded-full">
             <OpenseaIcon />
@@ -16,7 +19,10 @@
             <template v-if="ranking">
               <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
             </template>
-            <div class="px-1 border-amber-400 text-black/75 font-bold rounded shadow" :class="getMintClasses(seriesStats.series.total_quantity)">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</div>
+            <div class="relative px-1 bg-opacity-90 text-black font-bold rounded" :class="getMintClasses(seriesStats.series.total_quantity)">
+              <div class="absolute inset-0 blur-sm animate-pulse-slow animate-spin rounded-full" :class="getMintClasses(seriesStats.series.total_quantity)"></div>
+              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
+            </div>
             <a :href="`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`" target="_blank" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</a>
             <div class="ml-auto flex items-center gap-1 font-bold">
               <div class="flex items-center gap-1 font-bold overflow-hidden">

@@ -16,6 +16,7 @@
         <template v-if="showFilters">
           <div class="absolute right-0 top-full mt-2 z-10 w-fit max-w-lg bg-neutral-900 border border-neutral-800 rounded-md shadow">
             <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
+              <input type="number" v-model="maxPrice" :placeholder="`Max price ${paymentToken.toUpperCase()}`" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
               <input type="number" v-model="minMint" placeholder="Min mint number" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
               <input type="number" v-model="maxMint" placeholder="Max mint number" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
               <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
@@ -129,6 +130,7 @@ const seriesStats = useSeriesStats();
 const route = useRoute();
 
 const searchTerm = ref("");
+const maxPrice = ref<number>(parseFloat(route.query.maxPrice as string) ?? 0);
 const minMint = ref(undefined);
 const maxMint = ref(undefined);
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
@@ -149,10 +151,11 @@ onMounted(() => {
 });
 
 function usingFilter(): boolean {
-  return !!minMint.value || !!maxMint.value || filterGenOption.value !== "all" || filterRarityOption.value !== "all";
+  return !!maxPrice.value || !!minMint.value || !!maxMint.value || filterGenOption.value !== "all" || filterRarityOption.value !== "all";
 }
 
 function clearFilters() {
+  maxPrice.value = 0;
   minMint.value = undefined;
   maxMint.value = undefined;
   filterGenOption.value = "all";
@@ -211,6 +214,10 @@ const filteredListings: ComputedRef<ListingWithStats[]> = computed(() => {
 
   if (searchTerm.value) {
     filteredListings = filteredListings.filter((listing) => (listing.listing.token.name.toLowerCase() + listing.listing.token.name.toLowerCase().replace(/[^a-zA-Z ]/g, "")).includes(searchTerm.value.toLowerCase()))
+  }
+
+  if (maxPrice.value) {
+    filteredListings = filteredListings.filter((listing) => listing.listing.payment_token.base_price <= maxPrice.value)
   }
 
   if (minMint.value) {

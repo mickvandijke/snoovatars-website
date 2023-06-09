@@ -9,7 +9,11 @@ module.exports = {
         "./app.vue",
     ],
     theme: {
-        extend: {},
+        extend: {
+            animation: {
+                'pulse-slow': 'pulse 4s linear infinite',
+            }
+        },
     },
     plugins: [],
 }

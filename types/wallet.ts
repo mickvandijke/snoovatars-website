@@ -10,3 +10,7 @@ export interface ApiResponse {
     cones: number;
     weth: number;
 }
+
+export interface ApiTokenBalanceResponse {
+    balance: number;
+}

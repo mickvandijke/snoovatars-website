@@ -53,7 +53,7 @@
               <div class="text-neutral-400 whitespace-nowrap">L5S:</div>
               <div class="pl-0.5 flex gap-0.5 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="text-neutral-200">{{ item.stats.five_last_sales_average.toFixed(4) }}</div>
+                <div class="text-neutral-200">{{ item.stats.five_last_sales_average.toFixed(4).replace(/\.?0+$/, '') }}</div>
               </div>
             </div>
           </div>
@@ -134,6 +134,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                     <div class="text-neutral-200">{{ (item.stats.monthly_average_price ?? 0).toFixed(2) }}</div>
                   </div>
+                </div>
+              </template>
+              <template v-else-if="sorting === 'artistAsc' || sorting === 'artistDesc'">
+                <div class="flex items-center gap-1 font-bold overflow-hidden">
+                  <a :href="`https://reddit.com/u/${item.collection.artist.displayName}`" target="_blank" class="text-amber-500">{{ item.collection.artist.displayName }}</a>
                 </div>
               </template>
               <template v-else>
