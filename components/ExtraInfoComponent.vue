@@ -86,36 +86,45 @@
               <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.five_last_sales_average * 1000000000000000000) }}</span>)</span>
             </div>
           </div>
-          <template v-if="seriesStats.stats.weekly_average_price">
-            <div class="flex items-center">
-              <div class="text-neutral-400">7D Avg Sale Price:</div>
-              <div class="pl-0.5 flex gap-0.5 items-center">
+          <div class="flex items-center">
+            <div class="text-neutral-400">7D Avg Sale Price:</div>
+            <div class="pl-0.5 flex gap-0.5 items-center">
+              <template v-if="seriesStats.stats.weekly_average_price">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                 <div class="text-neutral-200">{{ (seriesStats.stats.weekly_average_price).toFixed(4) }}</div>
                 <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.weekly_average_price * 1000000000000000000) }}</span>)</span>
-              </div>
+              </template>
+              <template v-else>
+                <span class="text-neutral-500 italic">No sales.</span>
+              </template>
             </div>
-          </template>
-          <template v-if="seriesStats.stats.two_weekly_average_price">
-            <div class="flex items-center">
-              <div class="text-neutral-400">14D Avg Sale Price:</div>
-              <div class="pl-0.5 flex gap-0.5 items-center">
+          </div>
+          <div class="flex items-center">
+            <div class="text-neutral-400">14D Avg Sale Price:</div>
+            <div class="pl-0.5 flex gap-0.5 items-center">
+              <template v-if="seriesStats.stats.two_weekly_average_price">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                 <div class="text-neutral-200">{{ (seriesStats.stats.two_weekly_average_price).toFixed(4) }}</div>
                 <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.two_weekly_average_price * 1000000000000000000) }}</span>)</span>
-              </div>
+              </template>
+              <template v-else>
+                <span class="text-neutral-500 italic">No sales.</span>
+              </template>
             </div>
-          </template>
-          <template v-if="seriesStats.stats.monthly_average_price">
-            <div class="flex items-center">
-              <div class="text-neutral-400">30D Avg Sale Price:</div>
-              <div class="pl-0.5 flex gap-0.5 items-center">
+          </div>
+          <div class="flex items-center">
+            <div class="text-neutral-400">30D Avg Sale Price:</div>
+            <div class="pl-0.5 flex gap-0.5 items-center">
+              <template v-if="seriesStats.stats.monthly_average_price">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                 <div class="text-neutral-200">{{ (seriesStats.stats.monthly_average_price).toFixed(4) }}</div>
                 <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.monthly_average_price * 1000000000000000000) }}</span>)</span>
-              </div>
+              </template>
+              <template v-else>
+                <span class="text-neutral-500 italic">No sales.</span>
+              </template>
             </div>
-          </template>
+          </div>
         </div>
       </template>
     </div>
