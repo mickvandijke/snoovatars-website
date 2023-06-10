@@ -12,6 +12,7 @@ import {ExtraInfoOptions} from "~/types/extra_info";
 import {fetchBitconePrice} from "~/composables/api/bitcone";
 import {getUserSettings, updateUserSettings} from "~/composables/api/user";
 import {fetchMarketInfo} from "~/composables/api/info";
+import {Capacitor} from "@capacitor/core";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
@@ -34,6 +35,14 @@ export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses'
 export const useExtraInfoOptions = () => useState<ExtraInfoOptions>('extra-info-options', () => null);
 export const useUserSettings = () => useState<UserSettings>('user-settings', () => null);
 export const useCookies = () => useState<boolean>('cookies', () => false);
+
+export function openLink(link: string): string {
+    if (Capacitor.isNativePlatform()) {
+        link = link.replace("https://", "dapp://");
+    }
+
+    return link;
+}
 
 export async function updateMarketInfo() {
     fetchMarketInfo().then(([vol, mc]) => {

@@ -60,14 +60,14 @@
           <div class="flex gap-2 font-medium text-[0.8rem] items-center">
             <template v-if="item.stats.lowest_listing">
               <div class="flex flex-col">
-                <div class="flex items-center gap-0.5">
+                <a :href="openLink(`https://opensea.io/assets/matic/${item.stats.lowest_listing.token.contract_address}/${item.stats.lowest_listing.token.id}`)" target="_blank" class="flex items-center gap-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="flex gap-1 font-bold text-white">
                     <span>{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
                     <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
                     <span class="text-neutral-400">#{{ item.stats.lowest_listing.token.mint_number }}</span>
                   </div>
-                </div>
+                </a>
               </div>
             </template>
             <template v-else>
@@ -164,7 +164,7 @@ import {PropType} from "@vue/runtime-core";
 import {useWatchList, addToWatchList, removeFromWatchList, useEthereumUsdPrice} from "~/composables/states";
 import {StarIcon} from "@heroicons/vue/24/solid";
 import {ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
-import {computed, ethereumInLocalCurrency} from "#imports";
+import {computed, ethereumInLocalCurrency, openLink} from "#imports";
 
 const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
