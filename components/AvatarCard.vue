@@ -66,19 +66,26 @@
           </div>
           <div class="mt-auto flex items-center gap-1">
             <template v-if="Capacitor.getPlatform() === 'ios'">
-              <template v-if="seriesStats.stats.lowest_listing && !hideFloor">
-                <a :href="openLink(`dapp://opensea.io/assets/matic/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" target="_blank" class="flex items-center gap-0.5 text-[0.7rem]">
-                  <span class="font-bold text-neutral-400">Floor:</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="flex gap-0.5 font-bold text-neutral-400">
-                    <span>{{ (seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                    <span class="text-neutral-500">(<span class="text-neutral-400">{{ ethereumInLocalCurrency(seriesStats.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
-                    <span class="text-neutral-400">#{{ seriesStats.stats.lowest_listing.token.mint_number }}</span>
-                  </div>
-                </a>
+              <template v-if="seriesStats.stats.lowest_listing">
+                <template v-if="!hideFloor">
+                  <a :href="openLink(`dapp://opensea.io/assets/matic/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" target="_blank" class="flex items-center gap-0.5 text-[0.7rem]">
+                    <span class="font-bold text-neutral-400">Floor:</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="flex gap-0.5 font-bold text-neutral-400">
+                      <span>{{ (seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                      <span class="text-neutral-500">(<span class="text-neutral-400">{{ ethereumInLocalCurrency(seriesStats.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
+                      <span class="text-neutral-400">#{{ seriesStats.stats.lowest_listing.token.mint_number }}</span>
+                    </div>
+                  </a>
+                </template>
+                <template v-else>
+                  <a :href="`https://opensea.io/collection/${seriesStats.collection.slug}`" target="_blank" class="text-amber-500 font-semibold text-[0.7rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</a>
+                </template>
               </template>
               <template v-else>
-                <a :href="`https://opensea.io/collection/${seriesStats.collection.slug}`" target="_blank" class="text-amber-500 font-semibold text-[0.7rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</a>
+                <div class="flex gap-1 font-bold text-neutral-400 text-[0.7rem]">
+                  <span>No floor data.</span>
+                </div>
               </template>
             </template>
             <template v-else>
