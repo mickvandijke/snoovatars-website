@@ -51,6 +51,7 @@
                 <option value="gen2">Gen 2</option>
                 <option value="gen3">Gen 3</option>
                 <option value="wsb">WSB</option>
+                <option value="recap2022">Recap 2022</option>
                 <option value="rabbids">Rabbids</option>
               </select>
               <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
@@ -174,7 +175,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
           !seriesStat.collection.name.includes("Spooky") &&
           !seriesStat.collection.name.includes("Memetic") &&
           !seriesStat.collection.name.includes("Fiesta Dog") &&
-          !seriesStat.collection.name.includes("Rabbids"));
+          !seriesStat.collection.name.includes("Rabbids") &&
+          !seriesStat.collection.name.includes("Recap"));
       break;
     case "gen2":
       filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Spooky Season"));
@@ -184,6 +186,9 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "wsb":
       filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Memetic Traders"));
+      break;
+    case "recap2022":
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Recap 2022"));
       break;
     case "rabbids":
       filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Rabbids"));
