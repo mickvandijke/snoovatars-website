@@ -15,8 +15,8 @@
       <div v-if="showingBarMarketInfo" class="px-4 py-1 text-xs md:text-sm border-b border-neutral-900 overflow-hidden" ref="barMarketInfo">
         <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
           <div class="inline-flex gap-2">
-            <a href="https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0" target="_blank" class="flex items-center gap-0.5">
-              <span class="text-orange-400 font-bold">BitCone:</span>
+            <a :href="openLink(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" target="_blank" class="flex items-center gap-0.5">
+              <span class="text-neutral-400 font-bold">BitCone:</span>
               <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
             </a>
             <div class="flex items-center gap-0.5">
@@ -175,7 +175,7 @@ const router = useRouter();
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
 const preferredCurrency: Ref<string> = ref(usePreferredCurrency().value);
-const scrollThreshold = 25; // Adjust this threshold value as needed
+const scrollThreshold = 10; // Adjust this threshold value as needed
 const prevScrollPos = ref(window.pageYOffset);
 const showingBarMarketInfo = ref(true);
 

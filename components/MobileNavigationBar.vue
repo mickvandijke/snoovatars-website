@@ -19,7 +19,7 @@
       </NuxtLink>
       <NuxtLink to="/tools" class="flex flex-col items-center justify-center" active-class="text-amber-500">
         <Squares2X2Icon class="h-6 w-6"/>
-        <span class="text-xs font-medium">Tools</span>
+        <span class="text-xs font-medium">More</span>
       </NuxtLink>
     </div>
   </div>

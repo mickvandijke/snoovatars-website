@@ -61,7 +61,7 @@
             <template v-for="(listing, index) in slicedListings" :key="index">
               <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
                 <td class="px-2 py-1">
-                  <a :href="`https://opensea.io/collection/${listing.stats?.collection.slug}?search[query]=${listing.listing.token.name}`" target="_blank" class="text-amber-500">{{ listing.listing.token.name }}</a>
+                  <a :href="openLink(`https://opensea.io/collection/${listing.stats?.collection.slug}?search[query]=${listing.listing.token.name}`)" target="_blank" class="text-amber-500">{{ listing.listing.token.name }}</a>
                 </td>
                 <td class="px-2 py-1">{{ listing.stats?.series.total_sold }}</td>
                 <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -71,10 +71,10 @@
                   </template>
                 </td>
                 <td class="px-2 py-1">
-                  <a :href="`https://opensea.io/assets/matic/${listing.listing.token.contract_address}/${listing.listing.token.id}`" target="_blank" class="text-amber-500">#{{ listing.listing.token.mint_number }}</a>
+                  <a :href="openLink(`https://opensea.io/assets/matic/${listing.listing.token.contract_address}/${listing.listing.token.id}`)" target="_blank" class="text-amber-500">#{{ listing.listing.token.mint_number }}</a>
                 </td>
                 <td class="px-2 py-1">
-                  <a :href="`https://opensea.io/${listing.listing.maker_address}`" target="_blank" class="text-amber-500">{{ listing.listing.maker_address.slice(2, 5) }}</a>
+                  <a :href="openLink(`https://opensea.io/${listing.listing.maker_address}`)" target="_blank" class="text-amber-500">{{ listing.listing.maker_address.slice(2, 5) }}</a>
                 </td>
                 <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.listing.date_listed)) }} ago</td>
               </tr>

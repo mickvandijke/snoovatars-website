@@ -8,7 +8,7 @@
       <Footer/>
     </template>
     <MobileNavigationBar/>
-    <template v-if="!cookies">
+    <template v-if="!Capacitor.isNativePlatform() && !cookies">
       <CookieWarning/>
     </template>
   </div>
@@ -107,7 +107,9 @@ router.afterEach(() => {
 });
 
 function loadGoogleAnalytics() {
-  isEnabled.value = true;
+  if (!Capacitor.isNativePlatform()) {
+    isEnabled.value = true;
+  }
 }
 
 async function addListeners() {

@@ -37,6 +37,10 @@ export const useUserSettings = () => useState<UserSettings>('user-settings', () 
 export const useCookies = () => useState<boolean>('cookies', () => false);
 
 export function openLink(link: string): string {
+    if (Capacitor.getPlatform() === "ios") {
+        return "";
+    }
+
     if (Capacitor.isNativePlatform()) {
         link = link.replace("https://", "dapp://");
     }
