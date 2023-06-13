@@ -5,11 +5,11 @@
         <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
           <div class="text-neutral-400">Buyer:</div>
           <div class="flex items-center gap-0.5">
-            <a :href="openLink(`https://opensea.io/${item.buyer}`)" target="_blank" class="text-neutral-200">{{ item.buyer.slice(2, 6) }}..{{ item.buyer.slice(item.buyer.length - 4, item.buyer.length) }}</a>
+            <button @click="openLinkWith(`https://opensea.io/${item.buyer}`)" class="text-neutral-200">{{ item.buyer.slice(2, 6) }}..{{ item.buyer.slice(item.buyer.length - 4, item.buyer.length) }}</button>
           </div>
           <div class="text-neutral-400 text-xs">Seller:</div>
           <div class="flex items-center gap-0.5">
-            <a :href="openLink(`https://opensea.io/${item.seller}`)" target="_blank" class="text-neutral-200">{{ item.seller.slice(2, 6) }}..{{ item.seller.slice(item.seller.length - 4, item.seller.length) }}</a>
+            <button @click="openLinkWith(`https://opensea.io/${item.seller}`)" class="text-neutral-200">{{ item.seller.slice(2, 6) }}..{{ item.seller.slice(item.seller.length - 4, item.seller.length) }}</button>
           </div>
         </div>
         <div class="flex items-center gap-1 font-bold text-[0.8rem] overflow-hidden">
@@ -25,7 +25,7 @@
               <div class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>)</div>
             </template>
           </div>
-          <a :href="openLink(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" target="_blank" class="text-amber-500 font-bold">#{{ item.token.mint_number }}</a>
+          <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-amber-500 font-bold">#{{ item.token.mint_number }}</button>
           <div class="text-neutral-400" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.date_sold)) }} ago</div>
         </div>
       </AvatarCard>

@@ -15,10 +15,10 @@
       <div v-if="showingBarMarketInfo" class="px-4 py-1 text-xs md:text-sm border-b border-neutral-900 overflow-hidden" ref="barMarketInfo">
         <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
           <div class="inline-flex gap-2">
-            <a :href="openLink(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" target="_blank" class="flex items-center gap-0.5">
+            <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" class="flex items-center gap-0.5">
               <span class="text-neutral-400 font-bold">BitCone:</span>
               <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
-            </a>
+            </button>
             <div class="flex items-center gap-0.5">
               <span class="text-neutral-400 font-bold">24hr Vol:</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>

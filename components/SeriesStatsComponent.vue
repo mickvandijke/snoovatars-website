@@ -60,14 +60,14 @@
           <div class="flex gap-2 font-medium text-[0.8rem] items-center">
             <template v-if="item.stats.lowest_listing">
               <div class="flex flex-col">
-                <a :href="openLink(`https://opensea.io/assets/matic/${item.stats.lowest_listing.token.contract_address}/${item.stats.lowest_listing.token.id}`)" target="_blank" class="flex items-center gap-0.5">
+                <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.stats.lowest_listing.token.contract_address}/${item.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="flex gap-1 font-bold text-white">
                     <span>{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
                     <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
                     <span class="text-neutral-400">#{{ item.stats.lowest_listing.token.mint_number }}</span>
                   </div>
-                </a>
+                </button>
               </div>
             </template>
             <template v-else>

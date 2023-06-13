@@ -11,6 +11,9 @@
     <template v-if="!Capacitor.isNativePlatform() && !cookies">
       <CookieWarning/>
     </template>
+    <template v-if="prompter">
+      <Prompt />
+    </template>
   </div>
 </template>
 
@@ -28,7 +31,7 @@ import {
   loadExtraInfoOptions,
   loadPreferredCurrency,
   loadWalletAddresses,
-  updateEthereumPrices, useFcmDeviceToken,
+  updateEthereumPrices, useFcmDeviceToken, usePrompt,
   useToken
 } from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
@@ -40,6 +43,7 @@ import { Capacitor } from "@capacitor/core";
 import { Browser } from '@capacitor/browser';
 import {LocalNotifications} from "@capacitor/local-notifications";
 import {registerFcmDeviceToken} from "~/composables/api/fcm";
+import Prompt from "~/components/Prompt.vue";
 
 useHead({
   title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
@@ -61,6 +65,7 @@ const cookies = useCookies();
 const fcmDeviceToken = useFcmDeviceToken();
 const { isEnabled } = useState();
 const router = useRouter();
+const prompter = usePrompt();
 
 loadCookiesPreference();
 loadWalletAddresses();

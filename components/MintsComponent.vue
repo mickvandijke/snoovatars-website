@@ -5,11 +5,11 @@
         <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
           <div class="text-neutral-400">Minter:</div>
           <div class="flex items-center gap-0.5">
-            <a :href="openLink(`https://opensea.io/${item.minter}`)" target="_blank" class="text-neutral-200">{{ item.minter.slice(0, 6) }}..{{ item.minter.slice(item.minter.length - 6, item.minter.length) }}</a>
+            <button @click="openLinkWith(`https://opensea.io/${item.minter}`)" class="text-neutral-200">{{ item.minter.slice(0, 6) }}..{{ item.minter.slice(item.minter.length - 6, item.minter.length) }}</button>
           </div>
         </div>
         <div class="flex items-center gap-1 font-bold text-[0.8rem] overflow-hidden">
-          <a :href="openLink(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" target="_blank" class="text-amber-500 font-bold">#{{ item.token.mint_number }}</a>
+          <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-amber-500 font-bold">#{{ item.token.mint_number }}</button>
           <div class="text-neutral-400 font-bold">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
         </div>
       </AvatarCard>

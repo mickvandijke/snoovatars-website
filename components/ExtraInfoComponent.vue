@@ -13,13 +13,13 @@
           <div class="flex items-center">
             <div class="text-neutral-400">Name:</div>
             <div class="pl-0.5 flex gap-0.5 items-center">
-              <a :href="openLink(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" target="_blank" class="text-amber-500" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</a>
+              <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-amber-500" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
             </div>
           </div>
           <div class="flex items-center">
             <div class="text-neutral-400">Collection:</div>
             <div class="pl-0.5 flex gap-0.5 items-center">
-              <a :href="openLink(`https://opensea.io/collection/${seriesStats?.collection.slug}`)" target="_blank" class="text-amber-500">{{ seriesStats.collection.name.replace("x Reddit Collectible Avatars", "") }}</a>
+              <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}`)" class="text-amber-500">{{ seriesStats.collection.name.replace("x Reddit Collectible Avatars", "") }}</button>
             </div>
           </div>
           <div class="flex items-center">
@@ -158,10 +158,10 @@
                     </template>
                   </td>
                   <td class="px-2 py-1">
-                    <a :href="openLink(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" target="_blank" class="text-amber-500">#{{ listing.token.mint_number }}</a>
+                    <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
                   </td>
                   <td class="px-2 py-1">
-                    <a :href="openLink(`https://opensea.io/${listing.maker_address}`)" target="_blank" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</a>
+                    <button @click="openLinkWith(`https://opensea.io/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
                   </td>
                   <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.date_listed)) }}</td>
                 </tr>
@@ -217,10 +217,10 @@
                   </template>
                 </td>
                 <td class="px-2 py-1">
-                  <a :href="openLink(`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`)" target="_blank" class="text-amber-500">#{{ sale.token.mint_number }}</a>
+                  <button @click="openLinkWith(`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`)" class="text-amber-500">#{{ sale.token.mint_number }}</button>
                 </td>
                 <td class="px-2 py-1">
-                  <a :href="openLink(`https://opensea.io/${sale.buyer}`)" target="_blank" class="text-amber-500">{{ sale.buyer.slice(2, 5) }}</a>
+                  <button @click="openLinkWith(`https://opensea.io/${sale.buyer}`)" class="text-amber-500">{{ sale.buyer.slice(2, 5) }}</button>
                 </td>
                 <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }}</td>
               </tr>

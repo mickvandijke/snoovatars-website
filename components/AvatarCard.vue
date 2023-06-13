@@ -2,7 +2,7 @@
   <div ref="componentRef" class="py-0.5 sm:py-0 relative flex flex-col gap-1 w-full overflow-hidden">
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
-        <a :href="openLink(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" target="_blank" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
+        <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
           <img :src="getTokenImage(item.image)" :alt="item.name">
           <template v-if="seriesStats && seriesStats.series.mint_price > 0">
             <div class="absolute bottom-1 left-1 px-1 py-0.25 text-white text-[0.65rem] text-center font-bold rounded-lg" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">${{ seriesStats.series.mint_price / 100.00 }}</div>
@@ -13,7 +13,7 @@
           <div class="absolute top-1 right-1 w-4 h-4 rounded-full">
             <OpenseaIcon />
           </div>
-        </a>
+        </button>
         <div class="pl-2 sm:px-2 py-1.5 sm:bg-neutral-900 flex flex-col rounded-lg gap-0.5 overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
             <template v-if="ranking">
@@ -29,7 +29,7 @@
               </template>
               <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
             </div>
-            <a :href="openLink(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" target="_blank" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</a>
+            <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
             <div class="ml-auto flex items-center gap-1 font-bold">
               <div class="flex items-center gap-1 font-bold overflow-hidden">
                 <div class="text-neutral-500">24h:</div>
@@ -68,7 +68,7 @@
             <template v-if="Capacitor.getPlatform() === 'ios'">
               <template v-if="seriesStats.stats.lowest_listing">
                 <template v-if="!hideFloor">
-                  <a :href="openLink(`dapp://opensea.io/assets/matic/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" target="_blank" class="flex items-center gap-0.5 text-[0.7rem]">
+                  <button @click="openLinkWith(`dapp://opensea.io/assets/matic/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
                     <span class="font-bold text-neutral-400">Floor:</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                     <div class="flex gap-0.5 font-bold text-neutral-400">
@@ -76,10 +76,10 @@
                       <span class="text-neutral-500">(<span class="text-neutral-400">{{ ethereumInLocalCurrency(seriesStats.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
                       <span class="text-neutral-400">#{{ seriesStats.stats.lowest_listing.token.mint_number }}</span>
                     </div>
-                  </a>
+                  </button>
                 </template>
                 <template v-else>
-                  <a :href="openLink(`https://opensea.io/collection/${seriesStats.collection.slug}`)" target="_blank" class="text-amber-500 font-semibold text-[0.7rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</a>
+                  <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-amber-500 font-semibold text-[0.7rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
                 </template>
               </template>
               <template v-else>
@@ -98,10 +98,10 @@
                     </div>
                   </div>
                 </template>
-                <a class="px-2 flex items-center gap-1 bg-neutral-800/90 sm:bg-neutral-700/90 hover:bg-[#2081E2] text-white/75 text-[0.65rem] font-bold rounded-md duration-500" :href="openLink(seriesStats.stats.lowest_listing?.permalink)" target="_blank">
+                <button class="px-2 flex items-center gap-1 bg-neutral-800/90 sm:bg-neutral-700/90 hover:bg-[#2081E2] text-white/75 text-[0.65rem] font-bold rounded-md duration-500" @click="openLinkWith(seriesStats.stats.lowest_listing?.permalink)">
                   Buy
                   <OpenseaIcon class="w-3 h-3" />
-                </a>
+                </button>
               </template>
               <template v-else>
                 <div class="flex gap-1 font-bold text-neutral-400 text-[0.7rem]">
@@ -128,7 +128,6 @@ import {ref} from "#imports";
 import {PropType} from "@vue/runtime-core";
 import {SeriesStats} from "~/types/seriesStats";
 import OpenseaIcon from "~/components/OpenseaIcon.vue";
-import {dappLink} from "~/global/utils";
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {useWatchList, addToWatchList, removeFromWatchList, openLink} from "#imports";
 import {StarIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";

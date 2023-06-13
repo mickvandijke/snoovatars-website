@@ -20,10 +20,3 @@ export function abbreviateNumber(value: number): [number, string] {
 export function isValidEthereumAddress(address: string): boolean {
     return address.length === 42 && address.startsWith("0x");
 }
-
-export function dappLink(url: string) {
-    url = url.replace("https://", "dapp://");
-
-    return url;
-}
-

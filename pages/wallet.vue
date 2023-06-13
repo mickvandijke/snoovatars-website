@@ -58,8 +58,8 @@
           <div class="bg-neutral-900/90 flex flex-col items-center overflow-hidden w-full rounded-2xl">
             <div class="p-2 flex gap-2 w-full rounded">
               <div class="pl-2 flex items-center overflow-hidden">
-                <a :href="openLink(`https://opensea.io/${walletAddress}`)" target="_blank" class="hidden md:block p-2 text-neutral-500 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</a>
-                <a :href="openLink(`https://opensea.io/${walletAddress}`)" target="_blank" class="md:hidden text-neutral-500 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</a>
+                <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="hidden md:block p-2 text-neutral-500 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
+                <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="md:hidden text-neutral-500 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</button>
               </div>
               <div class="flex gap-2">
                 <button @click="removeWallet(walletAddress)" class="px-1 py-1 text-white font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
@@ -80,15 +80,15 @@
             <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-neutral-800 w-full">
               <div class="p-1 flex items-center justify-start w-full font-bold">
                 <div class="w-10 h-10 relative rounded-md overflow-hidden">
-                  <a :href="openLink(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" target="_blank">
+                  <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)">
                     <img src="/img/bitcone.png">
-                  </a>
+                  </button>
                 </div>
                 <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
-                  <a
-                      :href="openLink(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" target="_blank"
+                  <button
+                      @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)"
                       class="text-orange-400 whitespace-nowrap text-ellipsis overflow-hidden"
-                  >BitCone (CONE)</a>
+                  >BitCone (CONE)</button>
                   <span class="text-neutral-200">{{ ((getCones(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
                 </div>
                 <div class="ml-auto flex flex-col items-end text-[0.8rem] md:text-sm">
@@ -104,15 +104,15 @@
               </div>
               <div class="p-1 flex items-center justify-start w-full font-bold">
                 <div class="w-10 h-10 relative bg-gray-800 rounded-full overflow-hidden">
-                  <a :href="openLink(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619`)" target="_blank" class="flex justify-center w-full h-full">
+                  <button @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619`)" class="flex justify-center w-full h-full">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="p-1 h-full text-purple-800"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  </a>
+                  </button>
                 </div>
                 <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
-                  <a
-                      :href="openLink(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619?a=${ walletAddress }`)" target="_blank"
+                  <button
+                      @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619?a=${ walletAddress }`)"
                       class="text-neutral-200 whitespace-nowrap text-ellipsis overflow-hidden"
-                  >wETH</a>
+                  >wETH</button>
                   <span class="text-amber-500">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
                 </div>
                 <div class="ml-auto flex flex-col items-end text-[0.8rem] md:text-sm">
@@ -133,9 +133,9 @@
                   <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                        <a :href="openLink(`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`)" target="_blank">
+                        <button @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`)">
                           <img :src="getSeriesStats(seriesName)?.series.image" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
-                        </a>
+                        </button>
                       </div>
                       <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">
                         <span class="text-white whitespace-nowrap text-ellipsis overflow-hidden">{{getSeriesStats(seriesName)?.series.name }}</span>
@@ -160,9 +160,9 @@
                   <template v-for="token in sortedTokens(flattenObject(walletTokens))">
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                        <a :href="openLink(`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`)" target="_blank">
+                        <button @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`)">
                           <img :src="getSeriesStats(token.name)?.series.image" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
-                        </a>
+                        </button>
                       </div>
                       <div class="px-2 col-span-3 md:col-span-5 flex flex-col justify-center items-start text-sm">
                         <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.name)?.series.name}}</span>

@@ -13,6 +13,7 @@ import {fetchBitconePrice} from "~/composables/api/bitcone";
 import {getUserSettings, updateUserSettings} from "~/composables/api/user";
 import {fetchMarketInfo} from "~/composables/api/info";
 import {Capacitor} from "@capacitor/core";
+import {Prompt, PromptOption} from "~/components/Prompt.vue";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
@@ -35,6 +36,64 @@ export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses'
 export const useExtraInfoOptions = () => useState<ExtraInfoOptions>('extra-info-options', () => null);
 export const useUserSettings = () => useState<UserSettings>('user-settings', () => null);
 export const useCookies = () => useState<boolean>('cookies', () => false);
+export const usePrompt = () => useState<Prompt>('prompt', () => null);
+export const usePreferredLinkOpener = () => useState<string>('preferred-link-opener', () => null);
+
+export function promptOptions(title: string, options: PromptOption[]): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+        const prompter = usePrompt();
+
+        prompter.value = {
+            title,
+            options
+        };
+
+        const checkResult = () => {
+            if (prompter.value?.result) {
+                const result = prompter.value.result;
+                prompter.value = null;
+                resolve(result);
+            } else if (!prompter) {
+                reject("exited");
+            } else {
+                setTimeout(checkResult, 100); // Check again after a delay
+            }
+        };
+
+        checkResult();
+    });
+}
+
+export async function openLinkWith(link: string) {
+    if (Capacitor.getPlatform() === "ios") {
+        return;
+    }
+
+    if (Capacitor.isNativePlatform() || window.matchMedia('(max-width: 640px)').matches) {
+        if (usePreferredLinkOpener().value) {
+            link = link.replace("https://", usePreferredLinkOpener().value);
+        } else {
+            let [linkOpener, savedAsDefault] = await promptOptions("Open link using:", [
+                {
+                    name: "Browser",
+                    value: "https://"
+                },
+                {
+                    name: "Wallet App",
+                    value: "dapp://"
+                }
+            ]);
+
+            if (savedAsDefault) {
+                usePreferredLinkOpener().value = linkOpener;
+            }
+
+            link = link.replace("https://", linkOpener);
+        }
+    }
+
+    window.open(link, '_blank');
+}
 
 export function openLink(link: string): string {
     if (Capacitor.getPlatform() === "ios") {
