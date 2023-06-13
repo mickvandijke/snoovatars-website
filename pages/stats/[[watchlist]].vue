@@ -34,6 +34,8 @@
         <option value="lowestShopNextMint">Sort by Lowest Next Mint Number in Shop</option>
         <option value="artistAsc">Sort by Artist (Ascending)</option>
         <option value="artistDesc">Sort by Artist (Descending)</option>
+        <option value="nameAsc">Sort by Name (Ascending)</option>
+        <option value="nameDesc">Sort by Name (Descending)</option>
       </select>
       <div
           @click.self="showFilters = !showFilters"
@@ -633,6 +635,34 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
         const aValue = a.collection.artist.displayName;
         const bValue = b.collection.artist.displayName;
+
+        if (aValue > bValue) {
+          return -1;
+        } else if (aValue < bValue) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "nameAsc":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.series.name;
+        const bValue = b.series.name;
+
+        if (aValue > bValue) {
+          return 1;
+        } else if (aValue < bValue) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "nameDesc":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aValue = a.series.name;
+        const bValue = b.series.name;
 
         if (aValue > bValue) {
           return -1;
