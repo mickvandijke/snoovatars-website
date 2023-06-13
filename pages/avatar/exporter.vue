@@ -3,7 +3,7 @@
     <h1 class="text-xl md:text-3xl text-white font-bold">Avatar Exporter</h1>
     <div class="flex items-center gap-2 w-full">
       <input type="text" autocomplete="off" name=“searchTerm” class="light" placeholder='Reddit username. Eg: "WarmBiertje".' v-model="user" @keyup.enter.prevent="searchUser">
-      <button :disabled="!user" class="px-4 py-3 h-full bg-amber-600 hover:bg-amber-500 disabled:bg-neutral-800 text-white disabled:text-neutral-400 font-medium whitespace-nowrap rounded-md duration-200" @click="searchUser">Let's go!</button>
+      <button :disabled="!user" class="px-4 py-3 h-full bg-amber-600 hover:bg-amber-500 disabled:bg-neutral-800 text-white disabled:text-neutral-400 font-medium whitespace-nowrap rounded-md duration-200" @click="searchUser(user)">Let's go!</button>
     </div>
     <div class="w-72 h-96">
       <img
@@ -15,9 +15,14 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {navigateTo} from "nuxt/app";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {
+  loadAvatarExporterLastUsername,
+  setAvatarExporterLastUsername,
+  useAvatarExporterLastUsername
+} from "../../composables/states";
 
 const exampleImages = [
   '/images/examples/1.png',
@@ -41,11 +46,23 @@ const exampleImages = [
 
 const exampleImage = exampleImages[Math.floor(Math.random()*exampleImages.length)]
 
+const lastUsername = useAvatarExporterLastUsername();
+
 const user = ref('');
 
-async function searchUser() {
-  if (user.value) {
-    await navigateTo(`/avatar/user/${user.value}`, {replace: true});
+onMounted(() => {
+  loadAvatarExporterLastUsername();
+
+  if (lastUsername.value) {
+    searchUser(lastUsername.value);
+  }
+});
+
+async function searchUser(username: string) {
+  if (username) {
+    setAvatarExporterLastUsername(username);
+
+    await navigateTo(`/avatar/user/${username}`, {replace: true});
   }
 }
 </script>

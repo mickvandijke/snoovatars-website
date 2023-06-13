@@ -38,6 +38,23 @@ export const useUserSettings = () => useState<UserSettings>('user-settings', () 
 export const useCookies = () => useState<boolean>('cookies', () => false);
 export const usePrompt = () => useState<Prompt>('prompt', () => null);
 export const usePreferredLinkOpener = () => useState<string>('preferred-link-opener', () => null);
+export const useAvatarExporterLastUsername = () => useState<string>('avatar-exporter-last-username', () => null);
+
+export function loadAvatarExporterLastUsername() {
+    let json = localStorage.getItem("avatarExporterLastUsername");
+
+    if (json === "null") {
+        json = null;
+    }
+
+    useAvatarExporterLastUsername().value = json;
+}
+
+export function setAvatarExporterLastUsername(value: any) {
+    useAvatarExporterLastUsername().value = value;
+
+    localStorage.setItem("avatarExporterLastUsername", value);
+}
 
 export function promptOptions(title: string, options: PromptOption[]): Promise<any[]> {
     return new Promise((resolve, reject) => {

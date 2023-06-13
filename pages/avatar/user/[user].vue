@@ -1,7 +1,7 @@
 <template>
   <div class="px-4 py-6 sm:py-12 flex flex-col items-center gap-6 w-full">
     <div class="flex items-center gap-3">
-      <NuxtLink to="/avatar/exporter" class="px-4 py-2 flex gap-1 items-center bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-md duration-200"><ChevronLeftIcon class="w-4"/>Change</NuxtLink>
+      <button class="px-4 py-2 flex gap-1 items-center bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-md duration-200" @click="changeUser"><ChevronLeftIcon class="w-4"/>Change</button>
       <h2 class="px-4 py-2 bg-neutral-800 text-white rounded-md">u/{{ user }}</h2>
     </div>
     <div class="flex flex-col">
@@ -62,10 +62,10 @@
 </template>
 
 <script setup lang="ts">
-import {useRoute, useRouter} from "nuxt/app";
+import {navigateTo, useRoute, useRouter} from "nuxt/app";
 import {onMounted, Ref, ref, watch} from 'vue';
 import {AvatarBackground} from "~/types/avatarBackgrounds";
-import {updateSeriesHashed, useSeriesHashed} from "~/composables/states";
+import {setAvatarExporterLastUsername, updateSeriesHashed, useSeriesHashed} from "~/composables/states";
 import { Capacitor } from "@capacitor/core";
 import {Share, ShareOptions} from "@capacitor/share";
 import { Media, MediaSaveOptions } from "@capacitor-community/media";
@@ -92,6 +92,12 @@ const randomBackgroundIndex: number = Math.floor(Math.random() * avatarBackgroun
 const searchTerm = ref<string>("");
 const avatarSize: Ref<AvatarSize> = ref(AvatarSize.Normal);
 const savingImage = ref(false);
+
+async function changeUser() {
+  setAvatarExporterLastUsername(null);
+
+  await navigateTo(`/avatar/exporter`, {replace: true});
+}
 
 function selectedBackgroundIndex(): number {
   if (queryBackgroundIndex.value >= 0 && queryBackgroundIndex.value <= avatarBackgrounds().length) {
