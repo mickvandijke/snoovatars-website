@@ -647,8 +647,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "nameAsc":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aValue = a.series.name;
-        const bValue = b.series.name;
+        const aValue = a.series.name.toLowerCase();
+        const bValue = b.series.name.toLowerCase();
 
         if (aValue > bValue) {
           return 1;
@@ -661,8 +661,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "nameDesc":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aValue = a.series.name;
-        const bValue = b.series.name;
+        const aValue = a.series.name.toLowerCase();
+        const bValue = b.series.name.toLowerCase();
 
         if (aValue > bValue) {
           return -1;
