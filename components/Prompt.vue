@@ -1,5 +1,5 @@
 <template>
-  <div @touchstart.self="prompter = null" @click.self="prompter = null" class="px-16 fixed inset-0 flex items-center justify-center bg-neutral-900/50 w-full h-full">
+  <div @touchstart.self="prompter = null" @click.self="prompter = null" class="px-16 fixed inset-0 flex items-center justify-center bg-neutral-900/50 w-full h-full z-50">
     <div class="p-6 bg-neutral-900 border border-neutral-800/90 rounded-2xl shadow-lg w-full max-w-xs">
       <h2 class="text-neutral-400 text-sm mb-4">{{ prompter.title }}</h2>
       <div class="flex flex-col gap-2">

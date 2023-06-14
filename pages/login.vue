@@ -24,6 +24,9 @@
           <NuxtLink to="/signup" class="block mt-2 px-4 py-2 text-white text-base font-medium rounded-2xl w-full duration-200">
             Create a free account
           </NuxtLink>
+          <NuxtLink to="/accountdeletion" class="block mt-2 px-4 py-2 text-white text-base font-medium rounded-2xl w-full duration-200">
+            Delete account
+          </NuxtLink>
         </div>
       </div>
     </div>

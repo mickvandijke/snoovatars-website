@@ -1,12 +1,11 @@
 import {User, UserSettings} from "~/types/user";
-import {useAlertList, useAlertQuotas, useToken, useUser} from "#imports";
+import {useToken, useUser} from "#imports";
 import {handleCatch, handleResponseError} from "~/composables/api/error";
 import {useRuntimeConfig} from "#app";
 import {API_UNREACHABLE, API_UNRECOGNIZED_RESPONSE} from "~/global/constants";
 import {useFcmDeviceToken} from "~/composables/states";
 import {registerFcmDeviceToken} from "~/composables/api/fcm";
-import {ApiResponse} from "~/types/wallet";
-import {AccountTierAlertQuotas, Alert, alert_list_from_object} from "~/types/alert";
+import {ApiTokenBalanceResponse} from "~/types/wallet";
 
 export function setToken(token: string) {
     localStorage.setItem("Token", token);
@@ -201,4 +200,37 @@ export async function updateUserSettings(userSettings: UserSettings): Promise<Us
                 return Promise.resolve(data.user_settings);
             }
         })
+}
+
+export async function deleteUser(usernameOrEmail: string): Promise<string> {
+    const config = useRuntimeConfig();
+    const BACKEND_ADDR = config.public.API_BASE_URL;
+
+    let url = `${BACKEND_ADDR}/user/delete`;
+
+    return await fetch(url, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username_or_email: usernameOrEmail
+        })
+    })
+        .then(async (res) => {
+            if (!res.ok) {
+                throw await res.text();
+            } else {
+                let data = await res.json();
+
+                if (data['message']) {
+                    return Promise.resolve(data['message']);
+                }
+
+                return Promise.reject(API_UNRECOGNIZED_RESPONSE);
+            }
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
 }

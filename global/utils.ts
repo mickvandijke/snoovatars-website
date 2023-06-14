@@ -20,3 +20,15 @@ export function abbreviateNumber(value: number): [number, string] {
 export function isValidEthereumAddress(address: string): boolean {
     return address.length === 42 && address.startsWith("0x");
 }
+
+export function getTokenImage(url: string): string {
+    if (url === "https://i.seadn.io/gae/nrOMmeEyGTOEqGrTu9oXLC1iHo6pdY4gaIW4NxpmTEk4Z6weZf3-PIGLRCUv5cybrw6qDCNbRUNay_cY84O6jucgxiqTEhuZlz6T8?auto=format&w=1920") {
+        url = "ipfs://QmUmDVhqUUZN3JzC2v1pCk8HNXtffwUBogFThZ4kv5VrKy";
+    }
+
+    if (url.startsWith("ipfs://")) {
+        url = url.replace("ipfs://", "https://reddit.infura-ipfs.io/ipfs/");
+    }
+
+    return url;
+}

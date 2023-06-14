@@ -132,6 +132,7 @@ import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {useWatchList, addToWatchList, removeFromWatchList, openLink} from "#imports";
 import {StarIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
 import {Capacitor} from "@capacitor/core";
+import {getTokenImage} from "~/global/utils";
 
 export interface AvatarCardItem {
   name: string;
@@ -175,18 +176,6 @@ function closeExtraInfo() {
 
 function toggleExtraInfo() {
   showExtraInfo.value = !showExtraInfo.value;
-}
-
-function getTokenImage(url: string): string {
-  if (url === "https://i.seadn.io/gae/nrOMmeEyGTOEqGrTu9oXLC1iHo6pdY4gaIW4NxpmTEk4Z6weZf3-PIGLRCUv5cybrw6qDCNbRUNay_cY84O6jucgxiqTEhuZlz6T8?auto=format&w=1920") {
-    url = "ipfs://QmUmDVhqUUZN3JzC2v1pCk8HNXtffwUBogFThZ4kv5VrKy";
-  }
-
-  if (url.startsWith("ipfs://")) {
-    url = url.replace("ipfs://", "https://reddit.infura-ipfs.io/ipfs/");
-  }
-
-  return url;
 }
 
 function getMintClasses(totalQuantity: number) {

@@ -85,7 +85,7 @@
 
       <ul
           :class="showMenu ? 'flex' : 'hidden'"
-          class="flex-col my-4 lg:my-0 text-neutral-200 gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
+          class="flex-col my-4 lg:my-0 text-neutral-200 font-semibold gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
       >
         <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
         <NuxtLink class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
@@ -124,6 +124,11 @@
                         Upgrade to Pro
                       </NuxtLink>
                     </template>
+                    <li @click="deleteAccount()" class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-neutral-400 rounded-lg duration-200">
+                      <a class="inline-flex items-center">
+                        <span class="flex flex-nowrap whitespace-nowrap">Delete account</span>
+                      </a>
+                    </li>
                     <li @click="logout()" class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-neutral-400 rounded-lg duration-200">
                       <a class="inline-flex items-center">
                         <span class="flex flex-nowrap whitespace-nowrap">Sign out</span>
@@ -153,7 +158,7 @@ import {
   useUser,
   watch
 } from "#imports";
-import {deleteToken} from "~/composables/api/user";
+import {deleteToken, deleteUser} from "~/composables/api/user";
 import {CURRENCIES} from "~/types/currency";
 import {
   setPreferredCurrency,
@@ -164,6 +169,7 @@ import {
 import {ethereumInLocalCurrency, coneInLocalCurrency} from "#imports";
 import {onMounted} from "vue";
 import {Capacitor} from "@capacitor/core";
+import {navigateTo} from "nuxt/app";
 
 const user = useUser();
 const token = useToken();
@@ -195,6 +201,14 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
 });
+
+async function deleteAccount() {
+  if (!user.value.username) {
+    return;
+  }
+
+  await navigateTo(`/accountdeletion`, {replace: true});
+}
 
 const handleScroll = () => {
   const currentScrollPos = window.pageYOffset;

@@ -26,6 +26,7 @@
                 <option value="gen3">Gen 3</option>
                 <option value="wsb">WSB</option>
                 <option value="recap2022">Recap 2022</option>
+                <option value="BLNT">BLNT</option>
                 <option value="rabbids">Rabbids</option>
               </select>
               <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
@@ -250,6 +251,9 @@ const filteredListings: ComputedRef<ListingWithStats[]> = computed(() => {
       break;
     case "recap2022":
       filteredListings = filteredListings.filter((listing) => listing.stats.collection.name.includes("Recap"));
+      break;
+    case "BLNT":
+      filteredListings = filteredListings.filter((listing) => listing.stats.collection.name.includes("Better Launch Next Time"));
       break;
     case "rabbids":
       filteredListings = filteredListings.filter((listing) => listing.stats.collection.name.includes("Rabbids"));

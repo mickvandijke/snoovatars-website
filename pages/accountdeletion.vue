@@ -1,17 +1,13 @@
 <template>
   <div class="px-4 md:px-6 py-12 flex flex-col gap-3 text-neutral-200 max-w-2xl">
-    <h1>Delete Account Instructions</h1>
-    <p>To delete your account, please follow the steps below:</p>
+    <h1>Delete Account</h1>
 
-    <ol class="flex flex-col gap-2">
-      <li>1. Compose an email to <a href="mailto:snoovatars@gmail.com" class="text-amber-500">snoovatars@gmail.com</a> from the email you signed up with.</li>
-      <li>2. In the subject line, enter "Account Deletion Request"</li>
-      <li>3. In the body of the email, include the following information:</li>
-      <ul class="px-4">
-        <li>3.1. A brief reason for your account deletion (optional)</li>
-      </ul>
-      <li>4. Click "Send" to submit your account deletion request.</li>
-    </ol>
+    <p>After submitting, you must click the confirmation link in the account's associated email.</p>
+
+    <div class="flex items-center gap-2 w-full">
+      <input type="text" autocomplete="off" name=“usernameOrEmail” class="light" placeholder="Username or Email" v-model="usernameOrEmail" @keyup.enter.prevent="submitRequest">
+      <button :disabled="!usernameOrEmail || loading" class="px-4 py-3 h-full bg-amber-600 hover:bg-amber-500 disabled:bg-neutral-800 text-white disabled:text-neutral-400 font-medium whitespace-nowrap rounded-md duration-200" @click="submitRequest">Submit</button>
+    </div>
 
     <p>Please note that deleting your account is an irreversible process. Once your account is deleted, all associated data and information will be permanently removed.</p>
 
@@ -19,9 +15,27 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "accountdeletion"
+<script setup lang="ts">
+import {ref} from "#imports";
+import {deleteUser} from "~/composables/api/user";
+
+const usernameOrEmail = ref("");
+const loading = ref(false);
+
+function submitRequest() {
+  if (loading.value) {
+    return;
+  }
+
+  deleteUser(usernameOrEmail.value)
+      .then(async (message) => {
+        loading.value = false;
+        alert(message);
+      })
+      .catch((err) => {
+        loading.value = false;
+        alert(err);
+      });
 }
 </script>
 
