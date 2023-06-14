@@ -133,7 +133,7 @@ export async function verifyUser(verificationCode: string) {
     const config = useRuntimeConfig();
     const BACKEND_ADDR = config.public.API_BASE_URL;
 
-    let url = `${BACKEND_ADDR}/verify/${verificationCode}`;
+    let url = `${BACKEND_ADDR}/verify/email/${verificationCode}`;
 
     return await fetch(url, {
         method: "GET",
