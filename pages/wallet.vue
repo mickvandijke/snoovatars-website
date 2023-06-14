@@ -134,7 +134,7 @@
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`)" class="cursor-pointer">
-                          <img :src="getSeriesStats(seriesName)?.series.image" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          <img :src="getTokenImage(getSeriesStats(seriesName)?.series.image)" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                         </a>
                       </div>
                       <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">
@@ -161,7 +161,7 @@
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
-                          <img :src="getSeriesStats(token.name)?.series.image" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          <img :src="getTokenImage(getSeriesStats(token.name)?.series.image)" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                         </a>
                       </div>
                       <div class="px-2 col-span-3 md:col-span-5 flex flex-col justify-center items-start text-sm">
@@ -209,6 +209,7 @@ import {ethereumInLocalCurrency, coneToEth, coneInLocalCurrency} from "#imports"
 import {ArrowPathIcon, ChevronDownIcon, XMarkIcon} from "@heroicons/vue/24/solid";
 import {Token} from "~/types/token";
 import {Capacitor} from "@capacitor/core";
+import {getTokenImage} from "~/global/utils";
 
 const seriesStats = useSeriesStats();
 const walletAddresses = useWalletAddresses();

@@ -109,6 +109,7 @@ watch([cookies], () => {
 router.afterEach(() => {
   updateEthereumPrices();
   updateMarketInfo();
+  getUser();
 });
 
 function loadGoogleAnalytics() {
