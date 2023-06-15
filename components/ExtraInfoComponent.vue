@@ -131,47 +131,55 @@
     <template v-if="listings">
       <div class="flex flex-col gap-2">
         <div class="flex justify-between items-center">
-          <h1 class="text-xs text-neutral-200 font-bold">All Listings:</h1>
+          <h1 class="text-xs text-neutral-200 font-bold">All Listings <NuxtLink to="/upgrade" class="text-amber-500 italic font-bold">Pro</NuxtLink>:</h1>
           <label class="relative flex justify-between items-center group p-1 cursor-pointer">
             <input v-model="options.listings" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
             <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
           </label>
         </div>
         <template v-if="options.listings">
-          <div class="overflow-x-auto">
-            <table class="w-full text-xs">
-              <thead>
-              <tr class="border-b border-neutral-600 text-neutral-200">
-                <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'payment_token.base_price' }" @click="sortListings('payment_token.base_price')">Price</th>
-                <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'token.mint_number' }" @click="sortListings('token.mint_number')">Mint</th>
-                <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'maker_address' }" @click="sortListings('maker_address')">Seller</th>
-                <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'date_listed' }" @click="sortListings('date_listed')">Date</th>
-              </tr>
-              </thead>
-              <tbody>
-              <template v-for="(listing, index) in slicedListings" :key="index">
-                <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
-                  <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    <span>{{ (listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ listing.payment_token.symbol }}</span>
-                    <template v-if="listing.payment_token.symbol === 'ETH'">
-                      <span> ({{ ethereumInLocalCurrency(listing.payment_token.base_price) }})</span>
-                    </template>
-                  </td>
-                  <td class="px-2 py-1">
-                    <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
-                  </td>
-                  <td class="px-2 py-1">
-                    <button @click="openLinkWith(`https://opensea.io/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
-                  </td>
-                  <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.date_listed)) }}</td>
+          <template v-if="user?.tier > 0">
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs">
+                <thead>
+                <tr class="border-b border-neutral-600 text-neutral-200">
+                  <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'payment_token.base_price' }" @click="sortListings('payment_token.base_price')">Price</th>
+                  <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'token.mint_number' }" @click="sortListings('token.mint_number')">Mint</th>
+                  <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'maker_address' }" @click="sortListings('maker_address')">Seller</th>
+                  <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'date_listed' }" @click="sortListings('date_listed')">Date</th>
                 </tr>
-              </template>
-              </tbody>
-            </table>
-          </div>
-          <div class="flex justify-center mt-2">
-            <Pagination :total-items="listings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
-          </div>
+                </thead>
+                <tbody>
+                <template v-for="(listing, index) in slicedListings" :key="index">
+                  <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
+                    <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                      <span>{{ (listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ listing.payment_token.symbol }}</span>
+                      <template v-if="listing.payment_token.symbol === 'ETH'">
+                        <span> ({{ ethereumInLocalCurrency(listing.payment_token.base_price) }})</span>
+                      </template>
+                    </td>
+                    <td class="px-2 py-1">
+                      <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
+                    </td>
+                    <td class="px-2 py-1">
+                      <button @click="openLinkWith(`https://opensea.io/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
+                    </td>
+                    <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.date_listed)) }}</td>
+                  </tr>
+                </template>
+                </tbody>
+              </table>
+            </div>
+            <div class="flex justify-center mt-2">
+              <Pagination :total-items="listings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
+            </div>
+          </template>
+          <template v-else>
+            <div class="flex flex-col items-center text-center gap-2">
+              <div class="text-neutral-300">Please upgrade to <NuxtLink to="/upgrade" class="text-amber-500 font-bold italic">Pro</NuxtLink> to use this feature.</div>
+              <NuxtLink to="/upgrade" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Upgrade</NuxtLink>
+            </div>
+          </template>
         </template>
       </div>
     </template>

@@ -34,17 +34,17 @@
               <div class="flex items-center gap-1 font-bold overflow-hidden">
                 <div class="text-neutral-500">24h:</div>
                 <template v-if="seriesStats.stats.daily_price_change > 0">
-                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-green-500/20 text-green-500 text-[0.65rem] rounded-md">
+                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-green-500/10 text-green-500 text-[0.65rem] rounded-md">
                     <span>{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
                   </div>
                 </template>
                 <template v-else-if="seriesStats.stats.daily_price_change < 0">
-                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-red-500/20 text-red-500 text-[0.65rem] rounded-md">
+                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-red-500/10 text-red-500 text-[0.65rem] rounded-md">
                     <span>{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
                   </div>
                 </template>
                 <template v-else>
-                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-neutral-400/20 text-neutral-400 text-[0.65rem] rounded-md">
+                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-neutral-400/10 text-neutral-400 text-[0.65rem] rounded-md">
                     <span>0%</span>
                   </div>
                 </template>
