@@ -56,6 +56,7 @@ useHead({
     { 'http-equiv': "content-type", content: "text/html; charset=utf-8" },
     { name: "language", content: "English" },
     { name: "viewport", content: "viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1"},
+    { name: "apple-itunes-app", content: "app-id=6449831133" },
   ]
 });
 

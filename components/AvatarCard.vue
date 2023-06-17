@@ -3,7 +3,8 @@
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
-          <img :src="getTokenImage(item.image)" :alt="item.name">
+          <div class="absolute w-full h-full blur-lg" :style="{ backgroundImage: `url(${getTokenImage(item.image)})`, backgroundSize: 'cover', backgroundPosition: 'center' }"></div>
+          <img :src="getTokenImage(item.image)" class="relative h-full w-auto mx-auto" :alt="item.name">
           <template v-if="seriesStats && seriesStats.series.mint_price > 0">
             <div class="absolute bottom-1 left-1 px-1 py-0.25 text-white text-[0.65rem] text-center font-bold rounded-lg" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">${{ seriesStats.series.mint_price / 100.00 }}</div>
           </template>
@@ -31,20 +32,19 @@
             </div>
             <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
             <div class="ml-auto flex items-center gap-1 font-bold">
-              <div class="flex items-center gap-1 font-bold overflow-hidden">
-                <div class="text-neutral-500">24h:</div>
+              <div class="flex items-center font-bold overflow-hidden">
                 <template v-if="seriesStats.stats.daily_price_change > 0">
-                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-green-500/10 text-green-500 text-[0.65rem] rounded-md">
-                    <span>{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
+                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-green-500/20 text-green-500 text-[0.65rem] rounded-md">
+                    <span>+{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
                   </div>
                 </template>
                 <template v-else-if="seriesStats.stats.daily_price_change < 0">
-                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-red-500/10 text-red-500 text-[0.65rem] rounded-md">
+                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-red-500/20 text-red-500 text-[0.65rem] rounded-md">
                     <span>{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
                   </div>
                 </template>
                 <template v-else>
-                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-neutral-400/10 text-neutral-400 text-[0.65rem] rounded-md">
+                  <div class="px-1 py-0.5 flex gap-0.5 items-center bg-neutral-400/20 text-neutral-400 text-[0.65rem] rounded-md">
                     <span>0%</span>
                   </div>
                 </template>
