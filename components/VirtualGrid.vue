@@ -35,7 +35,7 @@ const loadThreshold = computed(() => {
   return window.innerHeight / 3;
 });
 
-const buffer = computed(() => {
+const initialBuffer = computed(() => {
   if (window?.innerWidth < 800) {
     return 24;
   }
@@ -43,8 +43,10 @@ const buffer = computed(() => {
   return 90;
 });
 
+const buffer = 600;
+
 const container = ref<HTMLInputElement | null>(null);
-const endIndex = ref(buffer.value);
+const endIndex = ref(initialBuffer.value);
 
 function handleScroll() {
   const containerHeight = window?.innerHeight ?? 0;
@@ -52,12 +54,12 @@ function handleScroll() {
   const position = window?.scrollY ?? 0;
 
   if (contentHeight - (position + containerHeight) < loadThreshold.value) {
-    const newIndex = visibleItems.value.length + buffer.value;
+    const newIndex = visibleItems.value.length + buffer;
 
     if (endIndex.value !== newIndex)
       endIndex.value = newIndex;
   } else if (position === 0) {
-    endIndex.value = buffer.value;
+    endIndex.value = initialBuffer.value;
   }
 }
 
