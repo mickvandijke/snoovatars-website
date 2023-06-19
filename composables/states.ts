@@ -229,6 +229,10 @@ export async function updateEthereumPrices() {
 
     let ticker = usePreferredCurrency().value;
 
+    fetchCurrentEthereumPriceInCurrency("MATIC").then((value) => {
+        useEthereumPriceMap().value.set("MATIC", value);
+    });
+
     fetchCurrentEthereumPriceInCurrency(ticker).then((value) => {
         useEthereumPriceMap().value.set(ticker, value);
     });

@@ -33,8 +33,10 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
 
     if (abbreviate) {
         [price, abb] = abbreviateNumber(price);
-    } else {
+    } else if (price >= 100) {
         price = Math.round(price);
+    } else {
+        price = +price.toFixed(2);
     }
 
     return `${symbol}${price.toLocaleString(localeString)}${abb}`;

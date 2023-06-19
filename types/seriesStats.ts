@@ -34,6 +34,28 @@ export interface SeriesStats {
         daily_volume: number;
         five_last_sales_average: number;
         listed_percentage: number;
+        eth: {
+            total_volume: number;
+            lowest_listing: Listing;
+            last_sale: Sale;
+            daily_price_change: number;
+            weekly_average_price: number;
+            two_weekly_average_price: number;
+            monthly_average_price: number;
+            daily_volume: number;
+            five_last_sales_average: number;
+        }
+        matic: {
+            total_volume: number;
+            lowest_listing: Listing;
+            last_sale: Sale;
+            daily_price_change: number;
+            weekly_average_price: number;
+            two_weekly_average_price: number;
+            monthly_average_price: number;
+            daily_volume: number;
+            five_last_sales_average: number;
+        }
     };
 }
 

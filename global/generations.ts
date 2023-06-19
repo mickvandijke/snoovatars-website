@@ -1,4 +1,4 @@
-const Filters = {
+export const Filters = {
     gen1: [
         "0x5846728730366d686cdc95dae80a70b44ec9eab2",
         "0xfbed9640e37666fe2ac78e1d263670976354cb69",

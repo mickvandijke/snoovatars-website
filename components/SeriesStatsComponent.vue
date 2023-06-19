@@ -18,11 +18,11 @@
                 </div>
               </div>
             </template>
-            <template v-if="item.stats.lowest_listing">
+            <template v-if="getLowestListing(item)">
               <div class="flex items-center gap-0.5 overflow-hidden">
                 <div class="text-neutral-400">F/M:</div>
                 <div class="flex items-center">
-                  <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
+                  <div class="text-neutral-200">{{ Math.round(((getLowestListing(item)?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
                 </div>
               </div>
             </template>
@@ -57,16 +57,26 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-2 font-medium text-[0.8rem] items-center">
-            <template v-if="item.stats.lowest_listing">
+          <div class="flex gap-2 font-bold text-[0.8rem] items-center" :set="listing = getLowestListing(item)">
+            <template v-if="listing">
               <div class="flex flex-col">
-                <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.stats.lowest_listing.token.contract_address}/${item.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="flex gap-1 font-bold text-white">
-                    <span>{{ (item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                    <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
-                    <span class="text-neutral-400">#{{ item.stats.lowest_listing.token.mint_number }}</span>
-                  </div>
+                <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="flex items-center gap-0.5">
+                  <template v-if="listing.payment_token.symbol === 'ETH'">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="flex gap-1 font-bold text-white">
+                      <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                      <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(listing.payment_token.base_price) }}</span>)</span>
+                      <span class="text-neutral-400">#{{ listing.token.mint_number }}</span>
+                    </div>
+                  </template>
+                  <template v-else-if="listing.payment_token.symbol === 'MATIC'">
+                    <div class="flex items-center w-3 h-3 text-orange-500 text-sm">M</div>
+                    <div class="flex gap-1 font-bold text-white">
+                      <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                      <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(listing.payment_token.base_price / ethereumPriceMap.get("MATIC")) }}</span>)</span>
+                      <span class="text-neutral-400">#{{ listing.token.mint_number }}</span>
+                    </div>
+                  </template>
                 </button>
               </div>
             </template>
@@ -78,7 +88,7 @@
                 <div class="flex items-center gap-1 font-bold overflow-hidden">
                   <div class="text-neutral-400">Flo/Mint:</div>
                   <div class="flex items-center">
-                    <div class="text-neutral-200">{{ Math.round(((item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
+                    <div class="text-neutral-200">{{ Math.round(((getLowestListing(item)?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (item.series.mint_price / 100) * 100) }}%</div>
                   </div>
                 </div>
               </template>
@@ -113,8 +123,8 @@
                   <div class="text-neutral-400">MC:</div>
                   <div class="pl-0.5 flex gap-0.5 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                    <div class="text-neutral-200">{{ (item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(2) }}</div>
-                    <div class="text-neutral-200">({{ ethereumInLocalCurrency(item.series.total_sold * item.stats.lowest_listing?.payment_token.base_price, true) }})</div>
+                    <div class="text-neutral-200">{{ (item.series.total_sold * getLowestListing(item)?.payment_token.base_price / 1000000000000000000).toFixed(2) }}</div>
+                    <div class="text-neutral-200">({{ ethereumInLocalCurrency(item.series.total_sold * getLowestListing(item)?.payment_token.base_price, true) }})</div>
                   </div>
                 </div>
               </template>
@@ -161,13 +171,18 @@
 <script setup lang="ts">
 import {SeriesStats} from "~/types/seriesStats";
 import {PropType} from "@vue/runtime-core";
-import {useWatchList, addToWatchList, removeFromWatchList, useEthereumUsdPrice} from "~/composables/states";
-import {StarIcon} from "@heroicons/vue/24/solid";
-import {ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
-import {computed, ethereumInLocalCurrency, openLink} from "#imports";
+import {
+  useWatchList,
+  useEthereumUsdPrice,
+  useEthereumPriceMap
+} from "~/composables/states";
+import {computed, ethereumInLocalCurrency} from "#imports";
+import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
+import {getLowestListing} from "~/composables/helpers";
 
 const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
+const ethereumPriceMap = useEthereumPriceMap();
 
 const props = defineProps({
   items: Array as PropType<SeriesStats[]>,

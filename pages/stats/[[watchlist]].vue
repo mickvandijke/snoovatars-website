@@ -49,13 +49,9 @@
               <input type="number" v-model="maxPriceEth" placeholder="Max price (ETH)" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
               <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
                 <option value="all">Gen: All</option>
-                <option value="gen1">Gen 1</option>
-                <option value="gen2">Gen 2</option>
-                <option value="gen3">Gen 3</option>
-                <option value="wsb">WSB</option>
-                <option value="recap2022">Recap 2022</option>
-                <option value="BLNT">BLNT</option>
-                <option value="rabbids">Rabbids</option>
+                <template v-for="gen in Object.keys(Filters)">
+                  <option :value="gen">{{ gen }}</option>
+                </template>
               </select>
               <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
                 <option value="all">Supply: All</option>
@@ -90,7 +86,7 @@
 import {
   updateEthereumPrices,
   updateMarketInfo,
-  updateSeriesStats,
+  updateSeriesStats, useEthereumPriceMap,
   useEthereumUsdPrice,
   useSeriesStats,
   useWatchList
@@ -101,6 +97,9 @@ import {watch} from "vue";
 import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import MenuBar from "~/components/MenuBar.vue";
 import {Capacitor} from "@capacitor/core";
+import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
+import {getLowestListing, getLowestListingAsGweiPrice, maticToEth} from "~/composables/helpers";
+import {Filters} from "~/global/generations";
 
 const router = useRouter();
 const route = useRoute();
@@ -168,38 +167,23 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
   }
 
   if (maxPriceEth.value) {
-    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.stats.lowest_listing?.payment_token.base_price <= maxPriceEth.value * 1000000000000000000);
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => {
+      const lowestListing = getLowestListing(seriesStat);
+
+      let price = 0;
+
+      if (lowestListing.payment_token.symbol === "ETH") {
+        price = lowestListing.payment_token.base_price;
+      } else if (lowestListing.payment_token.symbol === "MATIC") {
+        price = maticToEth(lowestListing.payment_token.base_price);
+      }
+
+      return price <= maxPriceEth.value * ETH_TO_GWEI_MODIFIER;
+    });
   }
 
-  switch (filterGenOption.value) {
-    case "gen1":
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) =>
-          !seriesStat.collection.name.includes("Future") &&
-          !seriesStat.collection.name.includes("Spooky") &&
-          !seriesStat.collection.name.includes("Memetic") &&
-          !seriesStat.collection.name.includes("Fiesta Dog") &&
-          !seriesStat.collection.name.includes("Rabbids") &&
-          !seriesStat.collection.name.includes("Recap") &&
-          !seriesStat.collection.name.includes("Better Launch Next Time"));
-      break;
-    case "gen2":
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Spooky Season"));
-      break;
-    case "gen3":
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Future Realities") || seriesStat.collection.name.includes("Fiesta Dog"));
-      break;
-    case "wsb":
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Memetic Traders"));
-      break;
-    case "recap2022":
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Recap 2022"));
-      break;
-    case "BLNT":
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Better Launch Next Time"));
-      break;
-    case "rabbids":
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.name.includes("Rabbids"));
-      break;
+  if (filterGenOption.value && filterGenOption.value != "all") {
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => Filters[filterGenOption.value].includes(seriesStat.collection.contract_address));
   }
 
   switch (filterRarityOption.value) {
@@ -231,8 +215,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
   switch (sortOption.value) {
     case "highestPrice":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aBasePrice = a.stats.lowest_listing && a.stats.lowest_listing.payment_token.symbol === "ETH" ? a.stats.lowest_listing.payment_token.base_price : 0;
-        const bBasePrice = b.stats.lowest_listing && b.stats.lowest_listing.payment_token.symbol === "ETH" ? b.stats.lowest_listing.payment_token.base_price : 0;
+        const aBasePrice = getLowestListingAsGweiPrice(a);
+        const bBasePrice = getLowestListingAsGweiPrice(b);
 
         if (aBasePrice > bBasePrice) {
           return -1;
@@ -245,8 +229,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "lowestPrice":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aBasePrice = a.stats.lowest_listing && a.stats.lowest_listing.payment_token.symbol === "ETH" ? a.stats.lowest_listing.payment_token.base_price : 0;
-        const bBasePrice = b.stats.lowest_listing && b.stats.lowest_listing.payment_token.symbol === "ETH" ? b.stats.lowest_listing.payment_token.base_price : 0;
+        const aBasePrice = getLowestListingAsGweiPrice(a);
+        const bBasePrice = getLowestListingAsGweiPrice(b);
 
         if (aBasePrice > bBasePrice) {
           return 1;
@@ -316,8 +300,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "lowestFloorMintRatio":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aFloorMintRatio = a.stats.lowest_listing ? Math.round(((a.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd.value) / (a.series.mint_price / 100) * 100) : 999999999;
-        const bFloorMintRatio = b.stats.lowest_listing ? Math.round(((b.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd.value) / (b.series.mint_price / 100) * 100) : 999999999;
+        const aFloorMintRatio = getLowestListing(a) ? Math.round(((getLowestListingAsGweiPrice(a) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (a.series.mint_price / 100) * 100) : 999999999;
+        const bFloorMintRatio = getLowestListing(b) ? Math.round(((getLowestListingAsGweiPrice(b) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (b.series.mint_price / 100) * 100) : 999999999;
 
         if (aFloorMintRatio > bFloorMintRatio) {
           return 1;
@@ -330,8 +314,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "highestMarketCap":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aMarketCap = a.stats.lowest_listing ? (a.series.total_sold * a.stats.lowest_listing?.payment_token.base_price) : 0;
-        const bMarketCap = b.stats.lowest_listing ? (b.series.total_sold * b.stats.lowest_listing?.payment_token.base_price) : 0;
+        const aMarketCap = getLowestListing(a) ? (a.series.total_sold * getLowestListingAsGweiPrice(a)) : 0;
+        const bMarketCap = getLowestListing(b) ? (b.series.total_sold * getLowestListingAsGweiPrice(b)) : 0;
 
         if (aMarketCap > bMarketCap) {
           return -1;
@@ -344,8 +328,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "lowestMarketCap":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aMarketCap = a.stats.lowest_listing ? (a.series.total_sold * a.stats.lowest_listing?.payment_token.base_price) : 0;
-        const bMarketCap = b.stats.lowest_listing ? (b.series.total_sold * b.stats.lowest_listing?.payment_token.base_price) : 0;
+        const aMarketCap = getLowestListing(a) ? (a.series.total_sold * getLowestListingAsGweiPrice(a)) : 0;
+        const bMarketCap = getLowestListing(b) ? (b.series.total_sold * getLowestListingAsGweiPrice(b)) : 0;
 
         if (aMarketCap > bMarketCap) {
           return 1;
