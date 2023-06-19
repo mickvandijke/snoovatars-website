@@ -10,7 +10,7 @@
         leave-to-class="transform opacity-0 scale-95"
     >
       <template v-if="isRefreshing">
-        <div class="flex flex-col items-center justify-center" style="height: 40px;">
+        <div class="md:hidden flex flex-col items-center justify-center" style="height: 40px;">
           <IonSpinner class="w-5 h-5 text-amber-500" />
         </div>
       </template>
