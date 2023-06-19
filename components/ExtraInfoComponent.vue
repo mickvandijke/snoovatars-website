@@ -252,7 +252,7 @@
 <script setup lang="ts">
 import {Ref} from "@vue/reactivity";
 import {Sale} from "~/types/sale";
-import {computed, onBeforeMount, ref, useEthereumUsdPrice, watch} from "#imports";
+import {computed, onBeforeMount, ref, useEthereumUsdPrice, useUser, watch} from "#imports";
 import {fetchSalesForSeries} from "~/composables/api/sales";
 import {ethereumInLocalCurrency} from "#imports";
 import {PropType} from "@vue/runtime-core";
@@ -264,6 +264,7 @@ import {useExtraInfoOptions, updateExtraInfoOptions} from "~/composables/states"
 import {ChevronUpIcon} from "@heroicons/vue/20/solid";
 
 const ethereumPriceInUsd = useEthereumUsdPrice();
+const user = useUser();
 
 const pageSize = 5;
 const options: Ref<ExtraInfoOptions> = ref(JSON.parse(JSON.stringify(useExtraInfoOptions().value)));
