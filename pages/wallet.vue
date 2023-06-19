@@ -77,7 +77,7 @@
                 </button>
               </div>
             </div>
-            <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-neutral-800 w-full">
+            <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-1 border-t border-neutral-800 w-full">
               <div class="p-1 flex items-center justify-start w-full font-bold">
                 <div class="w-10 h-10 relative rounded-md overflow-hidden">
                   <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)">
@@ -128,13 +128,13 @@
               </div>
             </div>
             <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
-              <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-neutral-800 w-full">
+              <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-neutral-800 w-full">
                 <template v-if="groupMethod === 'group'">
                   <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`)" class="cursor-pointer">
-                          <img :src="getTokenImage(getSeriesStats(seriesName)?.series.image)" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          <img :src="getTokenImage(getSeriesStats(seriesName)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                         </a>
                       </div>
                       <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">
@@ -161,7 +161,7 @@
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
-                          <img :src="getTokenImage(getSeriesStats(token.name)?.series.image)" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          <img :src="getTokenImage(getSeriesStats(token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                         </a>
                       </div>
                       <div class="px-2 col-span-3 md:col-span-5 flex flex-col justify-center items-start text-sm">
@@ -423,7 +423,7 @@ function sortedWalletTokens(walletTokens: WalletTokens): WalletTokens {
 
 function sortedTokens(tokens: Array<Token>): Array<Token> {
   return tokens.sort((a, b) => {
-    const seriesValueComparison = getSeriesValue(a.name) - getSeriesValue(b.name);
+    const seriesValueComparison = getSeriesValue(b.name) - getSeriesValue(a.name);
     if (seriesValueComparison !== 0) {
       return seriesValueComparison;
     } else {
