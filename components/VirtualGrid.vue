@@ -8,7 +8,7 @@
     <template v-if="visibleItems.length < items.length">
       <div class="py-6 flex flex-col gap-3 items-center">
         <span class="sm:text-lg text-neutral-500">Loading..</span>
-        <IonSpinner class="w-4 h-4 sm:w-8 sm:h-8 text-neutral-500 opacity-50" />
+        <IonSpinner class="w-5 h-5 text-neutral-500 opacity-50" />
       </div>
     </template>
   </div>

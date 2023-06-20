@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <NavigationBar/>
-    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }">
+    <div class="pt-[74px] md:pt-[86px] relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }">
       <NuxtPage/>
     </div>
     <template v-if="!Capacitor.isNativePlatform()">
