@@ -10,6 +10,10 @@
         <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
         <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
       </select>
+      <select v-model="filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+        <option value="all">Show All</option>
+        <option value="premium">Show Premium Only</option>
+      </select>
       <select v-model="groupMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="group">Group by Series</option>
         <option value="mint">Show Mint Numbers</option>
@@ -130,7 +134,7 @@
             <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
               <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-neutral-800 w-full">
                 <template v-if="groupMethod === 'group'">
-                  <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(walletTokens))">
+                  <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(filterWalletTokens(walletTokens)))">
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`)" class="cursor-pointer">
@@ -157,7 +161,7 @@
                   </template>
                 </template>
                 <template v-else>
-                  <template v-for="token in sortedTokens(flattenObject(walletTokens))">
+                  <template v-for="token in sortedTokens(flattenObject(filterWalletTokens(walletTokens)))">
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
@@ -201,7 +205,7 @@ import {
   useWalletAddresses,
   useConeEthPrice, updateEthereumPrices, updateMarketInfo
 } from "~/composables/states";
-import {onMounted, ref} from "#imports";
+import {getLowestListingAsGweiPrice, onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
 import {fetchWalletTokenBalance, fetchWalletTokens} from "~/composables/api/wallet";
 import {WalletTokens} from "~/types/wallet";
@@ -210,6 +214,8 @@ import {ArrowPathIcon, ChevronDownIcon, XMarkIcon} from "@heroicons/vue/24/solid
 import {Token} from "~/types/token";
 import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
+import {getLastSaleAsGweiPrice} from "~/composables/helpers";
+import {Filters, PremiumCollections} from "~/global/generations";
 
 const seriesStats = useSeriesStats();
 const walletAddresses = useWalletAddresses();
@@ -220,6 +226,7 @@ const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
 const cones: Ref<Map<string, number>> = ref(new Map());
 const weth: Ref<Map<string, number>> = ref(new Map());
 const valuationMethod = ref<string>("floor");
+const filterOption = ref<string>("all");
 const groupMethod = ref<string>("group");
 const loading = ref(false);
 const isRefreshing = ref(false);
@@ -232,6 +239,24 @@ onMounted(() => {
     getWalletTokens(wallet);
   });
 });
+
+function filterWalletTokens(walletTokens: WalletTokens): WalletTokens {
+  if (filterOption.value === "all") {
+    return walletTokens;
+  }
+
+  const filteredTokens: WalletTokens = {};
+
+  for (const key in walletTokens) {
+    const contractAddress = walletTokens[key][0]["contract_address"];
+
+    if (PremiumCollections.includes(contractAddress)) {
+      filteredTokens[key] = walletTokens[key];
+    }
+  }
+
+  return filteredTokens;
+}
 
 function toggleCollapse(walletAddress: string) {
   if (collapsedWallets.value.has(walletAddress)) {
@@ -358,26 +383,26 @@ function getWalletValue(wallet: string): number {
 
 function getSeriesValue(series: string): number {
   let price = 0;
-  let stats = getSeriesStats(series)?.stats;
+  let stats = getSeriesStats(series);
 
   switch (valuationMethod.value) {
     case "floor":
-      price = stats?.lowest_listing?.payment_token.base_price ?? 0;
+      price = stats ? getLowestListingAsGweiPrice(stats) : 0;
       break;
     case "lastSale":
-      price = stats?.last_sale?.payment_token.base_price ?? 0;
+      price = stats ? getLastSaleAsGweiPrice(stats) : 0;
       break;
     case "fiveLastSales":
-      price = stats?.five_last_sales_average * 1000000000000000000 ?? 0;
+      price = stats?.stats.eth.five_last_sales_average * 1000000000000000000 ?? 0;
       break;
     case "weeklyAvg":
-      price = ((stats?.weekly_average_price ?? stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
+      price = ((stats?.stats.eth.weekly_average_price ?? stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
       break;
     case "twoWeeklyAvg":
-      price = ((stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
+      price = ((stats.stats.eth.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
       break;
     case "monthlyAvg":
-      price = (stats.monthly_average_price  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
+      price = (stats.stats.eth.monthly_average_price  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
       break;
   }
 

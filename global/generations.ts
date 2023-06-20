@@ -1,5 +1,6 @@
 export const Filters = {
     gen1: [
+        "0x8d0501d85becda92b89e56177ddfcea5fc1f0af2",
         "0x5846728730366d686cdc95dae80a70b44ec9eab2",
         "0xfbed9640e37666fe2ac78e1d263670976354cb69",
         "0xe0743141df04a6b9f3df890429cc994e46db03d9",
@@ -176,3 +177,5 @@ export const Filters = {
     cup2022: ["0x622d8fea4603ba9edaf1084b407052d8b0a9bed7"],
     superbowllvii: ["0x3b477a6b1be236628b08839e1e8cf8ba8d93589a"]
 };
+
+export const PremiumCollections = Filters.gen1.concat(Filters.gen2).concat(Filters.gen3).concat(Filters.wsb);
