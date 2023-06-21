@@ -6,7 +6,7 @@
         <div class="mt-2 py-3 max-h-xs overflow-y-auto">
           <div>
             <label for="username" class="block mb-2 text-sm font-medium text-neutral-500 text-left">Username or Email</label>
-            <input type="text" required v-model="username" id="username" class="light">
+            <input type="email" required v-model="username" id="username" class="light">
           </div>
           <div class="mt-4">
             <label for="password" class="block mb-2 text-sm font-medium text-neutral-500 text-left">Password</label>
