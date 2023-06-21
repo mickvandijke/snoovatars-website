@@ -29,9 +29,9 @@ export interface Settings {
 
 export const Default: Settings = {
     wallet: {
-        filterOption: "floor",
-        groupMethod: "all",
-        valuationMethod: "group"
+        filterOption: "all",
+        groupMethod: "group",
+        valuationMethod: "floor"
     },
     cookies: {
         accepted: false
