@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
-    <NavigationBar/>
-    <div class="pt-[74px] md:pt-[86px] relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }">
+    <NavigationBar ref="navbarcomp"/>
+    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }" :style="{ paddingTop: `${navbarcomp?.navbar.clientHeight ?? 0}px` }">
       <NuxtPage/>
     </div>
     <template v-if="!Capacitor.isNativePlatform()">
@@ -21,7 +21,7 @@
 import {useHead} from "nuxt/app";
 import {
   loadWatchList,
-  onBeforeMount, ref, updateMarketInfo,
+  onBeforeMount, onMounted, ref, updateMarketInfo,
   useCollections, useCookies, useRouter,
   useUser,
   watch
@@ -67,6 +67,8 @@ const fcmDeviceToken = useFcmDeviceToken();
 const { isEnabled } = useState();
 const router = useRouter();
 const prompter = usePrompt();
+
+const navbarcomp = ref<HTMLInputElement | null>(null);
 
 loadCookiesPreference();
 loadWalletAddresses();
@@ -243,6 +245,7 @@ input.light, select.light {
 }
 
 .page-mobile-padding {
+  margin-top: env(safe-area-inset-top);
   padding-bottom: calc(54px + env(safe-area-inset-bottom));
 }
 </style>

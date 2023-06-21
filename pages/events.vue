@@ -3,16 +3,10 @@
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none max-w-sm">
-      <template v-if="feedView !== 'mints'">
-        <select v-model="filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
-          <option value="all">Show All</option>
-          <template v-if="feedView === 'sales' || feedView === 'listings'">
-            <option value="eth">Show ETH</option>
-            <option value="matic">Show Matic</option>
-          </template>
-          <option value="watchlist">Show Watchlist</option>
-        </select>
-      </template>
+      <select v-model="filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+        <option value="all">Show All</option>
+        <option value="premium">Show Premium Only</option>
+      </select>
       <select v-model="feedView" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="sales">Latest Sales</option>
         <option value="listings">Latest Listings</option>
@@ -26,13 +20,13 @@
     </MenuBar>
     <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
       <template v-if="feedView === 'sales'">
-        <SalesComponent :items="filteredSales()"/>
+        <SalesComponent :items="filteredSales"/>
       </template>
       <template v-else-if="feedView === 'listings'">
-        <ListingsComponent :items="filteredListings()"/>
+        <ListingsComponent :items="filteredListings"/>
       </template>
       <template v-else-if="feedView === 'mints'">
-        <MintsComponent :items="filteredMints()"/>
+        <MintsComponent :items="filteredMints"/>
       </template>
     </PullToRefresh>
   </div>
@@ -46,7 +40,7 @@ import {
   useSeriesStats,
   useWatchList
 } from "~/composables/states";
-import {ref, useRoute, useRouter, watch} from "#imports";
+import {computed, ref, useRoute, useRouter, watch} from "#imports";
 import {fetchSalesLatest} from "~/composables/api/sales";
 import SalesComponent from "~/components/SalesComponent.vue";
 import {Ref} from "@vue/reactivity";
@@ -58,6 +52,8 @@ import {ArrowPathIcon} from "@heroicons/vue/24/solid";
 import {Listing} from "~/types/listing";
 import {fetchListingsLatest} from "~/composables/api/listings";
 import {Capacitor} from "@capacitor/core";
+import {Filters, PremiumCollections} from "~/global/generations";
+import {ComputedRef} from "vue";
 
 const watchList = useWatchList();
 const router = useRouter();
@@ -67,7 +63,7 @@ const salesLatest: Ref<Array<Sale>> = ref([]);
 const listingsLatest: Ref<Array<Listing>> = ref([]);
 const mintsLatest: Ref<Array<Mint>> = ref([]);
 const searchTerm = ref<string>("");
-const filterOption = ref<string>("eth");
+const filterGenOption = ref<string>("all");
 const feedView = ref<string>(route.query.feed as string ?? "sales");
 const isRefreshing = ref(false);
 
@@ -125,19 +121,11 @@ async function updateMints() {
   });
 }
 
-function filteredSales(): Sale[] {
+const filteredSales: ComputedRef<Sale[]> = computed(() => {
   let filteredSales = Array.from(Object.values(salesLatest.value));
 
-  switch (filterOption.value) {
-    case "watchlist":
-      filteredSales = filteredSales.filter((sale) => watchList.value.has(sale.token.name));
-      break;
-    case "eth":
-      filteredSales = filteredSales.filter((sale) => sale.payment_token.symbol === "ETH");
-      break;
-    case "matic":
-      filteredSales = filteredSales.filter((sale) => sale.payment_token.symbol === "MATIC");
-      break;
+  if (filterGenOption.value && filterGenOption.value != "all") {
+    filteredSales = filteredSales.filter((sale) => PremiumCollections.includes(sale.token.contract_address));
   }
 
   if (searchTerm.value.trim() !== "") {
@@ -145,21 +133,13 @@ function filteredSales(): Sale[] {
   }
 
   return filteredSales;
-}
+});
 
-function filteredListings(): Listing[] {
+const filteredListings: ComputedRef<Listing[]> = computed(() => {
   let filteredListings = Array.from(Object.values(listingsLatest.value));
 
-  switch (filterOption.value) {
-    case "watchlist":
-      filteredListings = filteredListings.filter((listing) => watchList.value.has(listing.token.name));
-      break;
-    case "eth":
-      filteredListings = filteredListings.filter((listing) => listing.payment_token.symbol === "ETH");
-      break;
-    case "matic":
-      filteredListings = filteredListings.filter((listing) => listing.payment_token.symbol === "MATIC");
-      break;
+  if (filterGenOption.value && filterGenOption.value != "all") {
+    filteredListings = filteredListings.filter((listing) => PremiumCollections.includes(listing.token.contract_address));
   }
 
   if (searchTerm.value.trim() !== "") {
@@ -167,17 +147,21 @@ function filteredListings(): Listing[] {
   }
 
   return filteredListings;
-}
+});
 
-function filteredMints(): Mint[] {
+const filteredMints: ComputedRef<Mint[]> = computed(() => {
   let filteredMints = Array.from(Object.values(mintsLatest.value));
+
+  if (filterGenOption.value && filterGenOption.value != "all") {
+    filteredMints = filteredMints.filter((mint) => PremiumCollections.includes(mint.token.contract_address));
+  }
 
   if (searchTerm.value.trim() !== "") {
     filteredMints = filteredMints.filter((mint) => (mint.token.name.toLowerCase() + mint.token.name.toLowerCase().replace(/[^a-zA-Z ]/g, "")).includes(searchTerm.value.toLowerCase()));
   }
 
   return filteredMints;
-}
+});
 </script>
 
 <style scoped>

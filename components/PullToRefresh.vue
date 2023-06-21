@@ -30,6 +30,7 @@
 import { ref } from "vue";
 import { IonSpinner } from "@ionic/vue";
 import {ArrowDownIcon} from "@heroicons/vue/24/solid";
+import { Haptics, ImpactStyle } from "@capacitor/haptics";
 
 const pullToRefreshThreshold = 75;
 const pullMaxDistance = 75;
@@ -38,6 +39,7 @@ const pullDistance = ref(0);
 const pullIndicator = ref(null);
 const startY = ref(0);
 const currentY = ref(0);
+const playedVibration = ref(false);
 
 const props = defineProps({
   isRefreshing: {
@@ -47,6 +49,17 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["refresh"]);
+
+function playVibration() {
+  if (!playedVibration.value) {
+    playedVibration.value = true;
+    hapticsImpactLight();
+  }
+}
+
+const hapticsImpactLight = async () => {
+  await Haptics.impact({ style: ImpactStyle.Light });
+};
 
 const onTouchStart = (event: TouchEvent) => {
   if (props.isRefreshing) {
@@ -73,6 +86,10 @@ const onTouchMove = (event: TouchEvent) => {
           distance,
           pullMaxDistance
       ) + "px"; // Limit the height to a maximum of 90 pixels
+
+      if (distance > pullToRefreshThreshold) {
+        playVibration();
+      }
     }
   }
 };
@@ -83,7 +100,8 @@ const onTouchEnd = () => {
   }
 
   pullDistance.value = 0;
-  pullIndicator.value.style.height = 0 + "px"
+  pullIndicator.value.style.height = 0 + "px";
+  playedVibration.value = false;
 };
 </script>
 

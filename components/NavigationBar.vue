@@ -3,6 +3,7 @@
       class="fixed top-0 flex flex-col bg-black/80 border-b border-neutral-900 z-40 w-full"
       style="backdrop-filter: blur(20px);padding-top: env(safe-area-inset-top);"
       @mouseleave="closeDropdowns()"
+      ref="navbar"
   >
     <transition
         enter-active-class="transition ease-out duration-200"
@@ -52,7 +53,7 @@
 <!--            <UkrainianFlagIcon class="w-full h-full object-cover" />-->
 <!--          </a>-->
         </div>
-        <div class="ml-auto flex items-center flex-nowrap gap-1">
+        <div class="ml-auto flex items-center flex-nowrap gap-0.25">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-amber-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
           <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>
         </div>
@@ -88,7 +89,7 @@
           class="flex-col my-4 lg:my-0 text-neutral-200 font-semibold gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
       >
         <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
-        <NuxtLink class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
         <template v-if="token && user?.username">
           <div
@@ -184,6 +185,9 @@ const preferredCurrency: Ref<string> = ref(usePreferredCurrency().value);
 const scrollThreshold = 10; // Adjust this threshold value as needed
 const prevScrollPos = ref(window.pageYOffset);
 const showingBarMarketInfo = ref(true);
+const navbar = ref(null);
+
+defineExpose({ navbar });
 
 router.afterEach(() => {
   showMenu.value = false;

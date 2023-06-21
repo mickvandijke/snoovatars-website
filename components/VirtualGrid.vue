@@ -1,6 +1,6 @@
 <template>
   <div class="px-2 lg:px-4 overflow-x-hidden h-full w-full" ref="container">
-    <div class="w-full h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 sm:gap-1 overflow-x-hidden divide-y sm:divide-y-0 divide-neutral-900">
+    <div class="w-full h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 sm:gap-1 overflow-x-hidden sm:divide-y-0 divide-neutral-900">
       <template v-for="(item, index) in visibleItems">
         <slot :item="item" :index="index"></slot>
       </template>
@@ -36,14 +36,20 @@ const loadThreshold = computed(() => {
 });
 
 const initialBuffer = computed(() => {
-  if (window?.innerWidth < 800) {
-    return 24;
+  if (window?.innerWidth < 640) {
+    return 12;
   }
 
   return 90;
 });
 
-const buffer = 600;
+const buffer = computed(() => {
+  if (window?.innerWidth < 640) {
+    return 24;
+  }
+
+  return 600;
+});
 
 const container = ref<HTMLInputElement | null>(null);
 const endIndex = ref(initialBuffer.value);
@@ -54,7 +60,7 @@ function handleScroll() {
   const position = window?.scrollY ?? 0;
 
   if (contentHeight - (position + containerHeight) < loadThreshold.value) {
-    const newIndex = visibleItems.value.length + buffer;
+    const newIndex = visibleItems.value.length + buffer.value;
 
     if (endIndex.value !== newIndex)
       endIndex.value = newIndex;

@@ -77,7 +77,7 @@
       </template>
     </MenuBar>
     <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
-      <SeriesStatsComponent :items="filteredAndSortedSeriesStats()" :sorting="sortOption" />
+      <SeriesStatsComponent :items="filteredAndSortedSeriesStats" :sorting="sortOption" />
     </PullToRefresh>
   </div>
 </template>
@@ -92,8 +92,8 @@ import {
   useWatchList
 } from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
-import {computed, ref, useRoute, useRouter} from "#imports";
-import {watch} from "vue";
+import {computed, getSaleAsGweiPrice, ref, useRoute, useRouter} from "#imports";
+import {ComputedRef, watch} from "vue";
 import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import MenuBar from "~/components/MenuBar.vue";
 import {Capacitor} from "@capacitor/core";
@@ -159,7 +159,7 @@ const sortingOnShop = computed(() => {
   return sortOption.value === 'highestShopAvailableAbsolute' || sortOption.value === 'lowestShopAvailableAbsolute' || sortOption.value === 'highestShopAvailablePercentage' || sortOption.value === 'lowestShopAvailablePercentage' || sortOption.value === 'lowestShopNextMint';
 });
 
-function filteredAndSortedSeriesStats(): SeriesStats[] {
+const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => {
   let filteredSeriesStats = Array.from(Object.values(seriesStats.value));
 
   if (route.params?.watchlist) {
@@ -314,8 +314,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "highestMarketCap":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aMarketCap = getLowestListing(a) ? (a.series.total_sold * getLowestListingAsGweiPrice(a)) : 0;
-        const bMarketCap = getLowestListing(b) ? (b.series.total_sold * getLowestListingAsGweiPrice(b)) : 0;
+        const aMarketCap = a.stats.last_sale ? (a.series.total_sold * getSaleAsGweiPrice(a.stats.last_sale)) : 0;
+        const bMarketCap = b.stats.last_sale ? (b.series.total_sold * getSaleAsGweiPrice(b.stats.last_sale)) : 0;
 
         if (aMarketCap > bMarketCap) {
           return -1;
@@ -328,8 +328,8 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
       break;
     case "lowestMarketCap":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aMarketCap = getLowestListing(a) ? (a.series.total_sold * getLowestListingAsGweiPrice(a)) : 0;
-        const bMarketCap = getLowestListing(b) ? (b.series.total_sold * getLowestListingAsGweiPrice(b)) : 0;
+        const aMarketCap = a.stats.last_sale ? (a.series.total_sold * getSaleAsGweiPrice(a.stats.last_sale)) : 0;
+        const bMarketCap = b.stats.last_sale ? (b.series.total_sold * getSaleAsGweiPrice(b.stats.last_sale)) : 0;
 
         if (aMarketCap > bMarketCap) {
           return 1;
@@ -665,7 +665,7 @@ function filteredAndSortedSeriesStats(): SeriesStats[] {
   }
 
   return sortedSeriesStats;
-}
+});
 </script>
 
 <style scoped>

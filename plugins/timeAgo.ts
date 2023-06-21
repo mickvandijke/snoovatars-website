@@ -13,25 +13,19 @@ function timeAgo(date: Date): string {
 
     if (diff < minute) {
         const secs = Math.round(diff / 1000);
-        return `${secs} ${secs === 1 ? 'sec' : 'secs'}`;
+        return `${secs}${secs === 1 ? 's' : 's'}`;
     } else if (diff < hour) {
         const mins = Math.round(diff / minute);
-        return `${mins} ${mins === 1 ? 'min' : 'mins'}`;
+        return `${mins}${mins === 1 ? 'm' : 'm'}`;
     } else if (diff < day) {
         const hours = Math.round(diff / hour);
-        return `${hours} ${hours === 1 ? 'hour' : 'hrs'}`;
-    } else if (diff < week) {
-        const days = Math.round(diff / day);
-        return `${days} ${days === 1 ? 'day' : 'days'}`;
-    } else if (diff < month) {
-        const weeks = Math.round(diff / week);
-        return `${weeks} ${weeks === 1 ? 'week' : 'weeks'}`;
+        return `${hours}${hours === 1 ? 'h' : 'h'}`;
     } else if (diff < year) {
-        const months = Math.round(diff / month);
-        return `${months} ${months === 1 ? 'month' : 'months'}`;
+        const days = Math.round(diff / day);
+        return `${days}${days === 1 ? 'd' : 'd'}`;
     } else {
         const years = Math.round(diff / year);
-        return `${years} ${years === 1 ? 'year' : 'years'}`;
+        return `${years}${years === 1 ? 'y' : 'y'}`;
     }
 }
 

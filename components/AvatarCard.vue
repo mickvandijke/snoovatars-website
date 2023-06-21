@@ -22,7 +22,8 @@
             <template v-if="ranking">
               <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
             </template>
-            <div class="relative px-1 text-black font-bold rounded" :class="getMintClasses(seriesStats.series.total_quantity)">
+            <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <div class="relative ml-0.5 px-1 text-black font-bold rounded" :class="getMintClasses(seriesStats.series.total_quantity)">
               <template v-if="seriesStats.series.total_quantity <= 250">
                 <div class="absolute inset-0 blur-sm animate-pulse-slow" :class="getMintClasses(seriesStats.series.total_quantity)"></div>
               </template>
@@ -31,25 +32,7 @@
               </template>
               <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
             </div>
-            <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
             <div class="ml-auto flex items-center gap-1 font-bold">
-              <div class="flex items-center font-bold overflow-hidden">
-                <template v-if="seriesStats.stats.daily_price_change > 0">
-                  <div class="px-1 py-0.25 flex gap-0.5 items-center bg-green-500/10 text-green-500 text-[0.65rem] rounded">
-                    <span>+{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
-                  </div>
-                </template>
-                <template v-else-if="seriesStats.stats.daily_price_change < 0">
-                  <div class="px-1 py-0.25 flex gap-0.5 items-center bg-red-500/10 text-red-500 text-[0.65rem] rounded">
-                    <span>{{ seriesStats.stats.daily_price_change.toFixed(2) }}%</span>
-                  </div>
-                </template>
-                <template v-else>
-                  <div class="px-1 py-0.25 flex gap-0.5 items-center bg-neutral-400/10 text-neutral-400 text-[0.65rem] rounded">
-                    <span>0%</span>
-                  </div>
-                </template>
-              </div>
               <template v-if="watchList.has(seriesStats.series.name)">
                 <div @click.stop="removeFromWatchList(seriesStats.series.name)" class="flex items-center justify-center cursor-pointer">
                   <StarIcon class="w-5 h-5 text-yellow-500" />
@@ -87,7 +70,7 @@
               </div>
             </template>
             <button @click="toggleExtraInfo()" class="ml-auto flex items-center text-neutral-500 text-[0.7rem] font-semibold whitespace-nowrap rounded-md duration-500">
-              <span>{{ showExtraInfo ? "Hide details" : "Show more" }}</span>
+              <span>{{ showExtraInfo ? "Hide details" : "More" }}</span>
               <ChevronDownIcon class="w-5 h-5 duration-200" :class="{ 'rotate-180': showExtraInfo }" />
             </button>
           </div>
@@ -161,9 +144,9 @@ function getMintClasses(totalQuantity: number) {
   } else if (totalQuantity <= 777) {
     return ["text-[0.65rem] bg-gray-300 shadow-gray-300/50"];
   } else if (totalQuantity <= 10000) {
-    return ["text-[0.65rem] bg-neutral-500"];
+    return ["text-[0.65rem] bg-neutral-500/90"];
   } else {
-    return ["text-[0.65rem] bg-neutral-500"];
+    return ["text-[0.65rem] bg-neutral-500/90"];
   }
 }
 </script>

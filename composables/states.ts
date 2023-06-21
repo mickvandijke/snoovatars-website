@@ -14,6 +14,7 @@ import {getUserSettings, updateUserSettings} from "~/composables/api/user";
 import {fetchMarketInfo} from "~/composables/api/info";
 import {Capacitor} from "@capacitor/core";
 import {Prompt, PromptOption} from "~/components/Prompt.vue";
+import {Settings} from "~/types/settings";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
@@ -39,6 +40,7 @@ export const useCookies = () => useState<boolean>('cookies', () => false);
 export const usePrompt = () => useState<Prompt>('prompt', () => null);
 export const usePreferredLinkOpener = () => useState<string>('preferred-link-opener', () => null);
 export const useAvatarExporterLastUsername = () => useState<string>('avatar-exporter-last-username', () => null);
+export const useSettings = () => useState<Settings>('settings', () => null);
 
 export function loadAvatarExporterLastUsername() {
     let json = localStorage.getItem("avatarExporterLastUsername");

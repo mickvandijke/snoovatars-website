@@ -214,7 +214,7 @@ import {ArrowPathIcon, ChevronDownIcon, XMarkIcon} from "@heroicons/vue/24/solid
 import {Token} from "~/types/token";
 import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
-import {getLastSaleAsGweiPrice} from "~/composables/helpers";
+import {getSaleAsGweiPrice} from "~/composables/helpers";
 import {Filters, PremiumCollections} from "~/global/generations";
 
 const seriesStats = useSeriesStats();
@@ -390,7 +390,7 @@ function getSeriesValue(series: string): number {
       price = stats ? getLowestListingAsGweiPrice(stats) : 0;
       break;
     case "lastSale":
-      price = stats ? getLastSaleAsGweiPrice(stats) : 0;
+      price = stats.last_sale ? getSaleAsGweiPrice(stats.last_sale) : 0;
       break;
     case "fiveLastSales":
       price = stats?.stats.eth.five_last_sales_average * 1000000000000000000 ?? 0;

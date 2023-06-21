@@ -46,7 +46,14 @@ export async function fetchListingsForSeries(contract_address: string, series: s
     const BACKEND_ADDR = config.public.API_BASE_URL;
     const url = `${BACKEND_ADDR}/listings/${contract_address}/${series}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${useToken().value}`
+        }
+    });
+
     const data: ApiResponseForSeries = await response.json();
 
     if (!data.listings) {

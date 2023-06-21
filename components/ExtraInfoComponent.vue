@@ -1,5 +1,5 @@
 <template>
-  <div class="my-1 sm:my-0 px-4 py-2 flex flex-col gap-2 bg-neutral-900 rounded-lg">
+  <div class="my-0 px-4 py-2 flex flex-col gap-2 bg-neutral-900 rounded-lg">
     <div class="flex flex-col gap-2">
       <div class="flex justify-between items-center">
         <h1 class="text-xs text-neutral-200 font-bold">Advanced Details:</h1>
@@ -386,9 +386,11 @@ function sortListings(column: string) {
 
 
 onBeforeMount(() => {
-  fetchListingsForSeries(props.contract, props.series).then((seriesListings) => {
-    listings.value = seriesListings;
-  });
+  if (user.value?.tier > 0) {
+    fetchListingsForSeries(props.contract, props.series).then((seriesListings) => {
+      listings.value = seriesListings;
+    });
+  }
 
   fetchSalesForSeries(props.contract, props.series).then((seriesSales) => {
     sales.value = seriesSales;
