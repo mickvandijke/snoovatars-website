@@ -65,7 +65,7 @@
 import {navigateTo, useRoute, useRouter} from "nuxt/app";
 import {onMounted, Ref, ref, watch} from 'vue';
 import {AvatarBackground} from "~/types/avatarBackgrounds";
-import {setAvatarExporterLastUsername, updateSeriesHashed, useSeriesHashed} from "~/composables/states";
+import {setAvatarExporterLastUsername, updateSeriesHashed, useSeriesHashed, useSettings} from "~/composables/states";
 import { Capacitor } from "@capacitor/core";
 import {Share, ShareOptions} from "@capacitor/share";
 import { Media, MediaSaveOptions } from "@capacitor-community/media";
@@ -85,6 +85,7 @@ const router = useRouter();
 const route = useRoute();
 const user = route.params.user;
 const series = useSeriesHashed();
+const settings = useSettings();
 
 const avatar = ref("");
 const queryBackgroundIndex: Ref<number> = ref(route.query.background ? parseInt(route.query.background as string) : -1);
@@ -94,7 +95,7 @@ const avatarSize: Ref<AvatarSize> = ref(AvatarSize.Normal);
 const savingImage = ref(false);
 
 async function changeUser() {
-  setAvatarExporterLastUsername(null);
+  settings.value.exporter.avatar.lastUsername = undefined;
 
   await navigateTo(`/avatar/exporter`, {replace: true});
 }

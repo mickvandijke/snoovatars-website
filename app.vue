@@ -8,7 +8,7 @@
       <Footer/>
     </template>
     <MobileNavigationBar/>
-    <template v-if="!Capacitor.isNativePlatform() && !cookies">
+    <template v-if="!Capacitor.isNativePlatform() && !settings.cookies.accepted">
       <CookieWarning/>
     </template>
     <template v-if="prompter">
@@ -21,17 +21,17 @@
 import {useHead} from "nuxt/app";
 import {
   loadWatchList,
-  onBeforeMount, onMounted, ref, updateMarketInfo,
-  useCollections, useCookies, useRouter,
+  onBeforeMount, ref, updateMarketInfo,
+  useCollections, useRouter,
   useUser,
   watch
 } from "#imports";
 import {
-  loadCookiesPreference,
-  loadExtraInfoOptions,
-  loadPreferredCurrency,
+  loadSettings,
   loadWalletAddresses,
+  saveSettings,
   updateEthereumPrices, useFcmDeviceToken, usePrompt,
+  useSettings,
   useToken
 } from "~/composables/states";
 import {getUser, setToken} from "~/composables/api/user";
@@ -62,24 +62,22 @@ useHead({
 
 const token = useToken();
 const user = useUser();
-const cookies = useCookies();
 const fcmDeviceToken = useFcmDeviceToken();
 const { isEnabled } = useState();
 const router = useRouter();
 const prompter = usePrompt();
+const settings = useSettings();
 
 const navbarcomp = ref<HTMLInputElement | null>(null);
 
-loadCookiesPreference();
+loadSettings();
 loadWalletAddresses();
 loadWatchList();
-loadPreferredCurrency();
-loadExtraInfoOptions();
 updateEthereumPrices();
 addListeners();
 registerNotifications();
 
-if (cookies.value) {
+if (settings.value.cookies?.accepted ?? false) {
   loadGoogleAnalytics();
 }
 
@@ -95,17 +93,19 @@ onBeforeMount(async () => {
   });
 });
 
+watch([settings], () => {
+  saveSettings();
+
+  if (settings.value.cookies?.accepted ?? false) {
+    loadGoogleAnalytics();
+  }
+}, { deep: true });
+
 watch([token], async () => {
   if (token.value) {
     getUser();
   } else if (user.value) {
     user.value = null;
-  }
-});
-
-watch([cookies], () => {
-  if (cookies.value) {
-    loadGoogleAnalytics();
   }
 });
 

@@ -4,11 +4,11 @@
       <div class="flex justify-between items-center">
         <h1 class="text-xs text-neutral-200 font-bold">Advanced Details:</h1>
         <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-          <input v-model="options.marketData" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
+          <input v-model="settings.extraInfoOptions.marketData" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
           <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
         </label>
       </div>
-      <template v-if="options.marketData">
+      <template v-if="settings.extraInfoOptions.marketData">
         <div class="flex flex-col gap-1 text-xs font-semibold">
           <div class="flex items-center">
             <div class="text-neutral-400">Name:</div>
@@ -133,11 +133,11 @@
         <div class="flex justify-between items-center">
           <h1 class="text-xs text-neutral-200 font-bold">All Listings <NuxtLink to="/upgrade" class="text-amber-500 italic font-bold">Pro</NuxtLink>:</h1>
           <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-            <input v-model="options.listings" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
+            <input v-model="settings.extraInfoOptions.listings" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
             <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
           </label>
         </div>
-        <template v-if="options.listings">
+        <template v-if="settings.extraInfoOptions.listings">
           <template v-if="user?.tier > 0">
             <div class="overflow-x-auto">
               <table class="w-full text-xs">
@@ -188,11 +188,11 @@
         <div class="flex justify-between items-center">
           <h1 class="text-xs text-neutral-200 font-bold">Average Sale Price:</h1>
           <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-            <input v-model="options.salesGraph" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
+            <input v-model="settings.extraInfoOptions.salesGraph" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
             <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
           </label>
         </div>
-        <template v-if="options.salesGraph">
+        <template v-if="settings.extraInfoOptions.salesGraph">
           <SalesChart :sales="sales" />
         </template>
       </div>
@@ -200,11 +200,11 @@
         <div class="flex justify-between items-center">
           <h1 class="text-xs text-neutral-200 font-bold">All Sales:</h1>
           <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-            <input v-model="options.sales" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
+            <input v-model="settings.extraInfoOptions.sales" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
             <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
           </label>
         </div>
-        <template v-if="options.sales">
+        <template v-if="settings.extraInfoOptions.sales">
           <div class="overflow-x-auto">
             <table class="w-full text-xs">
             <thead>
@@ -252,23 +252,20 @@
 <script setup lang="ts">
 import {Ref} from "@vue/reactivity";
 import {Sale} from "~/types/sale";
-import {computed, onBeforeMount, ref, useEthereumUsdPrice, useUser, watch} from "#imports";
+import {computed, onBeforeMount, ref, useEthereumUsdPrice, useSettings, useUser, watch} from "#imports";
 import {fetchSalesForSeries} from "~/composables/api/sales";
 import {ethereumInLocalCurrency} from "#imports";
 import {PropType} from "@vue/runtime-core";
 import {SeriesStats} from "~/types/seriesStats";
 import {fetchListingsForSeries} from "~/composables/api/listings";
 import {Listing} from "~/types/listing";
-import {ExtraInfoOptions} from "~/types/extra_info";
-import {useExtraInfoOptions, updateExtraInfoOptions} from "~/composables/states";
 import {ChevronUpIcon} from "@heroicons/vue/20/solid";
 
 const ethereumPriceInUsd = useEthereumUsdPrice();
 const user = useUser();
+const settings = useSettings();
 
 const pageSize = 5;
-const options: Ref<ExtraInfoOptions> = ref(JSON.parse(JSON.stringify(useExtraInfoOptions().value)));
-
 const sales: Ref<Array<Sale>> = ref([]);
 const salesSortColumn = ref('date_sold');
 const salesSortDirection = ref('desc');
@@ -295,10 +292,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["close"]);
-
-watch(options, () => {
-  updateExtraInfoOptions(options.value);
-}, { deep: true });
 
 const slicedSales = computed(() => {
   const start = (salesCurrentPage.value - 1) * pageSize;

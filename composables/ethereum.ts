@@ -1,11 +1,10 @@
-import {usePreferredCurrency} from "#build/imports";
 import {abbreviateNumber} from "~/global/utils";
-import {useConeEthPrice, useEthereumPriceMap} from "~/composables/states";
+import {useConeEthPrice, useEthereumPriceMap, useSettings} from "~/composables/states";
 
 export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): string {
     let abb = "";
     let localeString = ""
-    const currency = usePreferredCurrency().value;
+    const currency = useSettings().value.currency.preferred;
 
     eth = eth / 1000000000000000000
 
@@ -44,7 +43,7 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
 
 export function coneInLocalCurrency(eth: number): string {
     let localeString = ""
-    const currency = usePreferredCurrency().value;
+    const currency = useSettings().value.currency.preferred;
 
     let price = eth * (useEthereumPriceMap().value.get(currency) ?? 0);
 

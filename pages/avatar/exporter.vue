@@ -18,11 +18,7 @@
 <script setup lang="ts">
 import {navigateTo} from "nuxt/app";
 import {onMounted, ref} from "vue";
-import {
-  loadAvatarExporterLastUsername,
-  setAvatarExporterLastUsername,
-  useAvatarExporterLastUsername
-} from "../../composables/states";
+import {useSettings} from "#imports";
 
 const exampleImages = [
   '/images/examples/1.png',
@@ -46,21 +42,19 @@ const exampleImages = [
 
 const exampleImage = exampleImages[Math.floor(Math.random()*exampleImages.length)]
 
-const lastUsername = useAvatarExporterLastUsername();
+const settings = useSettings();
 
 const user = ref('');
 
 onMounted(() => {
-  loadAvatarExporterLastUsername();
-
-  if (lastUsername.value) {
-    searchUser(lastUsername.value);
+  if (settings.value.exporter.avatar.lastUsername) {
+    searchUser(settings.value.exporter.avatar.lastUsername);
   }
 });
 
 async function searchUser(username: string) {
   if (username) {
-    setAvatarExporterLastUsername(username);
+    settings.value.exporter.avatar.lastUsername = username;
 
     await navigateTo(`/avatar/user/${username}`, {replace: true});
   }

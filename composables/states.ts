@@ -8,16 +8,14 @@ import {SeriesStats} from "~/types/seriesStats";
 import {fetchSeriesStats} from "~/composables/api/seriesStats";
 import {fetchCurrentEthereumPriceInCurrency} from "~/composables/api/ethereum";
 import {fetchSeries} from "~/composables/api/series";
-import {ExtraInfoOptions} from "~/types/extra_info";
 import {fetchBitconePrice} from "~/composables/api/bitcone";
 import {getUserSettings, updateUserSettings} from "~/composables/api/user";
 import {fetchMarketInfo} from "~/composables/api/info";
 import {Capacitor} from "@capacitor/core";
 import {Prompt, PromptOption} from "~/components/Prompt.vue";
-import {Settings} from "~/types/settings";
+import {Default, Settings} from "~/types/settings";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
-export const useSeries = () => useState<Map<string, Series>>('series-list', () => new Map());
 export const useSeriesHashed = () => useState<Map<string, Series>>('tier-list', () => new Map());
 export const useSeriesStats = () => useState<Map<string, SeriesStats>>('series-stats', () => new Map());
 export const useAvatarList = () => useState<AvatarList>('avatar-list', () => new Map<AvatarHash, RedditAvatar>());
@@ -31,31 +29,24 @@ export const useEthereumPriceMap = () => useState<Map<string, number>>('ethereum
 export const useTotalDailyVolume = () => useState<number>('total-daily-volume', () => 0);
 export const useTotalMarketCap = () => useState<number>('total-market-cap', () => 0);
 export const useConeEthPrice = () => useState<number>('cone-eth', () => 0);
-export const usePreferredCurrency = () => useState<string>('preferred-currency', () => "USD");
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
-export const useExtraInfoOptions = () => useState<ExtraInfoOptions>('extra-info-options', () => null);
 export const useUserSettings = () => useState<UserSettings>('user-settings', () => null);
-export const useCookies = () => useState<boolean>('cookies', () => false);
 export const usePrompt = () => useState<Prompt>('prompt', () => null);
-export const usePreferredLinkOpener = () => useState<string>('preferred-link-opener', () => null);
-export const useAvatarExporterLastUsername = () => useState<string>('avatar-exporter-last-username', () => null);
 export const useSettings = () => useState<Settings>('settings', () => null);
 
-export function loadAvatarExporterLastUsername() {
-    let json = localStorage.getItem("avatarExporterLastUsername");
+export function loadSettings() {
+    let json = localStorage.getItem("settings");
 
-    if (json === "null") {
-        json = null;
+    if (json) {
+        useSettings().value = Object.assign({}, Default, JSON.parse(json));
+    } else {
+        useSettings().value = Default;
     }
-
-    useAvatarExporterLastUsername().value = json;
 }
 
-export function setAvatarExporterLastUsername(value: any) {
-    useAvatarExporterLastUsername().value = value;
-
-    localStorage.setItem("avatarExporterLastUsername", value);
+export function saveSettings() {
+    localStorage.setItem("settings", JSON.stringify(useSettings().value));
 }
 
 export function promptOptions(title: string, options: PromptOption[]): Promise<any[]> {
@@ -147,48 +138,10 @@ export async function setUserSettings(userSettings: UserSettings) {
     })
 }
 
-export function loadCookiesPreference() {
-    let json = localStorage.getItem("cookiesAccepted");
-
-    useCookies().value = json ? JSON.parse(json) : false;
-}
-
-export function setCookiesPreference(enabled: boolean) {
-    useCookies().value = enabled;
-
-    localStorage.setItem("cookiesAccepted", JSON.stringify(enabled));
-}
-
 export function updateConeEthPrice() {
     fetchBitconePrice().then((price) => {
         useConeEthPrice().value = Number(price);
     });
-}
-
-export function updateExtraInfoOptions(options: ExtraInfoOptions) {
-    useExtraInfoOptions().value = options;
-
-    localStorage.setItem("extraInfoOptions", JSON.stringify(options));
-}
-
-export function loadExtraInfoOptions() {
-    let json = localStorage.getItem("extraInfoOptions");
-
-    if (json) {
-        let options: ExtraInfoOptions = JSON.parse(json);
-
-        if (options) {
-            useExtraInfoOptions().value = options;
-            return;
-        }
-    }
-
-    useExtraInfoOptions().value = {
-        marketData: true,
-        listings: true,
-        salesGraph: true,
-        sales: true
-    };
 }
 
 export async function updateSeriesHashed() {
@@ -208,28 +161,12 @@ export async function updateSeriesHashed() {
     useSeriesHashed().value = seriesMap;
 }
 
-export function setPreferredCurrency(currency: string) {
-    usePreferredCurrency().value = currency;
-
-    localStorage.setItem("preferredCurrency", currency);
-
-    updateEthereumPrices();
-}
-
-export function loadPreferredCurrency() {
-    let json = localStorage.getItem("preferredCurrency");
-
-    if (json) {
-        usePreferredCurrency().value = json;
-    }
-}
-
 export async function updateEthereumPrices() {
     fetchCurrentEthereumPriceInCurrency("USD").then((value) => {
         useEthereumUsdPrice().value = value;
     });
 
-    let ticker = usePreferredCurrency().value;
+    let ticker = useSettings().value.currency.preferred;
 
     fetchCurrentEthereumPriceInCurrency("MATIC").then((value) => {
         useEthereumPriceMap().value.set("MATIC", value);

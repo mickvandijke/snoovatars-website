@@ -2,7 +2,7 @@
   <div class="pb-2 md:pb-0 relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <select v-model="valuationMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.valuationMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
         <option value="fiveLastSales">Value by 5 Last Sales Average</option>
@@ -10,11 +10,11 @@
         <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
         <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
       </select>
-      <select v-model="filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="all">Show All</option>
         <option value="premium">Show Premium Only</option>
       </select>
-      <select v-model="groupMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.groupMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="group">Group by Series</option>
         <option value="mint">Show Mint Numbers</option>
       </select>
@@ -133,7 +133,7 @@
             </div>
             <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
               <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-neutral-800 w-full">
-                <template v-if="groupMethod === 'group'">
+                <template v-if="settings.wallet.groupMethod === 'group'">
                   <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(filterWalletTokens(walletTokens)))">
                     <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
@@ -203,7 +203,7 @@ import {
   updateSeriesStats,
   useSeriesStats,
   useWalletAddresses,
-  useConeEthPrice, updateEthereumPrices, updateMarketInfo
+  useConeEthPrice, updateEthereumPrices, updateMarketInfo, useSettings
 } from "~/composables/states";
 import {getLowestListingAsGweiPrice, onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
@@ -220,14 +220,12 @@ import {Filters, PremiumCollections} from "~/global/generations";
 const seriesStats = useSeriesStats();
 const walletAddresses = useWalletAddresses();
 const cone = useConeEthPrice();
+const settings = useSettings();
 
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
 const cones: Ref<Map<string, number>> = ref(new Map());
 const weth: Ref<Map<string, number>> = ref(new Map());
-const valuationMethod = ref<string>("floor");
-const filterOption = ref<string>("all");
-const groupMethod = ref<string>("group");
 const loading = ref(false);
 const isRefreshing = ref(false);
 const collapsedWallets: Ref<Set<string>> = ref(new Set<string>());
@@ -241,7 +239,7 @@ onMounted(() => {
 });
 
 function filterWalletTokens(walletTokens: WalletTokens): WalletTokens {
-  if (filterOption.value === "all") {
+  if (settings.value.wallet?.filterOption === "all") {
     return walletTokens;
   }
 
@@ -385,24 +383,24 @@ function getSeriesValue(series: string): number {
   let price = 0;
   let stats = getSeriesStats(series);
 
-  switch (valuationMethod.value) {
+  switch (settings.value.wallet.valuationMethod) {
     case "floor":
       price = stats ? getLowestListingAsGweiPrice(stats) : 0;
       break;
     case "lastSale":
-      price = stats.last_sale ? getSaleAsGweiPrice(stats.last_sale) : 0;
+      price = stats?.stats.last_sale ? getSaleAsGweiPrice(stats.stats.last_sale) : 0;
       break;
     case "fiveLastSales":
       price = stats?.stats.eth.five_last_sales_average * 1000000000000000000 ?? 0;
       break;
     case "weeklyAvg":
-      price = ((stats?.stats.eth.weekly_average_price ?? stats.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
+      price = ((stats?.stats.eth.weekly_average_price ?? stats?.stats.eth.two_weekly_average_price ?? stats?.stats.eth.monthly_average_price)  * 1000000000000000000) ?? stats?.stats.last_sale?.payment_token.base_price ?? 0;
       break;
     case "twoWeeklyAvg":
-      price = ((stats.stats.eth.two_weekly_average_price ?? stats.monthly_average_price)  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
+      price = ((stats?.stats.eth.two_weekly_average_price ?? stats?.stats.eth.monthly_average_price)  * 1000000000000000000) ?? stats?.stats.last_sale?.payment_token.base_price ?? 0;
       break;
     case "monthlyAvg":
-      price = (stats.stats.eth.monthly_average_price  * 1000000000000000000) ?? stats.last_sale?.payment_token.base_price ?? 0;
+      price = (stats?.stats.eth.monthly_average_price  * 1000000000000000000) ?? stats?.stats.last_sale?.payment_token.base_price ?? 0;
       break;
   }
 

@@ -8,10 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import {setCookiesPreference} from "~/composables/states";
+import {useSettings} from "~/composables/states";
+
+const settings = useSettings();
 
 function acceptCookies() {
-  setCookiesPreference(true);
+  settings.value.cookies = {
+    accepted: true
+  };
 }
 </script>
 

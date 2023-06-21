@@ -36,6 +36,10 @@
                 <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * 1000000000000000000) }}</span>)</span>
               </div>
             </div>
+            <div class="flex items-center gap-0.5">
+              <span class="text-neutral-400 font-bold">Matic:</span>
+              <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(1 / ethereumPriceMap.get("MATIC") * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
+            </div>
           </div>
         </div>
       </div>
@@ -49,16 +53,13 @@
           >
             RCA<span class="italic text-amber-500">X</span>.io
           </NuxtLink>
-<!--          <a href="https://www.youtube.com/watch?v=xDeQVaoTvJM" class="ml-2 relative rounded overflow-hidden w-10">-->
-<!--            <UkrainianFlagIcon class="w-full h-full object-cover" />-->
-<!--          </a>-->
         </div>
         <div class="ml-auto flex items-center flex-nowrap gap-0.25">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-amber-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
           <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>
         </div>
         <div>
-          <select v-model="preferredCurrency" class="px-2 py-1.5 rounded-md bg-neutral-900 border-none text-sm focus:outline-none max-w-sm">
+          <select v-model="settings.currency.preferred" class="px-2 py-1.5 rounded-md bg-neutral-900 border-none text-sm focus:outline-none max-w-sm">
             <template v-for="currency in CURRENCIES">
               <option :value="currency.ticker">{{ currency.ticker }}</option>
             </template>
@@ -153,24 +154,23 @@
 import {ChevronDownIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
 import {
+  computed,
   onBeforeUnmount,
-  ref, useRouter,
+  ref, updateEthereumPrices, useEthereumPriceMap, useRouter, useSettings,
   useToken, useTotalDailyVolume, useTotalMarketCap,
   useUser,
   watch
 } from "#imports";
-import {deleteToken, deleteUser} from "~/composables/api/user";
+import {deleteToken} from "~/composables/api/user";
 import {CURRENCIES} from "~/types/currency";
 import {
-  setPreferredCurrency,
   updateMarketInfo,
   useConeEthPrice,
-  usePreferredCurrency
 } from "~/composables/states";
 import {ethereumInLocalCurrency, coneInLocalCurrency} from "#imports";
 import {onMounted} from "vue";
-import {Capacitor} from "@capacitor/core";
 import {navigateTo} from "nuxt/app";
+import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
 
 const user = useUser();
 const token = useToken();
@@ -178,10 +178,11 @@ const cone = useConeEthPrice();
 const dailyVol = useTotalDailyVolume();
 const mCap = useTotalMarketCap();
 const router = useRouter();
+const settings = useSettings();
+const ethereumPriceMap = useEthereumPriceMap();
 
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
-const preferredCurrency: Ref<string> = ref(usePreferredCurrency().value);
 const scrollThreshold = 10; // Adjust this threshold value as needed
 const prevScrollPos = ref(window.pageYOffset);
 const showingBarMarketInfo = ref(true);
@@ -193,10 +194,6 @@ router.afterEach(() => {
   showMenu.value = false;
 });
 
-watch([preferredCurrency], () => {
-  setPreferredCurrency(preferredCurrency.value);
-})
-
 onMounted(() => {
   updateMarketInfo();
   window.addEventListener('scroll', handleScroll);
@@ -204,6 +201,14 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
+});
+
+const selectedCurrency = computed(() => {
+  return settings.value.currency.preferred;
+});
+
+watch([selectedCurrency], () => {
+  updateEthereumPrices();
 });
 
 async function deleteAccount() {

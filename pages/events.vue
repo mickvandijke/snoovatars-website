@@ -3,11 +3,11 @@
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none max-w-sm">
-      <select v-model="filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.activity.filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="all">Show All</option>
         <option value="premium">Show Premium Only</option>
       </select>
-      <select v-model="feedView" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.activity.feedView" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
         <option value="sales">Latest Sales</option>
         <option value="listings">Latest Listings</option>
         <option value="mints">Latest Mints</option>
@@ -19,13 +19,13 @@
       </template>
     </MenuBar>
     <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
-      <template v-if="feedView === 'sales'">
+      <template v-if="settings.activity.feedView === 'sales'">
         <SalesComponent :items="filteredSales"/>
       </template>
-      <template v-else-if="feedView === 'listings'">
+      <template v-else-if="settings.activity.feedView === 'listings'">
         <ListingsComponent :items="filteredListings"/>
       </template>
-      <template v-else-if="feedView === 'mints'">
+      <template v-else-if="settings.activity.feedView === 'mints'">
         <MintsComponent :items="filteredMints"/>
       </template>
     </PullToRefresh>
@@ -37,7 +37,7 @@ import {
   updateEthereumPrices,
   updateMarketInfo,
   updateSeriesStats,
-  useSeriesStats,
+  useSeriesStats, useSettings,
   useWatchList
 } from "~/composables/states";
 import {computed, ref, useRoute, useRouter, watch} from "#imports";
@@ -52,27 +52,35 @@ import {ArrowPathIcon} from "@heroicons/vue/24/solid";
 import {Listing} from "~/types/listing";
 import {fetchListingsLatest} from "~/composables/api/listings";
 import {Capacitor} from "@capacitor/core";
-import {Filters, PremiumCollections} from "~/global/generations";
+import {PremiumCollections} from "~/global/generations";
 import {ComputedRef} from "vue";
 
 const watchList = useWatchList();
 const router = useRouter();
 const route = useRoute();
+const settings = useSettings();
 
 const salesLatest: Ref<Array<Sale>> = ref([]);
 const listingsLatest: Ref<Array<Listing>> = ref([]);
 const mintsLatest: Ref<Array<Mint>> = ref([]);
 const searchTerm = ref<string>("");
-const filterGenOption = ref<string>("all");
-const feedView = ref<string>(route.query.feed as string ?? "sales");
+const feedViewQuery = ref<string>(route.query.feed as string);
 const isRefreshing = ref(false);
 
+if (feedViewQuery.value) {
+  settings.value.activity.feedView = feedViewQuery.value;
+}
+
 refresh();
+
+const feedView = computed(() => {
+  return settings.value.activity.feedView;
+});
 
 watch([feedView], () => {
   router.push({
     query: {
-      feed: feedView.value
+      feed: settings.value.activity.feedView
     },
   });
 
@@ -84,12 +92,12 @@ function refresh() {
 
   let promises = [];
 
-  if (feedView.value === "sales") {
+  if (settings.value.activity.feedView === "sales") {
     promises.push(updateSales());
-  } else if (feedView.value === "listings") {
+  } else if (settings.value.activity.feedView === "listings") {
     promises.push(updateListings());
     promises.push(updateSeriesStats());
-  } else if (feedView.value === "mints") {
+  } else if (settings.value.activity.feedView === "mints") {
     promises.push(updateMints());
     promises.push(updateSeriesStats());
   }
@@ -124,7 +132,7 @@ async function updateMints() {
 const filteredSales: ComputedRef<Sale[]> = computed(() => {
   let filteredSales = Array.from(Object.values(salesLatest.value));
 
-  if (filterGenOption.value && filterGenOption.value != "all") {
+  if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
     filteredSales = filteredSales.filter((sale) => PremiumCollections.includes(sale.token.contract_address));
   }
 
@@ -138,7 +146,7 @@ const filteredSales: ComputedRef<Sale[]> = computed(() => {
 const filteredListings: ComputedRef<Listing[]> = computed(() => {
   let filteredListings = Array.from(Object.values(listingsLatest.value));
 
-  if (filterGenOption.value && filterGenOption.value != "all") {
+  if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
     filteredListings = filteredListings.filter((listing) => PremiumCollections.includes(listing.token.contract_address));
   }
 
@@ -152,7 +160,7 @@ const filteredListings: ComputedRef<Listing[]> = computed(() => {
 const filteredMints: ComputedRef<Mint[]> = computed(() => {
   let filteredMints = Array.from(Object.values(mintsLatest.value));
 
-  if (filterGenOption.value && filterGenOption.value != "all") {
+  if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
     filteredMints = filteredMints.filter((mint) => PremiumCollections.includes(mint.token.contract_address));
   }
 
