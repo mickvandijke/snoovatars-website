@@ -4,11 +4,11 @@
       <AvatarCard :item="{ name: item.token.name, contract_address: item.token.contract_address, image: item.token.image }" :series-stats="getSeriesStats(item.token.name)">
         <div class="flex items-center gap-1 font-bold text-[0.7rem] overflow-hidden">
           <div class="flex items-center gap-0.5">
-            <button @click="openLinkWith(`https://opensea.io/${item.buyer}`)" class="text-neutral-400">{{ item.buyer.slice(2, 6) }}..{{ item.buyer.slice(item.buyer.length - 4, item.buyer.length) }}</button>
+            <button @click="openLinkWith(`https://opensea.io/${item.seller}`)" class="text-neutral-400">{{ item.seller.slice(2, 6) }}..{{ item.seller.slice(item.seller.length - 4, item.seller.length) }}</button>
           </div>
           <ArrowRightIcon class="text-neutral-500 w-4" />
           <div class="flex items-center gap-0.5">
-            <button @click="openLinkWith(`https://opensea.io/${item.seller}`)" class="text-neutral-400">{{ item.seller.slice(2, 6) }}..{{ item.seller.slice(item.seller.length - 4, item.seller.length) }}</button>
+            <button @click="openLinkWith(`https://opensea.io/${item.buyer}`)" class="text-neutral-400">{{ item.buyer.slice(2, 6) }}..{{ item.buyer.slice(item.buyer.length - 4, item.buyer.length) }}</button>
           </div>
         </div>
         <div class="flex items-center gap-1 font-bold text-[0.8rem] overflow-hidden">
