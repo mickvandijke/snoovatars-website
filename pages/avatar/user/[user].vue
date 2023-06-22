@@ -13,11 +13,17 @@
     </div>
     <div class="flex flex-col md:flex-row gap-6 w-full">
       <div class="flex flex-col items-center md:w-2/3 gap-3">
-        <div class="px-3 flex md:items-start w-full">
-          <input v-model="searchTerm" placeholder="Filter backgrounds" class="light">
+        <div class="px-3 flex gap-2 md:items-start w-full">
+          <input v-model="searchTerm" placeholder="Filter backgrounds" class="p-2 h-9 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+          <select v-model="filterGenOption" class="p-2 h-9 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+            <option value="all">Gen: All</option>
+            <template v-for="gen in Object.keys(Filters)">
+              <option :value="gen">{{ gen }}</option>
+            </template>
+          </select>
         </div>
         <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[38rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3 w-full h-full">
-          <template v-for="(background, index) in filteredAvatarBackgrounds()">
+          <template v-for="(background, index) in filteredAvatarBackgrounds">
             <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 text-neutral-200 rounded-xl hover:bg-neutral-700 drop-shadow duration-200">
               <img v-lazy-pix="background.path" src="/img/rcax_placeholder.png" :alt="background.name">
               <div class="mt-2 text-xs text-center font-semibold">{{ background.name }}</div>
@@ -30,7 +36,7 @@
           <div class="w-72 h-96 relative">
             <img
                 class="w-full h-full absolute"
-                :src="selectedBackground().path"
+                :src="selectedBackground.path"
                 :alt="avatarAltText"
             >
             <img
@@ -53,7 +59,7 @@
           </select>
           <button v-if="!pending && avatar" :disabled="savingImage" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Download</button>
         </div>
-        <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground().path}?not-from-cache-please`" alt="background">
+        <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground.path}?not-from-cache-please`" alt="background">
         <img ref="foreground" crossorigin="anonymous" class="hidden" :src="`${avatar}?not-from-cache-please`" alt="foreground">
         <canvas ref="canvas" width="552" height="736" class="hidden"></canvas>
       </div>
@@ -63,13 +69,14 @@
 
 <script setup lang="ts">
 import {navigateTo, useRoute, useRouter} from "nuxt/app";
-import {onMounted, Ref, ref, watch} from 'vue';
+import {ComputedRef, onMounted, Ref, ref, watch} from 'vue';
 import {AvatarBackground} from "~/types/avatarBackgrounds";
-import {setAvatarExporterLastUsername, updateSeriesHashed, useSeriesHashed, useSettings} from "~/composables/states";
+import {updateSeriesHashed, useSeriesHashed, useSettings} from "~/composables/states";
 import { Capacitor } from "@capacitor/core";
-import {Share, ShareOptions} from "@capacitor/share";
 import { Media, MediaSaveOptions } from "@capacitor-community/media";
 import {ChevronLeftIcon} from "@heroicons/vue/24/solid";
+import {Filters} from "~/global/generations";
+import {computed} from "#imports";
 
 enum AvatarSize {
   Normal = "normal",
@@ -87,10 +94,38 @@ const user = route.params.user;
 const series = useSeriesHashed();
 const settings = useSettings();
 
+const filteredAvatarBackgrounds: ComputedRef<AvatarBackground[]> = computed(() => {
+  let backgrounds = avatarBackgrounds.value;
+
+  if (filterGenOption.value && filterGenOption.value != "all") {
+    backgrounds = backgrounds.filter((entry) => Filters[filterGenOption.value].includes(entry.contractAddress));
+  }
+
+  if (searchTerm.value.trim() !== "") {
+    backgrounds = backgrounds.filter((entry) => entry.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
+  }
+
+  return backgrounds;
+});
+
+const avatarBackgrounds: ComputedRef<AvatarBackground[]> = computed(() => {
+  let avatarBackgrounds: Array<AvatarBackground> = [
+    new AvatarBackground("Transparent", "/images/others/Transparent.png", ""),
+    new AvatarBackground("Black", "/images/others/Black.png", ""),
+  ]
+
+  for (let entry of useSeriesHashed().value.values()) {
+    avatarBackgrounds.push(new AvatarBackground(entry.name, entry.background_image, entry.contract_address));
+  }
+
+  return avatarBackgrounds;
+});
+
 const avatar = ref("");
 const queryBackgroundIndex: Ref<number> = ref(route.query.background ? parseInt(route.query.background as string) : -1);
-const randomBackgroundIndex: number = Math.floor(Math.random() * avatarBackgrounds().length);
+const randomBackgroundIndex: number = Math.floor(Math.random() * avatarBackgrounds.value.length);
 const searchTerm = ref<string>("");
+const filterGenOption = ref("all")
 const avatarSize: Ref<AvatarSize> = ref(AvatarSize.Normal);
 const savingImage = ref(false);
 
@@ -100,17 +135,17 @@ async function changeUser() {
   await navigateTo(`/avatar/exporter`, {replace: true});
 }
 
-function selectedBackgroundIndex(): number {
-  if (queryBackgroundIndex.value >= 0 && queryBackgroundIndex.value <= avatarBackgrounds().length) {
+const selectedBackgroundIndex: ComputedRef<number> = computed(() => {
+  if (queryBackgroundIndex.value >= 0 && queryBackgroundIndex.value <= avatarBackgrounds.value.length) {
     return queryBackgroundIndex.value;
   } else {
     return randomBackgroundIndex;
   }
-}
+});
 
-function selectedBackground(): AvatarBackground {
-  return avatarBackgrounds()[selectedBackgroundIndex()] ?? avatarBackgrounds()[0];
-}
+const selectedBackground: ComputedRef<AvatarBackground> = computed(() => {
+  return avatarBackgrounds.value[selectedBackgroundIndex.value] ?? avatarBackgrounds.value[0];
+});
 
 switch(route.query.size) {
   case AvatarSize.Small:
@@ -181,40 +216,13 @@ onMounted(() => {
 function getBackgroundIndex(background: AvatarBackground): number {
   let index = 0;
 
-  avatarBackgrounds().forEach((entry, i) => {
+  avatarBackgrounds.value.forEach((entry, i) => {
     if (entry.name == background.name) {
       index = i;
     }
   });
 
   return index;
-}
-
-function filteredAvatarBackgrounds(): AvatarBackground[] {
-  let backgrounds = avatarBackgrounds();
-
-  if (searchTerm.value.trim() !== "") {
-    backgrounds = backgrounds.filter((entry) => entry.name.toLowerCase().includes(searchTerm.value.toLowerCase()));
-  }
-
-  return backgrounds;
-}
-
-function avatarBackgrounds(): AvatarBackground[] {
-  let avatarBackgrounds: Array<AvatarBackground> = [
-    new AvatarBackground("Transparent", "/images/others/Transparent.png"),
-    new AvatarBackground("Black", "/images/others/Black.png"),
-    new AvatarBackground("Aww Friends", "/images/nfts/AwwFriends.png"),
-    new AvatarBackground("Drip Squad", "/images/nfts/DripSquad.png"),
-    new AvatarBackground("Meme Team", "/images/nfts/MemeTeam.png"),
-    new AvatarBackground("The Singularity", "/images/nfts/TheSingularity.png"),
-  ]
-
-  for (let entry of useSeriesHashed().value.values()) {
-    avatarBackgrounds.push(new AvatarBackground(entry.name, entry.background_image));
-  }
-
-  return avatarBackgrounds;
 }
 
 function setBackground(index: number) {

@@ -80,8 +80,8 @@ export async function openLinkWith(link: string) {
     }
 
     if (Capacitor.isNativePlatform() || window.matchMedia('(max-width: 640px)').matches) {
-        if (usePreferredLinkOpener().value) {
-            link = link.replace("https://", usePreferredLinkOpener().value);
+        if (useSettings().value.link.opener) {
+            link = link.replace("https://", useSettings().value.link.opener);
         } else {
             let [linkOpener, savedAsDefault] = await promptOptions("Open link using:", [
                 {
@@ -95,7 +95,7 @@ export async function openLinkWith(link: string) {
             ]);
 
             if (savedAsDefault) {
-                usePreferredLinkOpener().value = linkOpener;
+                useSettings().value.link.opener = linkOpener;
             }
 
             link = link.replace("https://", linkOpener);

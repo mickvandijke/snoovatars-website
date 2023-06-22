@@ -112,7 +112,9 @@ watch([token], async () => {
 router.afterEach(() => {
   updateEthereumPrices();
   updateMarketInfo();
-  getUser();
+  if (token.value) {
+    getUser();
+  }
 });
 
 function loadGoogleAnalytics() {

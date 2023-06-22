@@ -24,6 +24,9 @@ export interface Settings {
         avatar: {
             lastUsername?: string;
         }
+    },
+    link: {
+        opener?: string;
     }
 }
 
@@ -53,5 +56,8 @@ export const Default: Settings = {
         avatar: {
             lastUsername: undefined
         }
+    },
+    link: {
+        opener: undefined
     }
 }
