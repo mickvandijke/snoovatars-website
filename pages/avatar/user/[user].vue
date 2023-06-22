@@ -41,7 +41,7 @@
             >
             <img
                 class="absolute"
-                :class="{ 'w-36': avatarSize === 'small', 'w-48': avatarSize === AvatarSize.Normal, 'centered': avatarPosition === AvatarPosition.Centered, 'normal': avatarPosition === AvatarPosition.Normal }"
+                :class="{ 'w-36': avatarSize === 'small', 'w-48': avatarSize === AvatarSize.Normal, 'w-60': avatarSize === 'large', 'centered': avatarPosition === AvatarPosition.Centered, 'normal': avatarPosition === AvatarPosition.Normal }"
                 style="left: 50%;"
                 :src="avatar"
                 :alt="avatarAltText"
@@ -80,7 +80,8 @@ import {computed} from "#imports";
 
 enum AvatarSize {
   Normal = "normal",
-  Small = "small"
+  Small = "small",
+  Large = "large"
 }
 
 enum AvatarPosition {
@@ -150,6 +151,9 @@ const selectedBackground: ComputedRef<AvatarBackground> = computed(() => {
 switch(route.query.size) {
   case AvatarSize.Small:
     avatarSize.value = AvatarSize.Small;
+    break;
+  case AvatarSize.Large:
+    avatarSize.value = AvatarSize.Large;
     break;
   default:
     avatarSize.value = AvatarSize.Normal;
@@ -237,6 +241,9 @@ function getCanvasAvatarWidth() {
     case AvatarSize.Small: {
       return avatarIntrinsicWidth.value * 0.75;
     }
+    case AvatarSize.Large: {
+      return avatarIntrinsicWidth.value * 1.25;
+    }
   }
 }
 
@@ -247,6 +254,9 @@ function getCanvasAvatarHeight() {
     }
     case AvatarSize.Small: {
       return avatarIntrinsicHeight.value * 0.75;
+    }
+    case AvatarSize.Large: {
+      return avatarIntrinsicHeight.value * 1.25;
     }
   }
 }
