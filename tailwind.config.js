@@ -12,6 +12,9 @@ module.exports = {
         extend: {
             animation: {
                 'pulse-slow': 'pulse 4s linear infinite',
+            },
+            colors: {
+                "border-primary": "rgba(255, 255, 255, 0.1)"
             }
         },
     },

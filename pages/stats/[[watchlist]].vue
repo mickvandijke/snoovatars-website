@@ -52,6 +52,7 @@
                 <template v-for="gen in Object.keys(Filters)">
                   <option :value="gen">{{ gen }}</option>
                 </template>
+                <option value="new">new</option>
               </select>
               <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
                 <option value="all">Supply: All</option>
@@ -76,9 +77,136 @@
         </button>
       </template>
     </MenuBar>
-    <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
-      <SeriesStatsComponent :items="filteredAndSortedSeriesStats" :sorting="sortOption" />
-    </PullToRefresh>
+    <template v-if="layout === 'table'">
+      <div class="px-4 w-full overflow-x-auto rounded-lg">
+        <table class="mt-3 w-full text-xs font-bold text-center whitespace-nowrap border-collapse">
+          <thead>
+          <tr class="border-b border-neutral-800 text-neutral-400">
+            <th class="border border-neutral-800 pl-4 pr-2 py-3"></th>
+            <th class="border border-neutral-800 text-left px-2 py-3 cursor-pointer">Name</th>
+            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Supply</th>
+            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Floor</th>
+            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Last Sale</th>
+            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Last 5 Sales</th>
+            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Total Vol</th>
+            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Vol (24h)</th>
+            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Market Cap</th>
+            <th class="border border-neutral-800 text-right px-2 py-1 cursor-pointer">Change (24h)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <template v-for="(item, index) in slicedItems" :key="index">
+            <tr class="hover:bg-neutral-900 text-neutral-200" :set="listing = getLowestListing(item)">
+              <td class="border border-neutral-800 p-1 w-12">
+                <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
+                  <a @click="openLinkWith(`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`)" class="cursor-pointer">
+                    <img :src="getTokenImage(item.series.image ?? '/img/rcax_placeholder.png')" :alt="item.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                  </a>
+                </div>
+              </td>
+              <td class="border border-neutral-800 text-left px-2 py-1">{{ item.series.name }}</td>
+              <td class="border border-neutral-800 px-2 py-1">{{ Math.max(item.series.total_quantity, item.series.total_sold) }}</td>
+              <td class="border border-neutral-800 px-2 py-1">
+                <template v-if="listing">
+                  <div class="flex items-center justify-center gap-0.5">
+                    <template v-if="listing.payment_token.symbol === 'ETH'">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                      <div class="flex gap-1">
+                        <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(6).replace(/\.?0+$/, '') }}</span>
+                        <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(listing.payment_token.base_price) }}</span>)</span>
+                        <span class="text-neutral-400">#{{ listing.token.mint_number }}</span>
+                      </div>
+                    </template>
+                    <template v-else-if="listing.payment_token.symbol === 'MATIC'">
+                      <div class="flex items-center text-orange-500">M</div>
+                      <div class="flex gap-1">
+                        <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                        <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(getListingAsGweiPrice(listing)) }}</span>)</span>
+                        <span class="text-neutral-400">#{{ listing.token.mint_number }}</span>
+                      </div>
+                    </template>
+                  </div>
+                </template>
+              </td>
+              <td class="border border-neutral-800 px-2 py-1">
+                <template v-if="item.stats.last_sale">
+                  <div class="flex flex-nowrap items-center justify-center gap-1 whitespace-nowrap overflow-hidden" :set="lastSale = item.stats.last_sale">
+                    <div class="flex items-center gap-0.5">
+                      <div class="flex items-center gap-0.5">
+                        <template v-if="lastSale.payment_token.symbol === 'ETH'">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                        </template>
+                        <template v-else>
+                          <div class="flex items-center text-orange-500">M</div>
+                        </template>
+                        <div class="text-neutral-200">{{ (lastSale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                      </div>
+                    </div>
+                    <span class="text-neutral-300">({{ ethereumInLocalCurrency(getSaleAsGweiPrice(lastSale)) }})</span>
+                    <span class="text-neutral-400">#{{ lastSale.token.mint_number }}</span>
+                    <div class="text-neutral-500" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(lastSale.date_sold)) }}</div>
+                  </div>
+                </template>
+              </td>
+              <td class="border border-neutral-800 px-2 py-1">
+                <div class="flex items-center justify-center gap-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="flex gap-1">
+                    <span>{{ (item.stats.eth.five_last_sales_average).toFixed(6).replace(/\.?0+$/, '') }}</span>
+                    <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.stats.eth.five_last_sales_average * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
+                  </div>
+                </div>
+              </td>
+              <td class="border border-neutral-800 px-2 py-1">
+                <div class="flex items-center justify-center gap-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <span>{{ (item.stats.total_volume / ETH_TO_GWEI_MODIFIER).toFixed(2) }}</span>
+                </div>
+              </td>
+              <td class="border border-neutral-800 px-2 py-1">
+                <div class="flex items-center justify-center gap-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <span>{{ (item.stats.daily_volume).toFixed(2) }}</span>
+                </div>
+              </td>
+              <td class="border border-neutral-800 px-2 py-1">
+                <div class="flex items-center justify-center gap-0.5">
+                  <span>{{ ethereumInLocalCurrency(item.stats.eth.last_sale ? (item.stats.eth.last_sale.payment_token.base_price * item.series.total_sold) : 0) }}</span>
+                </div>
+              </td>
+              <td class="border border-neutral-800 px-2 py-1">
+                <div class="flex items-center justify-end gap-0.5">
+                  <template v-if="item.stats.daily_price_change > 0">
+                    <div class="text-green-500">
+                      <span>+{{ item.stats.daily_price_change.toFixed(2) }}%</span>
+                    </div>
+                  </template>
+                  <template v-else-if="item.stats.daily_price_change < 0">
+                    <div class="text-red-500">
+                      <span>{{ item.stats.daily_price_change.toFixed(2) }}%</span>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <div class="text-neutral-200">
+                      <span>0%</span>
+                    </div>
+                  </template>
+                </div>
+              </td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
+        <div class="py-6 flex justify-center">
+          <Pagination :total-items="filteredAndSortedSeriesStats.length" :page-size="pageSize" v-model:current-page="itemsCurrentPage" />
+        </div>
+      </div>
+    </template>
+    <template v-else>
+      <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
+        <SeriesStatsComponent :items="filteredAndSortedSeriesStats" :sorting="sortOption" />
+      </PullToRefresh>
+    </template>
   </div>
 </template>
 
@@ -86,20 +214,23 @@
 import {
   updateEthereumPrices,
   updateMarketInfo,
-  updateSeriesStats, useEthereumPriceMap,
+  updateSeriesStats,
   useEthereumUsdPrice,
   useSeriesStats,
   useWatchList
 } from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
 import {computed, getSaleAsGweiPrice, ref, useRoute, useRouter} from "#imports";
-import {ComputedRef, watch} from "vue";
+import {ComputedRef, Ref, watch} from "vue";
 import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import MenuBar from "~/components/MenuBar.vue";
 import {Capacitor} from "@capacitor/core";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
-import {getLowestListing, getLowestListingAsGweiPrice, maticToEth} from "~/composables/helpers";
-import {Filters} from "~/global/generations";
+import {getLowestListing, getListingAsGweiPrice, maticToEth} from "~/composables/helpers";
+import {AllCollections, Filters} from "~/global/generations";
+import {getTokenImage} from "~/global/utils";
+import {openLinkWith} from "~/composables/states";
+import {ethereumInLocalCurrency} from "#imports";
 
 const router = useRouter();
 const route = useRoute();
@@ -115,6 +246,9 @@ const filterSoldOut = ref<string>(route.query.soldOut as string ?? "show");
 const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
 const isRefreshing = ref(false);
 const showFilters = ref(false);
+const layout = ref("grid");
+const itemsCurrentPage = ref(1);
+const pageSize = ref(100);
 
 updateSeriesStats();
 
@@ -129,6 +263,12 @@ watch([maxPriceEth, filterGenOption, filterRarityOption, sortOption, filterSoldO
     },
   });
 })
+
+const slicedItems = computed(() => {
+  const start = (itemsCurrentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return filteredAndSortedSeriesStats.value.slice(start, end);
+});
 
 function usingFilter(): boolean {
   return !!maxPriceEth.value || filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show";
@@ -172,7 +312,9 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
 
       let price = 0;
 
-      if (lowestListing.payment_token.symbol === "ETH") {
+      if (!lowestListing) {
+        price = 9999999999;
+      } else if (lowestListing.payment_token.symbol === "ETH") {
         price = lowestListing.payment_token.base_price;
       } else if (lowestListing.payment_token.symbol === "MATIC") {
         price = maticToEth(lowestListing.payment_token.base_price);
@@ -183,7 +325,12 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
   }
 
   if (filterGenOption.value && filterGenOption.value != "all") {
-    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => Filters[filterGenOption.value].includes(seriesStat.collection.contract_address));
+    if (filterGenOption.value == "new") {
+      console.log(AllCollections());
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => !AllCollections().includes(seriesStat.collection.contract_address));
+    } else {
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => Filters[filterGenOption.value].includes(seriesStat.collection.contract_address));
+    }
   }
 
   switch (filterRarityOption.value) {
@@ -271,8 +418,8 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
       break;
     case "highestLastSale":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aBasePrice = a.stats.last_sale && a.stats.last_sale.payment_token.symbol === "ETH" ? a.stats.last_sale.payment_token.base_price : 0;
-        const bBasePrice = b.stats.last_sale && b.stats.last_sale.payment_token.symbol === "ETH" ? b.stats.last_sale.payment_token.base_price : 0;
+        const aBasePrice = a.stats.last_sale ? getSaleAsGweiPrice(a.stats.last_sale) : 0;
+        const bBasePrice = b.stats.last_sale ? getSaleAsGweiPrice(b.stats.last_sale) : 0;
 
 
         if (aBasePrice > bBasePrice) {
@@ -286,8 +433,8 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
       break;
     case "lowestLastSale":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aBasePrice = a.stats.last_sale && a.stats.last_sale.payment_token.symbol === "ETH" ? a.stats.last_sale.payment_token.base_price : 0;
-        const bBasePrice = b.stats.last_sale && b.stats.last_sale.payment_token.symbol === "ETH" ? b.stats.last_sale.payment_token.base_price : 0;
+        const aBasePrice = a.stats.last_sale ? getSaleAsGweiPrice(a.stats.last_sale) : 0;
+        const bBasePrice = b.stats.last_sale ? getSaleAsGweiPrice(b.stats.last_sale) : 0;
 
         if (aBasePrice > bBasePrice) {
           return 1;

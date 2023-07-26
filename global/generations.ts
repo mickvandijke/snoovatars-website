@@ -178,4 +178,9 @@ export const Filters = {
     superbowllvii: ["0x3b477a6b1be236628b08839e1e8cf8ba8d93589a"]
 };
 
+export function AllCollections(): string[] {
+    const arrays = Object.values(Filters);
+    return [].concat(...arrays);
+}
+
 export const PremiumCollections = Filters.gen1.concat(Filters.gen2).concat(Filters.gen3).concat(Filters.wsb);

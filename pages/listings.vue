@@ -43,59 +43,59 @@
       </button>
     </MenuBar>
     <div class="px-2 md:px-4 w-full">
-        <div class="w-full overflow-x-auto">
-          <table class="mt-3 w-full text-xs whitespace-nowrap">
-            <thead>
-            <tr class="border-b border-neutral-600 text-neutral-200">
-              <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'name' }" @click="sortListings('name')">Name</th>
-              <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'supply' }" @click="sortListings('supply')">Supply</th>
-              <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-yellow-500': listingsSortSecondaryColumn === 'price' }" @click="sortSecondaryListings('price')">Price</th>
-              <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'mint_number' }" @click="sortListings('mint_number')">Mint</th>
-              <th class="text-left px-2 py-1">Seller</th>
-              <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'date_listed' }" @click="sortListings('date_listed')">Date</th>
+      <div class="w-full overflow-x-auto">
+        <table class="mt-3 w-full text-xs whitespace-nowrap">
+          <thead>
+          <tr class="border-b border-neutral-600 text-neutral-200">
+            <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'name' }" @click="sortListings('name')">Name</th>
+            <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'supply' }" @click="sortListings('supply')">Supply</th>
+            <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-yellow-500': listingsSortSecondaryColumn === 'price' }" @click="sortSecondaryListings('price')">Price</th>
+            <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'mint_number' }" @click="sortListings('mint_number')">Mint</th>
+            <th class="text-left px-2 py-1">Seller</th>
+            <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'date_listed' }" @click="sortListings('date_listed')">Date</th>
+          </tr>
+          </thead>
+          <tbody>
+          <template v-for="(listing, index) in slicedListings" :key="index">
+            <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
+              <td class="px-2 py-1">
+                <button @click="openLinkWith(`https://opensea.io/collection/${listing.stats?.collection.slug}?search[query]=${listing.listing.token.name}`)" class="text-amber-500">{{ listing.listing.token.name }}</button>
+              </td>
+              <td class="px-2 py-1">{{ listing.stats?.series.total_sold }}</td>
+              <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <span>{{ (listing.listing.payment_token.base_price / 1000000000000000000).toFixed(6).replace(/\.?0+$/, '') }} {{ listing.listing.payment_token.symbol }}</span>
+                <template v-if="listing.listing.payment_token.symbol === 'ETH'">
+                  <span> ({{ ethereumInLocalCurrency(listing.listing.payment_token.base_price) }})</span>
+                </template>
+              </td>
+              <td class="px-2 py-1">
+                <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.listing.token.contract_address}/${listing.listing.token.id}`)" class="text-amber-500">#{{ listing.listing.token.mint_number }}</button>
+              </td>
+              <td class="px-2 py-1">
+                <button @click="openLinkWith(`https://opensea.io/${listing.listing.maker_address}`)" class="text-amber-500">{{ listing.listing.maker_address.slice(2, 5) }}</button>
+              </td>
+              <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.listing.date_listed)) }} ago</td>
             </tr>
-            </thead>
-            <tbody>
-            <template v-for="(listing, index) in slicedListings" :key="index">
-              <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
-                <td class="px-2 py-1">
-                  <button @click="openLinkWith(`https://opensea.io/collection/${listing.stats?.collection.slug}?search[query]=${listing.listing.token.name}`)" class="text-amber-500">{{ listing.listing.token.name }}</button>
-                </td>
-                <td class="px-2 py-1">{{ listing.stats?.series.total_sold }}</td>
-                <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                  <span>{{ (listing.listing.payment_token.base_price / 1000000000000000000).toFixed(6).replace(/\.?0+$/, '') }} {{ listing.listing.payment_token.symbol }}</span>
-                  <template v-if="listing.listing.payment_token.symbol === 'ETH'">
-                    <span> ({{ ethereumInLocalCurrency(listing.listing.payment_token.base_price) }})</span>
-                  </template>
-                </td>
-                <td class="px-2 py-1">
-                  <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.listing.token.contract_address}/${listing.listing.token.id}`)" class="text-amber-500">#{{ listing.listing.token.mint_number }}</button>
-                </td>
-                <td class="px-2 py-1">
-                  <button @click="openLinkWith(`https://opensea.io/${listing.listing.maker_address}`)" class="text-amber-500">{{ listing.listing.maker_address.slice(2, 5) }}</button>
-                </td>
-                <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.listing.date_listed)) }} ago</td>
-              </tr>
-            </template>
-            </tbody>
-          </table>
-          <div class="py-6 flex justify-center">
-            <Pagination :total-items="filteredListings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
-          </div>
-          <template v-if="!user">
-            <div class="py-6 flex flex-col items-center text-center gap-2">
-              <div class="text-neutral-300">This is a <NuxtLink to="/upgrade" class="text-amber-500 font-bold italic">Pro</NuxtLink> feature. Please sign in using your Pro account.</div>
-              <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Sign In</NuxtLink>
-            </div>
           </template>
-          <template v-else-if="user.tier < 1">
-            <div class="py-6 flex flex-col items-center text-center gap-2">
-              <div class="text-neutral-300">Please upgrade to <NuxtLink to="/upgrade" class="text-amber-500 font-bold italic">Pro</NuxtLink> to use this feature.</div>
-              <NuxtLink to="/upgrade" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Upgrade</NuxtLink>
-            </div>
-          </template>
+          </tbody>
+        </table>
+        <div class="py-6 flex justify-center">
+          <Pagination :total-items="filteredListings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
         </div>
+        <template v-if="!user">
+          <div class="py-6 flex flex-col items-center text-center gap-2">
+            <div class="text-neutral-300">This is a <NuxtLink to="/upgrade" class="text-amber-500 font-bold italic">Pro</NuxtLink> feature. Please sign in using your Pro account.</div>
+            <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Sign In</NuxtLink>
+          </div>
+        </template>
+        <template v-else-if="user.tier < 1">
+          <div class="py-6 flex flex-col items-center text-center gap-2">
+            <div class="text-neutral-300">Please upgrade to <NuxtLink to="/upgrade" class="text-amber-500 font-bold italic">Pro</NuxtLink> to use this feature.</div>
+            <NuxtLink to="/upgrade" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Upgrade</NuxtLink>
+          </div>
+        </template>
       </div>
+    </div>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div
-      class="fixed top-0 flex flex-col bg-black/80 border-b border-neutral-900 z-40 w-full"
+      class="fixed top-0 flex flex-col bg-black/80 z-40 w-full"
       style="backdrop-filter: blur(20px);padding-top: env(safe-area-inset-top);"
       @mouseleave="closeDropdowns()"
       ref="navbar"
@@ -13,34 +13,40 @@
         leave-from-class="transform opacity-100 scale-100"
         leave-to-class="transform opacity-0 scale-95"
     >
-      <div v-if="showingBarMarketInfo" class="px-4 py-1 text-xs md:text-sm border-b border-neutral-900 overflow-hidden" ref="barMarketInfo">
-        <div class="flex whitespace-nowrap items-center sm:justify-center overflow-x-auto scrollbar-hide">
+      <div v-if="showingBarMarketInfo" class="text-xs border-b border-border-primary overflow-hidden" ref="barMarketInfo">
+        <div class="px-4 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
           <div class="inline-flex gap-2">
             <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" class="flex items-center gap-0.5">
-              <span class="text-neutral-400 font-bold">BitCone:</span>
-              <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span>)</span>
+              <span class="text-neutral-400 font-semibold">BitCone:</span>
+              <span class="text-neutral-500 font-semibold"><span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span></span>
             </button>
             <div class="flex items-center gap-0.5">
-              <span class="text-neutral-400 font-bold">24hr Vol:</span>
+              <span class="text-neutral-400 font-semibold">24hr Vol:</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="flex gap-1 font-bold text-white">
+              <div class="flex gap-1 font-semibold text-white">
                 <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
                 <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
               </div>
             </div>
             <div class="flex items-center gap-0.5">
-              <span class="text-neutral-400 font-bold">Market Cap:</span>
+              <span class="text-neutral-400 font-semibold">Market Cap:</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="flex gap-1 font-bold text-white">
+              <div class="flex gap-1 font-semibold text-white">
                 <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
                 <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
               </div>
             </div>
             <div class="flex items-center gap-0.5">
-              <span class="text-neutral-400 font-bold">Matic:</span>
-              <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(1 / ethereumPriceMap.get("MATIC") * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
+              <span class="text-neutral-400 font-semibold">Matic:</span>
+              <span class="text-neutral-500 font-semibold"><span class="text-amber-500">{{ ethereumInLocalCurrency(1 / ethereumPriceMap.get("MATIC") * ETH_TO_GWEI_MODIFIER) }}</span></span>
             </div>
           </div>
+        </div>
+        <div v-if="isBannerShowing" class="relative bg-neutral-800 flex items-center justify-center max-h-32">
+          <a href="https://www.reddit.com/r/the23/comments/159p8cs/gold_hodl_meme_time_23_prizes_lots_of_avatars/" target="_blank">
+            <img src="/images/banners/hodl_banner.png" alt="Banner Image" class="max-h-32" />
+          </a>
+          <button @click="isBannerClosed = !isBannerClosed" class="py-1 absolute text-sm top-0 right-1 md:top-2 md:right-4 text-gray-200">Close</button>
         </div>
       </div>
     </transition>
@@ -89,9 +95,9 @@
           :class="showMenu ? 'flex' : 'hidden'"
           class="flex-col my-4 lg:my-0 text-neutral-200 font-semibold gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
       >
-        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
         <template v-if="token && user?.username">
           <div
               @mouseover="userDropDown = true"
@@ -168,9 +174,10 @@ import {
   useConeEthPrice,
 } from "~/composables/states";
 import {ethereumInLocalCurrency, coneInLocalCurrency} from "#imports";
-import {onMounted} from "vue";
+import {ComputedRef, onMounted} from "vue";
 import {navigateTo} from "nuxt/app";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
+import {Capacitor} from "@capacitor/core";
 
 const user = useUser();
 const token = useToken();
@@ -183,20 +190,33 @@ const ethereumPriceMap = useEthereumPriceMap();
 
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
-const scrollThreshold = 10; // Adjust this threshold value as needed
+const scrollThreshold = 10;
 const prevScrollPos = ref(window.pageYOffset);
 const showingBarMarketInfo = ref(true);
+const isBannerClosed = ref(false);
 const navbar = ref(null);
+const navbarHeight = ref(0);
 
-defineExpose({ navbar });
+const resizeObserver = new ResizeObserver((entries) => {
+  entries.forEach((entry) => {
+    navbarHeight.value = entry.contentRect.height;
+  });
+});
+
+defineExpose({ navbarHeight });
 
 router.afterEach(() => {
   showMenu.value = false;
 });
 
+watch([navbarHeight], () => {
+  console.log(navbarHeight.value);
+});
+
 onMounted(() => {
   updateMarketInfo();
   window.addEventListener('scroll', handleScroll);
+  resizeObserver.observe(navbar.value);
 });
 
 onBeforeUnmount(() => {
@@ -218,6 +238,14 @@ async function deleteAccount() {
 
   await navigateTo(`/accountdeletion`, {replace: true});
 }
+
+const isBannerShowing: ComputedRef<boolean> = computed(() => {
+  if (Capacitor.isNativePlatform()) {
+    return false;
+  }
+
+  return !isBannerClosed.value;
+});
 
 const handleScroll = () => {
   const currentScrollPos = window.pageYOffset;

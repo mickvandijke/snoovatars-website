@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <NavigationBar ref="navbarcomp"/>
-    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }" :style="{ paddingTop: `${navbarcomp?.navbar.clientHeight ?? 0}px` }">
+    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }" :style="pagePaddingTop">
       <NuxtPage/>
     </div>
     <template v-if="!Capacitor.isNativePlatform()">
@@ -44,6 +44,7 @@ import { Browser } from '@capacitor/browser';
 import {LocalNotifications} from "@capacitor/local-notifications";
 import {registerFcmDeviceToken} from "~/composables/api/fcm";
 import Prompt from "~/components/Prompt.vue";
+import {computed, ComputedRef} from "vue";
 
 useHead({
   title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
@@ -115,6 +116,14 @@ router.afterEach(() => {
   if (token.value) {
     getUser();
   }
+});
+
+const pagePaddingTop = computed(() => {
+  let navbarHeight = navbarcomp.value?.navbarHeight ?? 0;
+
+  console.log(navbarHeight);
+
+  return { paddingTop: `${navbarHeight}px` };
 });
 
 function loadGoogleAnalytics() {
