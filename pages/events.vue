@@ -52,8 +52,8 @@ import {ArrowPathIcon} from "@heroicons/vue/24/solid";
 import {Listing} from "~/types/listing";
 import {fetchListingsLatest} from "~/composables/api/listings";
 import {Capacitor} from "@capacitor/core";
-import {PremiumCollections} from "~/global/generations";
 import {ComputedRef} from "vue";
+import {getFreeCollections} from "~/global/generations";
 
 const watchList = useWatchList();
 const router = useRouter();
@@ -133,7 +133,7 @@ const filteredSales: ComputedRef<Sale[]> = computed(() => {
   let filteredSales = Array.from(Object.values(salesLatest.value));
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
-    filteredSales = filteredSales.filter((sale) => PremiumCollections.includes(sale.token.contract_address));
+    filteredSales = filteredSales.filter((sale) => !getFreeCollections().includes(sale.token.contract_address));
   }
 
   if (searchTerm.value.trim() !== "") {
@@ -147,7 +147,7 @@ const filteredListings: ComputedRef<Listing[]> = computed(() => {
   let filteredListings = Array.from(Object.values(listingsLatest.value));
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
-    filteredListings = filteredListings.filter((listing) => PremiumCollections.includes(listing.token.contract_address));
+    filteredListings = filteredListings.filter((listing) => !getFreeCollections().includes(listing.token.contract_address));
   }
 
   if (searchTerm.value.trim() !== "") {
@@ -161,7 +161,7 @@ const filteredMints: ComputedRef<Mint[]> = computed(() => {
   let filteredMints = Array.from(Object.values(mintsLatest.value));
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
-    filteredMints = filteredMints.filter((mint) => PremiumCollections.includes(mint.token.contract_address));
+    filteredMints = filteredMints.filter((mint) => !getFreeCollections().includes(mint.token.contract_address));
   }
 
   if (searchTerm.value.trim() !== "") {

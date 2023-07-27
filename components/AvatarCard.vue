@@ -49,8 +49,8 @@
             <slot></slot>
           </div>
           <div class="mt-auto flex items-center gap-1">
-            <template v-if="seriesStats.stats.lowest_listing">
-              <template v-if="!hideFloor && false">
+            <template v-if="!hideFloor && false">
+              <template v-if="seriesStats.stats.lowest_listing">
                 <button @click="openLinkWith(`https://opensea.io/assets/matic/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="flex gap-0.5 font-bold text-neutral-400">
@@ -61,13 +61,13 @@
                 </button>
               </template>
               <template v-else>
-                <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-neutral-500 font-semibold text-[0.7rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
+                <div class="flex gap-1 font-bold text-neutral-400 text-[0.7rem]">
+                  <span>No floor data.</span>
+                </div>
               </template>
             </template>
             <template v-else>
-              <div class="flex gap-1 font-bold text-neutral-400 text-[0.7rem]">
-                <span>No floor data.</span>
-              </div>
+              <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-neutral-500 font-semibold text-[0.7rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
             </template>
             <button @click="toggleExtraInfo()" class="ml-auto flex items-center text-neutral-500 text-[0.7rem] font-semibold whitespace-nowrap rounded-md duration-500">
               <span>{{ showExtraInfo ? "Hide details" : "More" }}</span>

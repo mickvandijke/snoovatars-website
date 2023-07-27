@@ -227,7 +227,7 @@ import MenuBar from "~/components/MenuBar.vue";
 import {Capacitor} from "@capacitor/core";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
 import {getLowestListing, getListingAsGweiPrice, maticToEth} from "~/composables/helpers";
-import {AllCollections, Filters} from "~/global/generations";
+import {getAllCollections, Filters} from "~/global/generations";
 import {getTokenImage} from "~/global/utils";
 import {openLinkWith} from "~/composables/states";
 import {ethereumInLocalCurrency} from "#imports";
@@ -326,10 +326,9 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
 
   if (filterGenOption.value && filterGenOption.value != "all") {
     if (filterGenOption.value == "new") {
-      console.log(AllCollections());
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => !AllCollections().includes(seriesStat.collection.contract_address));
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => !getAllCollections().includes(seriesStat.collection.contract_address));
     } else {
-      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => Filters[filterGenOption.value].includes(seriesStat.collection.contract_address));
+      filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => Filters[filterGenOption.value].collections.includes(seriesStat.collection.contract_address));
     }
   }
 

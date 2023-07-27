@@ -121,8 +121,6 @@ router.afterEach(() => {
 const pagePaddingTop = computed(() => {
   let navbarHeight = navbarcomp.value?.navbarHeight ?? 0;
 
-  console.log(navbarHeight);
-
   return { paddingTop: `${navbarHeight}px` };
 });
 

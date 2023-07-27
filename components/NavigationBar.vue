@@ -209,10 +209,6 @@ router.afterEach(() => {
   showMenu.value = false;
 });
 
-watch([navbarHeight], () => {
-  console.log(navbarHeight.value);
-});
-
 onMounted(() => {
   updateMarketInfo();
   window.addEventListener('scroll', handleScroll);
