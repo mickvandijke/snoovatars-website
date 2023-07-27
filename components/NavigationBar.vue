@@ -43,7 +43,7 @@
           </div>
         </div>
         <div v-if="isBannerShowing" class="relative bg-neutral-800 flex items-center justify-center max-h-32">
-          <a href="https://www.reddit.com/r/the23/comments/159p8cs/gold_hodl_meme_time_23_prizes_lots_of_avatars/" target="_blank">
+          <a href="https://www.the23.club/" target="_blank">
             <img src="/images/banners/hodl_banner.png" alt="Banner Image" class="max-h-32" />
           </a>
           <button @click="isBannerClosed = !isBannerClosed" class="py-1 absolute text-sm top-0 right-1 md:top-2 md:right-4 text-gray-200">Close</button>
