@@ -215,7 +215,7 @@ import {Token} from "~/types/token";
 import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
 import {getSaleAsGweiPrice} from "~/composables/helpers";
-import {Filters, PremiumCollections} from "~/global/generations";
+import {Filters, getFreeCollections} from "~/global/generations";
 
 const seriesStats = useSeriesStats();
 const walletAddresses = useWalletAddresses();
@@ -248,7 +248,7 @@ function filterWalletTokens(walletTokens: WalletTokens): WalletTokens {
   for (const key in walletTokens) {
     const contractAddress = walletTokens[key][0]["contract_address"];
 
-    if (PremiumCollections.includes(contractAddress)) {
+    if (!getFreeCollections().includes(contractAddress)) {
       filteredTokens[key] = walletTokens[key];
     }
   }
