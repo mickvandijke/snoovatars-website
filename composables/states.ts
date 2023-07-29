@@ -14,6 +14,7 @@ import {fetchMarketInfo} from "~/composables/api/info";
 import {Capacitor} from "@capacitor/core";
 import {Prompt, PromptOption} from "~/components/Prompt.vue";
 import {Default, Settings} from "~/types/settings";
+import {SelectedAvatar} from "~/types/SelectedAvatar";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeriesHashed = () => useState<Map<string, Series>>('tier-list', () => new Map());
@@ -34,6 +35,7 @@ export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses'
 export const useUserSettings = () => useState<UserSettings>('user-settings', () => null);
 export const usePrompt = () => useState<Prompt>('prompt', () => null);
 export const useSettings = () => useState<Settings>('settings', () => null);
+export const useSelectedAvatar = () => useState<SelectedAvatar>('selected-avatar', () => null);
 
 export function loadSettings() {
     let json = localStorage.getItem("settings");

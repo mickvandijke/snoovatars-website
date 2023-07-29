@@ -1,35 +1,22 @@
 <template>
-  <div ref="componentRef" class="py-0.5 sm:py-0 relative flex flex-col gap-1 w-full overflow-hidden">
+  <div ref="componentRef" class="p-1 bg-neutral-900 relative flex flex-col gap-1 w-full rounded-lg overflow-hidden">
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
-          <div class="absolute w-full h-full blur-lg" :style="{ backgroundImage: `url(${getTokenImage(item.image)})`, backgroundSize: 'cover', backgroundPosition: 'center' }"></div>
-          <img :src="getTokenImage(item.image)" class="relative h-full w-auto mx-auto" :alt="item.name">
-          <template v-if="seriesStats && seriesStats.series.mint_price > 0">
-            <div class="absolute bottom-1 left-1 px-1 py-0.25 text-white text-[0.65rem] text-center font-bold rounded-lg" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">${{ seriesStats.series.mint_price / 100.00 }}</div>
-          </template>
-          <template v-else>
-            <div class="absolute bottom-1 left-1 px-1 py-0.25 text-white text-[0.65rem] text-center font-bold rounded-lg" :class="{ 'bg-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'bg-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">FREE</div>
-          </template>
+          <img :src="getTokenImage(item.image)" class="relative w-full h-auto mx-auto" :alt="item.name">
           <template v-if="Capacitor.getPlatform() !== 'ios'">
             <div class="absolute top-1 right-1 w-4 h-4 rounded-full">
               <OpenseaIcon />
             </div>
           </template>
         </button>
-        <div class="pl-2 sm:px-2 py-1.5 sm:bg-neutral-900 flex flex-col rounded-lg gap-0.5 overflow-hidden" style="width: 81%">
+        <div @click="selectAvatar" class="px-1 flex flex-col rounded-lg overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
             <template v-if="ranking">
               <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
             </template>
-            <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
-            <div class="relative ml-0.5 px-1 text-black font-bold rounded" :class="getMintClasses(seriesStats.series.total_quantity)">
-              <template v-if="seriesStats.series.total_quantity <= 250">
-                <div class="absolute inset-0 blur-sm animate-pulse-slow" :class="getMintClasses(seriesStats.series.total_quantity)"></div>
-              </template>
-              <template v-else-if="seriesStats.series.total_quantity <= 777">
-                <div class="absolute inset-0 blur-sm animate-pulse-slow" :class="getMintClasses(seriesStats.series.total_quantity)"></div>
-              </template>
+            <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <div class="relative ml-0.5 px-1 text-black font-bold rounded text-[0.65rem]" :class="getMintClasses(seriesStats.series.total_quantity)">
               <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
             </div>
             <div class="ml-auto flex items-center gap-1 font-bold">
@@ -51,7 +38,7 @@
           <div class="mt-auto flex items-center gap-1">
             <template v-if="!hideFloor && false">
               <template v-if="seriesStats.stats.lowest_listing">
-                <button @click="openLinkWith(`https://opensea.io/assets/matic/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
+                <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="flex gap-0.5 font-bold text-neutral-400">
                     <span>{{ (seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
@@ -61,34 +48,36 @@
                 </button>
               </template>
               <template v-else>
-                <div class="flex gap-1 font-bold text-neutral-400 text-[0.7rem]">
-                  <span>No floor data.</span>
+                <div class="flex text-[0.7rem]">
+                  <span class="text-neutral-400 font-medium">No listings yet.</span>
                 </div>
               </template>
             </template>
             <template v-else>
-              <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-neutral-500 font-semibold text-[0.7rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
+              <div class="text-[0.65rem] font-semibold" :class="{ 'text-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
+                <template v-if="seriesStats && seriesStats.series.mint_price > 0">
+                  ${{ seriesStats.series.mint_price / 100.00 }}
+                </template>
+                <template v-else>
+                  FREE
+                </template>
+              </div>
+              <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-neutral-600 font-semibold text-[0.65rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
             </template>
-            <button @click="toggleExtraInfo()" class="ml-auto flex items-center text-neutral-500 text-[0.7rem] font-semibold whitespace-nowrap rounded-md duration-500">
-              <span>{{ showExtraInfo ? "Hide details" : "More" }}</span>
-              <ChevronDownIcon class="w-5 h-5 duration-200" :class="{ 'rotate-180': showExtraInfo }" />
-            </button>
+            <InformationCircleIcon @click.stop="selectAvatar" class="ml-auto w-5 h-5 text-neutral-500 opacity-50 hover:opacity-100 cursor-pointer" />
           </div>
         </div>
       </div>
-      <template v-if="showExtraInfo">
-        <ExtraInfoComponent @close="closeExtraInfo()" class="h-full" :series-stats="seriesStats" :contract="item.contract_address" :series="item.name" />
-      </template>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "#imports";
+import {ref, useSelectedAvatar} from "#imports";
 import {PropType} from "@vue/runtime-core";
 import {SeriesStats} from "~/types/seriesStats";
 import OpenseaIcon from "~/components/OpenseaIcon.vue";
-import {ChevronDownIcon} from "@heroicons/vue/20/solid";
+import {InformationCircleIcon} from "@heroicons/vue/24/outline";
 import {useWatchList, addToWatchList, removeFromWatchList, openLink} from "#imports";
 import {StarIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
 import {Capacitor} from "@capacitor/core";
@@ -101,6 +90,7 @@ export interface AvatarCardItem {
 }
 
 const watchList = useWatchList();
+const selectedAvatar = useSelectedAvatar();
 
 const componentRef = ref(null);
 
@@ -138,15 +128,21 @@ function toggleExtraInfo() {
   showExtraInfo.value = !showExtraInfo.value;
 }
 
+function selectAvatar() {
+  selectedAvatar.value = {
+    seriesStats: props.seriesStats,
+    contract: props.seriesStats.series.contract_address,
+    series: props.seriesStats.series.name
+  }
+}
+
 function getMintClasses(totalQuantity: number) {
   if (totalQuantity <= 250) {
-    return ["text-[0.65rem] bg-yellow-500 shadow-yellow-500/50"];
+    return ["bg-neutral-800 text-yellow-500"];
   } else if (totalQuantity <= 777) {
-    return ["text-[0.65rem] bg-gray-300 shadow-gray-300/50"];
-  } else if (totalQuantity <= 10000) {
-    return ["text-[0.65rem] bg-neutral-500/90"];
+    return ["bg-neutral-800 text-gray-300"];
   } else {
-    return ["text-[0.65rem] bg-neutral-500/90"];
+    return ["bg-neutral-800 text-neutral-400"];
   }
 }
 </script>

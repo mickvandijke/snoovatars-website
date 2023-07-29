@@ -25,7 +25,8 @@
         <option value="lowestWeeklyAverage">Sort by Lowest 7 Days Average Sale</option>
         <option value="lowestTwoWeeklyAverage">Sort by Lowest 14 Days Average Sale</option>
         <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Sale</option>
-        <option value="lowestFloorMintRatio">Sort by Lowest Floor/Mint Ratio</option>
+        <option value="highestFloorMintRatio">Sort by Highest Mint Profit</option>
+        <option value="lowestFloorMintRatio">Sort by Lowest Mint Profit</option>
         <option value="lowestListedPercentage">Sort by Lowest Listed Percentage</option>
         <option value="highestShopAvailableAbsolute">Sort by Most Available in Shop (Absolute)</option>
         <option value="lowestShopAvailableAbsolute">Sort by Least Available in Shop (Absolute)</option>
@@ -439,6 +440,20 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
           return 1;
         } else if (aBasePrice < bBasePrice) {
           return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "highestFloorMintRatio":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aFloorMintRatio = getLowestListing(a) ? Math.round(((getLowestListingAsGweiPrice(a) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (a.series.mint_price / 100) * 100) : 999999999;
+        const bFloorMintRatio = getLowestListing(b) ? Math.round(((getLowestListingAsGweiPrice(b) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (b.series.mint_price / 100) * 100) : 999999999;
+
+        if (aFloorMintRatio > bFloorMintRatio) {
+          return -1;
+        } else if (aFloorMintRatio < bFloorMintRatio) {
+          return 1;
         } else {
           return 0;
         }

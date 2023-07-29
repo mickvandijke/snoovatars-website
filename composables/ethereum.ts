@@ -10,6 +10,10 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
 
     let price = eth * (useEthereumPriceMap().value.get(currency) ?? 0);
 
+    if (isNaN(price)) {
+        price = 0;
+    }
+
     switch (currency) {
         case "AUD":
         case "CNY":

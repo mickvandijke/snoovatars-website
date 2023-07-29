@@ -1,6 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <NavigationBar ref="navbarcomp"/>
+    <AvatarViewer />
     <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }" :style="pagePaddingTop">
       <NuxtPage/>
     </div>
@@ -22,7 +23,7 @@ import {useHead} from "nuxt/app";
 import {
   loadWatchList,
   onBeforeMount, ref, updateMarketInfo,
-  useCollections, useRouter,
+  useCollections, useRouter, useSelectedAvatar,
   useUser,
   watch
 } from "#imports";
@@ -68,6 +69,7 @@ const { isEnabled } = useState();
 const router = useRouter();
 const prompter = usePrompt();
 const settings = useSettings();
+const selectedAvatar = useSelectedAvatar();
 
 const navbarcomp = ref<HTMLInputElement | null>(null);
 
