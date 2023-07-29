@@ -228,7 +228,7 @@ const filteredListings: ComputedRef<ListingWithStats[]> = computed(() => {
   }
 
   if (filterGenOption.value && filterGenOption.value != "all") {
-    filteredListings = filteredListings.filter((listing) => Filters[filterGenOption.value].includes(listing.stats.collection.contract_address));
+    filteredListings = filteredListings.filter((listing) => Filters[filterGenOption.value].collections.includes(listing.stats.collection.contract_address));
   }
 
   switch (filterRarityOption.value) {
