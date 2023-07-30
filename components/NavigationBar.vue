@@ -77,7 +77,7 @@
           </div>
         </template>
         <template v-else>
-          <NuxtLink class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg duration-200 cursor-pointer" to="/login">Login</NuxtLink>
+          <NuxtLink class="text-white hover:text-amber-500 font-medium rounded-lg duration-200 cursor-pointer" to="/login">Login</NuxtLink>
         </template>
       </ul>
     </nav>
