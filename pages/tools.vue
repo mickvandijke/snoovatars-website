@@ -1,5 +1,10 @@
 <template>
   <div class="py-2 px-6 md:py-6 relative flex flex-col items-center gap-3 w-full">
+    <NuxtLink to="/upgrade" class="w-full max-w-sm">
+      <div class="group p-3 flex flex-col items-center gap-3 bg-amber-600 border-2 border-amber-500 hover:border-amber-500 rounded-2xl duration-200 cursor-pointer">
+        <h1 class="text-white text-xl font-semibold">Upgrade to <span class="font-bold italic">Pro</span></h1>
+      </div>
+    </NuxtLink>
     <NuxtLink to="/avatar/exporter" class="w-full max-w-sm">
       <div class="group tool">
         <h1 class="text-white text-xl font-semibold">Avatar Exporter</h1>

@@ -10,9 +10,6 @@
         <template v-if="Capacitor.getPlatform() !== 'ios'">
           <p class="mt-6 text-white text-center">Accounts are cross-platform, so you only need to upgrade once to enjoy PRO on Web, Android and iOS!</p>
         </template>
-        <template v-if="!Capacitor.isNativePlatform()">
-          <h2 class="mt-6 font-semibold text-amber-500 text-center">20% of all Website PRO sales will be donated to the r/AvatarTrading community wallet.</h2>
-        </template>
         <template v-if="Capacitor.isNativePlatform()">
           <div class="mt-6 flex flex-col items-center w-full shadow">
             <template v-for="product in iapProducts">
