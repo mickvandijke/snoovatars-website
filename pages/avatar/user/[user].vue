@@ -99,7 +99,7 @@ const filteredAvatarBackgrounds: ComputedRef<AvatarBackground[]> = computed(() =
   let backgrounds = avatarBackgrounds.value;
 
   if (filterGenOption.value && filterGenOption.value != "all") {
-    backgrounds = backgrounds.filter((entry) => Filters[filterGenOption.value].includes(entry.contractAddress));
+    backgrounds = backgrounds.filter((entry) => Filters[filterGenOption.value].collections.includes(entry.contractAddress));
   }
 
   if (searchTerm.value.trim() !== "") {
