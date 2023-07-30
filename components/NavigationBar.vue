@@ -14,7 +14,7 @@
         leave-to-class="transform opacity-0 scale-95"
     >
       <div v-if="showingBarMarketInfo" class="text-xs border-b border-border-primary overflow-hidden" ref="barMarketInfo">
-        <div class="px-4 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
+        <div class="px-2 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
           <div class="inline-flex gap-2">
             <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" class="flex items-center gap-0.5">
               <span class="text-neutral-400 font-medium">BitCone:</span>
