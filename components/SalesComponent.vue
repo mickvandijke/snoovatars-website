@@ -11,7 +11,7 @@
                   <div class="flex items-center gap-0.5">
                     <div class="flex items-center gap-0.5">
                       <template v-if="item.payment_token.symbol === 'ETH'">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                       </template>
                       <template v-else>
                         <div class="pr-0.5 flex items-center text-orange-500">M</div>
