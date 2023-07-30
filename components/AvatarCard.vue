@@ -1,5 +1,5 @@
 <template>
-  <div ref="componentRef" class="p-1 bg-neutral-900 relative flex flex-col gap-1 w-full rounded-lg overflow-hidden">
+  <div ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-neutral-900 border-t last:border-b sm:border hover:bg-neutral-900 border-neutral-900 sm:border-neutral-800 sm:hover:border-neutral-700 relative flex flex-col gap-1 w-full sm:rounded-lg overflow-hidden cursor-pointer">
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
@@ -10,12 +10,12 @@
             </div>
           </template>
         </button>
-        <div @click="selectAvatar" class="px-1 flex flex-col rounded-lg overflow-hidden" style="width: 81%">
+        <div @click="selectAvatar" class="pl-1 sm:px-1 flex flex-col rounded-lg overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
             <template v-if="ranking">
               <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
             </template>
-            <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-blue-400 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
             <div class="relative ml-0.5 px-1 text-black font-bold rounded text-[0.65rem]" :class="getMintClasses(seriesStats.series.total_quantity)">
               <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
             </div>
@@ -62,9 +62,9 @@
                   FREE
                 </template>
               </div>
-              <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-neutral-600 font-semibold text-[0.65rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
+              <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-neutral-600 hover:text-neutral-500 font-semibold text-[0.65rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
             </template>
-            <InformationCircleIcon @click.stop="selectAvatar" class="ml-auto w-5 h-5 text-neutral-500 opacity-50 hover:opacity-100 cursor-pointer" />
+            <InformationCircleIcon @click.stop="selectAvatar" class="ml-auto w-5 h-5 text-neutral-500 opacity-50 cursor-pointer" />
           </div>
         </div>
       </div>
@@ -78,8 +78,8 @@ import {PropType} from "@vue/runtime-core";
 import {SeriesStats} from "~/types/seriesStats";
 import OpenseaIcon from "~/components/OpenseaIcon.vue";
 import {InformationCircleIcon} from "@heroicons/vue/24/outline";
-import {useWatchList, addToWatchList, removeFromWatchList, openLink} from "#imports";
-import {StarIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon} from "@heroicons/vue/20/solid";
+import {useWatchList, addToWatchList, removeFromWatchList} from "#imports";
+import {StarIcon} from "@heroicons/vue/20/solid";
 import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
 
@@ -113,20 +113,6 @@ const props = defineProps({
     required: false
   }
 });
-
-const showExtraInfo = ref(false);
-
-function closeExtraInfo() {
-  showExtraInfo.value = false;
-
-  if (componentRef.value) {
-    componentRef.value.scrollIntoView({ block: "start", behavior: "smooth" })
-  }
-}
-
-function toggleExtraInfo() {
-  showExtraInfo.value = !showExtraInfo.value;
-}
 
 function selectAvatar() {
   selectedAvatar.value = {

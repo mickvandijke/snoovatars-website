@@ -1,6 +1,6 @@
 <template>
-  <div class="px-2 lg:px-2 overflow-x-hidden h-full w-full" ref="container">
-    <div class="w-full h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 overflow-x-hidden gap-1">
+  <div class="lg:px-2 overflow-x-hidden h-full w-full" ref="container">
+    <div class="w-full h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 overflow-x-hidden sm:gap-1">
       <template v-for="(item, index) in visibleItems">
         <slot :item="item" :index="index"></slot>
       </template>
@@ -32,7 +32,7 @@ onBeforeUnmount(() => {
 });
 
 const loadThreshold = computed(() => {
-  return window.innerHeight / 3;
+  return window.innerHeight / 2;
 });
 
 const initialBuffer = computed(() => {
@@ -40,7 +40,7 @@ const initialBuffer = computed(() => {
     return 12;
   }
 
-  return 90;
+  return 96;
 });
 
 const buffer = computed(() => {
@@ -48,7 +48,7 @@ const buffer = computed(() => {
     return 24;
   }
 
-  return 600;
+  return 72;
 });
 
 const container = ref<HTMLInputElement | null>(null);

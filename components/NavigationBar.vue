@@ -1,56 +1,11 @@
 <template>
   <div
-      class="fixed top-0 flex flex-col bg-black/80 z-40 w-full"
+      class="sticky top-0 flex flex-col bg-neutral-900/90 z-40 border-b border-neutral-800 w-full"
       style="backdrop-filter: blur(20px);padding-top: env(safe-area-inset-top);"
       @mouseleave="closeDropdowns()"
       ref="navbar"
   >
-    <transition
-        enter-active-class="transition ease-out duration-200"
-        enter-from-class="transform opacity-0 scale-95"
-        enter-to-class="transform opacity-100 scale-100"
-        leave-active-class="transition ease-in duration-100"
-        leave-from-class="transform opacity-100 scale-100"
-        leave-to-class="transform opacity-0 scale-95"
-    >
-      <div v-if="showingBarMarketInfo" class="text-xs border-b border-border-primary overflow-hidden" ref="barMarketInfo">
-        <div class="px-2 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
-          <div class="inline-flex gap-2">
-            <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" class="flex items-center gap-0.5">
-              <span class="text-neutral-400 font-medium">BitCone:</span>
-              <span class="text-neutral-500 font-semibold"><span class="text-amber-500">{{ coneInLocalCurrency(cone) }}</span></span>
-            </button>
-            <div class="flex items-center gap-0.5">
-              <span class="text-neutral-400 font-medium">24hr Vol:</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="flex gap-1 font-semibold text-white">
-                <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
-                <span class="hidden md:block text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(dailyVol * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
-              </div>
-            </div>
-            <div class="flex items-center gap-0.5">
-              <span class="text-neutral-400 font-medium">Market Cap:</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="flex gap-1 font-semibold text-white">
-                <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
-                <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(mCap * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
-              </div>
-            </div>
-            <div class="flex items-center gap-0.5">
-              <span class="text-neutral-400 font-medium">Matic:</span>
-              <span class="text-neutral-500 font-semibold"><span class="text-amber-500">{{ ethereumInLocalCurrency(1 / ethereumPriceMap.get("MATIC") * ETH_TO_GWEI_MODIFIER) }}</span></span>
-            </div>
-          </div>
-        </div>
-        <div v-if="isBannerShowing" class="relative bg-neutral-800 flex items-center justify-center max-h-32">
-          <a href="https://www.the23.club/" target="_blank">
-            <img src="/images/banners/hodl_banner.png" alt="Banner Image" class="max-h-32" />
-          </a>
-          <button @click="isBannerClosed = !isBannerClosed" class="py-1 absolute text-sm top-0 right-1 md:top-2 md:right-4 text-gray-200">Close</button>
-        </div>
-      </div>
-    </transition>
-    <nav class="py-2 px-4 lg:flex lg:justify-between lg:items-center">
+    <nav class="py-2 px-4 flex w-full justify-between items-center">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
@@ -65,53 +20,26 @@
           <span class="font-bold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(ETH_TO_GWEI_MODIFIER) }}</span>
         </div>
         <div>
-          <select v-model="settings.currency.preferred" class="px-2 py-1.5 rounded-md bg-neutral-900 border-none text-sm focus:outline-none max-w-sm">
+          <select v-model="settings.currency.preferred" class="px-2 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 border-none text-sm focus:outline-none max-w-sm">
             <template v-for="currency in CURRENCIES">
               <option :value="currency.ticker">{{ currency.ticker }}</option>
             </template>
           </select>
         </div>
-        <!-- Mobile menu button -->
-        <div @click="toggleNav" class="flex lg:hidden">
-          <button
-              type="button"
-              class="
-              text-gray-100
-              hover:text-gray-400
-              focus:outline-none focus:text-gray-400
-            "
-          >
-            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-              <path
-                  fill-rule="evenodd"
-                  d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
-              ></path>
-            </svg>
-          </button>
-        </div>
       </div>
 
-      <ul
-          :class="showMenu ? 'flex' : 'hidden'"
-          class="flex-col my-4 lg:my-0 text-neutral-200 font-semibold gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3 lg:mt-0"
-      >
-        <NuxtLink class="hidden md:block px-4 py-2 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
+      <ul class="flex text-neutral-200 font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-amber-500 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-amber-500 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-amber-500 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>
         <template v-if="token && user?.username">
           <div
               @mouseover="userDropDown = true"
               @click="userDropDown = !userDropDown"
-              class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-900 hover:bg-neutral-800 text-amber-500 rounded-lg duration-200 cursor-pointer">
+              class="relative md:px-2 md:py-1 flex flex-row flex-nowrap items-center md:hover:bg-neutral-800 hover:text-amber-500 rounded-lg duration-200 cursor-pointer">
             <div>
-              <button
-                  class="flex flex-row flex-nowrap"
-              >
-                {{ user.username }}
-                <ChevronDownIcon class="ml-1 w-5 opacity-50"/>
-              </button>
+              <UserCircleIcon class="w-7 h-7" />
             </div>
-
             <transition
                 enter-active-class="transition ease-out duration-200"
                 enter-from-class="transform opacity-0 scale-95"
@@ -121,8 +49,8 @@
                 leave-to-class="transform opacity-0 scale-95"
             >
               <template v-if="userDropDown">
-                <div class="absolute left-0 lg:left-auto lg:right-0 top-10 z-10 mt-2 w-56 bg-neutral-900 rounded-lg shadow">
-                  <ul class="p-3 font-semibold capitalize">
+                <div class="absolute right-0 lg:left-auto lg:right-0 top-10 z-10 mt-2 w-56 bg-neutral-800 border border-neutral-700 rounded-lg shadow">
+                  <ul class="p-3 font-medium text-sm capitalize">
                     <template v-if="user?.tier < 1">
                       <NuxtLink
                           class="p-3 w-full inline-flex items-center hover:bg-neutral-700/50 text-amber-500 rounded-lg duration-200"
@@ -157,66 +85,39 @@
 </template>
 
 <script setup lang="ts">
-import {ChevronDownIcon} from "@heroicons/vue/20/solid";
+import {ChevronDownIcon, UserCircleIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
 import {
   computed,
-  onBeforeUnmount,
-  ref, updateEthereumPrices, useEthereumPriceMap, useRouter, useSettings,
-  useToken, useTotalDailyVolume, useTotalMarketCap,
+  ref, updateEthereumPrices, useRouter, useSettings,
+  useToken,
   useUser,
   watch
 } from "#imports";
 import {deleteToken} from "~/composables/api/user";
 import {CURRENCIES} from "~/types/currency";
 import {
-  updateMarketInfo,
   useConeEthPrice,
 } from "~/composables/states";
-import {ethereumInLocalCurrency, coneInLocalCurrency} from "#imports";
-import {ComputedRef, onMounted} from "vue";
+import {ethereumInLocalCurrency} from "#imports";
 import {navigateTo} from "nuxt/app";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
-import {Capacitor} from "@capacitor/core";
 
 const user = useUser();
 const token = useToken();
 const cone = useConeEthPrice();
-const dailyVol = useTotalDailyVolume();
-const mCap = useTotalMarketCap();
 const router = useRouter();
 const settings = useSettings();
-const ethereumPriceMap = useEthereumPriceMap();
 
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
-const scrollThreshold = 10;
-const prevScrollPos = ref(window.pageYOffset);
-const showingBarMarketInfo = ref(true);
-const isBannerClosed = ref(false);
 const navbar = ref(null);
 const navbarHeight = ref(0);
-
-const resizeObserver = new ResizeObserver((entries) => {
-  entries.forEach((entry) => {
-    navbarHeight.value = entry.contentRect.height;
-  });
-});
 
 defineExpose({ navbarHeight });
 
 router.afterEach(() => {
   showMenu.value = false;
-});
-
-onMounted(() => {
-  updateMarketInfo();
-  window.addEventListener('scroll', handleScroll);
-  resizeObserver.observe(navbar.value);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', handleScroll);
 });
 
 const selectedCurrency = computed(() => {
@@ -235,40 +136,6 @@ async function deleteAccount() {
   await navigateTo(`/accountdeletion`, {replace: true});
 }
 
-const isBannerShowing: ComputedRef<boolean> = computed(() => {
-  if (Capacitor.isNativePlatform()) {
-    return false;
-  }
-
-  return !isBannerClosed.value;
-});
-
-const handleScroll = () => {
-  const currentScrollPos = window.pageYOffset;
-
-  if (currentScrollPos > prevScrollPos.value) {
-    // Scrolling down
-    if (showingBarMarketInfo.value) {
-      if (currentScrollPos > scrollThreshold) {
-        // Hide barMarketInfo
-        showingBarMarketInfo.value = false;
-      }
-    }
-  } else {
-    // Scrolling up
-    if (!showingBarMarketInfo.value) {
-      if (currentScrollPos <= scrollThreshold / 2) {
-        // Show barMarketInfo
-        showingBarMarketInfo.value = true;
-      }
-    }
-  }
-
-  prevScrollPos.value = currentScrollPos;
-};
-
-const toggleNav = () => (showMenu.value = !showMenu.value);
-
 function logout() {
   deleteToken();
 }
@@ -279,19 +146,5 @@ function closeDropdowns() {
 </script>
 
 <style scoped>
-/* For Webkit-based browsers (Chrome, Safari and Opera) */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
 
-/* For IE, Edge and Firefox */
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.right-box
-{
-  box-shadow: inset -70px 0 90px -70px rgba(38,38,38,0.9);
-}
 </style>

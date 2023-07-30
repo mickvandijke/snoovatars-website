@@ -8,16 +8,22 @@
               <div class="flex gap-1">
                 <span class="text-neutral-500 font-medium">Price:</span>
                 <div class="flex flex-nowrap items-center gap-1 whitespace-nowrap overflow-hidden">
-                  <div class="flex items-center gap-0.5">
-                    <div class="flex items-center gap-0.5">
+                  <div class="flex items-center">
+                    <div class="flex items-center">
                       <template v-if="item.payment_token.symbol === 'ETH'">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                        <div class="flex gap-0.5 font-bold text-white">
+                          <span>{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                          <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>)</span>
+                        </div>
                       </template>
-                      <template v-else>
+                      <template v-else-if="item.payment_token.symbol === 'MATIC'">
                         <div class="pr-0.5 flex items-center text-orange-500">M</div>
+                        <div class="flex gap-0.5 font-bold text-white">
+                          <span>{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                          <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price / ethereumPriceMap.get("MATIC")) }}</span>)</span>
+                        </div>
                       </template>
-                      <div class="text-white">{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                      <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>)</span>
                     </div>
                   </div>
                 </div>

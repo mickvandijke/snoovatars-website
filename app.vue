@@ -1,8 +1,9 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
+    <HeaderTop />
     <NavigationBar ref="navbarcomp"/>
     <AvatarViewer />
-    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }" :style="pagePaddingTop">
+    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }">
       <NuxtPage/>
     </div>
     <template v-if="!Capacitor.isNativePlatform()">
@@ -46,6 +47,7 @@ import {LocalNotifications} from "@capacitor/local-notifications";
 import {registerFcmDeviceToken} from "~/composables/api/fcm";
 import Prompt from "~/components/Prompt.vue";
 import {computed, ComputedRef} from "vue";
+import HeaderTop from "~/components/HeaderTop.vue";
 
 useHead({
   title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
@@ -69,7 +71,6 @@ const { isEnabled } = useState();
 const router = useRouter();
 const prompter = usePrompt();
 const settings = useSettings();
-const selectedAvatar = useSelectedAvatar();
 
 const navbarcomp = ref<HTMLInputElement | null>(null);
 
@@ -243,7 +244,7 @@ const getDeliveredNotifications = async () => {
 }
 
 html, body {
-  @apply bg-black;
+  @apply bg-black sm:bg-neutral-900;
   -webkit-tap-highlight-color: transparent;
 }
 

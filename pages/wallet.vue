@@ -19,13 +19,13 @@
         <option value="mint">Show Mint Numbers</option>
       </select>
       <template v-if="!Capacitor.isNativePlatform()">
-        <button @click="refresh()" :disabled="isRefreshing" class="p-2 whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+        <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
           <ArrowPathIcon class="w-5 h-5" />
         </button>
       </template>
     </MenuBar>
     <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
-      <div class="px-2 py-2 lg:p-4 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
+      <div class="px-2 py-2 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
         <div class="flex items-center lg:justify-end text-sm w-full">
           <div class="flex flex-nowrap gap-2 max-w-lg w-full">
             <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit username (without u/) or wallet address" class="light">
@@ -57,9 +57,9 @@
           </div>
         </div>
       </div>
-      <div class="mt-2 lg:mt-0 px-2 lg:px-4 lg:pb-4 flex flex-col gap-3 w-full overflow-hidden">
+      <div class="mt-2 lg:mt-0 px-2 flex flex-col gap-3 w-full overflow-hidden">
         <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
-          <div class="bg-neutral-900/90 flex flex-col items-center overflow-hidden w-full rounded-2xl">
+          <div class="bg-neutral-900 sm:border border-neutral-800 flex flex-col items-center overflow-hidden w-full rounded-2xl">
             <div class="p-2 flex gap-2 w-full rounded">
               <div class="pl-2 flex items-center overflow-hidden">
                 <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="hidden md:block p-2 text-neutral-500 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
@@ -81,63 +81,65 @@
                 </button>
               </div>
             </div>
-            <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-1 border-t border-neutral-800 w-full">
-              <div class="p-1 flex items-center justify-start w-full font-bold">
-                <div class="w-10 h-10 relative rounded-md overflow-hidden">
-                  <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)">
-                    <img src="/img/bitcone.png">
-                  </button>
-                </div>
-                <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
-                  <button
-                      @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)"
-                      class="text-orange-400 whitespace-nowrap text-ellipsis overflow-hidden"
-                  >BitCone (CONE)</button>
-                  <span class="text-neutral-200">{{ ((getCones(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
-                </div>
-                <div class="ml-auto flex flex-col items-end text-[0.8rem] md:text-sm">
-                  <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                    <div class="text-neutral-200">{{ coneToEth((getCones(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                    <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(coneToEth((getCones(walletAddress) ?? 0))) }}</span>)</div>
+            <template v-if="!isCollapsed(walletAddress)">
+              <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-1 border-t border-neutral-800 w-full">
+                <div class="p-1 flex items-center justify-start w-full font-bold">
+                  <div class="w-10 h-10 relative rounded-md overflow-hidden">
+                    <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)">
+                      <img src="/img/bitcone.png">
+                    </button>
                   </div>
-                  <div class="flex items-center text-xs md:text-sm">
-                    <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ coneInLocalCurrency(cone) }}</span>)</div>
+                  <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
+                    <button
+                        @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)"
+                        class="text-orange-400 whitespace-nowrap text-ellipsis overflow-hidden"
+                    >BitCone (CONE)</button>
+                    <span class="text-neutral-200">{{ ((getCones(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
+                  </div>
+                  <div class="ml-auto flex flex-col items-end text-[0.8rem] md:text-sm">
+                    <div class="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                      <div class="text-neutral-200">{{ coneToEth((getCones(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                      <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(coneToEth((getCones(walletAddress) ?? 0))) }}</span>)</div>
+                    </div>
+                    <div class="flex items-center text-xs md:text-sm">
+                      <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ coneInLocalCurrency(cone) }}</span>)</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-1 flex items-center justify-start w-full font-bold">
+                  <div class="w-10 h-10 relative bg-gray-800 rounded-full overflow-hidden">
+                    <button @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619`)" class="flex justify-center w-full h-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="p-1 h-full text-purple-800"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    </button>
+                  </div>
+                  <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
+                    <button
+                        @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619?a=${ walletAddress }`)"
+                        class="text-neutral-200 whitespace-nowrap text-ellipsis overflow-hidden"
+                    >wETH</button>
+                    <span class="text-amber-500">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
+                  </div>
+                  <div class="ml-auto flex flex-col items-end text-[0.8rem] md:text-sm">
+                    <div class="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                      <div class="text-neutral-200">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                      <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(((getWeth(walletAddress) ?? 0))) }}</span>)</div>
+                    </div>
+                    <div class="flex items-center text-xs md:text-sm">
+                      <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>)</div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="p-1 flex items-center justify-start w-full font-bold">
-                <div class="w-10 h-10 relative bg-gray-800 rounded-full overflow-hidden">
-                  <button @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619`)" class="flex justify-center w-full h-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="p-1 h-full text-purple-800"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  </button>
-                </div>
-                <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
-                  <button
-                      @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619?a=${ walletAddress }`)"
-                      class="text-neutral-200 whitespace-nowrap text-ellipsis overflow-hidden"
-                  >wETH</button>
-                  <span class="text-amber-500">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
-                </div>
-                <div class="ml-auto flex flex-col items-end text-[0.8rem] md:text-sm">
-                  <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                    <div class="text-neutral-200">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                    <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(((getWeth(walletAddress) ?? 0))) }}</span>)</div>
-                  </div>
-                  <div class="flex items-center text-xs md:text-sm">
-                    <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>)</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </template>
             <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
               <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-neutral-800 w-full">
                 <template v-if="settings.wallet.groupMethod === 'group'">
                   <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(filterWalletTokens(walletTokens)))">
-                    <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
+                    <div @click="selectAvatar(getSeriesStats(seriesName))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-neutral-800 rounded-lg font-bold cursor-pointer">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                        <a @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`)" class="cursor-pointer">
+                        <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`)" class="cursor-pointer">
                           <img :src="getTokenImage(getSeriesStats(seriesName)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                         </a>
                       </div>
@@ -145,7 +147,7 @@
                         <span class="text-white whitespace-nowrap text-ellipsis overflow-hidden">{{getSeriesStats(seriesName)?.series.name }}</span>
                         <span class="text-amber-500">{{ seriesTokens.length }}</span>
                       </div>
-                      <div class="col-span-3 md:col-span-5 flex flex-col items-end justify-center text-[0.8rem] md:text-sm md:mr-1">
+                      <div class="col-span-3 md:col-span-5 flex flex-col items-end justify-center text-[0.8rem] md:text-sm">
                         <div class="flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                           <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
@@ -162,9 +164,9 @@
                 </template>
                 <template v-else>
                   <template v-for="token in sortedTokens(flattenObject(filterWalletTokens(walletTokens)))">
-                    <div class="p-1 grid grid-cols-8 md:grid-cols-12 w-full border-neutral-700/50 rounded-lg font-bold">
+                    <div @click="selectAvatar(getSeriesStats(token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-neutral-800 rounded-lg font-bold cursor-pointer">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                        <a @click="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
+                        <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
                           <img :src="getTokenImage(getSeriesStats(token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                         </a>
                       </div>
@@ -172,7 +174,7 @@
                         <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.name)?.series.name}}</span>
                         <span class="text-amber-500">#{{ token.mint_number }}</span>
                       </div>
-                      <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-end justify-center text-[0.8rem] md:text-sm md:pr-2">
+                      <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-end justify-center text-[0.8rem] md:text-sm">
                         <div class="flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                           <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000 * (walletTokens[token.name]?.length ?? 1)).toFixed(4).replace(/\.?0+$/, '') }}</div>
@@ -203,7 +205,7 @@ import {
   updateSeriesStats,
   useSeriesStats,
   useWalletAddresses,
-  useConeEthPrice, updateEthereumPrices, updateMarketInfo, useSettings
+  useConeEthPrice, updateEthereumPrices, updateMarketInfo, useSettings, useSelectedAvatar
 } from "~/composables/states";
 import {getLowestListingAsGweiPrice, onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
@@ -216,11 +218,13 @@ import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
 import {getSaleAsGweiPrice} from "~/composables/helpers";
 import {Filters, getFreeCollections} from "~/global/generations";
+import {SeriesStats} from "~/types/seriesStats";
 
 const seriesStats = useSeriesStats();
 const walletAddresses = useWalletAddresses();
 const cone = useConeEthPrice();
 const settings = useSettings();
+const selectedAvatar = useSelectedAvatar();
 
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
@@ -462,6 +466,14 @@ function removeWallet(wallet: string) {
 
 function flattenObject(obj: WalletTokens): Array<Token> {
   return Object.values(obj).reduce((acc, val) => acc.concat(val), []);
+}
+
+function selectAvatar(seriesStats: SeriesStats) {
+  selectedAvatar.value = {
+    seriesStats: seriesStats,
+    contract: seriesStats.series.contract_address,
+    series: seriesStats.series.name
+  }
 }
 </script>
 
