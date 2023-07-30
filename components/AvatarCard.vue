@@ -1,5 +1,5 @@
 <template>
-  <div ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-neutral-900 border-t last:border-b sm:border hover:bg-neutral-900 border-neutral-900 sm:border-neutral-800 sm:hover:border-neutral-700 relative flex flex-col gap-1 w-full sm:rounded-lg overflow-hidden cursor-pointer">
+  <div ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-neutral-900 border-t last:border-b sm:border border-neutral-900 sm:border-neutral-800 sm:hover:border-neutral-700 relative flex flex-col gap-1 w-full sm:rounded-lg overflow-hidden cursor-pointer">
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
