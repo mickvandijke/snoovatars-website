@@ -177,7 +177,7 @@
               <span class="text-neutral-500 font-medium">Vol:</span>
               <div class="flex gap-0.25 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="text-neutral-200">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
+                <div class="text-neutral-400">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
               </div>
             </div>
           </div>
@@ -185,7 +185,7 @@
             <div class="flex gap-1">
               <span class="text-neutral-500 font-medium">Cap:</span>
               <div class="flex gap-0.25 items-center">
-                <div class="text-neutral-200">{{ ethereumInLocalCurrency(item.series.total_sold * item.stats.last_sale?.payment_token.base_price ?? 0, true) }}</div>
+                <div class="text-neutral-400">{{ ethereumInLocalCurrency(item.series.total_sold * item.stats.last_sale?.payment_token.base_price ?? 0, true) }}</div>
               </div>
             </div>
           </div>

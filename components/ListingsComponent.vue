@@ -16,7 +16,7 @@
                       <template v-else>
                         <div class="pr-0.5 flex items-center text-orange-500">M</div>
                       </template>
-                      <div class="text-neutral-200">{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                      <div class="text-white">{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
                       <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>)</span>
                     </div>
                   </div>
@@ -26,13 +26,13 @@
             <div class="flex font-bold text-[0.7rem]">
               <div class="flex gap-1">
                 <span class="text-neutral-500 font-medium">Mint Number:</span>
-                <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-neutral-400 font-bold">#{{ item.token.mint_number }}</button>
+                <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-neutral-200">#{{ item.token.mint_number }}</button>
               </div>
             </div>
             <div class="flex font-bold text-[0.7rem]">
               <div class="flex gap-1">
                 <span class="text-neutral-500 font-medium">Date:</span>
-                <div class="text-neutral-400" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.date_listed)) }} ago</div>
+                <div class="text-neutral-200">{{ $timeAgo(new Date(item.date_listed)) }} ago</div>
               </div>
             </div>
           </div>
