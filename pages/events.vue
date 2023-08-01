@@ -2,13 +2,13 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none w-fit max-w-sm">
-      <select v-model="settings.activity.filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
+      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none sm:w-fit max-w-sm">
+      <select v-model="settings.activity.filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none sm:w-fit max-w-sm overflow-x-hidden">
         <option value="all">Show All</option>
         <option value="premium">Show Premium Only</option>
         <option value="watchlist">Show Watchlist Only</option>
       </select>
-      <select v-model="settings.activity.feedView" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
+      <select v-model="settings.activity.feedView" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none sm:w-fit max-w-sm overflow-x-hidden">
         <option value="sales">Latest Sales</option>
         <option value="listings">Latest Listings</option>
         <option value="mints">Latest Mints</option>
