@@ -4,28 +4,25 @@
 
   <!-- The drawer content -->
   <transition name="slide">
-    <div v-if="open" class="fixed top-0 left-0 sm:right-0 sm:left-auto h-full overflow-y-auto w-96 max-w-[95%] bg-neutral-800 shadow-lg p-4 z-50" :class="{ 'page-mobile-padding-top page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
+    <div v-if="open" class="fixed top-0 left-0 sm:right-0 sm:left-auto h-full overflow-y-auto scrollbar-hide w-96 max-w-[95%] bg-neutral-900 shadow-lg z-50" :class="{ 'page-mobile-padding-top page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <!-- Add your drawer content here -->
-      <div class="relative flex items-center justify-center">
-        <span class="text-white font-semibold">{{ selectedAvatar.series }}</span>
-        <XMarkIcon @click="close" class="absolute right-0 w-7 h-7 text-neutral-400 opacity-50 hover:opacity-100 cursor-pointer duration-200" />
+      <div class="p-4 sticky top-0 flex items-center justify-center bg-neutral-900/90 backdrop-blur-xl z-10">
+        <span class="text-neutral-400 font-semibold">{{ selectedAvatar.series }}</span>
+        <XMarkIcon @click="close" class="absolute right-4 w-7 h-7 text-neutral-400 opacity-50 hover:opacity-100 cursor-pointer duration-200" />
       </div>
-      <div class="mt-3 w-full flex flex-col items-center gap-6">
+      <div class="px-4 py-4 w-full flex flex-col items-center gap-6">
         <div class="relative max-w-[18rem]">
           <img :src="avatarImage" class="blur opacity-50">
           <img :src="avatarImage" class="absolute inset-0">
         </div>
-        <div class="px-2 flex flex-col gap-2 rounded-lg w-full">
+        <div class="flex flex-col gap-2 w-full">
           <div class="flex flex-col gap-2">
-            <div class="flex justify-between items-center">
-              <h1 class="text-xs text-neutral-200 font-bold">Advanced Details:</h1>
-              <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-                <input v-model="settings.extraInfoOptions.marketData" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
-                <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
-              </label>
+            <div @click="settings.extraInfoOptions.marketData = !settings.extraInfoOptions.marketData" class="px-2 flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
+              <h1 class="text-lg">Advanced Details</h1>
+              <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.marketData }" />
             </div>
             <template v-if="settings.extraInfoOptions.marketData">
-              <div class="flex flex-col gap-1 text-xs font-semibold">
+              <div class="p-4 border border-neutral-800 flex flex-col gap-1 text-xs font-semibold rounded-lg">
                 <div class="flex items-center">
                   <div class="text-neutral-400">Name:</div>
                   <div class="pl-0.5 flex gap-0.5 items-center">
@@ -146,48 +143,47 @@
           </div>
           <template v-if="listings">
             <div class="flex flex-col gap-2">
-              <div class="flex justify-between items-center">
-                <h1 class="text-xs text-neutral-200 font-bold">All Listings <NuxtLink to="/upgrade" class="text-amber-500 italic font-bold">Pro</NuxtLink>:</h1>
-                <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-                  <input v-model="settings.extraInfoOptions.listings" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
-                  <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
-                </label>
+              <div @click="settings.extraInfoOptions.listings = !settings.extraInfoOptions.listings" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
+                <h1 class="text-lg">All Listings <NuxtLink to="/upgrade" class="group-hover:text-amber-500 italic font-bold duration-200">Pro</NuxtLink></h1>
+                <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.listings }" />
               </div>
               <template v-if="settings.extraInfoOptions.listings">
                 <template v-if="user?.tier > 0">
-                  <div class="overflow-x-auto">
-                    <table class="w-full text-xs">
-                      <thead>
-                      <tr class="border-b border-neutral-600 text-neutral-200">
-                        <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'payment_token.base_price' }" @click="sortListings('payment_token.base_price')">Price</th>
-                        <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'token.mint_number' }" @click="sortListings('token.mint_number')">Mint</th>
-                        <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'maker_address' }" @click="sortListings('maker_address')">Seller</th>
-                        <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'date_listed' }" @click="sortListings('date_listed')">Date</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <template v-for="(listing, index) in slicedListings" :key="index">
-                        <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
-                          <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <span>{{ (listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ listing.payment_token.symbol }}</span>
-                            <template v-if="listing.payment_token.symbol === 'ETH'">
-                              <span> ({{ ethereumInLocalCurrency(listing.payment_token.base_price) }})</span>
-                            </template>
-                          </td>
-                          <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
-                          </td>
-                          <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://opensea.io/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
-                          </td>
-                          <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.date_listed)) }}</td>
+                  <div class="p-4 border border-neutral-800 rounded-lg">
+                    <div class="overflow-x-auto">
+                      <table class="w-full text-xs">
+                        <thead>
+                        <tr class="border-b border-neutral-600 text-neutral-200">
+                          <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'payment_token.base_price' }" @click="sortListings('payment_token.base_price')">Price</th>
+                          <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'token.mint_number' }" @click="sortListings('token.mint_number')">Mint</th>
+                          <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'maker_address' }" @click="sortListings('maker_address')">Seller</th>
+                          <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'date_listed' }" @click="sortListings('date_listed')">Date</th>
                         </tr>
-                      </template>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="flex justify-center mt-2">
-                    <Pagination :total-items="listings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
+                        </thead>
+                        <tbody>
+                        <template v-for="(listing, index) in slicedListings" :key="index">
+                          <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
+                            <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                              <span>{{ (listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ listing.payment_token.symbol }}</span>
+                              <template v-if="listing.payment_token.symbol === 'ETH'">
+                                <span> ({{ ethereumInLocalCurrency(listing.payment_token.base_price) }})</span>
+                              </template>
+                            </td>
+                            <td class="px-2 py-1">
+                              <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
+                            </td>
+                            <td class="px-2 py-1">
+                              <button @click="openLinkWith(`https://opensea.io/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
+                            </td>
+                            <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.date_listed)) }}</td>
+                          </tr>
+                        </template>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="flex justify-center mt-2">
+                      <Pagination :total-items="listings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
+                    </div>
                   </div>
                 </template>
                 <template v-else>
@@ -201,59 +197,55 @@
           </template>
           <template v-if="sales">
             <div class="flex flex-col gap-2">
-              <div class="flex justify-between items-center">
-                <h1 class="text-xs text-neutral-200 font-bold">Average Sale Price:</h1>
-                <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-                  <input v-model="settings.extraInfoOptions.salesGraph" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
-                  <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
-                </label>
+              <div @click="settings.extraInfoOptions.salesGraph = !settings.extraInfoOptions.salesGraph" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
+                <h1 class="text-lg">Sales Chart</h1>
+                <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.salesGraph }" />
               </div>
               <template v-if="settings.extraInfoOptions.salesGraph">
-                <SalesChart :sales="sales" />
+                <SalesChart :sales="sales" class="p-4 border border-neutral-800 rounded-lg" />
               </template>
             </div>
             <div class="flex flex-col gap-2">
-              <div class="flex justify-between items-center">
-                <h1 class="text-xs text-neutral-200 font-bold">All Sales:</h1>
-                <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-                  <input v-model="settings.extraInfoOptions.sales" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
-                  <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
-                </label>
+              <div @click="settings.extraInfoOptions.sales = !settings.extraInfoOptions.sales" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
+                <h1 class="text-lg">All Sales</h1>
+                <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.sales }" />
               </div>
               <template v-if="settings.extraInfoOptions.sales">
-                <div class="overflow-x-auto">
-                  <table class="w-full text-xs">
-                    <thead>
-                    <tr class="border-b border-neutral-600 text-neutral-200">
-                      <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'payment_token.base_price' }" @click="sortSales('payment_token.base_price')">Price</th>
-                      <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'token.mint_number' }" @click="sortSales('token.mint_number')">Mint</th>
-                      <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'buyer' }" @click="sortSales('buyer')">Buyer</th>
-                      <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'date_sold' }" @click="sortSales('date_sold')">Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <template v-for="(sale, index) in slicedSales" :key="index">
-                      <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
-                        <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                          <span>{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ sale.payment_token.symbol }}</span>
-                          <template v-if="sale.payment_token.symbol === 'ETH'">
-                            <span> ({{ ethereumInLocalCurrency(sale.payment_token.base_price) }})</span>
-                          </template>
-                        </td>
-                        <td class="px-2 py-1">
-                          <button @click="openLinkWith(`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`)" class="text-amber-500">#{{ sale.token.mint_number }}</button>
-                        </td>
-                        <td class="px-2 py-1">
-                          <button @click="openLinkWith(`https://opensea.io/${sale.buyer}`)" class="text-amber-500">{{ sale.buyer.slice(2, 5) }}</button>
-                        </td>
-                        <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }}</td>
+                <div class="p-4 border border-neutral-800 rounded-lg">
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-xs">
+                      <thead>
+                      <tr class="border-b border-neutral-600 text-neutral-200">
+                        <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'payment_token.base_price' }" @click="sortSales('payment_token.base_price')">Price</th>
+                        <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'token.mint_number' }" @click="sortSales('token.mint_number')">Mint</th>
+                        <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'buyer' }" @click="sortSales('buyer')">Buyer</th>
+                        <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'date_sold' }" @click="sortSales('date_sold')">Date</th>
                       </tr>
-                    </template>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="flex justify-center mt-2">
-                  <Pagination :total-items="sales.length" :page-size="pageSize" v-model:current-page="salesCurrentPage" />
+                      </thead>
+                      <tbody>
+                      <template v-for="(sale, index) in slicedSales" :key="index">
+                        <tr class="border-b border-neutral-600 hover:bg-neutral-900 text-neutral-200">
+                          <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <span>{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ sale.payment_token.symbol }}</span>
+                            <template v-if="sale.payment_token.symbol === 'ETH'">
+                              <span> ({{ ethereumInLocalCurrency(sale.payment_token.base_price) }})</span>
+                            </template>
+                          </td>
+                          <td class="px-2 py-1">
+                            <button @click="openLinkWith(`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`)" class="text-amber-500">#{{ sale.token.mint_number }}</button>
+                          </td>
+                          <td class="px-2 py-1">
+                            <button @click="openLinkWith(`https://opensea.io/${sale.buyer}`)" class="text-amber-500">{{ sale.buyer.slice(2, 5) }}</button>
+                          </td>
+                          <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }}</td>
+                        </tr>
+                      </template>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="flex justify-center mt-2">
+                    <Pagination :total-items="sales.length" :page-size="pageSize" v-model:current-page="salesCurrentPage" />
+                  </div>
                 </div>
               </template>
             </div>
@@ -267,7 +259,7 @@
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
 import {useEthereumUsdPrice, useSelectedAvatar, useSettings, useUser} from "#imports";
-import {XMarkIcon} from "@heroicons/vue/24/solid";
+import {XMarkIcon, ChevronDownIcon} from "@heroicons/vue/24/solid";
 import {getTokenImage} from "~/global/utils";
 import {Ref} from "@vue/reactivity";
 import {Sale} from "~/types/sale";
@@ -435,5 +427,16 @@ function refresh() {
   .slide-leave-to {
     transform: translateX(240px);
   }
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>
