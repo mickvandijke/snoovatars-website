@@ -15,7 +15,7 @@
             <template v-if="ranking">
               <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
             </template>
-            <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-blue-400 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-neutral-300 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
             <div class="relative ml-0.5 px-1 text-black font-bold rounded text-[0.65rem]" :class="getMintClasses(seriesStats.series.total_quantity)">
               <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
             </div>
@@ -27,7 +27,7 @@
               </template>
               <template v-else>
                 <div @click.stop="addToWatchList(seriesStats.series.name)" class="group flex items-center justify-center cursor-pointer">
-                  <StarIcon class="w-5 h-5 text-neutral-700 group-hover:text-yellow-500/50" />
+                  <StarIconOutlined class="w-5 h-5 text-neutral-700 group-hover:text-yellow-500/50" />
                 </div>
               </template>
             </div>
@@ -77,7 +77,7 @@ import {ref, useSelectedAvatar} from "#imports";
 import {PropType} from "@vue/runtime-core";
 import {SeriesStats} from "~/types/seriesStats";
 import OpenseaIcon from "~/components/OpenseaIcon.vue";
-import {InformationCircleIcon} from "@heroicons/vue/24/outline";
+import {InformationCircleIcon, StarIcon as StarIconOutlined} from "@heroicons/vue/24/outline";
 import {useWatchList, addToWatchList, removeFromWatchList} from "#imports";
 import {StarIcon} from "@heroicons/vue/20/solid";
 import {Capacitor} from "@capacitor/core";

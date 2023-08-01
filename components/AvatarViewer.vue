@@ -4,7 +4,7 @@
 
   <!-- The drawer content -->
   <transition name="slide">
-    <div v-if="open" class="fixed top-0 right-0 h-full overflow-y-auto w-96 max-w-full bg-neutral-800 shadow-lg p-4 z-50">
+    <div v-if="open" class="fixed top-0 left-0 sm:right-0 sm:left-auto h-full overflow-y-auto w-96 max-w-[95%] bg-neutral-800 shadow-lg p-4 z-50" :class="{ 'page-mobile-padding-top page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <!-- Add your drawer content here -->
       <div class="relative flex items-center justify-center">
         <span class="text-white font-semibold">{{ selectedAvatar.series }}</span>
@@ -266,7 +266,7 @@
 
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
-import {onBeforeMount, useEthereumUsdPrice, useSelectedAvatar, useSettings, useUser} from "#imports";
+import {useEthereumUsdPrice, useSelectedAvatar, useSettings, useUser} from "#imports";
 import {XMarkIcon} from "@heroicons/vue/24/solid";
 import {getTokenImage} from "~/global/utils";
 import {Ref} from "@vue/reactivity";
@@ -274,6 +274,7 @@ import {Sale} from "~/types/sale";
 import {Listing} from "~/types/listing";
 import {fetchListingsForSeries} from "~/composables/api/listings";
 import {fetchSalesForSeries} from "~/composables/api/sales";
+import {Capacitor} from "@capacitor/core";
 
 const selectedAvatar = useSelectedAvatar();
 const ethereumPriceInUsd = useEthereumUsdPrice();
@@ -425,7 +426,14 @@ function refresh() {
 
 .slide-enter-from,
 .slide-leave-to {
-  transform: translateX(240px);
+  transform: translateX(-240px);
   opacity: 0;
+}
+
+@media screen and (min-width: 640px) {
+  .slide-enter-from,
+  .slide-leave-to {
+    transform: translateX(240px);
+  }
 }
 </style>

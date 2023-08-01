@@ -1,9 +1,9 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
-    <HeaderTop />
+    <HeaderTop :class="{ 'page-mobile-padding-top': Capacitor.isNativePlatform() }" />
     <NavigationBar ref="navbarcomp"/>
     <AvatarViewer />
-    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding': Capacitor.isNativePlatform() }">
+    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <NuxtPage/>
     </div>
     <template v-if="!Capacitor.isNativePlatform()">
@@ -256,8 +256,11 @@ input.light, select.light {
   @apply border-neutral-800 hover:border-neutral-700;
 }
 
-.page-mobile-padding {
+.page-mobile-padding-top {
   margin-top: env(safe-area-inset-top);
+}
+
+.page-mobile-padding-bottom {
   padding-bottom: calc(54px + env(safe-area-inset-bottom));
 }
 </style>
