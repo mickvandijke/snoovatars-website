@@ -2,8 +2,8 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none max-w-sm">
-      <select v-model="sortOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none w-fit max-w-sm">
+      <select v-model="sortOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="highestPrice">Sort by Highest Price</option>
         <option value="lowestPrice">Sort by Lowest Price</option>
         <option value="highestLastSale">Sort by Highest Last Sale</option>
@@ -40,7 +40,7 @@
       </select>
       <div
           @click.self="showFilters = !showFilters"
-          class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-800 hover:bg-neutral-700 text-white rounded-md duration-200 cursor-pointer">
+          class="relative px-4 py-2 flex flex-row flex-nowrap border text-white rounded-md duration-200 cursor-pointer" :class="{ 'border-amber-500': usingFilter(), 'border-neutral-800 hover:border-neutral-700': !usingFilter() }">
         <button @click.prevent="showFilters = !showFilters" class="flex flex-row flex-nowrap" :class="{ 'text-amber-500': usingFilter() }">
           <AdjustmentsHorizontalIcon class="w-5 h-5" />
         </button>
@@ -65,6 +65,10 @@
                 <option value="show">Sold Out: Show</option>
                 <option value="hide">Sold Out: Hide</option>
               </select>
+              <select v-model="filterNoListings" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+                <option value="show">No Listings: Show</option>
+                <option value="hide">No Listings: Hide</option>
+              </select>
               <template v-if="usingFilter()">
                 <button @click="clearFilters()" class="p-2 bg-amber-500/20 text-amber-500 text-sm rounded-md">Clear All</button>
               </template>
@@ -73,7 +77,7 @@
         </template>
       </div>
       <template v-if="!Capacitor.isNativePlatform()">
-        <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+        <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-neutral-800 hover:bg-neutral-700 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
           <ArrowPathIcon class="w-5 h-5" />
         </button>
       </template>
@@ -244,6 +248,7 @@ const maxPriceEth = ref<number>(parseFloat(route.query.maxPrice as string) ?? un
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
 const filterRarityOption = ref<string>(route.query.supply as string ?? "all");
 const filterSoldOut = ref<string>(route.query.soldOut as string ?? "show");
+const filterNoListings = ref<string>(route.query.noListings as string ?? "show");
 const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
 const isRefreshing = ref(false);
 const showFilters = ref(false);
@@ -260,7 +265,8 @@ watch([maxPriceEth, filterGenOption, filterRarityOption, sortOption, filterSoldO
       gen: filterGenOption.value,
       supply: filterRarityOption.value,
       sort: sortOption.value,
-      soldOut: filterSoldOut.value
+      soldOut: filterSoldOut.value,
+      noListings: filterNoListings.value
     },
   });
 })
@@ -272,7 +278,7 @@ const slicedItems = computed(() => {
 });
 
 function usingFilter(): boolean {
-  return !!maxPriceEth.value || filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show";
+  return !!maxPriceEth.value || filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show" || filterNoListings.value !== "show";
 }
 
 function clearFilters() {
@@ -280,6 +286,7 @@ function clearFilters() {
   filterGenOption.value = "all";
   filterRarityOption.value = "all";
   filterSoldOut.value = "show";
+  filterNoListings.value = "show";;
 }
 
 function refresh() {
@@ -347,6 +354,10 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
 
   if (filterSoldOut.value === "hide" || sortingOnShop.value) {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_sold < seriesStat.series.total_quantity);
+  }
+
+  if (filterNoListings.value === "hide") {
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => !!seriesStat.stats.lowest_listing);
   }
 
   if (searchTerm.value.trim() !== "") {

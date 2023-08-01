@@ -6,19 +6,33 @@
   <transition name="slide">
     <div v-if="open" class="fixed top-0 left-0 sm:right-0 sm:left-auto h-full overflow-y-auto scrollbar-hide w-96 max-w-[95%] bg-neutral-900 shadow-lg z-50" :class="{ 'page-mobile-padding-top page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <!-- Add your drawer content here -->
-      <div class="p-4 sticky top-0 flex items-center justify-center bg-neutral-900/90 backdrop-blur-xl z-10">
+      <div class="p-4 sticky top-0 flex items-center justify-center bg-neutral-900/90 backdrop-blur-xl border-b border-neutral-800 z-10">
         <span class="text-neutral-400 font-semibold">{{ selectedAvatar.series }}</span>
         <XMarkIcon @click="close" class="absolute right-4 w-7 h-7 text-neutral-400 opacity-50 hover:opacity-100 cursor-pointer duration-200" />
       </div>
-      <div class="px-4 py-4 w-full flex flex-col items-center gap-6">
+      <div class="px-6 py-4 w-full flex flex-col items-center gap-6">
         <div class="relative max-w-[18rem]">
           <img :src="avatarImage" class="blur opacity-50">
           <img :src="avatarImage" class="absolute inset-0">
         </div>
+        <div class="flex flex-col items-center gap-3">
+          <h2 class="text-neutral-400">{{ selectedAvatar.series }}</h2>
+          <div class="flex gap-2 text-sm">
+            <div class="p-2 border border-neutral-800 rounded-lg">
+              <span class="text-neutral-400">${{ selectedAvatar.seriesStats.series.mint_price / 100 }}</span>
+            </div>
+            <div class="p-2 border border-neutral-800 rounded-lg">
+              <span class="text-neutral-400">{{ selectedAvatar.seriesStats.series.status.toUpperCase().replace("_", " ") }}</span>
+            </div>
+            <div class="px-3 py-2 border rounded-lg" :class="getMintClasses(selectedAvatar.seriesStats.series.total_quantity)">
+              <span>{{ Math.max(selectedAvatar.seriesStats.series.total_quantity, selectedAvatar.seriesStats.series.total_sold) }}</span>
+            </div>
+          </div>
+        </div>
         <div class="flex flex-col gap-2 w-full">
           <div class="flex flex-col gap-2">
             <div @click="settings.extraInfoOptions.marketData = !settings.extraInfoOptions.marketData" class="px-2 flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
-              <h1 class="text-lg">Advanced Details</h1>
+              <h1>Advanced Details</h1>
               <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.marketData }" />
             </div>
             <template v-if="settings.extraInfoOptions.marketData">
@@ -144,7 +158,7 @@
           <template v-if="listings">
             <div class="flex flex-col gap-2">
               <div @click="settings.extraInfoOptions.listings = !settings.extraInfoOptions.listings" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
-                <h1 class="text-lg">All Listings <NuxtLink to="/upgrade" class="group-hover:text-amber-500 italic font-bold duration-200">Pro</NuxtLink></h1>
+                <h1>All Listings <NuxtLink to="/upgrade" class="group-hover:text-amber-500 italic font-bold duration-200">Pro</NuxtLink></h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.listings }" />
               </div>
               <template v-if="settings.extraInfoOptions.listings">
@@ -198,7 +212,7 @@
           <template v-if="sales">
             <div class="flex flex-col gap-2">
               <div @click="settings.extraInfoOptions.salesGraph = !settings.extraInfoOptions.salesGraph" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
-                <h1 class="text-lg">Sales Chart</h1>
+                <h1>Sales Chart</h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.salesGraph }" />
               </div>
               <template v-if="settings.extraInfoOptions.salesGraph">
@@ -207,7 +221,7 @@
             </div>
             <div class="flex flex-col gap-2">
               <div @click="settings.extraInfoOptions.sales = !settings.extraInfoOptions.sales" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
-                <h1 class="text-lg">All Sales</h1>
+                <h1>All Sales</h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.sales }" />
               </div>
               <template v-if="settings.extraInfoOptions.sales">
@@ -404,6 +418,16 @@ function refresh() {
   fetchSalesForSeries(contract.value, series.value).then((seriesSales) => {
     sales.value = seriesSales;
   });
+}
+
+function getMintClasses(totalQuantity: number) {
+  if (totalQuantity <= 250) {
+    return ["bg-yellow-500/10 text-yellow-500 border-yellow-500/50"];
+  } else if (totalQuantity <= 777) {
+    return ["bg-gray-300/10 text-gray-300 border-gray-300/50"];
+  } else {
+    return ["bg-neutral-400/10 text-neutral-400 border-neutral-400/50"];
+  }
 }
 </script>
 

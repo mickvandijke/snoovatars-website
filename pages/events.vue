@@ -2,18 +2,19 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none max-w-sm">
-      <select v-model="settings.activity.filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none w-fit max-w-sm">
+      <select v-model="settings.activity.filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="all">Show All</option>
         <option value="premium">Show Premium Only</option>
+        <option value="watchlist">Show Watchlist Only</option>
       </select>
-      <select v-model="settings.activity.feedView" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.activity.feedView" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="sales">Latest Sales</option>
         <option value="listings">Latest Listings</option>
         <option value="mints">Latest Mints</option>
       </select>
       <template v-if="!Capacitor.isNativePlatform()">
-        <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+        <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-neutral-800 hover:bg-neutral-700 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
           <ArrowPathIcon class="w-5 h-5" />
         </button>
       </template>
@@ -133,7 +134,11 @@ const filteredSales: ComputedRef<Sale[]> = computed(() => {
   let filteredSales = Array.from(Object.values(salesLatest.value));
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
-    filteredSales = filteredSales.filter((sale) => !getFreeCollections().includes(sale.token.contract_address));
+    if (settings.value.activity.filterGenOption === "watchlist") {
+      filteredSales = filteredSales.filter((sale) => watchList.value.has(sale.token.name));
+    } else {
+      filteredSales = filteredSales.filter((sale) => !getFreeCollections().includes(sale.token.contract_address));
+    }
   }
 
   if (searchTerm.value.trim() !== "") {
@@ -147,7 +152,11 @@ const filteredListings: ComputedRef<Listing[]> = computed(() => {
   let filteredListings = Array.from(Object.values(listingsLatest.value));
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
-    filteredListings = filteredListings.filter((listing) => !getFreeCollections().includes(listing.token.contract_address));
+    if (settings.value.activity.filterGenOption === "watchlist") {
+      filteredListings = filteredListings.filter((listing) => watchList.value.has(listing.token.name));
+    } else {
+      filteredListings = filteredListings.filter((listing) => !getFreeCollections().includes(listing.token.contract_address));
+    }
   }
 
   if (searchTerm.value.trim() !== "") {
@@ -161,7 +170,11 @@ const filteredMints: ComputedRef<Mint[]> = computed(() => {
   let filteredMints = Array.from(Object.values(mintsLatest.value));
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
-    filteredMints = filteredMints.filter((mint) => !getFreeCollections().includes(mint.token.contract_address));
+    if (settings.value.activity.filterGenOption === "watchlist") {
+      filteredMints = filteredMints.filter((mint) => watchList.value.has(mint.token.name));
+    } else {
+      filteredMints = filteredMints.filter((mint) => !getFreeCollections().includes(mint.token.contract_address));
+    }
   }
 
   if (searchTerm.value.trim() !== "") {

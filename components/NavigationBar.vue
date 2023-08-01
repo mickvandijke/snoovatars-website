@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <ul class="flex text-neutral-200 font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
+      <ul class="flex text-neutral-300 text-sm font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-amber-500 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/stats">Dashboard</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-amber-500 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/avatar/exporter">Avatar Exporter</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-amber-500 rounded-lg duration-200 cursor-pointer" active-class="text-amber-500" to="/alerts">Price Alerts</NuxtLink>

@@ -45,14 +45,14 @@
           <div class="flex flex-col items-end">
             <div class="flex font-bold text-[0.7rem]">
               <div class="flex gap-1">
-                <span class="text-neutral-500 font-medium">Buyer:</span>
-                <button @click="openLinkWith(`https://opensea.io/${item.buyer}`)" class="text-neutral-400">{{ item.buyer.slice(2, 6) }}</button>
+                <span class="text-neutral-500 font-medium">Seller:</span>
+                <button @click="openLinkWith(`https://opensea.io/${item.seller}`)" class="text-neutral-400">{{ item.seller.slice(2, 6) }}</button>
               </div>
             </div>
             <div class="flex font-bold text-[0.7rem]">
               <div class="flex gap-1">
-                <span class="text-neutral-500 font-medium">Seller:</span>
-                <button @click="openLinkWith(`https://opensea.io/${item.seller}`)" class="text-neutral-400">{{ item.seller.slice(2, 6) }}</button>
+                <span class="text-neutral-500 font-medium">Buyer:</span>
+                <button @click="openLinkWith(`https://opensea.io/${item.buyer}`)" class="text-neutral-400">{{ item.buyer.slice(2, 6) }}</button>
               </div>
             </div>
           </div>

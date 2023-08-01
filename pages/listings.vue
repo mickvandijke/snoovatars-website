@@ -2,14 +2,14 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none max-w-sm">
-      <select v-model="paymentToken" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none w-fit max-w-sm">
+      <select v-model="paymentToken" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="eth">ETH</option>
         <option value="matic">MATIC</option>
       </select>
       <div
           @click.self="showFilters = !showFilters"
-          class="relative px-4 py-2 flex flex-row flex-nowrap bg-neutral-800 hover:bg-neutral-700 text-white rounded-md duration-200 cursor-pointer">
+          class="relative px-4 py-2 flex flex-row flex-nowrap border text-white rounded-md duration-200 cursor-pointer" :class="{ 'border-amber-500': usingFilter(), 'border-neutral-800 hover:border-neutral-700': !usingFilter() }">
         <button @click.prevent="showFilters = !showFilters" class="flex flex-row flex-nowrap" :class="{ 'text-amber-500': usingFilter() }">
           <AdjustmentsHorizontalIcon class="w-5 h-5" />
         </button>
@@ -38,7 +38,7 @@
           </div>
         </template>
       </div>
-      <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+      <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-neutral-800 hover:bg-neutral-700 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
         <ArrowPathIcon class="w-5 h-5" />
       </button>
     </MenuBar>

@@ -2,24 +2,24 @@
   <div class="pb-2 md:pb-0 relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <select v-model="settings.wallet.valuationMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.valuationMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
-        <option value="fiveLastSales">Value by 5 Last Sales Average</option>
+        <option value="fiveLastSales">Value by Last 5 Sales Average</option>
         <option value="weeklyAvg">Value by 7 Days Average Sale Price</option>
         <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
         <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
       </select>
-      <select v-model="settings.wallet.filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="all">Show All</option>
         <option value="premium">Show Premium Only</option>
       </select>
-      <select v-model="settings.wallet.groupMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.groupMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="group">Group by Series</option>
         <option value="mint">Show Mint Numbers</option>
       </select>
       <template v-if="!Capacitor.isNativePlatform()">
-        <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-amber-600 hover:bg-amber-500 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
+        <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-neutral-800 hover:bg-neutral-700 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
           <ArrowPathIcon class="w-5 h-5" />
         </button>
       </template>
@@ -300,6 +300,10 @@ async function getWalletTokens(wallet: string) {
 
         addToWalletAddresses(firstWalletAddress);
 
+        moveItemsToGoldHodl(firstWalletValue);
+
+        console.log(firstWalletValue);
+
         tokens.value.set(firstWalletAddress, firstWalletValue);
         cones.value.set(firstWalletAddress, data.cones);
         weth.value.set(firstWalletAddress, data.weth ?? 0);
@@ -473,6 +477,42 @@ function selectAvatar(seriesStats: SeriesStats) {
     seriesStats: seriesStats,
     contract: seriesStats.series.contract_address,
     series: seriesStats.series.name
+  }
+}
+
+function moveItemsToGoldHodl(obj) {
+  const targetKey = "Gold Hodl";
+
+  if (!obj.hasOwnProperty(targetKey)) {
+    obj[targetKey] = [];
+  }
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (Array.isArray(obj[key])) {
+        const items = obj[key];
+        const itemsToMove = [];
+
+        // Find items with id < 25
+        for (let i = items.length - 1; i >= 0; i--) {
+          const item = items[i];
+          if (item.contract_address === "0xa3396af20ce52bd3c7ab6d7046be617257f60eb9" && item.id <= 23) {
+            itemsToMove.push(item);
+            // Remove item from the original array
+            items.splice(i, 1);
+          }
+        }
+
+        // Move the qualifying items to "key3"
+        obj[targetKey].push(...itemsToMove);
+      }
+    }
+  }
+
+  for (const key in obj) {
+    if (obj[key].length === 0) {
+      delete obj[key];
+    }
   }
 }
 </script>
