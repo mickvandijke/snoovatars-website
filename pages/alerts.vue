@@ -118,29 +118,27 @@
                 :options="selectSeries()"
                 :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Select avatar'"
                 @change="onSelectedTier()"
-            >
-            </select-search>
-            <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">[Optional] Select a specific mint number</label>
-            <select-search
-                id="avatar"
-                v-model="newAlert.item_hash"
-                :options="selectAvatars()"
-                :placeholder="newAlert.item_hash ? avatars.get(newAlert.item_hash).fullname() : 'None'"
-                :disabled="!newAlert.collection_tier_hash"
-                @change="onSelectedAvatar()"
-            >
-            </select-search>
+            />
+<!--            <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">[Optional] Select a specific mint number</label>-->
+<!--            <select-search-->
+<!--                id="avatar"-->
+<!--                v-model="newAlert.item_hash"-->
+<!--                :options="selectAvatars()"-->
+<!--                :placeholder="newAlert.item_hash ? avatars.get(newAlert.item_hash).fullname() : 'None'"-->
+<!--                :disabled="!newAlert.collection_tier_hash"-->
+<!--                @change="onSelectedAvatar()"-->
+<!--            />-->
             <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Max mint number (0 = any mint)</label>
-            <input type="number" min="0" :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="light">
+            <input type="number" min="0" :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="lighter">
             <label for="type" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Select an event type</label>
-            <select required v-model="newAlert.alert_type" id="type" class="light">
+            <select required v-model="newAlert.alert_type" id="type" class="lighter">
               <option :value="AlertType.ListingBelow">Listing below price threshold</option>
               <option :value="AlertType.SaleAbove">Sale above price threshold</option>
             </select>
             <label for="price-threshold" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Price threshold in ETH</label>
-            <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="light">
+            <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="lighter">
             <label for="repeating" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Repeating</label>
-            <select required v-model="newAlert.repeating" id="repeating" class="light">
+            <select required v-model="newAlert.repeating" id="repeating" class="lighter">
               <option :value="false">Only alert once</option>
               <option :value="true">Repeating alert</option>
             </select>
@@ -172,15 +170,14 @@ import {
   useUser, useUserSettings,
 } from "~/composables/states";
 import {Alert, alert_list_from_object, AlertHash, AlertType, AlertMaxQuota, AlertQuota} from "~/types/alert";
-import {navigateTo, useRuntimeConfig} from "#app";
+import {useRuntimeConfig} from "#app";
 import {onMounted, ref, watch} from "#imports";
 import {Ref} from "@vue/reactivity";
 import {SelectSearchOption} from "~/types/select_search";
 import {handleCatch} from "~/composables/api/error";
-import {deleteToken, getUserSettings, updateUserSettings} from "~/composables/api/user";
+import {deleteToken} from "~/composables/api/user";
 import {createAlert, getAlerts} from "~/composables/api/alert";
-import {calculate_hash, Series} from "~/types/series";
-import {fetchSeries} from "~/composables/api/series";
+import {calculate_hash} from "~/types/series";
 import {UserSettings} from "~/types/user";
 
 const loading = ref(true);
@@ -268,7 +265,7 @@ function selectSeries(): Array<SelectSearchOption> {
   let array: Array<SelectSearchOption> = new Array<SelectSearchOption>();
 
   series.value.forEach(async (series) => {
-    let option: SelectSearchOption = new SelectSearchOption(series.name, await calculate_hash(series));
+    let option: SelectSearchOption = new SelectSearchOption(`${series.name} (${series.contract_address.slice(0, 5)})`, await calculate_hash(series));
 
     array.push(option);
   })

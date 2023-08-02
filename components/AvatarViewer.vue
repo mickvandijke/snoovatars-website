@@ -422,11 +422,11 @@ function refresh() {
 
 function getMintClasses(totalQuantity: number) {
   if (totalQuantity <= 250) {
-    return ["bg-yellow-500/10 text-yellow-500 border-yellow-500/50"];
+    return ["bg-yellow-500/0 text-yellow-500 border-yellow-500/50"];
   } else if (totalQuantity <= 777) {
-    return ["bg-gray-300/10 text-gray-300 border-gray-300/50"];
+    return ["bg-gray-300/0 text-gray-300 border-gray-300/50"];
   } else {
-    return ["bg-neutral-400/10 text-neutral-400 border-neutral-400/50"];
+    return ["bg-neutral-400/0 text-neutral-400 border-neutral-400/50"];
   }
 }
 </script>

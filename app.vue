@@ -256,6 +256,10 @@ input.light, select.light {
   @apply border-neutral-800 hover:border-neutral-700;
 }
 
+input.lighter, select.lighter {
+  @apply border-neutral-700 hover:border-neutral-600;
+}
+
 .page-mobile-padding-top {
   margin-top: env(safe-area-inset-top);
 }

@@ -19,5 +19,5 @@ export async function calculate_hash(series: Series): Promise<string> {
 }
 
 export interface ApiResponse {
-    series: Record<string, Series>;
+    series: Map<string, Map<string, Series>>;
 }

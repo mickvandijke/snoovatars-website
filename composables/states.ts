@@ -150,14 +150,16 @@ export async function updateSeriesHashed() {
     const seriesMap: Map<string, Series> = new Map();
     const promises: Promise<void>[] = [];
 
-    const series = await fetchSeries();
+    const seriesPerCollection = await fetchSeries();
 
-    series.forEach(serie => {
-        promises.push((async () => {
-            const hash = await calculate_hash(serie);
-            seriesMap.set(hash, serie);
-        })());
-    });
+    for (const collection of Object.values(seriesPerCollection)) {
+        for (const serie of Object.values(collection)) {
+            promises.push((async () => {
+                const hash = await calculate_hash(serie);
+                seriesMap.set(hash, serie);
+            })());
+        }
+    }
 
     await Promise.all(promises);
     useSeriesHashed().value = seriesMap;
