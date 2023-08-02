@@ -1,10 +1,10 @@
 <template>
   <!-- The overlay is used to cover the main content when the drawer is open -->
-  <div class="fixed inset-0 bg-black opacity-50 z-40" v-if="open" @click="close"></div>
+  <div class="fixed inset-0 bg-black opacity-50 z-40" v-if="open()" @click="close"></div>
 
   <!-- The drawer content -->
   <transition name="slide">
-    <div v-if="open" class="fixed top-0 left-0 sm:right-0 sm:left-auto h-full overflow-y-auto scrollbar-hide w-96 max-w-[95%] bg-neutral-900 shadow-lg z-50" :class="{ 'page-mobile-padding-top page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
+    <div v-if="open()" class="fixed top-0 left-0 sm:right-0 sm:left-auto h-full overflow-y-auto scrollbar-hide w-96 max-w-[95%] bg-neutral-900 shadow-lg z-50" :class="{ 'page-mobile-padding-top page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <!-- Add your drawer content here -->
       <div class="p-4 sticky top-0 flex items-center justify-center bg-neutral-900/90 backdrop-blur-xl border-b border-neutral-800 z-10">
         <span class="text-neutral-400 font-semibold">{{ selectedAvatar.series }}</span>
@@ -304,9 +304,9 @@ watch([selectedAvatar], () => {
   }
 });
 
-const open = computed(() => {
+function open() {
   return !!selectedAvatar.value;
-});
+}
 
 function close() {
   selectedAvatar.value = null;
