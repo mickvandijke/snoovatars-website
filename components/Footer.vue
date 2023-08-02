@@ -70,6 +70,10 @@
             </div>
           </div>
         </div>
+        <div class="flex justify-center items-center">
+          <a class="w-36" href='https://apps.apple.com/nl/app/rcax/id6449831133'><img alt='Download on the App Store' src='/images/branding/appstore.svg'/></a>
+          <a class="w-36" href='https://play.google.com/store/apps/details?id=io.rcax.rcax&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+        </div>
         <div class="px-3 flex flex-col items-center">
           <div class="py-3 border-t border-neutral-800/90 w-fit">&copy; 2023 RCAX.io. This {{ Capacitor.isNativePlatform() ? "app" : "website" }} is not affiliated with or endorsed by reddit Inc. or OpenSea.</div>
           <div class="flex justify-center items-center divide-x divide-neutral-800">
