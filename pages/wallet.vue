@@ -47,13 +47,13 @@
             <span class="text-neutral-400">Total Worth: </span>
             <div class="flex items-center font-bold">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="text-neutral-200">{{ (getTotalWorth() / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-              <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth()) }}</span>)</div>
+              <div class="text-neutral-200">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+              <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth) }}</span>)</div>
             </div>
           </div>
           <div class="flex gap-1">
             <span class="text-neutral-400">Total items:</span>
-            <span class="text-amber-500 font-bold">{{ getTotalItems() }}</span>
+            <span class="text-amber-500 font-bold">{{ getTotalItems }}</span>
           </div>
         </div>
       </div>
@@ -136,54 +136,54 @@
             <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
               <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-neutral-800 w-full">
                 <template v-if="settings.wallet.groupMethod === 'group'">
-                  <template v-for="[seriesName, seriesTokens] in Object.entries(sortedWalletTokens(filterWalletTokens(walletTokens)))">
-                    <div @click="selectAvatar(getSeriesStats(seriesName))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-neutral-800 rounded-lg font-bold cursor-pointer">
+                  <template v-for="series in sortedWalletTokensGrouped(filterWalletTokensGrouped(tokensCount.get(walletAddress)))">
+                    <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-neutral-800 rounded-lg font-bold cursor-pointer">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                        <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(seriesName)?.collection.slug}?search[query]=${seriesName}`)" class="cursor-pointer">
-                          <img :src="getTokenImage(getSeriesStats(seriesName)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(seriesName)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                        <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(series.contract_address, series.name)?.collection.slug}?search[query]=${series.name}`)" class="cursor-pointer">
+                          <img :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                         </a>
                       </div>
                       <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">
-                        <span class="text-white whitespace-nowrap text-ellipsis overflow-hidden">{{getSeriesStats(seriesName)?.series.name }}</span>
-                        <span class="text-amber-500">{{ seriesTokens.length }}</span>
+                        <span class="text-white whitespace-nowrap text-ellipsis overflow-hidden">{{getSeriesStats(series.contract_address, series.name)?.series.name }}</span>
+                        <span class="text-amber-500">{{ series.count }}</span>
                       </div>
                       <div class="col-span-3 md:col-span-5 flex flex-col items-end justify-center text-[0.8rem] md:text-sm">
                         <div class="flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                          <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000 * seriesTokens.length).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                          <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(seriesName) * seriesTokens.length) }}</span>)</div>
+                          <div class="text-neutral-200">{{ (getSeriesValue(series.contract_address, series.name) / 1000000000000000000 * series.count).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                          <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(series.contract_address, series.name) * series.count) }}</span>)</div>
                         </div>
                         <div class="flex items-center text-xs md:text-sm">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                          <div class="text-neutral-200">{{ (getSeriesValue(seriesName) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                          <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(getSeriesValue(seriesName)) }}</span>)</div>
+                          <div class="text-neutral-200">{{ (getSeriesValue(series.contract_address, series.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                          <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(getSeriesValue(series.contract_address, series.name)) }}</span>)</div>
                         </div>
                       </div>
                     </div>
                   </template>
                 </template>
                 <template v-else>
-                  <template v-for="token in sortedTokens(flattenObject(filterWalletTokens(walletTokens)))">
-                    <div @click="selectAvatar(getSeriesStats(token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-neutral-800 rounded-lg font-bold cursor-pointer">
+                  <template v-for="token in sortedTokens(filterWalletTokens(walletTokens))">
+                    <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-neutral-800 rounded-lg font-bold cursor-pointer">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                        <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
-                          <img :src="getTokenImage(getSeriesStats(token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                        <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.contract_address, token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
+                          <img :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                         </a>
                       </div>
                       <div class="px-2 col-span-3 md:col-span-5 flex flex-col justify-center items-start text-sm">
-                        <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.name)?.series.name}}</span>
+                        <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.contract_address, token.name)?.series.name}}</span>
                         <span class="text-amber-500">#{{ token.mint_number }}</span>
                       </div>
                       <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-end justify-center text-[0.8rem] md:text-sm">
                         <div class="flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                          <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000 * (walletTokens[token.name]?.length ?? 1)).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                          <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.name) * (walletTokens[token.name]?.length ?? 1)) }}</span>)</div>
+                          <div class="text-neutral-200">{{ (getSeriesValue(token.contract_address, token.name) / 1000000000000000000 * (walletTokens[token.name]?.length ?? 1)).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                          <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.contract_address, token.name) * (walletTokens[token.name]?.length ?? 1)) }}</span>)</div>
                         </div>
                         <div class="flex items-center text-xs md:text-sm">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                          <div class="text-neutral-200">{{ (getSeriesValue(token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                          <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(getSeriesValue(token.name)) }}</span>)</div>
+                          <div class="text-neutral-200">{{ (getSeriesValue(token.contract_address, token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                          <div class="ml-1 text-neutral-500"> (<span class="text-neutral-300">{{ ethereumInLocalCurrency(getSeriesValue(token.contract_address, token.name)) }}</span>)</div>
                         </div>
                       </div>
                     </div>
@@ -203,7 +203,7 @@ import {
   addToWalletAddresses,
   removeFromWalletAddresses,
   updateSeriesStats,
-  useSeriesStats,
+  getSeriesStats,
   useWalletAddresses,
   useConeEthPrice, updateEthereumPrices, updateMarketInfo, useSettings, useSelectedAvatar
 } from "~/composables/states";
@@ -217,17 +217,18 @@ import {Token} from "~/types/token";
 import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
 import {getSaleAsGweiPrice} from "~/composables/helpers";
-import {Filters, getFreeCollections} from "~/global/generations";
+import {getFreeCollections} from "~/global/generations";
 import {SeriesStats} from "~/types/seriesStats";
+import {computed, ComputedRef} from "vue";
 
-const seriesStats = useSeriesStats();
 const walletAddresses = useWalletAddresses();
 const cone = useConeEthPrice();
 const settings = useSettings();
 const selectedAvatar = useSelectedAvatar();
 
 const walletAddress = ref<string>("");
-const tokens: Ref<Map<string, WalletTokens>> = ref(new Map());
+const tokens: Ref<Map<string, Token[]>> = ref(new Map());
+const tokensCount: Ref<Map<string, Map<string, TokenGrouped>>> = ref(new Map());
 const cones: Ref<Map<string, number>> = ref(new Map());
 const weth: Ref<Map<string, number>> = ref(new Map());
 const loading = ref(false);
@@ -242,18 +243,40 @@ onMounted(() => {
   });
 });
 
-function filterWalletTokens(walletTokens: WalletTokens): WalletTokens {
+interface TokenGrouped {
+  count: number;
+  contract_address: string;
+  name: string;
+}
+
+function filterWalletTokensGrouped(walletTokens: Map<string, TokenGrouped>): Map<string, TokenGrouped> {
   if (settings.value.wallet?.filterOption === "all") {
     return walletTokens;
   }
 
-  const filteredTokens: WalletTokens = {};
+  let filteredTokens: Map<string, TokenGrouped> = walletTokens;
 
-  for (const key in walletTokens) {
-    const contractAddress = walletTokens[key][0]["contract_address"];
+  for (const [contractAddress, token] of Object.entries(walletTokens)) {
+    if (!getFreeCollections().includes(contractAddress)) {
+      filteredTokens.delete(contractAddress);
+    }
+  }
+
+  return filteredTokens;
+}
+
+function filterWalletTokens(walletTokens: Token[]): Token[] {
+  if (settings.value.wallet?.filterOption === "all") {
+    return walletTokens;
+  }
+
+  const filteredTokens: Token[] = [];
+
+  for (const token of walletTokens) {
+    const contractAddress = token.contract_address;
 
     if (!getFreeCollections().includes(contractAddress)) {
-      filteredTokens[key] = walletTokens[key];
+      filteredTokens.push(token);
     }
   }
 
@@ -300,9 +323,28 @@ async function getWalletTokens(wallet: string) {
 
         addToWalletAddresses(firstWalletAddress);
 
-        moveItemsToGoldHodl(firstWalletValue);
+        tokensCount.value.set(firstWalletAddress, new Map<string, TokenGrouped>());
 
-        console.log(firstWalletValue);
+        firstWalletValue.forEach((token) => {
+          if (token.contract_address === "0xa3396af20ce52bd3c7ab6d7046be617257f60eb9" && token.mint_number <= 24) {
+            token.name = "Gold Hodl";
+          }
+
+          let tokenId = token.contract_address + token.name;
+
+          if (!tokensCount.value.get(firstWalletAddress)?.has(tokenId)) {
+            tokensCount.value.get(firstWalletAddress)?.set(tokenId, {
+              count: 1,
+              name: token.name,
+              contract_address: token.contract_address
+            });
+          } else {
+            const tokenGrouped = tokensCount.value.get(firstWalletAddress)?.get(tokenId);
+            if (tokenGrouped) {
+              tokenGrouped.count += 1;
+            }
+          }
+        });
 
         tokens.value.set(firstWalletAddress, firstWalletValue);
         cones.value.set(firstWalletAddress, data.cones);
@@ -363,10 +405,6 @@ function getWeth(wallet: string) {
   return weth.value.get(wallet);
 }
 
-function getSeriesStats(name: string) {
-  return seriesStats.value[name];
-}
-
 function lookupDisabled(): boolean {
   return !walletAddress.value || walletAddresses.value.has(walletAddress.value) || loading.value;
 }
@@ -374,22 +412,20 @@ function lookupDisabled(): boolean {
 function getWalletValue(wallet: string): number {
   let value = 0;
 
-  for (let [walletAddress, walletTokens] of tokens.value.entries()) {
-    if (walletAddress !== wallet) {
-      continue;
-    }
+  let walletTokensGrouped = tokensCount.value.get(wallet);
 
-    for (let [seriesName, seriesTokens] of Object.entries(walletTokens)) {
-      value += getSeriesValue(seriesName) * seriesTokens.length;
+  if (walletTokensGrouped) {
+    for (let series of walletTokensGrouped.values()) {
+      value += getSeriesValue(series.contract_address, series.name) * series.count;
     }
   }
 
   return value;
 }
 
-function getSeriesValue(series: string): number {
+function getSeriesValue(contractAdres: string, name: string): number {
   let price = 0;
-  let stats = getSeriesStats(series);
+  let stats = getSeriesStats(contractAdres, name);
 
   switch (settings.value.wallet.valuationMethod) {
     case "floor":
@@ -415,7 +451,7 @@ function getSeriesValue(series: string): number {
   return price;
 }
 
-function getTotalWorth(): number {
+const getTotalWorth: ComputedRef<number> = computed(() => {
   let value = 0;
 
   for (let walletAddress of tokens.value.keys()) {
@@ -423,19 +459,17 @@ function getTotalWorth(): number {
   }
 
   return value;
-}
+});
 
-function getTotalItems(): number {
+const getTotalItems: ComputedRef<number> = computed(() => {
   let items = 0;
 
   for (let walletTokens of tokens.value.values()) {
-    for (let seriesTokens of Object.values(walletTokens)) {
-      items += seriesTokens.length;
-    }
+    items += walletTokens.length;
   }
 
   return items;
-}
+});
 
 function sortedWallets(): Map<string, WalletTokens> {
   const mapArray = Array.from(tokens.value.entries());
@@ -445,16 +479,19 @@ function sortedWallets(): Map<string, WalletTokens> {
   return new Map(mapArray);
 }
 
-function sortedWalletTokens(walletTokens: WalletTokens): WalletTokens {
-  return Object.fromEntries(
-      Object.entries(walletTokens)
-          .sort(([aSeriesName, aSeriesTokens], [bSeriesName, bSeriesTokens]) => ((getSeriesValue(bSeriesName) * bSeriesTokens.length) - getSeriesValue(aSeriesName) * aSeriesTokens.length))
-  );
+function sortedWalletTokensGrouped(walletTokens: Map<string, TokenGrouped>) {
+  let tokens = [];
+
+  for (const tokenGroup of walletTokens.values()) {
+    tokens.push(tokenGroup);
+  }
+
+  return tokens.sort((aTokenGroup, bTokenGroup) => ((getSeriesValue(bTokenGroup.contract_address, bTokenGroup.name) * bTokenGroup.count) - (getSeriesValue(aTokenGroup.contract_address, aTokenGroup.name) *aTokenGroup.count )));
 }
 
 function sortedTokens(tokens: Array<Token>): Array<Token> {
   return tokens.sort((a, b) => {
-    const seriesValueComparison = getSeriesValue(b.name) - getSeriesValue(a.name);
+    const seriesValueComparison = getSeriesValue(b.contract_address, b.name) - getSeriesValue(a.contract_address, a.name);
     if (seriesValueComparison !== 0) {
       return seriesValueComparison;
     } else {
@@ -468,51 +505,11 @@ function removeWallet(wallet: string) {
   tokens.value.delete(wallet);
 }
 
-function flattenObject(obj: WalletTokens): Array<Token> {
-  return Object.values(obj).reduce((acc, val) => acc.concat(val), []);
-}
-
 function selectAvatar(seriesStats: SeriesStats) {
   selectedAvatar.value = {
     seriesStats: seriesStats,
     contract: seriesStats.series.contract_address,
     series: seriesStats.series.name
-  }
-}
-
-function moveItemsToGoldHodl(obj) {
-  const targetKey = "Gold Hodl";
-
-  if (!obj.hasOwnProperty(targetKey)) {
-    obj[targetKey] = [];
-  }
-
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      if (Array.isArray(obj[key])) {
-        const items = obj[key];
-        const itemsToMove = [];
-
-        // Find items with id < 25
-        for (let i = items.length - 1; i >= 0; i--) {
-          const item = items[i];
-          if (item.contract_address === "0xa3396af20ce52bd3c7ab6d7046be617257f60eb9" && item.id <= 23) {
-            itemsToMove.push(item);
-            // Remove item from the original array
-            items.splice(i, 1);
-          }
-        }
-
-        // Move the qualifying items to "key3"
-        obj[targetKey].push(...itemsToMove);
-      }
-    }
-  }
-
-  for (const key in obj) {
-    if (obj[key].length === 0) {
-      delete obj[key];
-    }
   }
 }
 </script>

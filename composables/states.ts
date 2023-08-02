@@ -18,7 +18,7 @@ import {SelectedAvatar} from "~/types/SelectedAvatar";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeriesHashed = () => useState<Map<string, Series>>('tier-list', () => new Map());
-export const useSeriesStats = () => useState<Map<string, SeriesStats>>('series-stats', () => new Map());
+export const useSeriesStatsV2 = () => useState<Map<string, Map<string, SeriesStats>>>('series-stats-v2', () => new Map());
 export const useAvatarList = () => useState<AvatarList>('avatar-list', () => new Map<AvatarHash, RedditAvatar>());
 export const useAlertQuotas = () => useState<AccountTierAlertQuotas>('alert-max-quotas', () => null);
 export const useAlertList = () => useState<AlertList>('alert-list', () => new Map<AlertHash, Alert>());
@@ -181,8 +181,16 @@ export async function updateEthereumPrices() {
 
 export async function updateSeriesStats() {
     fetchSeriesStats().then((seriesStats) => {
-        useSeriesStats().value = seriesStats;
+        useSeriesStatsV2().value = seriesStats;
     })
+}
+
+export function getSeriesStats(contractAddress: string, name: string) {
+    if (!useSeriesStatsV2().value[contractAddress]) {
+        return undefined;
+    }
+
+    return useSeriesStatsV2().value[contractAddress][name];
 }
 
 export function loadWatchList() {

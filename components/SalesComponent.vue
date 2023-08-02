@@ -1,7 +1,7 @@
 <template>
   <VirtualGrid :items="items">
     <template #default="{ item, index }">
-      <AvatarCard :item="{ name: item.token.name, contract_address: item.token.contract_address, image: item.token.image }" :series-stats="getSeriesStats(item.token.name)">
+      <AvatarCard :item="{ name: item.token.name, contract_address: item.token.contract_address, image: item.token.image }" :series-stats="getSeriesStats(item.token.contract_address, item.token.name)">
         <div class="flex flex-row justify-between gap-1">
           <div class="flex flex-col">
             <div class="flex font-bold text-[0.7rem]">
@@ -67,24 +67,18 @@ import {PropType} from "@vue/runtime-core";
 import {Sale} from "~/types/sale";
 import {
   useEthereumPriceMap,
-  useSeriesStats,
   useWatchList,
+  getSeriesStats
 } from "~/composables/states";
 import {ethereumInLocalCurrency} from "#imports";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
-import {ArrowRightIcon} from "@heroicons/vue/20/solid";
 
 const props = defineProps({
   items: Array as PropType<Sale[]>
 });
 
-const seriesStats = useSeriesStats();
 const watchList = useWatchList();
 const ethereumPriceMap = useEthereumPriceMap();
-
-function getSeriesStats(name: string) {
-  return seriesStats.value[name];
-}
 </script>
 
 <style scoped>

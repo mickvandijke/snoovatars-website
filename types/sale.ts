@@ -16,7 +16,7 @@ export interface Sale {
 
 export interface ApiResponseLatest {
     sales: Array<Sale>;
-    series_stats: Map<string, SeriesStats>;
+    series_stats: Map<string, Map<string, SeriesStats>>;
 }
 
 export interface SalesResponse {

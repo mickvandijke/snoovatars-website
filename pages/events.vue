@@ -38,7 +38,7 @@ import {
   updateEthereumPrices,
   updateMarketInfo,
   updateSeriesStats,
-  useSeriesStats, useSettings,
+  useSeriesStats, useSeriesStatsV2, useSettings,
   useWatchList
 } from "~/composables/states";
 import {computed, ref, useRoute, useRouter, watch} from "#imports";
@@ -113,7 +113,7 @@ function refresh() {
 
 async function updateSales() {
   await fetchSalesLatest().then(([sales, seriesStats]) => {
-    useSeriesStats().value = seriesStats;
+    useSeriesStatsV2().value = seriesStats;
     salesLatest.value = sales;
   });
 }

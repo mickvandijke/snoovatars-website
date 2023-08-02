@@ -2,10 +2,10 @@ import {useRuntimeConfig} from "#app";
 import {ApiResponseForSeries, ApiResponseLatest, Sale} from "~/types/sale";
 import {SeriesStats} from "~/types/seriesStats";
 
-export async function fetchSalesLatest(): Promise<[Array<Sale>, Map<string, SeriesStats>]> {
+export async function fetchSalesLatest(): Promise<[Array<Sale>, Map<string, Map<string, SeriesStats>>]> {
     const config = useRuntimeConfig();
     const BACKEND_ADDR = config.public.API_BASE_URL;
-    const url = `${BACKEND_ADDR}/sales/latest`;
+    const url = `${BACKEND_ADDR}/v2/sales/latest`;
 
     const response = await fetch(url);
     const data: ApiResponseLatest = await response.json();

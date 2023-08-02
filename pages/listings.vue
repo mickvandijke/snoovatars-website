@@ -110,7 +110,6 @@ import {
   updateMarketInfo,
   updateSeriesStats,
   useRoute,
-  useSeriesStats,
   useUser,
   ethereumInLocalCurrency
 } from "#imports";
@@ -118,6 +117,7 @@ import {fetchListings} from "~/composables/api/listings";
 import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import {SeriesStats} from "~/types/seriesStats";
 import {Filters} from "~/global/generations";
+import {getSeriesStats} from "~/composables/states";
 
 interface ListingWithStats {
   listing: Listing;
@@ -125,7 +125,6 @@ interface ListingWithStats {
 }
 
 const user = useUser();
-const seriesStats = useSeriesStats();
 const route = useRoute();
 
 const searchTerm = ref("");
@@ -187,7 +186,7 @@ async function updateListings() {
         listingsWithStats.value = listings.map((listing) => {
           return {
             listing,
-            stats: getSeriesStats(listing.token.name)
+            stats: getSeriesStats(listing.token.contract_address, listing.token.name)
           }
         })
       });
@@ -314,10 +313,6 @@ function sortSecondaryListings(column: string) {
   }
 
   listingsCurrentPage.value = 1;
-}
-
-function getSeriesStats(name: string) {
-  return seriesStats.value[name];
 }
 </script>
 

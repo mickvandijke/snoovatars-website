@@ -8,18 +8,22 @@
         </button>
         <div class="flex items-center gap-0.5">
           <span class="text-neutral-400">24hr Vol:</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <div class="flex gap-1 text-neutral-300">
-            <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
-            <span class="hidden md:block text-neutral-500">(<span class="text-neutral-300">{{ ethereumInLocalCurrency(dailyVol * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
+          <div class="flex gap-0.25 items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+            <div class="flex gap-1 text-neutral-300">
+              <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
+              <span class="hidden md:block text-neutral-500">(<span class="text-neutral-300">{{ ethereumInLocalCurrency(dailyVol * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
+            </div>
           </div>
         </div>
         <div class="flex items-center gap-0.5">
           <span class="text-neutral-400">Market Cap:</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <div class="flex gap-1 text-neutral-300">
-            <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
-            <span class="text-neutral-500">(<span class="text-neutral-300">{{ ethereumInLocalCurrency(mCap * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
+          <div class="flex gap-0.25 items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="hidden md:block w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+            <div class="flex gap-1 text-neutral-300">
+              <span class="hidden md:block">{{ mCap.toFixed(2).replace(/\.?0+$/, '') }}</span>
+              <span class="text-neutral-500">(<span class="text-neutral-300">{{ ethereumInLocalCurrency(mCap * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
+            </div>
           </div>
         </div>
         <div class="flex items-center gap-0.5">

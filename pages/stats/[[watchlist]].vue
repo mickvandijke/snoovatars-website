@@ -221,12 +221,12 @@ import {
   updateMarketInfo,
   updateSeriesStats,
   useEthereumUsdPrice,
-  useSeriesStats,
+  useSeriesStatsV2,
   useWatchList
 } from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
 import {computed, getSaleAsGweiPrice, ref, useRoute, useRouter} from "#imports";
-import {ComputedRef, Ref, watch} from "vue";
+import {ComputedRef, watch} from "vue";
 import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import MenuBar from "~/components/MenuBar.vue";
 import {Capacitor} from "@capacitor/core";
@@ -239,7 +239,7 @@ import {ethereumInLocalCurrency} from "#imports";
 
 const router = useRouter();
 const route = useRoute();
-const seriesStats = useSeriesStats();
+const seriesStats = useSeriesStatsV2();
 const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
 
@@ -308,7 +308,13 @@ const sortingOnShop = computed(() => {
 });
 
 const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => {
-  let filteredSeriesStats = Array.from(Object.values(seriesStats.value));
+  let filteredSeriesStats: SeriesStats[] = [];
+
+  for (const collection of Object.entries(seriesStats.value)) {
+    filteredSeriesStats = filteredSeriesStats.concat(Object.values(collection[1]));
+  }
+
+  console.log(filteredSeriesStats);
 
   if (route.params?.watchlist) {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => watchList.value.has(seriesStat.series.name));

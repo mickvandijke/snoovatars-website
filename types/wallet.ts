@@ -6,7 +6,7 @@ export interface WalletTokens {
 }
 
 export interface ApiResponse {
-    wallets: Record<WalletAddress, Record<string, Token[]>>;
+    wallets: Record<WalletAddress, Token[]>;
     cones: number;
     weth: number;
 }

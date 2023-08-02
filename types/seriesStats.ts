@@ -60,5 +60,5 @@ export interface SeriesStats {
 }
 
 export interface ApiResponse {
-    series_stats: Map<string, SeriesStats>;
+    series_stats: Map<string, Map<string, SeriesStats>>;
 }

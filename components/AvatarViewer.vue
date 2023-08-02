@@ -45,7 +45,7 @@
                 </div>
                 <div class="flex items-center">
                   <div class="text-neutral-400">Collection:</div>
-                  <div class="pl-0.5 flex gap-0.5 items-center">
+                  <div class="pl-0.5 flex gap-0.5 items-center overflow-hidden w-full truncate">
                     <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}`)" class="text-amber-500">{{ seriesStats.collection.name.replace("x Reddit Collectible Avatars", "") }}</button>
                   </div>
                 </div>

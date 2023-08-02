@@ -7,8 +7,14 @@ import {Listing} from "~/types/listing";
 export function getLowestListing(stats: SeriesStats) {
     let maticToEthModifier = 1 / (useEthereumPriceMap().value.get("MATIC") ?? 0)
 
-    let eth = stats.stats.eth.lowest_listing?.payment_token.base_price / ETH_TO_GWEI_MODIFIER ?? 0;
+    let eth = stats.stats.eth.lowest_listing?.payment_token.base_price / ETH_TO_GWEI_MODIFIER;
     let matic = stats.stats.matic.lowest_listing?.payment_token.base_price / ETH_TO_GWEI_MODIFIER * maticToEthModifier;
+
+    if (!eth && !!matic) {
+        return stats.stats.matic.lowest_listing;
+    } else if (!matic && !!eth) {
+        return stats.stats.eth.lowest_listing;
+    }
 
     if (eth > matic) {
         return stats.stats.matic.lowest_listing;
