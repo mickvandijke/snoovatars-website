@@ -1,6 +1,7 @@
 import UIKit
 import Capacitor
 import Firebase
+import WebKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -10,6 +11,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        // Hide scrollbars in webviews (Capacitor uses WKWebView).
+            if #available(iOS 11.0, *) {
+                UIScrollView.appearance(whenContainedInInstancesOf: [WKWebView.self]).showsVerticalScrollIndicator = false
+                UIScrollView.appearance(whenContainedInInstancesOf: [WKWebView.self]).showsHorizontalScrollIndicator = false
+            }
+        
         return true
     }
     
