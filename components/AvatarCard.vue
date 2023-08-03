@@ -54,7 +54,7 @@
               </template>
             </template>
             <template v-else>
-              <div class="text-[0.65rem] font-semibold" :class="{ 'text-green-600': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-600': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
+              <div class="text-[0.65rem] font-semibold" :class="{ 'text-green-500': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-500': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
                 <template v-if="seriesStats && seriesStats.series.mint_price > 0">
                   ${{ seriesStats.series.mint_price / 100.00 }}
                 </template>

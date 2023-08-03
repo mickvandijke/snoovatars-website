@@ -4,11 +4,11 @@
     <MenuBar>
       <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none sm:w-fit max-w-xs">
       <select v-model="sortOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none sm:w-fit max-w-sm overflow-x-hidden">
-        <option value="highestPrice">Sort by Highest Price</option>
-        <option value="lowestPrice">Sort by Lowest Price</option>
         <option value="highestLastSale">Sort by Highest Last Sale</option>
         <option value="lowestLastSale">Sort by Lowest Last Sale</option>
         <option value="fiveLastSales">Sort by Highest Last 5 Sales Average</option>
+        <option value="highestPrice">Sort by Highest Floor</option>
+        <option value="lowestPrice">Sort by Lowest Floor</option>
         <option value="highestSupply">Sort by Highest Supply</option>
         <option value="lowestSupply">Sort by Lowest Supply</option>
         <option value="highestMarketCap">Sort by Highest Market Cap</option>
@@ -249,7 +249,7 @@ const filterGenOption = ref<string>(route.query.gen as string ?? "all");
 const filterRarityOption = ref<string>(route.query.supply as string ?? "all");
 const filterSoldOut = ref<string>(route.query.soldOut as string ?? "show");
 const filterNoListings = ref<string>(route.query.noListings as string ?? "show");
-const sortOption = ref<string>(route.query.sort as string ?? "highestPrice");
+const sortOption = ref<string>(route.query.sort as string ?? "highestLastSale");
 const isRefreshing = ref(false);
 const showFilters = ref(false);
 const layout = ref("grid");

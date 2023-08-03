@@ -152,7 +152,7 @@
           </div>
         </div>
         <div class="flex flex-col items-end">
-          <div class="flex font-bold text-[0.7rem]">
+          <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
               <span class="text-neutral-500 font-medium">24h:</span>
               <template v-if="item.stats.daily_price_change > 0">
@@ -172,20 +172,20 @@
               </template>
             </div>
           </div>
-          <div class="flex font-bold text-[0.7rem]">
+          <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
               <span class="text-neutral-500 font-medium">Vol:</span>
               <div class="flex gap-0.25 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="text-neutral-400">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
+                <div class="text-neutral-500">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
               </div>
             </div>
           </div>
-          <div class="flex font-bold text-[0.7rem]">
+          <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
               <span class="text-neutral-500 font-medium">Cap:</span>
               <div class="flex gap-0.25 items-center">
-                <div class="text-neutral-400">{{ ethereumInLocalCurrency(item.series.total_sold * item.stats.last_sale?.payment_token.base_price ?? 0, true) }}</div>
+                <div class="text-neutral-500">{{ ethereumInLocalCurrency(item.series.total_sold * item.stats.last_sale?.payment_token.base_price ?? 0, true) }}</div>
               </div>
             </div>
           </div>
@@ -203,9 +203,9 @@ import {
   useEthereumUsdPrice,
   useEthereumPriceMap
 } from "~/composables/states";
-import {computed, ethereumInLocalCurrency, onBeforeMount} from "#imports";
+import {computed, ethereumInLocalCurrency} from "#imports";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
-import {getLowestListing, getListingAsGweiPrice, getSaleAsGweiPrice} from "~/composables/helpers";
+import {getLowestListing, getListingAsGweiPrice} from "~/composables/helpers";
 
 const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
