@@ -314,8 +314,6 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
     filteredSeriesStats = filteredSeriesStats.concat(Object.values(collection[1]));
   }
 
-  console.log(filteredSeriesStats);
-
   if (route.params?.watchlist) {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => watchList.value.has(seriesStat.series.name));
   }
