@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import {ChevronDownIcon, UserCircleIcon} from "@heroicons/vue/20/solid";
+import {UserCircleIcon} from "@heroicons/vue/20/solid";
 import {Ref} from "@vue/reactivity";
 import {
   computed,

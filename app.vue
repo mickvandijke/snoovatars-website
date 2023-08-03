@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col items-center min-h-screen w-full scrollbar-hide" style="max-width: 100vw;">
+  <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <HeaderTop :class="{ 'page-mobile-padding-top': Capacitor.isNativePlatform() }" />
     <NavigationBar ref="navbarcomp"/>
     <AvatarViewer />
@@ -63,7 +63,7 @@ useHead({
     { name: "apple-itunes-app", content: "app-id=6449831133" },
   ],
   htmlAttrs: {
-    class: "scrollbar-hide"
+    class: Capacitor.isNativePlatform() ? "scrollbar-hide" : ""
   }
 });
 
@@ -271,16 +271,14 @@ input.lighter, select.lighter {
   padding-bottom: calc(54px + env(safe-area-inset-bottom));
 }
 
-@media screen and (max-width: 640px) {
-  /* For Webkit-based browsers (Chrome, Safari and Opera) */
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
-  /* For IE, Edge and Firefox */
-  .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>

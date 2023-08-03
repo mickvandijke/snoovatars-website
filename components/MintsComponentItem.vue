@@ -23,8 +23,8 @@
     <div class="flex flex-col items-end">
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-neutral-500 font-medium">Price:</span>
-          <span class="text-neutral-500 font-medium">${{ seriesStats.series.mint_price / 100 }}</span>
+          <span class="text-neutral-500 font-medium">Stock:</span>
+          <span class="text-neutral-500 font-medium">{{ shopStock > 999 ? "999+" : shopStock }} left</span>
         </div>
       </div>
       <div class="flex font-medium text-[0.7rem]">
