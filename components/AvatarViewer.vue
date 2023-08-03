@@ -1,28 +1,30 @@
 <template>
   <!-- The overlay is used to cover the main content when the drawer is open -->
-  <div class="fixed inset-0 bg-black opacity-50 z-40" v-if="open()" @click="close"></div>
+  <div class="fixed inset-0 bg-black opacity-50 z-40" v-if="open" @click="close"></div>
 
   <!-- The drawer content -->
   <transition name="slide">
-    <div v-if="open()" class="fixed top-0 left-0 sm:right-0 sm:left-auto h-full overflow-y-auto scrollbar-hide w-96 max-w-[95%] bg-neutral-900 shadow-lg z-50" :class="{ 'page-mobile-padding-top page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
+    <div v-if="open" class="fixed top-0 left-0 sm:right-0 sm:left-auto h-full overflow-y-auto scrollbar-hide w-96 max-w-[95%] bg-neutral-900 shadow-lg z-50" :class="{ 'page-mobile-padding-top page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <!-- Add your drawer content here -->
-      <div class="p-4 sticky top-0 flex items-center justify-center bg-neutral-900/90 backdrop-blur-xl border-b border-neutral-800 z-10">
+      <div class="p-4 sticky top-0 flex items-center justify-center bg-neutral-900/90 backdrop-blur-xl border-b border-neutral-800 z-30">
         <span class="text-neutral-400 font-semibold">{{ selectedAvatar.series }}</span>
-        <XMarkIcon @click="close" class="absolute right-4 w-7 h-7 text-neutral-400 opacity-50 hover:opacity-100 cursor-pointer duration-200" />
+        <XMarkIcon @click.stop="close" class="absolute right-4 w-7 h-7 text-neutral-400 opacity-50 hover:opacity-100 cursor-pointer duration-200" />
       </div>
-      <div class="px-6 py-4 w-full flex flex-col items-center gap-6">
-        <div class="relative max-w-[18rem]">
-          <img :src="avatarImage" class="blur opacity-50">
-          <img :src="avatarImage" class="absolute inset-0">
+      <div class="relative px-6 py-4 w-full flex flex-col items-center gap-6 overflow-hidden">
+        <div class="relative max-w-[18rem] z-20">
+          <img :src="avatarImage">
+        </div>
+        <div class="absolute top-0 z-10">
+          <img :src="avatarImage" class="blur-3xl opacity-30">
         </div>
         <div class="flex flex-col items-center gap-3">
-          <h2 class="text-neutral-400">{{ selectedAvatar.series }}</h2>
+          <h2 class="text-neutral-300">{{ selectedAvatar.series }}</h2>
           <div class="flex gap-2 text-sm">
             <div class="p-2 border border-neutral-800 rounded-lg">
-              <span class="text-neutral-400">${{ selectedAvatar.seriesStats.series.mint_price / 100 }}</span>
+              <span class="px-1 text-neutral-300">${{ selectedAvatar.seriesStats.series.mint_price / 100 }}</span>
             </div>
             <div class="p-2 border border-neutral-800 rounded-lg">
-              <span class="text-neutral-400">{{ selectedAvatar.seriesStats.series.status.toUpperCase().replace("_", " ") }}</span>
+              <span class="text-neutral-300">{{ selectedAvatar.seriesStats.series.status.toUpperCase().replace("_", " ") }}</span>
             </div>
             <div class="px-3 py-2 border rounded-lg" :class="getMintClasses(selectedAvatar.seriesStats.series.total_quantity)">
               <span>{{ Math.max(selectedAvatar.seriesStats.series.total_quantity, selectedAvatar.seriesStats.series.total_sold) }}</span>
@@ -293,6 +295,7 @@ const salesSortColumn = ref('date_sold');
 const salesSortDirection = ref('desc');
 const salesCurrentPage = ref(1);
 
+const open = ref(false);
 const listings: Ref<Array<Listing>> = ref([]);
 const listingsSortColumn = ref('payment_token.base_price');
 const listingsSortDirection = ref('asc');
@@ -300,16 +303,14 @@ const listingsCurrentPage = ref(1);
 
 watch([selectedAvatar], () => {
   if (selectedAvatar.value) {
+    open.value = true;
     refresh();
   }
 });
 
-function open() {
-  return !!selectedAvatar.value;
-}
-
 function close() {
   selectedAvatar.value = null;
+  open.value = false;
 }
 
 const avatarImage = computed(() => {

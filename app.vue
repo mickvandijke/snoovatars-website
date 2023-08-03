@@ -50,11 +50,11 @@ import {computed, ComputedRef} from "vue";
 import HeaderTop from "~/components/HeaderTop.vue";
 
 useHead({
-  title: 'RCA Real-Time Floor Prices, Sales and More! | RCAX.io',
+  title: 'Reddit Collectible Avatars prices, statistics, sales and more! | RCAX.io',
   link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
   meta: [
     { name: "title", content: "RCAX" },
-    { name: 'description', content: 'Real-time data tracking and price alerts for the Reddit Collectible Avatars space!' },
+    { name: 'description', content: 'Reddit Collectible Avatars prices, statistics, sales and more!' },
     { name: 'keywords', content: 'Reddit, Collectible, Avatars, NFT, Floor, RCA, RedditCollectibleAvatars, RCAX, rcax, Polygon' },
     { name: 'robots', content: 'index, follow' },
     { 'http-equiv': "content-type", content: "text/html; charset=utf-8" },
