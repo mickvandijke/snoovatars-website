@@ -33,7 +33,7 @@
       </div>
     </div>
     <div v-if="isBannerShowing" class="relative bg-neutral-800/90 border-y border-neutral-700/90 flex items-center justify-center max-h-32">
-      <a href="https://t.ly/0xSI8" target="_blank">
+      <a href="https://www.the23.club" target="_blank">
         <img src="/images/banners/hodl_banner2.png" alt="Banner Image" class="max-h-32" />
       </a>
       <button @click="isBannerClosed = !isBannerClosed" class="py-1 absolute text-sm top-0 right-1 md:top-2 md:right-4 text-neutral-400">Close Banner</button>
