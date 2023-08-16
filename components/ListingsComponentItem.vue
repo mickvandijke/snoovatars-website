@@ -7,20 +7,22 @@
           <div class="flex flex-nowrap items-center gap-1 whitespace-nowrap overflow-hidden">
             <div class="flex items-center">
               <div class="flex items-center">
-                <template v-if="item.payment_token.symbol === 'ETH'">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="flex gap-0.5 font-bold text-white">
-                    <span>{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                    <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>)</span>
-                  </div>
-                </template>
-                <template v-else-if="item.payment_token.symbol === 'MATIC'">
-                  <div class="pr-0.5 flex items-center text-orange-500">M</div>
-                  <div class="flex gap-0.5 font-bold text-white">
-                    <span>{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                    <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price / ethereumPriceMap.get("MATIC")) }}</span>)</span>
-                  </div>
-                </template>
+                <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="flex items-center group">
+                  <template v-if="item.payment_token.symbol === 'ETH'">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <div class="flex gap-0.5 font-bold text-white group-hover:text-neutral-300">
+                      <span>{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                      <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>)</span>
+                    </div>
+                  </template>
+                  <template v-else-if="item.payment_token.symbol === 'MATIC'">
+                    <div class="pr-0.5 flex items-center text-orange-500">M</div>
+                    <div class="flex gap-0.5 font-bold text-white group-hover:text-neutral-300">
+                      <span>{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                      <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price / ethereumPriceMap.get("MATIC")) }}</span>)</span>
+                    </div>
+                  </template>
+                </button>
               </div>
             </div>
           </div>
@@ -53,17 +55,21 @@
             <template v-if="!lowestListing">
               <span class="text-neutral-500 font-medium">None.</span>
             </template>
-            <template v-else-if="lowestListing.payment_token.symbol === 'ETH'">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="flex gap-0.5 text-neutral-500">
-                <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-              </div>
-            </template>
-            <template v-else-if="lowestListing.payment_token.symbol === 'MATIC'">
-              <div class="pr-0.5 flex items-center text-neutral-500">M</div>
-              <div class="flex gap-0.5 text-neutral-500">
-                <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-              </div>
+            <template v-else>
+              <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${lowestListing.token.contract_address}/${lowestListing.token.id}`)" class="flex items-center group">
+                <template v-if="lowestListing.payment_token.symbol === 'ETH'">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="flex gap-0.5 text-neutral-500">
+                    <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                  </div>
+                </template>
+                <template v-else-if="lowestListing.payment_token.symbol === 'MATIC'">
+                  <div class="pr-0.5 flex items-center text-neutral-500">M</div>
+                  <div class="flex gap-0.5 text-neutral-500">
+                    <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                  </div>
+                </template>
+              </button>
             </template>
           </div>
         </div>
@@ -101,7 +107,7 @@ import {
   useEthereumPriceMap,
   getSeriesStats
 } from "~/composables/states";
-import {computed, ethereumInLocalCurrency, getLowestListing} from "#imports";
+import {computed, ethereumInLocalCurrency, getLowestListing, openLinkWith} from "#imports";
 import {Listing} from "~/types/listing";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
 
