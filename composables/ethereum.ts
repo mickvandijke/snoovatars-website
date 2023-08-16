@@ -39,10 +39,16 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
     } else if (price >= 100) {
         price = Math.round(price);
     } else {
-        price = +price.toFixed(2);
+         price = +price.toFixed(2);
     }
 
-    return `${symbol}${price.toLocaleString(localeString)}${abb}`;
+    let priceString = price.toLocaleString(localeString);
+
+    if (priceString.includes('.') && priceString.split('.')[1].length === 1 || priceString.includes(',') && priceString.split(',')[1].length === 1) {
+        priceString += '0';
+    }
+
+    return `${symbol}${priceString}${abb}`;
 }
 
 export function coneInLocalCurrency(eth: number): string {
