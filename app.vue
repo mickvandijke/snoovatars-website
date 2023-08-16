@@ -24,7 +24,7 @@ import {useHead} from "nuxt/app";
 import {
   loadWatchList,
   onBeforeMount, ref, updateMarketInfo,
-  useCollections, useRouter, useSelectedAvatar,
+  useCollections, useRouter,
   useUser,
   watch
 } from "#imports";
@@ -46,7 +46,7 @@ import { Browser } from '@capacitor/browser';
 import {LocalNotifications} from "@capacitor/local-notifications";
 import {registerFcmDeviceToken} from "~/composables/api/fcm";
 import Prompt from "~/components/Prompt.vue";
-import {computed, ComputedRef} from "vue";
+import {computed} from "vue";
 import HeaderTop from "~/components/HeaderTop.vue";
 
 useHead({
@@ -247,7 +247,7 @@ const getDeliveredNotifications = async () => {
 }
 
 html, body {
-  @apply bg-black sm:bg-neutral-900;
+  @apply bg-black;
   -webkit-tap-highlight-color: transparent;
 }
 

@@ -1,7 +1,6 @@
 <template>
   <div
-      class="sticky top-0 flex flex-col bg-neutral-900/90 z-40 sm:border-b border-neutral-800 w-full"
-      style="backdrop-filter: blur(20px);padding-top: env(safe-area-inset-top);"
+      class="sticky top-0 flex flex-col bg-neutral-900 z-40 sm:border-b border-neutral-800/90 w-full"
       @mouseleave="closeDropdowns()"
       ref="navbar"
   >

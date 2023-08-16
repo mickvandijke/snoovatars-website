@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div v-if="isBannerShowing" class="relative bg-neutral-800/90 border-y border-neutral-700/90 flex items-center justify-center max-h-32">
+    <div v-if="isBannerShowing" class="relative bg-neutral-800/90 border-y border-white/5 flex items-center justify-center max-h-32">
       <a href="https://www.the23.club" target="_blank">
         <img src="/images/banners/hodl_banner2.png" alt="Banner Image" class="max-h-32" />
       </a>
