@@ -225,7 +225,7 @@ import {
   useWatchList
 } from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
-import {computed, getSaleAsGweiPrice, ref, useRoute, useRouter} from "#imports";
+import {computed, getLowestListingAsGweiPrice, getSaleAsGweiPrice, ref, useRoute, useRouter} from "#imports";
 import {ComputedRef, watch} from "vue";
 import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import MenuBar from "~/components/MenuBar.vue";
@@ -462,8 +462,8 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
       break;
     case "highestFloorMintRatio":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aFloorMintRatio = getLowestListing(a) ? Math.round(((getLowestListingAsGweiPrice(a) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (a.series.mint_price / 100) * 100) : 999999999;
-        const bFloorMintRatio = getLowestListing(b) ? Math.round(((getLowestListingAsGweiPrice(b) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (b.series.mint_price / 100) * 100) : 999999999;
+        const aFloorMintRatio = getLowestListing(a) ? Math.round(((getLowestListingAsGweiPrice(a) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (a.series.mint_price / 100) * 100 - 100) : 0;
+        const bFloorMintRatio = getLowestListing(b) ? Math.round(((getLowestListingAsGweiPrice(b) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (b.series.mint_price / 100) * 100 - 100) : 0;
 
         if (aFloorMintRatio > bFloorMintRatio) {
           return -1;
@@ -476,8 +476,8 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
       break;
     case "lowestFloorMintRatio":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
-        const aFloorMintRatio = getLowestListing(a) ? Math.round(((getLowestListingAsGweiPrice(a) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (a.series.mint_price / 100) * 100) : 999999999;
-        const bFloorMintRatio = getLowestListing(b) ? Math.round(((getLowestListingAsGweiPrice(b) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (b.series.mint_price / 100) * 100) : 999999999;
+        const aFloorMintRatio = getLowestListing(a) ? Math.round(((getLowestListingAsGweiPrice(a) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (a.series.mint_price / 100) * 100 - 100) : 0;
+        const bFloorMintRatio = getLowestListing(b) ? Math.round(((getLowestListingAsGweiPrice(b) / ETH_TO_GWEI_MODIFIER) * ethereumPriceInUsd.value) / (b.series.mint_price / 100) * 100 - 100) : 0;
 
         if (aFloorMintRatio > bFloorMintRatio) {
           return 1;
