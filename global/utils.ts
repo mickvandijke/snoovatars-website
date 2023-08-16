@@ -27,7 +27,7 @@ export function getTokenImage(url: string): string {
     }
 
     if (url.startsWith("ipfs://")) {
-        url = url.replace("ipfs://", "https://reddit.infura-ipfs.io/ipfs/");
+        url = url.replace("ipfs://", "https://ipfs.io/ipfs/");
     }
 
     return url;
