@@ -16,7 +16,7 @@
               <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
             </template>
             <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-neutral-300 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
-            <div class="relative ml-0.5 px-1 text-black font-bold rounded text-[0.65rem]" :class="getMintClasses(seriesStats.series.total_quantity)">
+            <div class="relative ml-0.5 text-black text-[0.7rem] font-bold rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">
               <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
             </div>
             <div class="ml-auto flex items-center gap-1 font-bold">
@@ -124,11 +124,11 @@ function selectAvatar() {
 
 function getMintClasses(totalQuantity: number) {
   if (totalQuantity <= 250) {
-    return ["bg-neutral-800 text-yellow-500"];
+    return ["text-yellow-500"];
   } else if (totalQuantity <= 777) {
-    return ["bg-neutral-800 text-gray-300"];
+    return ["text-gray-300"];
   } else {
-    return ["bg-neutral-800 text-neutral-400"];
+    return ["text-neutral-400"];
   }
 }
 </script>
