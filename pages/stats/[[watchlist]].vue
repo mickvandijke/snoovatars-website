@@ -9,6 +9,8 @@
         <option value="fiveLastSales">Sort by Highest Last 5 Sales Average</option>
         <option value="highestPrice">Sort by Highest Floor</option>
         <option value="lowestPrice">Sort by Lowest Floor</option>
+        <option value="highestFloorMintRatio">Sort by Highest Mint Profit</option>
+        <option value="lowestFloorMintRatio">Sort by Lowest Mint Profit</option>
         <option value="highestSupply">Sort by Highest Supply</option>
         <option value="lowestSupply">Sort by Lowest Supply</option>
         <option value="highestMarketCap">Sort by Highest Market Cap</option>
@@ -25,8 +27,6 @@
         <option value="lowestWeeklyAverage">Sort by Lowest 7 Days Average Sale</option>
         <option value="lowestTwoWeeklyAverage">Sort by Lowest 14 Days Average Sale</option>
         <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Sale</option>
-        <option value="highestFloorMintRatio">Sort by Highest Mint Profit</option>
-        <option value="lowestFloorMintRatio">Sort by Lowest Mint Profit</option>
         <option value="lowestListedPercentage">Sort by Lowest Listed Percentage</option>
         <option value="highestShopAvailableAbsolute">Sort by Most Available in Shop (Absolute)</option>
         <option value="lowestShopAvailableAbsolute">Sort by Least Available in Shop (Absolute)</option>

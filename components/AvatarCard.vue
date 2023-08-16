@@ -3,7 +3,7 @@
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
-          <img v-lazy-pix="getTokenImage(item.image)" src="/img/rcax_placeholder.png" class="relative w-full h-auto mx-auto" :alt="item.name">
+          <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="relative w-full h-auto mx-auto" :alt="item.name">
           <template v-if="Capacitor.getPlatform() !== 'ios'">
             <div class="absolute top-1 right-1 w-4 h-4 rounded-full">
               <OpenseaIcon />
