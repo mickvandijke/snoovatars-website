@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
-    <HeaderTop :class="{ 'page-mobile-padding-top': Capacitor.isNativePlatform() }" />
+    <HeaderTop :class="{ 'page-mobile-margin-top': Capacitor.isNativePlatform() }" />
     <NavigationBar ref="navbarcomp"/>
     <AvatarViewer />
     <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
@@ -263,8 +263,12 @@ input.lighter, select.lighter {
   @apply border-neutral-700 hover:border-neutral-600;
 }
 
-.page-mobile-padding-top {
+.page-mobile-margin-top {
   margin-top: env(safe-area-inset-top);
+}
+
+.page-mobile-padding-top {
+  padding-top: env(safe-area-inset-top);
 }
 
 .page-mobile-padding-bottom {
