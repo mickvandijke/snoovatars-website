@@ -28,6 +28,7 @@
     "@heroicons/vue": "^2.0.13",
     "@ionic/vue": "^7.0.10",
     "chart.js": "^4.3.0",
+    "click-outside-vue3": "^4.0.1",
     "cordova-plugin-purchase": "^13.4.3",
     "ethers": "5.5.3",
     "firebase": "^9.22.1",

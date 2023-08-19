@@ -262,8 +262,12 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
-input, select {
-  @apply p-2.5 bg-transparent text-white placeholder-white/40 border border-primary-border hover:border-neutral-600 rounded-xl w-full duration-200 cursor-pointer;
+select {
+  @apply p-2 h-10 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white capitalize placeholder-white/20 font-medium border-none focus:outline-none overflow-x-hidden rounded-lg cursor-pointer;
+}
+
+input {
+  @apply p-2 h-10 bg-transparent text-white placeholder-white/40 border border-primary-border hover:border-white/25 rounded-lg w-full duration-200 cursor-text;
 }
 
 input.light, select.light {

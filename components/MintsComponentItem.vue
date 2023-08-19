@@ -23,13 +23,13 @@
     <div class="flex flex-col items-end">
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-white/60 font-medium">Stock:</span>
+          <span class="text-white/40 font-medium">Stock:</span>
           <span class="text-white/60 font-medium">{{ shopStock > 999 ? "999+" : shopStock }} left</span>
         </div>
       </div>
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-white/60 font-medium">Floor:</span>
+          <span class="text-white/40 font-medium">Floor:</span>
           <div class="flex items-center">
             <template v-if="!lowestListing">
               <span class="text-white/60 font-medium">None.</span>
@@ -50,8 +50,8 @@
         </div>
       </div>
       <div class="flex font-medium text-[0.7rem]">
-        <div class="flex gap-1 text-white/60">
-          <span class="text-white/60 font-medium">Profit:</span>
+        <div class="flex gap-1">
+          <span class="text-white/40 font-medium">Profit:</span>
           <div :class="{ 'text-green-500': mintProfitInPercentage >= 0, 'text-red-500': mintProfitInPercentage < 0 }">{{ mintProfitInPercentage }}%</div>
         </div>
       </div>

@@ -44,19 +44,19 @@
     <div class="flex flex-col items-end">
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-white/60 font-medium">Seller:</span>
+          <span class="text-white/40 font-medium">Seller:</span>
           <button @click="openLinkWith(`https://opensea.io/${item.seller}`)" class="text-white/60">{{ item.seller.slice(2, 6) }}</button>
         </div>
       </div>
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-white/60 font-medium">Buyer:</span>
+          <span class="text-white/40 font-medium">Buyer:</span>
           <button @click="openLinkWith(`https://opensea.io/${item.buyer}`)" class="text-white/60">{{ item.buyer.slice(2, 6) }}</button>
         </div>
       </div>
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-white/60 font-medium">Floor:</span>
+          <span class="text-white/40 font-medium">Floor:</span>
           <div class="flex items-center">
             <template v-if="!lowestListing">
               <span class="text-white/60 font-medium">None.</span>

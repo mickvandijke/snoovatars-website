@@ -1,10 +1,10 @@
 <template>
   <div
-      class="flex flex-col bg-primary/80 backdrop-blur-2xl z-40 w-full"
+      class="navigation-bar flex flex-col bg-primary/80 backdrop-blur-2xl z-40 w-full"
       @mouseleave="closeDropdowns()"
       ref="navbar"
   >
-    <nav class="py-2 px-4 sm:py-4 sm:px-8 flex w-full justify-between items-center">
+    <nav class="py-2 px-4 sm:py-4 sm:px-8 flex w-full items-center gap-3 md:gap-6">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
@@ -18,18 +18,19 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
           <span class="font-semibold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(ETH_TO_GWEI_MODIFIER) }}</span>
         </div>
-        <div>
-          <select v-model="settings.currency.preferred" class="px-2 py-1.5 rounded-md bg-primary-accent hover:bg-primary-accent-hover border-none text-sm focus:outline-none max-w-sm">
-            <template v-for="currency in CURRENCIES">
-              <option :value="currency.ticker">{{ currency.ticker }}</option>
-            </template>
-          </select>
-        </div>
       </div>
 
-      <ul class="flex text-white/60 text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
+      <div class="ml-auto md:ml-0">
+        <select v-model="settings.currency.preferred">
+          <template v-for="currency in CURRENCIES">
+            <option :value="currency.ticker">{{ currency.ticker }}</option>
+          </template>
+        </select>
+      </div>
+
+      <ul class="md:ml-auto flex text-white/60 text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/stats">Dashboard</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar/exporter">Avatar Exporter</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar">Avatar Exporter</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/alerts">Price Alerts</NuxtLink>
         <UserMenuButton>
           <template v-if="user?.username">
@@ -132,6 +133,8 @@ function closeDropdowns() {
 }
 </script>
 
-<style scoped>
-
+<style>
+.navigation-bar select {
+  @apply h-full max-h-full;
+}
 </style>

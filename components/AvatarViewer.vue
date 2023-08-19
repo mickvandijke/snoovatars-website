@@ -26,7 +26,7 @@
             <div class="p-2 border border-neutral-800 rounded-lg">
               <span class="text-neutral-300">{{ selectedAvatar.seriesStats.series.status.toUpperCase().replace("_", " ") }}</span>
             </div>
-            <div class="px-3 py-2 border rounded-lg" :class="getMintClasses(selectedAvatar.seriesStats.series.total_quantity)">
+            <div class="px-3 py-2 bg-gradient-to-b border-primary-border rounded-lg" :class="getMintClasses(selectedAvatar.seriesStats.series.total_quantity)">
               <span>{{ Math.max(selectedAvatar.seriesStats.series.total_quantity, selectedAvatar.seriesStats.series.total_sold) }}</span>
             </div>
           </div>
@@ -415,11 +415,11 @@ function refresh() {
 
 function getMintClasses(totalQuantity: number) {
   if (totalQuantity <= 250) {
-    return ["bg-yellow-500/0 text-yellow-500 border-yellow-500/50 italic"];
+    return ["bg-yellow-500/0 from-yellow-500/25 to-yellow-500/10 text-yellow-500 italic"];
   } else if (totalQuantity <= 777) {
-    return ["bg-gray-300/0 text-gray-300 border-gray-300/50 italic"];
+    return ["bg-gray-300/0 from-gray-300/25 to-gray-300/10 text-gray-300 italic"];
   } else {
-    return ["bg-neutral-400/0 text-neutral-400 border-neutral-400/50 italic"];
+    return ["bg-neutral-400/0 from-neutral-400/25 to-neutral-400/10 text-neutral-400 italic"];
   }
 }
 </script>

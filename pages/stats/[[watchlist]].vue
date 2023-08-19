@@ -48,6 +48,11 @@
         <option value="highestDailyChange">Sort by Today's Biggest Risers</option>
         <option value="lowestDailyChange">Sort by Today's Biggest Fallers</option>
         <option value="recentSale">Sort by Most Recent Sale</option>
+        <option value="lowestShopAvailablePercentage">Sort by Least Stock in Shop (Percentage)</option>
+        <option value="highestShopAvailablePercentage">Sort by Most Stock in Shop (Percentage)</option>
+        <option value="lowestShopAvailableAbsolute">Sort by Least Stock in Shop</option>
+        <option value="highestShopAvailableAbsolute">Sort by Most Stock in Shop</option>
+        <option value="lowestShopNextMint">Sort by Lowest Next Mint Number in Shop</option>
         <option value="highestWeeklyAverage">Sort by Highest 7 Days Average Sale</option>
         <option value="highestTwoWeeklyAverage">Sort by Highest 14 Days Average Sale</option>
         <option value="highestMonthlyAverage">Sort by Highest 30 Days Average Sale</option>
@@ -55,11 +60,6 @@
         <option value="lowestTwoWeeklyAverage">Sort by Lowest 14 Days Average Sale</option>
         <option value="lowestMonthlyAverage">Sort by Lowest 30 Days Average Sale</option>
         <option value="lowestListedPercentage">Sort by Lowest Listed Percentage</option>
-        <option value="highestShopAvailableAbsolute">Sort by Most Available in Shop (Absolute)</option>
-        <option value="lowestShopAvailableAbsolute">Sort by Least Available in Shop (Absolute)</option>
-        <option value="highestShopAvailablePercentage">Sort by Most Available in Shop (Percentage)</option>
-        <option value="lowestShopAvailablePercentage">Sort by Least Available in Shop (Percentage)</option>
-        <option value="lowestShopNextMint">Sort by Lowest Next Mint Number in Shop</option>
         <option value="artistAsc">Sort by Artist (Ascending)</option>
         <option value="artistDesc">Sort by Artist (Descending)</option>
         <option value="nameAsc">Sort by Name (Ascending)</option>

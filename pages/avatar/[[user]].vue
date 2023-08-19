@@ -1,69 +1,89 @@
 <template>
-  <div class="px-4 py-6 sm:py-12 flex flex-col items-center gap-6 w-full">
-    <div class="flex items-center gap-3">
-      <button class="px-4 py-2 flex gap-1 items-center bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-md duration-200" @click="changeUser"><ChevronLeftIcon class="w-4"/>Change</button>
-      <h2 class="px-4 py-2 bg-neutral-800 text-white rounded-md">u/{{ user }}</h2>
-    </div>
-    <div class="flex flex-col">
-      <div v-if="pending" class="w-24 w-24 bg-neutral-800 rounded-xl animate-pulse"></div>
-      <div v-else-if="avatar" class="w-24">
-        <img :src="avatar" :alt="avatarAltText" class="m-auto max-w-full max-h-full">
+  <div class="avatar-view px-4 py-4 sm:px-8 flex flex-col items-center gap-6 w-full">
+    <div class="flex flex-col gap-6 items-center w-full max-w-md">
+      <h1 class="text-xl md:text-3xl text-white font-bold">RCAX: Avatar Exporter</h1>
+      <div class="flex items-center gap-2 w-full">
+        <input v-model="userSearch" placeholder="Reddit Username (without u/)" @keyup.enter.prevent="searchUser(userSearch)" />
+        <button :disabled="!userSearch || pending || userSearch === user" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200" @click="searchUser(userSearch)">
+          <template v-if="!pending">
+            <span>Let's go!</span>
+          </template>
+          <template v-else>
+            <IonSpinner class="w-5 h-5" />
+          </template>
+        </button>
       </div>
-      <h2 v-else class="px-4 py-2 bg-red-600/10 text-red-500 font-semibold rounded-3xl">Could not load avatar!</h2>
     </div>
-    <div class="flex flex-col md:flex-row gap-6 w-full">
-      <div class="flex flex-col items-center md:w-2/3 gap-3">
-        <div class="px-3 flex gap-2 md:items-start w-full">
-          <input v-model="searchTerm" placeholder="Filter backgrounds" class="p-2 h-9 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
-          <select v-model="filterGenOption" class="p-2 h-9 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+    <template v-if="error">
+      <div class="p-4 bg-red-500/20 rounded-2xl">
+        <span class="text-white/80">{{ error }}</span>
+      </div>
+    </template>
+    <div class="flex flex-col md:flex-row md:justify-center md:items-center gap-6 md:gap-12 w-full" :class="{ 'hidden': !avatar }">
+      <div class="flex flex-col items-center w-full max-w-3xl gap-3">
+        <div class="sm:px-3 flex gap-2 md:items-start w-full">
+          <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" class="w-full" />
+          <select v-model="filterGenOption" class="w-fit">
             <option value="all">Gen: All</option>
             <template v-for="gen in Object.keys(Filters)">
               <option :value="gen">{{ gen }}</option>
             </template>
           </select>
         </div>
-        <div class="p-3 grid grid-cols-3 md:grid-cols-5 max-h-[16rem] md:max-h-[38rem] overflow-y-scroll overflow-x-hidden border-2 border-neutral-700 rounded-3xl gap-3 w-full h-full">
+        <div class="p-3 grid grid-cols-3 md:grid-cols-5 h-[16rem] md:h-[38rem] overflow-y-scroll overflow-x-hidden border border-primary-border rounded-2xl gap-3 w-full h-full">
           <template v-for="(background, index) in filteredAvatarBackgrounds">
-            <div @click="setBackground(getBackgroundIndex(background))" class="p-2 flex flex-col justify-center items-center bg-neutral-800 text-neutral-200 rounded-xl hover:bg-neutral-700 drop-shadow duration-200">
+            <div @click="setBackground(getBackgroundIndex(background))" class="p-2 h-fit flex flex-col justify-center items-center bg-primary-accent text-white rounded-xl hover:bg-primary-accent-hover duration-200 cursor-pointer">
               <img v-lazy-pix="background.path" src="/img/rcax_placeholder.png" :alt="background.name">
-              <div class="mt-2 text-xs text-center font-semibold">{{ background.name }}</div>
+              <div class="mt-2 text-xs text-center font-semibold truncate w-full">{{ background.name }}</div>
             </div>
           </template>
         </div>
       </div>
-      <div class="flex flex-col gap-6 items-center md:w-1/3">
+      <div class="flex flex-col gap-4 items-center">
         <div class="flex justify-center">
           <div class="w-72 h-96 relative">
             <img
-                class="w-full h-full absolute"
+                class="w-full h-full absolute z-20"
                 :src="selectedBackground.path"
                 :alt="avatarAltText"
             >
             <img
-                class="absolute"
+                class="absolute z-30"
                 :class="{ 'w-36': avatarSize === 'small', 'w-48': avatarSize === AvatarSize.Normal, 'w-60': avatarSize === 'large', 'centered': avatarPosition === AvatarPosition.Centered, 'normal': avatarPosition === AvatarPosition.Normal }"
                 style="left: 50%;"
                 :src="avatar"
                 :alt="avatarAltText"
             >
+            <div class="absolute top-0 z-10">
+              <img :src="selectedBackground.path" class="blur-2xl opacity-40">
+            </div>
           </div>
         </div>
-        <div class="mt-2 flex flex-col items-center text-neutral-400 w-full max-w-xs">
-          <label class="">Avatar size</label>
-          <select class="mt-2 p-2 h-9 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm capitalize border-none focus:outline-none max-w-sm overflow-x-hidden" v-model="avatarSize" @change="drawAvatar">
+        <div class="mt-2 flex flex-col items-center gap-2 text-white/80 w-full max-w-xs">
+          <label>Avatar Size</label>
+          <select v-model="avatarSize" @change="drawAvatar">
             <option v-for="size in AvatarSize" :value="size">{{ size }}</option>
           </select>
-          <label class="mt-6">Avatar position</label>
-          <select class="mt-2 p-2 h-9 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm capitalize border-none focus:outline-none max-w-sm overflow-x-hidden" v-model="avatarPosition" @change="drawAvatar">
+          <label class="mt-2">Avatar Position</label>
+          <select v-model="avatarPosition" @change="drawAvatar">
             <option v-for="position in AvatarPosition" :value="position">{{ position }}</option>
           </select>
-          <button v-if="!pending && avatar" :disabled="savingImage" class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl duration-200" @click="saveImage">Download</button>
+          <button :disabled="savingImage || pending" class="mt-4 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-xl duration-200" @click="saveImage">Download</button>
         </div>
         <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground.path}?not-from-cache-please`" alt="background">
         <img ref="foreground" crossorigin="anonymous" class="hidden" :src="`${avatar}?not-from-cache-please`" alt="foreground">
         <canvas ref="canvas" width="552" height="736" class="hidden"></canvas>
       </div>
     </div>
+    <template v-if="!avatar">
+      <div class="w-72 h-96">
+        <img
+            class="w-full h-full"
+            :src="exampleImage"
+            alt="u/WarmBiertje's avatar"
+        >
+      </div>
+    </template>
   </div>
 </template>
 
@@ -74,9 +94,9 @@ import {AvatarBackground} from "~/types/avatarBackgrounds";
 import {updateSeriesHashed, useSeriesHashed, useSettings} from "~/composables/states";
 import { Capacitor } from "@capacitor/core";
 import { Media, MediaSaveOptions } from "@capacitor-community/media";
-import {ChevronLeftIcon} from "@heroicons/vue/24/solid";
 import {Filters} from "~/global/generations";
-import {computed} from "#imports";
+import {computed, onBeforeMount} from "#imports";
+import {IonSpinner} from "@ionic/vue";
 
 enum AvatarSize {
   Normal = "normal",
@@ -89,11 +109,49 @@ enum AvatarPosition {
   Centered = "centered"
 }
 
+const exampleImages = [
+  '/images/examples/1.png',
+  '/images/examples/2.png',
+  '/images/examples/3.png',
+  '/images/examples/4.png',
+  '/images/examples/5.png',
+  '/images/examples/6.png',
+  '/images/examples/7.png',
+  '/images/examples/8.png',
+  '/images/examples/9.png',
+  '/images/examples/10.png',
+  '/images/examples/11.png',
+  '/images/examples/12.png',
+  '/images/examples/13.png',
+  '/images/examples/14.png',
+  '/images/examples/15.png',
+  '/images/examples/16.png',
+  '/images/examples/17.png',
+];
+
 const router = useRouter();
 const route = useRoute();
-const user = route.params.user;
 const series = useSeriesHashed();
 const settings = useSettings();
+
+const exampleImage = exampleImages[Math.floor(Math.random() * exampleImages.length)];
+const userSearch = ref(route.params.user ?? "");
+const user = ref(route.params.user ?? "");
+const avatar = ref("");
+const queryBackgroundIndex: Ref<number> = ref(route.query.background ? parseInt(route.query.background as string) : -1);
+const randomBackgroundIndex: Ref<number> = ref(0);
+const searchTerm = ref<string>("");
+const filterGenOption = ref("all")
+const avatarSize: Ref<AvatarSize> = ref(AvatarSize.Normal);
+const avatarPosition: Ref<AvatarPosition> = ref(AvatarPosition.Normal);
+const savingImage = ref(false);
+const avatarIntrinsicWidth = ref(380);
+const avatarIntrinsicHeight = ref(498);
+const background = ref(null);
+const foreground = ref(null);
+const canvas = ref(null);
+const pending = ref(false);
+const error = ref("");
 
 const filteredAvatarBackgrounds: ComputedRef<AvatarBackground[]> = computed(() => {
   let backgrounds = avatarBackgrounds.value;
@@ -122,20 +180,6 @@ const avatarBackgrounds: ComputedRef<AvatarBackground[]> = computed(() => {
   return avatarBackgrounds;
 });
 
-const avatar = ref("");
-const queryBackgroundIndex: Ref<number> = ref(route.query.background ? parseInt(route.query.background as string) : -1);
-const randomBackgroundIndex: number = Math.floor(Math.random() * avatarBackgrounds.value.length);
-const searchTerm = ref<string>("");
-const filterGenOption = ref("all")
-const avatarSize: Ref<AvatarSize> = ref(AvatarSize.Normal);
-const savingImage = ref(false);
-
-async function changeUser() {
-  settings.value.exporter.avatar.lastUsername = undefined;
-
-  await navigateTo(`/avatar/exporter`, {replace: true});
-}
-
 const selectedBackgroundIndex: ComputedRef<number> = computed(() => {
   if (queryBackgroundIndex.value >= 0 && queryBackgroundIndex.value <= avatarBackgrounds.value.length) {
     return queryBackgroundIndex.value;
@@ -148,6 +192,102 @@ const selectedBackground: ComputedRef<AvatarBackground> = computed(() => {
   return avatarBackgrounds.value[selectedBackgroundIndex.value] ?? avatarBackgrounds.value[0];
 });
 
+const apiRoute = computed(() => {
+  return `https://www.reddit.com/user/${user.value}/about.json`;
+});
+
+watch([queryBackgroundIndex, avatarSize, avatarPosition, series, user], () => {
+  let background = queryBackgroundIndex.value >= 0 ? queryBackgroundIndex.value : randomBackgroundIndex.value;
+
+  router.push({
+    params: { user: user.value },
+    query: {
+      background: background,
+      size: avatarSize.value,
+      position: avatarPosition.value },
+  });
+});
+
+watch([avatar], () => {
+  if (avatar.value) {
+    initImage();
+  }
+});
+
+onBeforeMount(() => {
+  updateSeriesHashed();
+});
+
+onMounted(async () => {
+  randomBackgroundIndex.value = Math.floor(Math.random() * avatarBackgrounds.value.length);
+
+  if (!user.value && settings.value.exporter.avatar.lastUsername) {
+    user.value = settings.value.exporter.avatar.lastUsername;
+  }
+
+  if (user.value) {
+    await fetchUserImage();
+  }
+});
+
+function initImage() {
+  background.value.onload = () => {
+    drawAvatar();
+  }
+
+  foreground.value.onload = () => {
+    avatarIntrinsicWidth.value = foreground.value.width;
+    avatarIntrinsicHeight.value = foreground.value.height;
+    drawAvatar();
+  }
+}
+
+function getBackgroundIndex(background: AvatarBackground): number {
+  let index = 0;
+
+  avatarBackgrounds.value.forEach((entry, i) => {
+    if (entry.name == background.name && entry.contractAddress == background.contractAddress) {
+      index = i;
+    }
+  });
+
+  return index;
+}
+
+async function searchUser(username: string) {
+  if (username) {
+    settings.value.exporter.avatar.lastUsername = username;
+    user.value = username;
+
+    await fetchUserImage();
+  }
+}
+
+async function fetchUserImage() {
+  pending.value = true;
+  error.value = "";
+
+  await fetch(apiRoute.value)
+      .then(async (data) => {
+        data = await data.json();
+
+        if (data['data'] && data['data']['snoovatar_img']) {
+          avatar.value = data['data']['snoovatar_img'];
+        } else {
+          avatar.value = "";
+          error.value = `Could not find user: ${user.value}`;
+        }
+
+        pending.value = false;
+      });
+}
+
+async function changeUser() {
+  settings.value.exporter.avatar.lastUsername = undefined;
+
+  await navigateTo(`/avatar/exporter`, {replace: true});
+}
+
 switch(route.query.size) {
   case AvatarSize.Small:
     avatarSize.value = AvatarSize.Small;
@@ -159,74 +299,12 @@ switch(route.query.size) {
     avatarSize.value = AvatarSize.Normal;
 }
 
-const avatarPosition: Ref<AvatarPosition> = ref(AvatarPosition.Normal);
-
 switch(route.query.position) {
   case AvatarPosition.Centered:
     avatarPosition.value = AvatarPosition.Centered;
     break;
   default:
     avatarPosition.value = AvatarPosition.Normal;
-}
-
-const avatarIntrinsicWidth = ref(380);
-const avatarIntrinsicHeight = ref(498);
-
-const background = ref(null);
-const foreground = ref(null);
-const canvas = ref(null);
-
-const apiRoute = `https://www.reddit.com/user/${user}/about.json`;
-const pending = ref(true);
-
-watch([queryBackgroundIndex, avatarSize, avatarPosition, series], () => {
-  let background = queryBackgroundIndex.value >= 0 ? queryBackgroundIndex.value : randomBackgroundIndex;
-
-  router.push({
-    query: {
-      background: background,
-      size: avatarSize.value,
-      position: avatarPosition.value },
-  });
-})
-
-await updateSeriesHashed();
-
-fetch(apiRoute)
-    .then(async (data) => {
-      data = await data.json();
-
-      if (data['data']['snoovatar_img']) {
-        avatar.value = data['data']['snoovatar_img'];
-      } else {
-        avatar.value = "";
-      }
-
-      pending.value = false;
-    });
-
-onMounted(() => {
-  background.value.onload = () => {
-    drawAvatar();
-  }
-
-  foreground.value.onload = () => {
-    avatarIntrinsicWidth.value = foreground.value.width;
-    avatarIntrinsicHeight.value = foreground.value.height;
-    drawAvatar();
-  }
-});
-
-function getBackgroundIndex(background: AvatarBackground): number {
-  let index = 0;
-
-  avatarBackgrounds.value.forEach((entry, i) => {
-    if (entry.name == background.name) {
-      index = i;
-    }
-  });
-
-  return index;
 }
 
 function setBackground(index: number) {
@@ -290,7 +368,7 @@ function drawAvatar() {
 }
 
 function avatarAltText() {
-  return `${user}'s avatar`;
+  return `${user.value}'s avatar`;
 }
 
 async function saveImage() {
@@ -300,7 +378,7 @@ async function saveImage() {
 
   savingImage.value = true;
 
-  const fileName = `${user}.png`;
+  const fileName = `${user.value}.png`;
 
   if (Capacitor.isNativePlatform()) {
     try {
@@ -369,14 +447,26 @@ async function savePermissions() {
 }
 </script>
 
-<style scoped>
-img.normal {
+<style>
+.avatar-view .searchbar {
+  @apply h-10;
+}
+
+.avatar-view img.normal {
   bottom: 10%;
   transform: translate(-50%, 0%);
 }
 
-img.centered {
+.avatar-view img.centered {
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.avatar-view select {
+  @apply w-full;
+}
+
+.avatar-view input {
+  @apply p-2 h-10 bg-transparent text-white placeholder-white/40 border border-primary-border hover:border-neutral-600 rounded-lg w-full duration-200 cursor-pointer;
 }
 </style>

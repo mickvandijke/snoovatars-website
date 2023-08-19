@@ -1,33 +1,53 @@
 <template>
   <div>
     <template v-if="sortingOnShop">
-      <div class="flex flex-col gap-1">
-        <div class="flex items-center gap-1 font-bold text-[0.7rem] w-full overflow-hidden">
-          <div class="flex items-center gap-0.5 overflow-hidden">
-            <div class="text-neutral-400">Available:</div>
-            <div class="flex items-center gap-0.5">
-              <span class="text-amber-500">{{ Math.max((item.series.total_quantity - item.series.total_sold), 0) }}</span>
+      <div class="flex flex-col">
+        <div class="flex flex-row justify-between gap-1">
+          <div class="flex flex-col">
+            <div class="flex gap-2 font-medium text-[0.7rem] items-center">
+              <div class="flex gap-1">
+                <span class="text-white/60 font-medium">Stock:</span>
+                <div class="flex gap-0.25 items-center">
+                  <span class="text-white">{{ Math.max((item.series.total_quantity - item.series.total_sold), 0) }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-2 font-medium text-[0.7rem] items-center">
+              <div class="flex gap-1">
+                <span class="text-white/60 font-medium">Percentage:</span>
+                <div class="flex gap-0.25 items-center">
+                  <span class="text-amber-500">{{ Math.round((item.series.total_sold / item.series.total_quantity) * 100 ) }}%</span>
+                </div>
+              </div>
             </div>
           </div>
-          <template v-if="item.series.total_sold < item.series.total_quantity">
-            <div class="flex items-center gap-0.5 overflow-hidden">
-              <div class="text-neutral-400">Next Mint:</div>
-              <div class="flex items-center gap-0.5">
-                <span class="text-amber-500">#{{ item.series.total_quantity - (item.series.total_quantity - item.series.total_sold) + 1 }}</span>
+          <div class="flex flex-col items-end">
+            <template v-if="item.series.total_sold < item.series.total_quantity">
+              <div class="flex gap-2 font-bold text-[0.7rem] items-center">
+                <div class="flex gap-1">
+                  <span class="text-white/40 font-medium">Next Mint:</span>
+                  <div class="flex gap-0.25 items-center">
+                    <span class="text-amber-500">#{{ item.series.total_quantity - (item.series.total_quantity - item.series.total_sold) + 1 }}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </template>
-          <template v-if="lowestListing">
-            <div class="flex items-center gap-0.5 overflow-hidden">
-              <div class="text-neutral-400">MP:</div>
-              <div class="flex items-center">
-                <div :class="{ 'text-green-500': mintProfitInPercentage >= 0, 'text-red-500': mintProfitInPercentage < 0 }">{{ mintProfitInPercentage }}%</div>
+            </template>
+            <template v-if="lowestListing">
+              <div class="flex gap-2 font-medium text-[0.7rem] items-center">
+                <div class="flex gap-1">
+                  <span class="text-white/40 font-medium">Mint Profit:</span>
+                  <div class="flex items-center">
+                    <div :class="{ 'text-green-500': mintProfitInPercentage >= 0, 'text-red-500': mintProfitInPercentage < 0 }">{{ mintProfitInPercentage }}%</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </template>
+            </template>
+          </div>
         </div>
-        <div class="w-full bg-amber-900 rounded-full overflow-hidden">
-          <div class="bg-amber-600 text-xs font-medium text-amber-100 text-center rounded-full overflow-hidden" :style="{ 'width': `${Math.min(100, Math.round((item.series.total_sold / item.series.total_quantity) * 100 ))}%` }"> {{ Math.round((item.series.total_sold / item.series.total_quantity) * 100 ) }}%</div>
+        <div class="py-1 flex items-center">
+          <div class="w-full bg-amber-900 rounded-md overflow-hidden">
+            <div class="h-2 bg-amber-600 text-[0.65rem] font-medium text-white/80 text-center rounded-md overflow-hidden" :style="{ 'width': `${Math.min(100, Math.round((item.series.total_sold / item.series.total_quantity) * 100 ))}%` }"></div>
+          </div>
         </div>
       </div>
     </template>
@@ -45,7 +65,7 @@
                       <div class="flex gap-0.5 font-bold text-white group-hover:text-neutral-300">
                         <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
                         <span class="text-white/60">(<span class="text-amber-500">{{ ethereumInLocalCurrency(lowestListing.payment_token.base_price) }}</span>)</span>
-                        <span class="text-neutral-400">#{{ lowestListing.token.mint_number }}</span>
+                        <span class="text-white/40">#{{ lowestListing.token.mint_number }}</span>
                       </div>
                     </template>
                     <template v-else-if="lowestListing.payment_token.symbol === 'MATIC'">
@@ -53,7 +73,7 @@
                       <div class="flex gap-0.5 font-bold text-white group-hover:text-neutral-300">
                         <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
                         <span class="text-white/60">(<span class="text-amber-500">{{ ethereumInLocalCurrency(lowestListing.payment_token.base_price / ethereumPriceMap.get("MATIC")) }}</span>)</span>
-                        <span class="text-neutral-400">#{{ lowestListing.token.mint_number }}</span>
+                        <span class="text-white/40">#{{ lowestListing.token.mint_number }}</span>
                       </div>
                     </template>
                   </button>
@@ -61,7 +81,7 @@
               </template>
               <template v-else>
                 <div class="flex text-[0.7rem]">
-                  <span class="text-neutral-400 font-medium">No listings found.</span>
+                  <span class="text-white/40 font-medium">No listings found.</span>
                 </div>
               </template>
             </div>
@@ -85,12 +105,12 @@
                       <div class="text-neutral-200">{{ (item.stats.last_sale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
                     </div>
                   </div>
-                  <span class="text-neutral-400">#{{ item.stats.last_sale.token.mint_number }}</span>
+                  <span class="text-white/40">#{{ item.stats.last_sale.token.mint_number }}</span>
                   <div class="text-white/60" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(item.stats.last_sale.date_sold)) }} ago</div>
                 </div>
               </template>
               <template v-else>
-                <span class="text-neutral-400 font-medium">No sales yet.</span>
+                <span class="text-white/40 font-medium">No sales yet.</span>
               </template>
             </div>
           </div>
@@ -157,7 +177,7 @@
         <div class="px-2 absolute right-0 flex flex-col items-end sm:bg-gradient-to-r from-primary-accent-solid/60 to-primary-accent-solid">
           <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
-              <span class="text-white/60 font-medium">24h:</span>
+              <span class="text-white/40 font-medium">24h:</span>
               <template v-if="item.stats.daily_price_change > 0">
                 <div class="flex gap-0.5 items-center text-green-500 text-[0.65rem] rounded">
                   <span>+{{ dailyPriceChange }}%</span>
@@ -177,7 +197,7 @@
           </div>
           <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
-              <span class="text-white/60 font-medium">Vol:</span>
+              <span class="text-white/40 font-medium">Vol:</span>
               <div class="flex gap-0.25 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                 <div class="text-white/60">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
@@ -186,7 +206,7 @@
           </div>
           <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
-              <span class="text-white/60 font-medium">Cap:</span>
+              <span class="text-white/40 font-medium">Cap:</span>
               <div class="flex gap-0.25 items-center">
                 <div class="text-white/60">{{ ethereumInLocalCurrency(item.series.total_sold * item.stats.last_sale?.payment_token.base_price ?? 0, true) }}</div>
               </div>
