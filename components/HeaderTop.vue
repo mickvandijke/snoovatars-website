@@ -37,8 +37,8 @@
 
 <script setup lang="ts">
 import {
-  computed,
-  ref, updateEthereumPrices, useEthereumPriceMap, useRouter, useSettings,
+  computed, onMounted,
+  ref, updateEthereumPrices, updateMarketInfo, useEthereumPriceMap, useRouter, useSettings,
   useToken, useTotalDailyVolume, useTotalMarketCap,
   useUser,
   watch
@@ -66,6 +66,10 @@ defineExpose({ navbarHeight });
 
 const selectedCurrency = computed(() => {
   return settings.value.currency.preferred;
+});
+
+onMounted(() => {
+  updateMarketInfo();
 });
 
 watch([selectedCurrency], () => {
