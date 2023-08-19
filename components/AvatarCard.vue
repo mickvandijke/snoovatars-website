@@ -1,5 +1,5 @@
 <template>
-  <div ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-primary-accent border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:border-transparent hover:border-white/20 relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer">
+  <div ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-primary-accent border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:border-transparent sm:hover:border-white/20 relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer">
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
@@ -15,7 +15,7 @@
             </div>
           </template>
           <template v-if="ranking">
-            <div class="px-1 absolute bottom-1 left-1 bg-gray-600/90 rounded-md">
+            <div class="px-1 absolute bottom-1 left-1 bg-gray-600 rounded-md">
               <h1 class="text-[0.65rem] text-white/90 font-semibold rounded-md">#{{ ranking }}</h1>
             </div>
           </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="avatar-view px-4 py-4 sm:px-8 flex flex-col items-center gap-6 w-full">
     <div class="flex flex-col gap-6 items-center w-full max-w-md">
-      <h1 class="text-xl md:text-3xl text-white font-bold">RCAX: Avatar Exporter</h1>
+      <h1 class="text-xl md:text-3xl text-amber-500 font-bold">RCAX: Avatar Exporter</h1>
       <div class="flex items-center gap-2 w-full">
         <input v-model="userSearch" placeholder="Reddit Username (without u/)" @keyup.enter.prevent="searchUser(userSearch)" />
         <button :disabled="!userSearch || pending || userSearch === user" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200" @click="searchUser(userSearch)">
@@ -22,7 +22,7 @@
     <div class="flex flex-col md:flex-row md:justify-center md:items-center gap-6 md:gap-12 w-full" :class="{ 'hidden': !avatar }">
       <div class="flex flex-col items-center w-full max-w-3xl gap-3">
         <div class="sm:px-3 flex gap-2 md:items-start w-full">
-          <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" class="w-full" />
+          <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name`" class="w-full" />
           <select v-model="filterGenOption" class="w-fit">
             <option value="all">Gen: All</option>
             <template v-for="gen in Object.keys(Filters)">
@@ -30,7 +30,7 @@
             </template>
           </select>
         </div>
-        <div class="p-3 grid grid-cols-3 md:grid-cols-5 h-[16rem] md:h-[38rem] overflow-y-scroll overflow-x-hidden border border-primary-border rounded-2xl gap-3 w-full h-full">
+        <div class="p-3 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 h-[16rem] sm:h-[28rem] md:h-[38rem] overflow-y-scroll overflow-x-hidden border border-primary-border rounded-2xl gap-3 w-full">
           <template v-for="(background, index) in filteredAvatarBackgrounds">
             <div @click="setBackground(getBackgroundIndex(background))" class="p-2 h-fit flex flex-col justify-center items-center bg-primary-accent text-white rounded-xl hover:bg-primary-accent-hover duration-200 cursor-pointer">
               <img v-lazy-pix="background.path" src="/img/rcax_placeholder.png" :alt="background.name">

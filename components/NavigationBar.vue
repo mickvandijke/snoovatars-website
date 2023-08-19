@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="ml-auto md:ml-0">
+      <div class="ml-auto md:ml-0 h-full">
         <select v-model="settings.currency.preferred">
           <template v-for="currency in CURRENCIES">
             <option :value="currency.ticker">{{ currency.ticker }}</option>
@@ -135,6 +135,6 @@ function closeDropdowns() {
 
 <style>
 .navigation-bar select {
-  @apply h-full max-h-full;
+  @apply h-8 max-h-full;
 }
 </style>

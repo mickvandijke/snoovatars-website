@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-2 md:pb-0 relative flex flex-col items-center w-full">
+  <div class="pb-3 md:pb-0 relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <select v-model="settings.wallet.valuationMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
@@ -43,7 +43,7 @@
         <div class="px-2 flex flex-col md:flex-row items-start gap-2 text-sm rounded-2xl w-full">
           <div class="flex gap-1">
             <span class="text-white/40">Total Worth: </span>
-            <div class="flex items-center font-medium">
+            <div class="flex items-center font-bold">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
               <div class="text-white">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
               <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth) }}</span>)</div>
@@ -138,7 +138,12 @@
                     <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(series.contract_address, series.name)?.collection.slug}?search[query]=${series.name}`)" class="cursor-pointer">
-                          <img :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          <template v-if="Capacitor.isNativePlatform()">
+                            <img v-lazy-pix="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" src="/img/rcax_placeholder.png" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          </template>
+                          <template v-else>
+                            <img :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          </template>
                         </a>
                       </div>
                       <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">
@@ -165,7 +170,12 @@
                     <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.contract_address, token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
-                          <img :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          <template v-if="Capacitor.isNativePlatform()">
+                            <img v-lazy-pix="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" src="/img/rcax_placeholder.png" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          </template>
+                          <template v-else>
+                            <img :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
+                          </template>
                         </a>
                       </div>
                       <div class="px-2 col-span-3 md:col-span-5 flex flex-col justify-center items-start text-sm">

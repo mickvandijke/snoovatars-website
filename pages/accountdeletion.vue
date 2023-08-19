@@ -6,12 +6,12 @@
 
     <p>If you have any questions or encounter any issues during the account deletion process, please contact our support team at <a href="mailto:snoovatars@gmail.com">snoovatars@gmail.com</a>.</p>
 
+    <p>After submitting, you must click the confirmation link in the account's associated email.</p>
+
     <div class="flex items-center gap-2 w-full">
       <input type="text" autocomplete="off" name=“usernameOrEmail” class="light" placeholder="Username or Email" v-model="usernameOrEmail" @keyup.enter.prevent="submitRequest">
-      <button :disabled="!usernameOrEmail || loading" class="px-4 py-3 h-full bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium whitespace-nowrap rounded-xl duration-200" @click="submitRequest">Submit</button>
+      <button :disabled="!usernameOrEmail || loading" class="px-4 h-10 bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white text-sm disabled:text-white/20 font-medium whitespace-nowrap rounded-lg duration-200" @click="submitRequest">Submit</button>
     </div>
-
-    <p>After submitting, you must click the confirmation link in the account's associated email.</p>
   </div>
 </template>
 
