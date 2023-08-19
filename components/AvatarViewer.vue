@@ -4,7 +4,7 @@
 
   <!-- The drawer content -->
   <transition name="slide">
-    <div v-if="open" class="fixed flex flex-col top-0 left-0 bottom-0 sm:right-0 sm:left-auto w-96 max-w-[90%] bg-primary shadow-lg z-50" :class="{ 'page-mobile-padding-top': Capacitor.isNativePlatform() }">
+    <div v-if="open" class="fixed flex flex-col top-0 left-0 bottom-0 sm:right-0 sm:left-auto w-96 max-w-[93%] bg-primary shadow-lg z-50" :class="{ 'page-mobile-padding-top': Capacitor.isNativePlatform() }">
       <!-- Add your drawer content here -->
       <div class="p-4 sticky top-0 flex items-center justify-center bg-primary/90 backdrop-blur-xl z-30">
         <span class="text-white/40 font-medium">{{ selectedAvatar.series }}</span>
