@@ -1,5 +1,5 @@
 <template>
-  <div ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-neutral-900 border-dashed sm:border-solid border-t last:border-b sm:border border-neutral-900 sm:border-neutral-800 sm:hover:border-neutral-700 relative flex flex-col gap-1 w-full sm:rounded-lg overflow-hidden cursor-pointer">
+  <div ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-primary-accent border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:border-transparent hover:border-primary-accent-hover relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer duration-200">
     <template v-if="seriesStats">
       <div class="flex gap-1" style="height: 90px">
         <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
@@ -14,14 +14,16 @@
               <OpenseaIcon />
             </div>
           </template>
+          <template v-if="ranking">
+            <div class="px-1 absolute bottom-1 left-1 bg-gray-600/90 rounded-md">
+              <h1 class="text-[0.65rem] text-white/90 font-semibold rounded-md">#{{ ranking }}</h1>
+            </div>
+          </template>
         </button>
-        <div @click="selectAvatar" class="pl-1 sm:px-1 flex flex-col rounded-lg overflow-hidden" style="width: 81%">
+        <div @click="selectAvatar" class="pl-1 sm:pr-1 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
-            <template v-if="ranking">
-              <h1 class="text-neutral-500 font-bold rounded-md">#{{ ranking }}</h1>
-            </template>
             <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-neutral-300 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
-            <div class="relative ml-0.5 text-black text-[0.7rem] font-bold rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">
+            <div class="relative text-black text-[0.7rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">
               <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
             </div>
             <div class="ml-auto flex items-center gap-1 font-bold">
@@ -32,7 +34,7 @@
               </template>
               <template v-else>
                 <div @click.stop="addToWatchList(seriesStats.series.name)" class="group flex items-center justify-center cursor-pointer">
-                  <StarIconOutlined class="w-5 h-5 text-neutral-700 group-hover:text-yellow-500/50" />
+                  <StarIconOutlined class="w-5 h-5 text-white/20 group-hover:text-yellow-500" />
                 </div>
               </template>
             </div>
@@ -59,7 +61,7 @@
               </template>
             </template>
             <template v-else>
-              <div class="text-[0.65rem] font-semibold" :class="{ 'text-green-500': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-500': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
+              <div class="text-[0.65rem] font-medium" :class="{ 'text-green-500/90': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-500/90': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
                 <template v-if="seriesStats && seriesStats.series.mint_price > 0">
                   ${{ seriesStats.series.mint_price / 100.00 }}
                 </template>
@@ -67,9 +69,10 @@
                   FREE
                 </template>
               </div>
-              <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-neutral-600 hover:text-neutral-500 font-semibold text-[0.65rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
+              <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-white/40 hover:text-white/60 text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
             </template>
-            <InformationCircleIcon @click.stop="selectAvatar" class="ml-auto w-5 h-5 text-neutral-500 opacity-50 cursor-pointer" />
+            <div class="ml-auto px-0.5 py-0.25 text-[0.65rem] text-white/40" :key="getGeneration">{{ getGeneration }}</div>
+            <InformationCircleIcon @click.stop="selectAvatar" class="w-5 h-5 text-white/20 cursor-pointer" />
           </div>
         </div>
       </div>
@@ -78,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, useSelectedAvatar} from "#imports";
+import {computed, ref, useSelectedAvatar} from "#imports";
 import {PropType} from "@vue/runtime-core";
 import {SeriesStats} from "~/types/seriesStats";
 import OpenseaIcon from "~/components/OpenseaIcon.vue";
@@ -87,6 +90,7 @@ import {useWatchList, addToWatchList, removeFromWatchList} from "#imports";
 import {StarIcon} from "@heroicons/vue/20/solid";
 import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
+import {findCollectionNameByContractAddress} from "~/global/generations";
 
 export interface AvatarCardItem {
   name: string;
@@ -119,6 +123,10 @@ const props = defineProps({
   }
 });
 
+const getGeneration = computed(() => {
+  return findCollectionNameByContractAddress(props.item.contract_address);
+});
+
 function selectAvatar() {
   selectedAvatar.value = {
     seriesStats: props.seriesStats,
@@ -133,7 +141,7 @@ function getMintClasses(totalQuantity: number) {
   } else if (totalQuantity <= 777) {
     return ["text-gray-300"];
   } else {
-    return ["text-neutral-400"];
+    return ["text-white/60"];
   }
 }
 </script>

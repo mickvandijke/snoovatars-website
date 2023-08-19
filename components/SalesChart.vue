@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col gap-2">
     <Line :data="getData()" :options="options"></Line>
-    <div class="flex gap-1 font-semibold text-xs text-neutral-400 w-full">
+    <div class="flex gap-1 text-xs text-neutral-400 w-full">
       <template v-for="filter in filterOptions">
-        <button @click="selectedFilter = filter.value" class="px-1.5 py-0.5 bg-neutral-700 hover:bg-neutral-600 rounded" :class="{ 'text-amber-500': selectedFilter === filter.value }">{{ filter.name }}</button>
+        <button @click="selectedFilter = filter.value" class="px-1.5 py-0.5 bg-neutral-800 hover:bg-neutral-600 rounded" :class="{ 'text-amber-500': selectedFilter === filter.value }">{{ filter.name }}</button>
       </template>
     </div>
   </div>
@@ -28,9 +28,9 @@ import {defineProps, ref} from "vue";
 
 const filterOptions = [
   { name: "Last Week", value: "last-week" },
-  { name: "Last 14D", value: "last-14d" },
+  { name: "Last 2W", value: "last-14d" },
   { name: "Last Month", value: "last-month" },
-  { name: "Last 90D", value: "last-90d" }
+  { name: "Last 3M", value: "last-90d" }
 ];
 
 const props = defineProps({

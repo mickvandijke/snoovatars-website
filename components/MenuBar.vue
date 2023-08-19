@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 py-2 inline-flex justify-center sm:justify-start gap-2 z-10 w-full" style="max-width: 100vw;">
+  <div class="menubar px-2 py-2 sm:px-6 sm:py-4 inline-flex justify-center sm:justify-start gap-2 sm:gap-4 z-10 w-full" style="max-width: 100vw;">
     <slot></slot>
   </div>
 </template>
@@ -8,6 +8,12 @@
 
 </script>
 
-<style scoped>
+<style>
+.menubar > * {
+  @apply h-9 sm:h-10;
+}
 
+.menubar > select {
+  @apply p-2 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white placeholder-white/20 font-medium border-none focus:outline-none sm:w-fit max-w-sm overflow-x-hidden rounded-lg;
+}
 </style>

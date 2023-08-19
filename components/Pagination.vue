@@ -5,7 +5,7 @@
         :disabled="currentPage === 1"
         @click="setPage(currentPage - 1)"
     >
-      <ChevronLeftIcon class="w-5 h-5" />
+      <ChevronLeftIcon class="w-4 h-4" />
     </button>
     <button
         class="pag-button"
@@ -43,7 +43,7 @@
         :disabled="currentPage === pageCount"
         @click="setPage(currentPage + 1)"
     >
-      <ChevronRightIcon class="w-5 h-5" />
+      <ChevronRightIcon class="w-4 h-4" />
     </button>
   </div>
 </template>
@@ -80,7 +80,7 @@ const pageCount = computed(() => {
 
 <style scoped>
 .pag-button {
-  @apply px-1.5 bg-neutral-700 text-neutral-200 hover:bg-neutral-600 disabled:text-neutral-400 rounded-md;
+  @apply px-1.5 bg-neutral-800 text-sm text-neutral-400 hover:bg-neutral-600 disabled:text-neutral-400 rounded-md;
 }
 
 .pag-button.active {

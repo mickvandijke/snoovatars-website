@@ -1,0 +1,49 @@
+<template>
+  <div
+      @click.self="showFilterMenu = !showFilterMenu"
+      class="filter-menu-button relative flex flex-row flex-nowrap items-center duration-200 cursor-pointer">
+    <button @click.prevent="showFilterMenu = !showFilterMenu" class="filter-menu-button--button px-4 py-2 flex flex-row flex-nowrap items-center gap-2 rounded-lg">
+      <AdjustmentsHorizontalIcon class="w-6 h-6" :class="{ 'text-amber-500': usingFilter }" />
+      <span class="hidden sm:block text-sm font-medium">Filters</span>
+    </button>
+    <template v-if="showFilterMenu">
+      <div class="filter-menu-button--menu absolute right-0 top-full mt-2 z-10 w-fit max-w-lg">
+        <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
+          <slot></slot>
+        </div>
+      </div>
+    </template>
+  </div>
+</template>
+
+<script setup lang="ts">
+import {ref} from "#imports";
+import {AdjustmentsHorizontalIcon} from "@heroicons/vue/24/outline";
+
+const showFilterMenu = ref(false);
+
+const props = defineProps({
+  usingFilter: {
+    type: Boolean,
+    required: true
+  }
+});
+</script>
+
+<style>
+.filter-menu-button--button {
+  @apply bg-primary-accent text-white hover:bg-primary-accent-hover;
+}
+
+.filter-menu-button--menu {
+  @apply bg-primary-accent-solid/90 backdrop-blur-xl border border-primary-border rounded-lg shadow-xl;
+}
+
+.filter-menu-button--menu > * {
+  @apply w-full max-w-full;
+}
+
+.filter-menu-button--menu select, .filter-menu-button--menu input {
+  @apply p-2 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white placeholder-white/20 font-medium border-none focus:outline-none overflow-x-hidden rounded-lg;
+}
+</style>

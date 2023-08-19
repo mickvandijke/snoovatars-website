@@ -1,8 +1,19 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
-    <HeaderTop :class="{ 'page-mobile-margin-top': Capacitor.isNativePlatform() }" />
-    <NavigationBar ref="navbarcomp"/>
+    <template v-if="Capacitor.isNativePlatform()">
+      <div class="sticky top-0 w-full max-w-full z-50">
+        <HeaderTop />
+        <NavigationBar ref="navbarcomp"/>
+      </div>
+    </template>
+    <template v-else>
+      <HeaderTop />
+      <NavigationBar class="sticky top-0" ref="navbarcomp"/>
+    </template>
     <AvatarViewer />
+    <template v-if="!Capacitor.isNativePlatform()">
+      <AdvertisementBanner />
+    </template>
     <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <NuxtPage/>
     </div>
@@ -247,12 +258,12 @@ const getDeliveredNotifications = async () => {
 }
 
 html, body {
-  @apply bg-black;
+  @apply bg-primary;
   -webkit-tap-highlight-color: transparent;
 }
 
 input, select {
-  @apply p-2.5 bg-transparent text-neutral-100 placeholder-neutral-400 border-2 border-neutral-700 hover:border-neutral-600 rounded-md w-full duration-200 cursor-pointer;
+  @apply p-2.5 bg-transparent text-white placeholder-white/40 border border-primary-border hover:border-neutral-600 rounded-xl w-full duration-200 cursor-pointer;
 }
 
 input.light, select.light {

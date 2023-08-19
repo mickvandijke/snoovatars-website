@@ -383,5 +383,18 @@ export function getFreeCollections(): string[] {
     }
 
     return freeCollections;
-};
+}
+
+export function findCollectionNameByContractAddress(address: string): String {
+    for (const collectionName in Filters) {
+        if (Object.prototype.hasOwnProperty.call(Filters, collectionName)) {
+            const collection = Filters[collectionName];
+            if (collection.collections.includes(address)) {
+                return collectionName;
+            }
+        }
+    }
+
+    return "new";
+}
 

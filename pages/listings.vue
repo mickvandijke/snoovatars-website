@@ -2,45 +2,32 @@
   <div class="relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <input v-model="searchTerm" placeholder="Search filter" class="p-2 rounded-md bg-neutral-800 text-sm border-none focus:outline-none w-fit max-w-sm">
+      <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" />
+      <FilterMenuButton :using-filter="usingFilter()">
+        <input type="number" v-model="maxPrice" :placeholder="`Max price ${paymentToken.toUpperCase()}`" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
+        <input type="number" v-model="minMint" placeholder="Min mint number" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
+        <input type="number" v-model="maxMint" placeholder="Max mint number" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
+        <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+          <option value="all">Gen: All</option>
+          <template v-for="gen in Object.keys(Filters)">
+            <option :value="gen">{{ gen }}</option>
+          </template>
+        </select>
+        <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+          <option value="all">Supply: All</option>
+          <option value="250">Supply: Max 250</option>
+          <option value="777">Supply: Max 777</option>
+          <option value="1000">Supply: Max 1000</option>
+        </select>
+        <template v-if="usingFilter()">
+          <button @click="clearFilters()" class="p-2 bg-amber-500/20 text-amber-500 text-sm rounded-md">Clear All</button>
+        </template>
+      </FilterMenuButton>
       <select v-model="paymentToken" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="eth">ETH</option>
         <option value="matic">MATIC</option>
       </select>
-      <div
-          @click.self="showFilters = !showFilters"
-          class="relative px-4 py-2 flex flex-row flex-nowrap border text-white rounded-md duration-200 cursor-pointer" :class="{ 'border-amber-500': usingFilter(), 'border-neutral-800 hover:border-neutral-700': !usingFilter() }">
-        <button @click.prevent="showFilters = !showFilters" class="flex flex-row flex-nowrap" :class="{ 'text-amber-500': usingFilter() }">
-          <AdjustmentsHorizontalIcon class="w-5 h-5" />
-        </button>
-        <template v-if="showFilters">
-          <div class="absolute right-0 top-full mt-2 z-10 w-fit max-w-lg bg-neutral-900 border border-neutral-800 rounded-md shadow">
-            <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
-              <input type="number" v-model="maxPrice" :placeholder="`Max price ${paymentToken.toUpperCase()}`" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
-              <input type="number" v-model="minMint" placeholder="Min mint number" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
-              <input type="number" v-model="maxMint" placeholder="Max mint number" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
-              <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
-                <option value="all">Gen: All</option>
-                <template v-for="gen in Object.keys(Filters)">
-                  <option :value="gen">{{ gen }}</option>
-                </template>
-              </select>
-              <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
-                <option value="all">Supply: All</option>
-                <option value="250">Supply: Max 250</option>
-                <option value="777">Supply: Max 777</option>
-                <option value="1000">Supply: Max 1000</option>
-              </select>
-              <template v-if="usingFilter()">
-                <button @click="clearFilters()" class="p-2 bg-amber-500/20 text-amber-500 text-sm rounded-md">Clear All</button>
-              </template>
-            </div>
-          </div>
-        </template>
-      </div>
-      <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-neutral-800 hover:bg-neutral-700 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
-        <ArrowPathIcon class="w-5 h-5" />
-      </button>
+      <RefreshButton :action="refresh" :refreshing="isRefreshing" />
     </MenuBar>
     <div class="px-2 md:px-4 w-full">
       <div class="w-full overflow-x-auto">

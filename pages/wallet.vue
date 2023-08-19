@@ -14,22 +14,20 @@
         <option value="all">Show All</option>
         <option value="premium">Show Premium Only</option>
       </select>
-      <select v-model="settings.wallet.groupMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.groupMethod" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
         <option value="group">Group by Series</option>
         <option value="mint">Show Mint Numbers</option>
       </select>
       <template v-if="!Capacitor.isNativePlatform()">
-        <button @click="refresh()" :disabled="isRefreshing" class="p-2 sm:ml-auto whitespace-nowrap bg-neutral-800 hover:bg-neutral-700 disabled:bg-amber-900 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer" :class="{ 'loading': isRefreshing }">
-          <ArrowPathIcon class="w-5 h-5" />
-        </button>
+        <RefreshButton :action="refresh" :refreshing="isRefreshing" />
       </template>
     </MenuBar>
     <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
-      <div class="px-2 py-2 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
+      <div class="px-2 sm:px-4 py-2 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
         <div class="flex items-center lg:justify-end text-sm w-full">
           <div class="flex flex-nowrap gap-2 max-w-lg w-full">
-            <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit username (without u/) or wallet address" class="light">
-            <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 py-3 flex items-center h-full bg-amber-600 hover:bg-amber-500 disabled:bg-neutral-800 text-white disabled:text-neutral-400 font-medium whitespace-nowrap rounded-md duration-200">
+            <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit Username (without u/) or Wallet Address" class="cursor-text">
+            <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 py-3 flex items-center h-full bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium whitespace-nowrap rounded-xl duration-200 cursor-pointer">
               <template v-if="loading">
                 <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
@@ -44,22 +42,22 @@
         </div>
         <div class="px-2 flex flex-col md:flex-row items-start gap-2 text-sm rounded-2xl w-full">
           <div class="flex gap-1">
-            <span class="text-neutral-400">Total Worth: </span>
-            <div class="flex items-center font-bold">
+            <span class="text-white/40">Total Worth: </span>
+            <div class="flex items-center font-medium">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="text-neutral-200">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+              <div class="text-white">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
               <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth) }}</span>)</div>
             </div>
           </div>
           <div class="flex gap-1">
-            <span class="text-neutral-400">Total items:</span>
-            <span class="text-amber-500 font-bold">{{ getTotalItems }}</span>
+            <span class="text-white/40">Total items:</span>
+            <span class="text-white font-medium">{{ getTotalItems }}</span>
           </div>
         </div>
       </div>
-      <div class="mt-2 lg:mt-0 px-2 flex flex-col gap-3 w-full overflow-hidden">
+      <div class="mt-2 lg:mt-3 px-2 sm:px-6 flex flex-col gap-3 w-full overflow-hidden">
         <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
-          <div class="bg-neutral-900 sm:border border-neutral-800 flex flex-col items-center overflow-hidden w-full rounded-2xl">
+          <div class="bg-primary-accent sm:border border-neutral-800 flex flex-col items-center overflow-hidden w-full rounded-2xl">
             <div class="p-2 flex gap-2 w-full rounded">
               <div class="pl-2 flex items-center overflow-hidden">
                 <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="hidden md:block p-2 text-neutral-500 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
@@ -137,7 +135,7 @@
               <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-neutral-800 w-full">
                 <template v-if="settings.wallet.groupMethod === 'group'">
                   <template v-for="series in sortedWalletTokensGrouped(filterWalletTokensGrouped(tokensCount.get(walletAddress)))">
-                    <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-neutral-800 rounded-lg font-bold cursor-pointer">
+                    <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(series.contract_address, series.name)?.collection.slug}?search[query]=${series.name}`)" class="cursor-pointer">
                           <img :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
@@ -164,7 +162,7 @@
                 </template>
                 <template v-else>
                   <template v-for="token in sortedTokens(filterWalletTokens(walletTokens))">
-                    <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-neutral-800 rounded-lg font-bold cursor-pointer">
+                    <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                       <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                         <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.contract_address, token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
                           <img :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">

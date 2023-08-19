@@ -3,46 +3,46 @@
     <div class="flex flex-col">
       <div class="flex font-bold text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-neutral-500 font-medium">Mint Number:</span>
+          <span class="text-white/60 font-medium">Mint Number:</span>
           <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-white hover:text-amber-500">#{{ item.token.mint_number }}</button>
         </div>
       </div>
       <div class="flex font-bold text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-neutral-500 font-medium">Minter:</span>
+          <span class="text-white/60 font-medium">Minter:</span>
           <button @click="openLinkWith(`https://opensea.io/${item.minter}`)" class="text-neutral-200 hover:text-amber-500">{{ item.minter.slice(2, 6) }}</button>
         </div>
       </div>
       <div class="flex font-bold text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-neutral-500 font-medium">Date:</span>
-          <div class="text-neutral-200">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
+          <span class="text-white/60 font-medium">Date:</span>
+          <div class="text-amber-500">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
         </div>
       </div>
     </div>
     <div class="flex flex-col items-end">
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-neutral-500 font-medium">Stock:</span>
-          <span class="text-neutral-500 font-medium">{{ shopStock > 999 ? "999+" : shopStock }} left</span>
+          <span class="text-white/60 font-medium">Stock:</span>
+          <span class="text-white/60 font-medium">{{ shopStock > 999 ? "999+" : shopStock }} left</span>
         </div>
       </div>
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-neutral-500 font-medium">Floor:</span>
+          <span class="text-white/60 font-medium">Floor:</span>
           <div class="flex items-center">
             <template v-if="!lowestListing">
-              <span class="text-neutral-500 font-medium">None.</span>
+              <span class="text-white/60 font-medium">None.</span>
             </template>
             <template v-else-if="lowestListing.payment_token.symbol === 'ETH'">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="flex gap-0.5 text-neutral-500">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <div class="flex gap-0.5 text-white/60">
                 <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
               </div>
             </template>
             <template v-else-if="lowestListing.payment_token.symbol === 'MATIC'">
-              <div class="pr-0.5 flex items-center text-neutral-500">M</div>
-              <div class="flex gap-0.5 text-neutral-500">
+              <div class="pr-0.5 flex items-center text-white/60">M</div>
+              <div class="flex gap-0.5 text-white/60">
                 <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
               </div>
             </template>
@@ -50,8 +50,8 @@
         </div>
       </div>
       <div class="flex font-medium text-[0.7rem]">
-        <div class="flex gap-1 text-neutral-500">
-          <span class="text-neutral-500 font-medium">Profit:</span>
+        <div class="flex gap-1 text-white/60">
+          <span class="text-white/60 font-medium">Profit:</span>
           <div :class="{ 'text-green-500': mintProfitInPercentage >= 0, 'text-red-500': mintProfitInPercentage < 0 }">{{ mintProfitInPercentage }}%</div>
         </div>
       </div>
