@@ -5,11 +5,11 @@
         <WalletIcon class="h-6 w-6"/>
         <span class="text-xs font-medium">Wallet</span>
       </NuxtLink>
-      <NuxtLink to="/stats/watchlist" class="flex flex-col items-center justify-center" exact-active-class="text-amber-500">
+      <NuxtLink to="/watchlist" class="flex flex-col items-center justify-center" exact-active-class="text-amber-500">
         <StarIcon class="h-6 w-6"/>
         <span class="text-xs font-medium">Watchlist</span>
       </NuxtLink>
-      <NuxtLink to="/stats" class="flex flex-col items-center justify-center" exact-active-class="text-amber-500">
+      <NuxtLink to="/" class="flex flex-col items-center justify-center" exact-active-class="text-amber-500">
         <ChartBarIcon class="h-6 w-6"/>
         <span class="text-xs font-medium">Stats</span>
       </NuxtLink>

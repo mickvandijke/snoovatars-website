@@ -24,7 +24,7 @@
       <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
         <h2 class="text-xl md:text-3xl font-bold text-center"><span class="text-amber-500 italic mr-1">NEW</span> Reddit Shop Alerts 🚨️</h2>
         <h3 class="mb-12 font-semibold text-amber-500">PRO ONLY</h3>
-        <p class="max-w-xl text-neutral-200 font-bold">
+        <p class="max-w-xl text-white/80 font-medium">
           Get notified whenever a new collection is available on the Reddit Avatar Shop! Along with a link to take you directly to the shop gallery.
         </p>
       </div>
@@ -43,24 +43,39 @@
       </div>
       <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
         <h2 class="text-xl md:text-3xl font-bold text-center mb-12">Realtime Custom Price Alerts ⚡️</h2>
-        <p class="max-w-xl text-neutral-200 font-bold">
+        <p class="max-w-xl text-white/80 font-medium">
           With our highly customizable price alerts, you will be able to snipe the best deals before anyone else.
         </p>
       </div>
     </div>
 
-    <div id="collection-alerts" class="relative w-full py-16 flex flex-col lg:flex-row">
-      <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
+    <div id="collection-alerts" class="relative w-full py-16 flex flex-col lg:flex-row lg:gap-12">
+      <div class="mb-12 lg:mb-0 w-full lg:px-6 flex flex-col items-center justify-center text-white">
         <h2 class="text-xl md:text-3xl font-bold text-center">New Collection Warnings 🚨️</h2>
         <h3 class="mb-12 font-semibold text-amber-500">PRO ONLY</h3>
-        <p class="max-w-xl text-neutral-200 font-bold">
+        <p class="max-w-xl text-white/80 font-medium">
           With our realtime connection to the Polygon transaction pool, we are able to tell whenever Reddit deploys a new contract. We will send you an email notification before the contract is even confirmed on the network!
         </p>
       </div>
-      <div class="w-full lg:w-1/2 flex flex-col items-center justify-center">
+      <div class="w-full flex flex-col items-center justify-center">
         <div class="rounded-2xl shadow-lg overflow-hidden">
           <img src="/img/new-contract.png" style="filter: invert(0.85);">
         </div>
+      </div>
+    </div>
+
+    <div id="listings-browser" class="relative w-full py-16 flex flex-col-reverse lg:flex-row lg:gap-12">
+      <div class="w-full flex flex-col items-center justify-center">
+        <div class="rounded-2xl shadow-lg overflow-hidden">
+          <img src="/img/listings.png" class="border rounded-2xl">
+        </div>
+      </div>
+      <div class="mb-12 lg:mb-0 w-full lg:px-6 flex flex-col items-center justify-center text-white">
+        <h2 class="text-xl md:text-3xl font-bold text-center">Browse All Listings 🌍️</h2>
+        <h3 class="mb-12 font-semibold text-amber-500">PRO ONLY</h3>
+        <p class="max-w-xl text-white/80 font-medium">
+          Browse the listings of all collections combined in one simple table. Makes it easy to snatch specific mint numbers you like!
+        </p>
       </div>
     </div>
 
@@ -120,7 +135,7 @@
               <p class="mt-3 text-sm text-neutral-400">You can redeem your Pro code by signing up for a free account and then going to <a href="/upgrade" class="text-amber-500 hover:text-amber-400 duration-200  cursor-pointer">upgrade</a>.</p>
             </div>
             <div class="p-6">
-              <ol class="list-inside text-neutral-200 font-semibold text-sm">
+              <ol class="list-inside text-white/80 font-semibold text-sm">
                 <li class="mb-4 flex items-center">
                   <CheckBadgeIcon class="w-5 mr-2 text-green-600"/>
                   *Reddit shop alerts

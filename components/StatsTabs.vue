@@ -8,13 +8,13 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/stats/watchlist" class="nlink" exact-active-class="active">
+        <NuxtLink to="/watchlist" class="nlink" exact-active-class="active">
           <StarIcon class="nlinkicon"/>
           <span class="">Watchlist</span>
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/stats" class="nlink" exact-active-class="active">
+        <NuxtLink to="/" class="nlink" exact-active-class="active">
           <ChartBarIcon class="nlinkicon"/>
           <span class="">Stats</span>
         </NuxtLink>

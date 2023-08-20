@@ -16,7 +16,7 @@
       <div class="group tool w-full">
         <h1 class="text-white text-xl font-semibold">Listings Browser <span class="text-amber-500 font-bold italic">Pro</span></h1>
         <TagIcon class="w-8 h-8 text-neutral-500" />
-        <p class="text-neutral-500 text-sm">Browse through all listings. Get those cheap #1's!</p>
+        <p class="text-neutral-500 text-sm">Browse the listings of all collections combined in one simple table. Makes it easy to snatch specific mint numbers you like!</p>
       </div>
     </NuxtLink>
     <NuxtLink to="/alerts" class="w-full max-w-sm">
