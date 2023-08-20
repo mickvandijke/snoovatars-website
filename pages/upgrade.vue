@@ -35,7 +35,10 @@
         </template>
         <template v-else>
           <div class="mt-6 w-full">
-            <h3 class="font-semibold text-neutral-400">Step 1. Buy a PRO upgrade using Coinbase Commerce. Make sure to save your order code! The order code looks like "AAAAAAAA".</h3>
+            <h3 class="font-semibold text-white">The RCAX website only allows purchases with cryptocurrency. If you like to pay with your native fiat currency, you can upgrade using the iOS or Android APP.</h3>
+          </div>
+          <div class="mt-6 w-full">
+            <h3 class="font-semibold text-amber-500">Step 1. Buy a PRO upgrade using Coinbase Commerce. Make sure to save your order code! The order code looks like "AAAAAAAA".</h3>
             <NuxtLink
                 target="_blank"
                 to="https://commerce.coinbase.com/checkout/c83f3cd4-adcf-4d3e-9349-3c1892f94472"
@@ -43,9 +46,9 @@
             >Pay with Crypto</NuxtLink>
           </div>
           <div class="mt-12 flex flex-col w-full">
-            <h3 class="font-semibold text-neutral-400">Step 2. Redeem your PRO upgrade by filling in your order code.</h3>
+            <h3 class="font-semibold text-amber-500">Step 2. Redeem your PRO upgrade by filling in your order code.</h3>
             <div class="mt-6 flex flex-row gap-2 w-full">
-              <input v-model="coinbaseCommerceOrderId" type="text">
+              <input v-model="coinbaseCommerceOrderId" type="text" class="h-14">
               <button @click="redeemOrderIdCoinbaseCommerce" :disabled="!coinbaseCommerceOrderId" class="p-4 bg-amber-600 hover:bg-amber-500 font-semibold text-white rounded-2xl duration-200">
                 <svg v-if="loading" class="inline w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
