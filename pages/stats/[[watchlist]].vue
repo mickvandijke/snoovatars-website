@@ -12,6 +12,12 @@
           </template>
           <option value="new">new</option>
         </select>
+        <select v-model="filterArtistOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+          <option value="all">Artist: All</option>
+          <template v-for="artist in artists">
+            <option :value="artist">{{ artist }}</option>
+          </template>
+        </select>
         <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
           <option value="all">Supply: All</option>
           <option value="250">Supply: Max 250</option>
@@ -214,7 +220,6 @@ import {
 import {SeriesStats} from "~/types/seriesStats";
 import {computed, getLowestListingAsGweiPrice, getSaleAsGweiPrice, ref, useRoute, useRouter} from "#imports";
 import {ComputedRef, watch} from "vue";
-import {ArrowPathIcon, AdjustmentsHorizontalIcon} from "@heroicons/vue/24/solid";
 import MenuBar from "~/components/MenuBar.vue";
 import {Capacitor} from "@capacitor/core";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
@@ -233,35 +238,48 @@ const ethereumPriceInUsd = useEthereumUsdPrice();
 const searchTerm = ref<string>("");
 const maxPriceEth = ref<number>(parseFloat(route.query.maxPrice as string) ?? undefined);
 const filterGenOption = ref<string>(route.query.gen as string ?? "all");
+const filterArtistOption = ref<string>(route.query.artist as string ?? "all");
 const filterRarityOption = ref<string>(route.query.supply as string ?? "all");
 const filterSoldOut = ref<string>(route.query.soldOut as string ?? "show");
 const filterNoListings = ref<string>(route.query.noListings as string ?? "show");
 const sortOption = ref<string>(route.query.sort as string ?? "highestLastSale");
 const isRefreshing = ref(false);
-const showFilters = ref(false);
 const layout = ref("grid");
 const itemsCurrentPage = ref(1);
 const pageSize = ref(100);
 
 updateSeriesStats();
 
-watch([maxPriceEth, filterGenOption, filterRarityOption, sortOption, filterSoldOut], () => {
+watch([maxPriceEth, filterGenOption, filterArtistOption, filterRarityOption, sortOption, filterSoldOut], () => {
   router.push({
     query: {
       maxPrice: maxPriceEth.value,
       gen: filterGenOption.value,
+      artist: filterArtistOption.value,
       supply: filterRarityOption.value,
       sort: sortOption.value,
       soldOut: filterSoldOut.value,
       noListings: filterNoListings.value
     },
   });
-})
+});
 
 const slicedItems = computed(() => {
   const start = (itemsCurrentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
   return filteredAndSortedSeriesStats.value.slice(start, end);
+});
+
+const artists = computed(() => {
+  let artists = [];
+
+  for (const collection of Object.entries(seriesStats.value)) {
+    artists.push(Object.values(collection[1])[0].collection.artist.displayName);
+  }
+
+  artists.sort();
+
+  return artists;
 });
 
 function usingFilter(): boolean {
@@ -329,6 +347,10 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
     } else {
       filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => Filters[filterGenOption.value].collections.includes(seriesStat.collection.contract_address));
     }
+  }
+
+  if (filterArtistOption.value && filterArtistOption.value != "all") {
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.collection.artist.displayName === filterArtistOption.value);
   }
 
   switch (filterRarityOption.value) {
@@ -833,6 +855,6 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
 
 <style scoped>
 .stats-view .searchbar {
-  @apply w-fit;
+  @apply w-fit md:w-full;
 }
 </style>

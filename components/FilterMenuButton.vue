@@ -8,7 +8,7 @@
       <span class="hidden sm:block text-sm font-medium">Filters</span>
     </button>
     <template v-if="showFilterMenu">
-      <div class="filter-menu-button--menu absolute right-0 top-full mt-2 z-10 w-fit max-w-lg">
+      <div class="filter-menu-button--menu absolute left-0 top-full mt-2 z-10 w-fit max-w-lg">
         <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
           <slot></slot>
         </div>

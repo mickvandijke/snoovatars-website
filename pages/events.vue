@@ -189,6 +189,6 @@ const filteredMints: ComputedRef<Mint[]> = computed(() => {
 
 <style>
 .events-view .searchbar {
-  @apply w-fit;
+  @apply w-fit md:w-full;
 }
 </style>
