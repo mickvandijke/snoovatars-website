@@ -21,10 +21,11 @@
       </Slide>
       <Slide :key="2">
         <div class="carousel__item">
-          <div class="advertisement bg-black">
-            <a href="https://www.the23.club" target="_blank">
+          <div class="advertisement relative">
+            <a href="https://www.the23.club" target="_blank" class="z-20">
               <img src="/images/banners/hodl_banner2.png" alt="Banner Image" class="object-contain max-h-44" />
             </a>
+            <img src="/images/banners/hodl_banner2.png" alt="Banner Image" class="absolute left-0 top-0 right-0 bottom-0 blur-3xl opacity-50 z-10" />
           </div>
         </div>
       </Slide>
@@ -83,7 +84,7 @@ const isBannerShowing: ComputedRef<boolean> = computed(() => {
 
 <style>
 .advertisement {
-  @apply flex justify-center items-center min-w-full w-full h-full;
+  @apply flex justify-center items-center min-w-full w-full h-full overflow-hidden;
 }
 
 .carousel__viewport {
