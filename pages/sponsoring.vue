@@ -8,7 +8,9 @@
 
     <p class="italic">$20 a day if you want your banner to be the only advertisement banner.</p>
 
-    <p>The minimum amount is 30 days. The advertisement banners will only show up on the RCAX website. They will NOT be shown on the app. Users may dismiss the advertisement banners for the duration of their session.</p>
+    <p>The minimum amount is 14 days. For solo banners the minimum amount is 3 days. The advertisement banners will only show up on the RCAX website. They will NOT be shown on the app. Users may dismiss the advertisement banners for the duration of their session.</p>
+
+    <p>If you do not have a banner, I can also make one for you.</p>
 
     <p>If you are interested, please contact <a href="mailto:snoovatars@gmail.com" class="text-amber-500">snoovatars@gmail.com</a>.</p>
 
