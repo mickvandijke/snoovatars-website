@@ -42,7 +42,8 @@
         </div>
       </div>
       <div class="mb-12 lg:mb-0 w-full lg:w-1/2 lg:px-6 flex flex-col items-center justify-center text-white">
-        <h2 class="text-xl md:text-3xl font-bold text-center mb-12">Realtime Custom Price Alerts ⚡️</h2>
+        <h2 class="text-xl md:text-3xl font-bold text-center">Realtime Custom Price Alerts ⚡️</h2>
+        <h3 class="mb-12 font-semibold text-amber-500">PRO ONLY</h3>
         <p class="max-w-xl text-white/80 font-medium">
           With our highly customizable price alerts, you will be able to snipe the best deals before anyone else.
         </p>
