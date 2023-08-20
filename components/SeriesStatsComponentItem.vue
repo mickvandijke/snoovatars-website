@@ -174,7 +174,7 @@
             </div>
           </div>
         </div>
-        <div class="absolute right-0 flex flex-col items-end sm:bg-gradient-to-r from-primary-accent-solid/60 to-primary-accent-solid">
+        <div class="absolute right-1 flex flex-col items-end sm:bg-gradient-to-r from-primary-accent-solid/60 to-primary-accent-solid">
           <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
               <span class="text-white/40 font-medium">24h:</span>
