@@ -14,7 +14,7 @@
                 <p class="text-white text-[0.8rem] md:text-[1rem] font-medium max-w-sm sm:max-w-full z-10">Find the cheapest matching Nyan Cat & Fiesta Dog pairs listed on OpenSea! <span class="inline-flex md:hidden ml-1 w-fit px-1 py-0.5 bg-primary-accent backdrop-blur-lg text-[0.65rem] text-white/60 rounded-lg cursor-pointer">Click to Open</span></p>
 
                 <a href="https://nyanmatcher.xyz/" target="_blank" class="hidden md:block p-3 md:p-4 w-fit bg-white hover:bg-white/90 text-black/90 font-semibold rounded-2xl duration-200 z-10">Get Yours</a>
-                <div class="absolute left-0 top-0 right-0 bottom-0 bg-[#003466] blur-3xl z-0"></div>
+                <div class="absolute left-0 top-0 right-0 bottom-0 bg-[#003466] blur-2xl md:blur-3xl z-0"></div>
               </div>
               <div alt="Banner Image" class="rainbow-gradient-to-br absolute -left-8 -top-8 -right-8 -bottom-8 blur-lg opacity-100 z-5" />
               <div class="absolute left-0.5 top-0.5 bottom-0.5 right-0.5 sm:left-1 sm:top-1 sm:bottom-1 sm:right-1 overflow-hidden rounded-lg sm:rounded-2xl z-10">
