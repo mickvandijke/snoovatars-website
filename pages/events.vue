@@ -1,10 +1,11 @@
 <template>
-  <div class="relative flex flex-col items-center w-full">
+  <div class="events-view relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name`" />
       <select v-model="settings.activity.filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none sm:w-fit max-w-sm overflow-x-hidden">
         <option value="all">Show All</option>
+        <option value="eth">Show ETH Only</option>
         <option value="premium">Show Premium Only</option>
         <option value="watchlist">Show Watchlist Only</option>
       </select>
@@ -36,7 +37,7 @@ import {
   updateEthereumPrices,
   updateMarketInfo,
   updateSeriesStats,
-  useSeriesStats, useSeriesStatsV2, useSettings,
+  useSeriesStatsV2, useSettings,
   useWatchList
 } from "~/composables/states";
 import {computed, ref, useRoute, useRouter, watch} from "#imports";
@@ -47,7 +48,6 @@ import {Sale} from "~/types/sale";
 import MintsComponent from "~/components/MintsComponent.vue";
 import {Mint} from "~/types/mint";
 import {fetchMintsLatest} from "~/composables/api/mints";
-import {ArrowPathIcon} from "@heroicons/vue/24/solid";
 import {Listing} from "~/types/listing";
 import {fetchListingsLatest} from "~/composables/api/listings";
 import {Capacitor} from "@capacitor/core";
@@ -134,6 +134,8 @@ const filteredSales: ComputedRef<Sale[]> = computed(() => {
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
     if (settings.value.activity.filterGenOption === "watchlist") {
       filteredSales = filteredSales.filter((sale) => watchList.value.has(sale.token.name));
+    } else if (settings.value.activity.filterGenOption === "eth") {
+      filteredSales = filteredSales.filter((sale) => sale.payment_token.symbol == "ETH");
     } else {
       filteredSales = filteredSales.filter((sale) => !getFreeCollections().includes(sale.token.contract_address));
     }
@@ -152,6 +154,8 @@ const filteredListings: ComputedRef<Listing[]> = computed(() => {
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
     if (settings.value.activity.filterGenOption === "watchlist") {
       filteredListings = filteredListings.filter((listing) => watchList.value.has(listing.token.name));
+    } else if (settings.value.activity.filterGenOption === "eth") {
+      filteredListings = filteredListings.filter((listing) => listing.payment_token.symbol == "ETH");
     } else {
       filteredListings = filteredListings.filter((listing) => !getFreeCollections().includes(listing.token.contract_address));
     }
@@ -167,7 +171,7 @@ const filteredListings: ComputedRef<Listing[]> = computed(() => {
 const filteredMints: ComputedRef<Mint[]> = computed(() => {
   let filteredMints = Array.from(Object.values(mintsLatest.value));
 
-  if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
+  if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all" && settings.value.activity.filterGenOption != "eth") {
     if (settings.value.activity.filterGenOption === "watchlist") {
       filteredMints = filteredMints.filter((mint) => watchList.value.has(mint.token.name));
     } else {
@@ -183,6 +187,8 @@ const filteredMints: ComputedRef<Mint[]> = computed(() => {
 });
 </script>
 
-<style scoped>
-
+<style>
+.events-view .searchbar {
+  @apply w-fit;
+}
 </style>

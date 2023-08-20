@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col items-center w-full">
+  <div class="stats-view relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" />
@@ -832,5 +832,7 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
 </script>
 
 <style scoped>
-
+.stats-view .searchbar {
+  @apply w-fit;
+}
 </style>
