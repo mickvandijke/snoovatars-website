@@ -271,27 +271,32 @@ const slicedItems = computed(() => {
 });
 
 const artists = computed(() => {
-  let artists = [];
+  let artists: Set<String> = new Set();
 
   for (const collection of Object.entries(seriesStats.value)) {
-    artists.push(Object.values(collection[1])[0].collection.artist.displayName);
+    artists.add(Object.values(collection[1])[0].collection.artist.displayName);
   }
 
-  artists.sort();
+  let artistsArray = Array.from(artists);
 
-  return artists;
+  artistsArray.sort(function (a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
+
+  return artistsArray;
 });
 
 function usingFilter(): boolean {
-  return !!maxPriceEth.value || filterGenOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show" || filterNoListings.value !== "show";
+  return !!maxPriceEth.value || filterGenOption.value !== "all" || filterArtistOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show" || filterNoListings.value !== "show";
 }
 
 function clearFilters() {
   maxPriceEth.value = undefined;
   filterGenOption.value = "all";
+  filterArtistOption.value = "all";
   filterRarityOption.value = "all";
   filterSoldOut.value = "show";
-  filterNoListings.value = "show";;
+  filterNoListings.value = "show";
 }
 
 function refresh() {
