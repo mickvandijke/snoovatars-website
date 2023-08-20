@@ -110,6 +110,10 @@ const isBannerShowing: ComputedRef<boolean> = computed(() => {
   @apply bg-white hover:bg-white;
 }
 
+.carousel__prev, .carousel__next {
+  @apply hidden md:flex;
+}
+
 .carousel__prev:hover, .carousel__next:hover {
   @apply text-white/80;
 }
