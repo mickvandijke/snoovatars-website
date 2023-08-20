@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isBannerShowing" class="relative sm:mb-6 px-2 sm:px-6 w-full">
+  <div v-if="isBannerShowing" class="relative md:mb-6 px-2 sm:px-6 w-full">
     <Carousel :items-to-show="1" :autoplay="1200000" :wrap-around="true">
 <!--      <Slide :key="1">-->
 <!--        <div class="carousel__item">-->
@@ -46,10 +46,10 @@
       <Slide :key="2">
         <div class="carousel__item">
           <div class="advertisement relative">
-            <a href="https://www.the23.club" target="_blank" class="z-20">
-              <img src="/images/banners/hodl_banner2.png" alt="Banner Image" class="object-contain max-h-44" />
+            <a href="https://www.the23.club" target="_blank" class="flex h-full items-center z-20">
+              <img src="/images/banners/hodl_banner2.png" alt="Banner Image" class="object-contain h-full max-h-44" />
             </a>
-            <img src="/images/banners/hodl_banner2.png" alt="Banner Image" class="absolute left-0 top-0 right-0 bottom-0 blur-3xl opacity-50 z-10" />
+            <img src="/images/banners/hodl_banner2.png" alt="Banner Image" class="absolute left-0 top-0 right-0 bottom-0 h-full w-full blur-3xl opacity-50 z-10" />
           </div>
         </div>
       </Slide>
