@@ -8,7 +8,7 @@
       <span class="hidden sm:block text-sm font-medium">Filters</span>
     </button>
     <template v-if="showFilterMenu">
-      <div class="filter-menu-button--menu absolute left-0 top-full mt-2 z-10 w-fit max-w-lg">
+      <div class="filter-menu-button--menu absolute mt-2 z-10 w-fit max-w-lg">
         <div class="p-4 flex flex-col gap-2" style="min-width: 192px">
           <slot></slot>
         </div>
@@ -37,6 +37,9 @@ const props = defineProps({
 }
 
 .filter-menu-button--menu {
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
   @apply bg-primary-accent-solid/90 backdrop-blur-xl border border-primary-border rounded-lg shadow-xl;
 }
 
