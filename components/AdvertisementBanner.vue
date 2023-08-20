@@ -6,7 +6,7 @@
           <div class="advertisement">
             <div class="relative p-4 flex gap-12 justify-center items-center w-full h-full overflow-hidden">
               <div class="hidden md:flex justify-center items-center z-20">
-                <img src="/images/banners/nyan_banner.png" class="object-contain md:max-h-64 rounded-2xl shadow-xl">
+                <img src="/images/banners/nyan_banner_2.png" class="object-contain md:max-h-64 rounded-2xl shadow-xl">
               </div>
               <div class="py-2 md:py-0 relative flex flex-col gap-2 md:gap-6 max-w-md text-left items-center md:items-start z-20">
                 <h1 class="w-full md:w-fit text-white text-xl md:text-5xl font-bold z-10">NyanMatcher</h1>

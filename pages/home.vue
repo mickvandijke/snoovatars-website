@@ -159,7 +159,7 @@
 import {CheckBadgeIcon} from "@heroicons/vue/24/solid";
 
 function getRandomAvatarImgSrc() {
-  return `/img/${Math.floor(Math.random() * (16 - 1 + 1) + 1)}.png`;
+  return `/img/${Math.floor(Math.random() * (18 - 1 + 1) + 1)}.png`;
 }
 </script>
 
