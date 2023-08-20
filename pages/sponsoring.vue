@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 md:px-6 py-12 flex flex-col gap-3 text-neutral-200 max-w-2xl">
+  <div class="px-4 md:px-6 py-12 flex flex-col gap-3 text-neutral-200 w-full max-w-2xl">
     <h1 class="text-2xl">Sponsor RCAX's Development</h1>
 
     <p>You can sponsor RCAX by renting a advertisement banner. Prices start from $5 a day.</p>
