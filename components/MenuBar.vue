@@ -14,6 +14,6 @@
 }
 
 .menubar > select {
-  @apply p-2 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white placeholder-white/20 font-medium border-none focus:outline-none w-full max-w-[6rem] md:max-w-fit rounded-lg;
+  @apply p-2 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white placeholder-white/20 font-medium border-none focus:outline-none w-full max-w-[7rem] md:max-w-fit rounded-lg;
 }
 </style>
