@@ -19,19 +19,19 @@
       </div>
     </template>
     <template v-else>
-      <div class="px-2 py-6 flex flex-col gap-12 max-w-2xl">
+      <div class="px-4 md:px-6 py-6 flex flex-col gap-12 max-w-xl">
         <template v-if="userSettings">
           <div class="flex flex-col gap-6">
             <div class="px-2 flex flex-row items-center w-full">
-              <h2 class="text-neutral-100 text-2xl md:text-3xl font-semibold">Settings</h2>
+              <h2 class="header">Settings</h2>
               <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
             </div>
-            <div class="p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
+            <div class="p-6 flex flex-col gap-y-4 border-2 border-primary-border w-full rounded-2xl">
               <template v-if="user.tier > 0">
                 <template v-for="[key, value] in Object.entries(userSettings)">
                   <div class="flex justify-between items-center">
                     <div class="flex gap-1 items-center">
-                      <span class="text-sm text-neutral-200">{{ key }}</span>
+                      <span class="text-sm text-white/80">{{ key.replace(/_/g, " ") }}</span>
                       <NuxtLink to="/home#plans" class="text-amber-500 text-xs font-bold">Pro</NuxtLink>
                     </div>
                     <label class="relative flex justify-between items-center group p-1 cursor-pointer">
@@ -45,7 +45,7 @@
                 <template v-for="[key, value] in Object.entries(userSettings)">
                   <div class="flex justify-between items-center">
                     <div class="flex gap-1 items-center">
-                      <span class="text-sm text-neutral-200">{{ key }}</span>
+                      <span class="text-sm text-white/80">{{ key.replace(/_/g, " ") }}</span>
                       <NuxtLink to="/home#plans" class="text-amber-500 text-xs font-bold">Pro</NuxtLink>
                     </div>
                     <label class="relative flex justify-between items-center group p-1 cursor-pointer">
@@ -60,102 +60,111 @@
         </template>
         <div id="alert-list" class="flex flex-col items-center gap-6 w-full">
           <div class="px-2 flex flex-row items-center w-full">
-            <h2 class="text-neutral-100 text-2xl md:text-3xl font-semibold">Alerts</h2>
-            <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Create Alert</button>
+            <h2 class="header">Price Alerts</h2>
+            <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-primary-accent disabled:bg-gray-500 hover:bg-primary-accent-hover text-white text-sm font-medium rounded-lg duration-200">Create Alert</button>
           </div>
           <template v-if="user.tier < 1">
-            <div class="p-6 text-center text-sm text-neutral-200 border-2 border-red-500 rounded-2xl w-full">
+            <div class="p-6 text-center text-sm text-white/80 border-2 border-red-500 rounded-2xl w-full">
               <span>Although you can create alerts, they will not fire until you <NuxtLink to="/upgrade" class="text-amber-500 font-bold">upgrade to Pro</NuxtLink> and enable email and/or push notifications.</span>
             </div>
           </template>
-          <ul class="grid grid-cols-1 gap-2 w-full rounded-2xl">
+          <ul class="p-2 grid grid-cols-1 gap-2 w-full border-2 border-primary-border rounded-2xl">
             <template v-for="[alertHash, alert] in alerts">
-              <div class="p-2 grid grid-cols-12 items-center bg-neutral-800 text-sm rounded-2xl focus:ring-amber-500 focus:border-amber-500 block w-full">
-                <img :src="getSeries(alert.collection_tier_hash).image">
-                <div class="px-2 col-span-6 flex flex-col text-white">
-                  <span>{{alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}</span>
-                  <span>{{ alert.alert_type }}: {{ alert.price_threshold }} ETH</span>
+              <div class="p-2 flex gap-2 items-center bg-primary-accent text-sm rounded-lg w-full">
+                <div class="flex items-center justify-center w-8 h-8 rounded-md overflow-hidden">
+                  <img :src="getSeries(alert.collection_tier_hash).image" class="object-cover">
                 </div>
-                <div class="ml-auto col-span-5 flex gap-2">
-                  <button @click="openAlertModal(alertHash, alert)" class="px-2 py-2 bg-sky-600 hover:bg-sky-500 font-semibold text-white rounded-md duration-200">Edit</button>
-                  <button @click="deleteAlert(alertHash)" class="px-2 py-2 bg-red-600 hover:bg-red-500 font-semibold text-white rounded-md duration-200">Delete</button>
+                <div class="col-span-6 flex flex-col">
+                  <span class="text-white font-semibold">{{alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}</span>
+                  <span class="text-white/60 text-xs">{{ alert.alert_type.toString().replace("SaleAbove", "Sale Above").replace("ListingBelow", "Listing Below") }}: {{ alert.price_threshold }} ETH</span>
+                </div>
+                <div class="ml-auto col-span-5 flex items-center justify-center gap-2">
+                  <button @click="openAlertModal(alertHash, alert)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-primary-accent-hover font-semibold text-white rounded-md duration-200">
+                    <PencilSquareIcon class="text-white/40 w-4" />
+                  </button>
+                  <button @click="deleteAlert(alertHash)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-red-500/25 font-semibold text-white rounded-md duration-200">
+                    <TrashIcon class="text-white/40 w-4" />
+                  </button>
                 </div>
               </div>
             </template>
           </ul>
-          <p class="px-6 text-sm text-neutral-500 text-center w-full">To prevent price notifications from ending up in your spam folder, you might have to whitelist service@snoovatars.com.</p>
+          <p class="px-6 text-sm text-white/40 text-center w-full">To prevent price notifications from ending up in your spam folder, you might have to whitelist service@snoovatars.com.</p>
         </div>
         <template v-if="alerts && alertQuota && alertMaxQuota">
           <div class="flex flex-col gap-6">
-            <div class="flex flex-row items-center w-full">
-              <h2 class="px-2 text-neutral-100 text-2xl md:text-3xl font-semibold">Quota</h2>
+            <div class="px-2 flex flex-row items-center w-full">
+              <h2 class="header">Quota</h2>
               <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
             </div>
-            <ul class="p-6 flex flex-col gap-y-4 border-2 border-neutral-800 w-full rounded-2xl">
-              <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">
+            <ul class="p-6 flex flex-col gap-y-4 border-2 border-primary-border w-full rounded-2xl">
+              <li class="flex flex-row flex-nowrap text-white/60 text-sm rounded-2xl block w-full">
                 <span>Concurrent Alerts:</span>
                 <span class="ml-auto">{{ alerts.size }}/{{ alertMaxQuota.alerts }}</span>
               </li>
-<!--              <li class="flex flex-row flex-nowrap text-neutral-400 text-sm rounded-2xl block w-full">-->
+<!--              <li class="flex flex-row flex-nowrap text-white/60 text-sm rounded-2xl block w-full">-->
 <!--                <span>Email Notifications:</span>-->
 <!--                <span class="ml-auto">{{ alertQuota.emails_sent }}/{{ alertMaxQuota.emails_sent }}</span>-->
 <!--              </li>-->
             </ul>
-            <p class="px-6 text-sm text-neutral-500 text-center w-full">*Free tier quotas might change at any moment without notice.</p>
+<!--            <p class="px-6 text-sm text-white/40 text-center w-full">*Free tier quotas might change at any moment without notice.</p>-->
           </div>
         </template>
       </div>
 
       <!--modal content-->
-      <div v-if="addingAlert" class="fixed mx-auto py-6 border-2 border-neutral-700 drop-shadow-2xl rounded-2xl bg-neutral-800 z-40">
-        <div class="mt-2 text-center max-h-96 overflow-y-auto">
-          <h3 class="text-lg leading-6 font-medium text-white">{{ !!replacingAlertHash ? "Update" : "New" }} Alert</h3>
-          <div class="mt-2 px-6 py-2 max-h-xs overflow-y-auto">
-            <label for="collection" class="block mb-2 text-sm font-medium text-neutral-400 text-left">Select avatar (Type to search)</label>
-            <select-search
-                id="tier"
-                v-model="newAlert.collection_tier_hash"
-                :options="selectSeries()"
-                :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Select avatar'"
-                @change="onSelectedTier()"
-            />
-<!--            <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">[Optional] Select a specific mint number</label>-->
-<!--            <select-search-->
-<!--                id="avatar"-->
-<!--                v-model="newAlert.item_hash"-->
-<!--                :options="selectAvatars()"-->
-<!--                :placeholder="newAlert.item_hash ? avatars.get(newAlert.item_hash).fullname() : 'None'"-->
-<!--                :disabled="!newAlert.collection_tier_hash"-->
-<!--                @change="onSelectedAvatar()"-->
-<!--            />-->
-            <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Max mint number (0 = any mint)</label>
-            <input type="number" min="0" :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="lighter">
-            <label for="type" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Select an event type</label>
-            <select required v-model="newAlert.alert_type" id="type" class="lighter">
-              <option :value="AlertType.ListingBelow">Listing below price threshold</option>
-              <option :value="AlertType.SaleAbove">Sale above price threshold</option>
-            </select>
-            <label for="price-threshold" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Price threshold in ETH</label>
-            <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="lighter">
-            <label for="repeating" class="mt-4 block mb-2 text-sm font-medium text-neutral-400 text-left">Repeating</label>
-            <select required v-model="newAlert.repeating" id="repeating" class="lighter">
-              <option :value="false">Only alert once</option>
-              <option :value="true">Repeating alert</option>
-            </select>
-            <div class="mt-4 flex flex-col items-center gap-2">
-              <button @click="submitAlert" :disabled="!newAlert.isValid()" class="px-4 py-2 bg-sky-500 disabled:bg-gray-500 text-white text-base font-medium rounded-2xl w-full hover:bg-sky-600 disabled:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-green-300 duration-200">
-                Submit
+      <template v-if="addingAlert">
+        <div class="fixed inset-0 h-screen flex justify-center items-center bg-black/50 z-40">
+          <div v-click-outside="cancelAlert" class="relative w-96 max-w-[80%] flex flex-col bg-primary-accent-solid/90 backdrop-blur-xl border border-neutral-700 drop-shadow-2xl rounded-2xl overflow-hidden">
+            <div class="px-4 py-3 absolute w-full top-0 flex items-center justify-center bg-primary/90 backdrop-blur-xl border-b border-primary-border shadow-md z-30">
+              <span class="text-white/40 font-medium">{{ !!replacingAlertHash ? "Update" : "New" }} Alert</span>
+              <XMarkIcon @click.stop="cancelAlert" class="absolute right-4 w-7 h-7 text-neutral-400 opacity-50 hover:opacity-100 cursor-pointer duration-200"/>
+            </div>
+            <div class="px-4 py-20 text-center max-h-[60vh] overflow-y-auto">
+              <label for="collection" class="block mb-2 text-sm font-medium text-white/60 text-left">Select avatar (Type to search)</label>
+              <select-search
+                  id="tier"
+                  v-model="newAlert.collection_tier_hash"
+                  :options="selectSeries()"
+                  :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Select avatar'"
+                  @change="onSelectedTier()"
+              />
+              <!--            <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-white/60 text-left">[Optional] Select a specific mint number</label>-->
+              <!--            <select-search-->
+              <!--                id="avatar"-->
+              <!--                v-model="newAlert.item_hash"-->
+              <!--                :options="selectAvatars()"-->
+              <!--                :placeholder="newAlert.item_hash ? avatars.get(newAlert.item_hash).fullname() : 'None'"-->
+              <!--                :disabled="!newAlert.collection_tier_hash"-->
+              <!--                @change="onSelectedAvatar()"-->
+              <!--            />-->
+              <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-white/60 text-left">Max mint number (0 = any mint)</label>
+              <input type="number" min="0" :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="lighter">
+              <label for="type" class="mt-4 block mb-2 text-sm font-medium text-white/60 text-left">Select an event type</label>
+              <select required v-model="newAlert.alert_type" id="type" class="w-full">
+                <option :value="AlertType.ListingBelow">Listing below price threshold</option>
+                <option :value="AlertType.SaleAbove">Sale above price threshold</option>
+              </select>
+              <label for="price-threshold" class="mt-4 block mb-2 text-sm font-medium text-white/60 text-left">Price threshold in ETH</label>
+              <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="lighter">
+              <label for="repeating" class="mt-4 block mb-2 text-sm font-medium text-white/60 text-left">Repeating</label>
+              <select required v-model="newAlert.repeating" id="repeating" class="w-full">
+                <option :value="false">Only alert once</option>
+                <option :value="true">Repeating alert</option>
+              </select>
+            </div>
+            <div class="px-4 py-3 absolute bottom-0 w-full flex items-center gap-4 bg-primary/90 backdrop-blur-xl border-t border-primary-border shadow-md">
+              <button @click="submitAlert" :disabled="!newAlert.isValid()" class="px-2 py-2 bg-primary-accent hover:bg-primary-accent-hover disabled:bg-white/5 text-white/80 disabled:text-white/20 text-sm font-semibold rounded-2xl w-full duration-200">
+                Save
               </button>
-              <button @click="cancelAlert" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-2xl w-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 duration-200">
+              <button @click="cancelAlert" class="px-2 py-2 bg-red-500/40 hover:bg-red-500/80 text-white/80 text-sm font-semibold rounded-2xl w-full duration-200">
                 Cancel
               </button>
-              <template v-if="replacingAlertHash">
-                <button @click="deleteAlert(replacingAlertHash)" class="mt-4 px-4 py-2 w-full bg-red-600 hover:bg-red-500 font-semibold text-white rounded-2xl duration-200">Delete</button>
-              </template>
             </div>
           </div>
         </div>
-      </div>
+      </template>
+
     </template>
   </div>
 </template>
@@ -179,6 +188,7 @@ import {deleteToken} from "~/composables/api/user";
 import {createAlert, getAlerts} from "~/composables/api/alert";
 import {calculate_hash} from "~/types/series";
 import {UserSettings} from "~/types/user";
+import {PencilSquareIcon, TrashIcon, XMarkIcon} from "@heroicons/vue/24/solid";
 
 const loading = ref(true);
 const loadingSeries = ref(true);
@@ -362,5 +372,7 @@ async function deleteAlert(alertHash: AlertHash) {
 </script>
 
 <style scoped>
-
+.header {
+  @apply text-white text-xl md:text-2xl font-semibold;
+}
 </style>

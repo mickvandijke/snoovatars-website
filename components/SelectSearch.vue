@@ -2,7 +2,6 @@
   <div class="relative block w-full">
     <div class="flex flex-row flex-nowrap">
       <input
-          class="p-2.5 border-2 border-neutral-700 hover:border-neutral-600 rounded-2xl duration-200"
           v-model="search"
           :placeholder="props.placeholder"
           :disabled="props.disabled"
