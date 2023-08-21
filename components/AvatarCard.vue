@@ -91,6 +91,7 @@ import {StarIcon} from "@heroicons/vue/20/solid";
 import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
 import {findCollectionNameByContractAddress} from "~/global/generations";
+import {Haptics, ImpactStyle} from "@capacitor/haptics";
 
 export interface AvatarCardItem {
   name: string;
@@ -127,7 +128,13 @@ const getGeneration = computed(() => {
   return findCollectionNameByContractAddress(props.item.contract_address);
 });
 
+const hapticsImpactLight = async () => {
+  await Haptics.impact({ style: ImpactStyle.Light });
+};
+
 function selectAvatar() {
+  hapticsImpactLight();
+
   selectedAvatar.value = {
     seriesStats: props.seriesStats,
     contract: props.seriesStats.series.contract_address,

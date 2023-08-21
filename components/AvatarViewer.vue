@@ -402,11 +402,9 @@ function sortListings(column: string) {
 }
 
 function refresh() {
-  if (user.value?.tier > 0) {
-    fetchListingsForSeries(contract.value, series.value).then((seriesListings) => {
-      listings.value = seriesListings;
-    });
-  }
+  fetchListingsForSeries(contract.value, series.value).then((seriesListings) => {
+    listings.value = seriesListings;
+  });
 
   fetchSalesForSeries(contract.value, series.value).then((seriesSales) => {
     sales.value = seriesSales;
