@@ -352,6 +352,10 @@ export const Filters = {
     superbowllvii: {
         type: "free",
         collections: ["0x3b477a6b1be236628b08839e1e8cf8ba8d93589a"]
+    },
+    levelup: {
+        type: "free",
+        collections: ["0x7d7aaf03ea51bc1658e935a8ad09d77f89a1f250"]
     }
 };
 
