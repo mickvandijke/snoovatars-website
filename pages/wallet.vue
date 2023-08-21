@@ -1,8 +1,8 @@
 <template>
-  <div class="pb-3 md:pb-0 relative flex flex-col items-center w-full">
+  <div class="wallet-view pb-3 md:pb-0 relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <select v-model="settings.wallet.valuationMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.valuationMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none overflow-x-hidden">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
         <option value="fiveLastSales">Value by Last 5 Sales Average</option>
@@ -10,11 +10,11 @@
         <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
         <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
       </select>
-      <select v-model="settings.wallet.filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none overflow-x-hidden">
         <option value="all">Show All</option>
         <option value="premium">Show Premium Only</option>
       </select>
-      <select v-model="settings.wallet.groupMethod" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none max-w-sm overflow-x-hidden">
+      <select v-model="settings.wallet.groupMethod" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none overflow-x-hidden">
         <option value="group">Group by Series</option>
         <option value="mint">Show Mint Numbers</option>
       </select>
@@ -78,7 +78,7 @@
             <div class="flex items-center text-2xl font-bold">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-5 h-5 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
               <div class="text-white">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-              <div class="ml-1 text-amber-500"> {{ ethereumInLocalCurrency(getTotalWorth) }}</div>
+              <div class="ml-2 text-amber-500"> {{ ethereumInLocalCurrency(getTotalWorth) }}</div>
             </div>
           </div>
           <div class="flex gap-1">
@@ -555,5 +555,7 @@ function selectAvatar(seriesStats: SeriesStats) {
 </script>
 
 <style scoped>
-
+.wallet-view select {
+  @apply max-w-[9rem];
+}
 </style>
