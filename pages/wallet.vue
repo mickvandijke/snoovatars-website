@@ -58,13 +58,27 @@
             </button>
           </div>
         </div>
-        <div class="px-2 flex flex-col md:flex-row items-start gap-2 text-sm rounded-2xl w-full">
+        <div class="px-2 hidden md:flex flex-col md:flex-row items-start gap-2 text-sm rounded-2xl w-full">
           <div class="flex gap-1">
             <span class="text-white/40">Total Worth: </span>
             <div class="flex items-center font-bold">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
               <div class="text-white">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
               <div class="ml-1 text-neutral-500"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth) }}</span>)</div>
+            </div>
+          </div>
+          <div class="flex gap-1">
+            <span class="text-white/40">Total items:</span>
+            <span class="text-white font-medium">{{ getTotalItems }}</span>
+          </div>
+        </div>
+        <div class="px-2 flex md:hidden flex-col md:flex-row items-center gap-1 text-sm w-full">
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-white/40">Total Worth: </span>
+            <div class="flex items-center text-2xl font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-5 h-5 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <div class="text-white">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
+              <div class="ml-1 text-amber-500"> {{ ethereumInLocalCurrency(getTotalWorth) }}</div>
             </div>
           </div>
           <div class="flex gap-1">
