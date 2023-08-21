@@ -1,7 +1,7 @@
 <template>
   <div class="avatar-view px-4 py-4 sm:px-8 flex flex-col items-center gap-6 w-full">
     <div class="flex flex-col gap-6 items-center w-full max-w-md">
-      <h1 class="text-xl md:text-3xl text-amber-500 font-bold">RCAX: Avatar Exporter</h1>
+      <h1 class="text-xl font-bold text-white duration-500">RCA<span class="italic text-amber-500">X</span>: <span class="text-white/60 text-xl uppercase">Avatar Exporter</span></h1>
       <div class="flex items-center gap-2 w-full">
         <input v-model="userSearch" placeholder="Reddit Username (without u/)" @keyup.enter.prevent="searchUser(userSearch)" />
         <button :disabled="!userSearch || pending || userSearch === user" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200" @click="searchUser(userSearch)">
