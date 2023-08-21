@@ -20,7 +20,7 @@
             </div>
           </template>
         </button>
-        <div @click="selectAvatar" class="pl-1 sm:pr-1 flex flex-col overflow-hidden" style="width: 81%">
+        <div @click="selectAvatar" class="relative pl-1 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
             <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-neutral-300 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
             <div class="relative text-black text-[0.7rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">
