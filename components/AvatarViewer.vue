@@ -33,124 +33,124 @@
         </div>
         <div class="flex flex-col gap-4 w-full">
           <div class="flex flex-col gap-2 p-4 bg-primary-accent rounded-2xl">
-            <div @click="settings.extraInfoOptions.marketData = !settings.extraInfoOptions.marketData" class="px-2 flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
+            <div @click="settings.extraInfoOptions.marketData = !settings.extraInfoOptions.marketData" class="px-2 flex justify-between items-center text-white/40 hover:text-white cursor-pointer duration-200">
               <h1>Advanced Details</h1>
               <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.marketData }" />
             </div>
             <template v-if="settings.extraInfoOptions.marketData">
               <div class="px-2 flex flex-col gap-1 text-xs font-medium rounded-lg">
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">Name:</div>
+                  <div class="text-white/40">Name:</div>
                   <div class="flex gap-0.5 items-center">
                     <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">Collection:</div>
+                  <div class="text-white/40">Collection:</div>
                   <div class="flex gap-0.5 items-center overflow-hidden w-full truncate">
                     <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}`)" class="text-white">{{ seriesStats.collection.name.replace("x Reddit Collectible Avatars", "") }}</button>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">Artist:</div>
+                  <div class="text-white/40">Artist:</div>
                   <div class="flex gap-0.5 items-center">
                     <a :href="`https://reddit.com/u/${seriesStats?.collection.artist.displayName}`" target="_blank" class="text-white">{{ seriesStats.collection.artist.displayName }}</a>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">Shop Supply:</div>
+                  <div class="text-white/40">Shop Supply:</div>
                   <div class="flex gap-0.5 items-center">
-                    <div class="text-neutral-200">{{ seriesStats.series.total_quantity }}</div>
+                    <div class="text-white/80">{{ seriesStats.series.total_quantity }}</div>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">Total Minted:</div>
+                  <div class="text-white/40">Total Minted:</div>
                   <div class="flex gap-0.5 items-center">
-                    <div class="text-neutral-200">{{ seriesStats.series.total_sold }}</div>
+                    <div class="text-white/80">{{ seriesStats.series.total_sold }}</div>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">Listed:</div>
+                  <div class="text-white/40">Listed:</div>
                   <div class="flex gap-0.5 items-center">
-                    <div class="text-neutral-200">{{ seriesStats.stats.listed_percentage.toFixed(2) }}%</div>
+                    <div class="text-white/80">{{ seriesStats.stats.listed_percentage.toFixed(2) }}%</div>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">24h Volume:</div>
+                  <div class="text-white/40">24h Volume:</div>
                   <div class="flex gap-0.5 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                    <div class="text-neutral-200">{{ (seriesStats.stats.daily_volume).toFixed(2) }}</div>
-                    <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.daily_volume * 1000000000000000000, true) }}</span>)</span>
+                    <div class="text-white/80">{{ (seriesStats.stats.daily_volume).toFixed(2) }}</div>
+                    <span class="text-white/40 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.daily_volume * 1000000000000000000, true) }}</span>)</span>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">Total Volume:</div>
+                  <div class="text-white/40">Total Volume:</div>
                   <div class="flex gap-0.5 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                    <div class="text-neutral-200">{{ (seriesStats.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
-                    <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.total_volume, true) }}</span>)</span>
+                    <div class="text-white/80">{{ (seriesStats.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
+                    <span class="text-white/40 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.total_volume, true) }}</span>)</span>
                   </div>
                 </div>
                 <template v-if="seriesStats.stats.lowest_listing">
                   <div class="flex items-center gap-1">
-                    <div class="text-neutral-500">Market Cap:</div>
+                    <div class="text-white/40">Market Cap:</div>
                     <div class="flex gap-0.5 items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="text-neutral-200">{{ (seriesStats.series.total_sold * seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(2) }}</div>
-                      <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.series.total_sold * seriesStats.stats.lowest_listing?.payment_token.base_price, true) }}</span>)</span>
+                      <div class="text-white/80">{{ (seriesStats.series.total_sold * seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(2) }}</div>
+                      <span class="text-white/40 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.series.total_sold * seriesStats.stats.lowest_listing?.payment_token.base_price, true) }}</span>)</span>
                     </div>
                   </div>
                   <div class="flex items-center gap-1">
-                    <div class="text-neutral-500">Floor / Mint Percentage:</div>
+                    <div class="text-white/40">Floor / Mint Percentage:</div>
                     <div class="flex gap-0.5 items-center">
-                      <div class="text-neutral-200">{{ Math.round(((seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (seriesStats.series.mint_price / 100) * 100) }}%</div>
+                      <div class="text-white/80">{{ Math.round(((seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000) * ethereumPriceInUsd) / (seriesStats.series.mint_price / 100) * 100) }}%</div>
                     </div>
                   </div>
                 </template>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">Last 5 Sales Avg:</div>
+                  <div class="text-white/40">Last 5 Sales Avg:</div>
                   <div class="flex gap-0.5 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                    <div class="text-neutral-200">{{ (seriesStats.stats.five_last_sales_average).toFixed(4) }}</div>
-                    <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.five_last_sales_average * 1000000000000000000) }}</span>)</span>
+                    <div class="text-white/80">{{ (seriesStats.stats.five_last_sales_average).toFixed(4) }}</div>
+                    <span class="text-white/40 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.five_last_sales_average * 1000000000000000000) }}</span>)</span>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">7D Avg Sale Price:</div>
+                  <div class="text-white/40">7D Avg Sale Price:</div>
                   <div class="flex gap-0.5 items-center">
                     <template v-if="seriesStats.stats.weekly_average_price">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="text-neutral-200">{{ (seriesStats.stats.weekly_average_price).toFixed(4) }}</div>
-                      <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.weekly_average_price * 1000000000000000000) }}</span>)</span>
+                      <div class="text-white/80">{{ (seriesStats.stats.weekly_average_price).toFixed(4) }}</div>
+                      <span class="text-white/40 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.weekly_average_price * 1000000000000000000) }}</span>)</span>
                     </template>
                     <template v-else>
-                      <span class="text-neutral-500 italic">No sales.</span>
+                      <span class="text-white/40 italic">No sales.</span>
                     </template>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">14D Avg Sale Price:</div>
+                  <div class="text-white/40">14D Avg Sale Price:</div>
                   <div class="flex gap-0.5 items-center">
                     <template v-if="seriesStats.stats.two_weekly_average_price">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="text-neutral-200">{{ (seriesStats.stats.two_weekly_average_price).toFixed(4) }}</div>
-                      <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.two_weekly_average_price * 1000000000000000000) }}</span>)</span>
+                      <div class="text-white/80">{{ (seriesStats.stats.two_weekly_average_price).toFixed(4) }}</div>
+                      <span class="text-white/40 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.two_weekly_average_price * 1000000000000000000) }}</span>)</span>
                     </template>
                     <template v-else>
-                      <span class="text-neutral-500 italic">No sales.</span>
+                      <span class="text-white/40 italic">No sales.</span>
                     </template>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-neutral-500">30D Avg Sale Price:</div>
+                  <div class="text-white/40">30D Avg Sale Price:</div>
                   <div class="flex gap-0.5 items-center">
                     <template v-if="seriesStats.stats.monthly_average_price">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="text-neutral-200">{{ (seriesStats.stats.monthly_average_price).toFixed(4) }}</div>
-                      <span class="text-neutral-500 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.monthly_average_price * 1000000000000000000) }}</span>)</span>
+                      <div class="text-white/80">{{ (seriesStats.stats.monthly_average_price).toFixed(4) }}</div>
+                      <span class="text-white/40 font-bold">(<span class="text-amber-500">{{ ethereumInLocalCurrency(seriesStats.stats.monthly_average_price * 1000000000000000000) }}</span>)</span>
                     </template>
                     <template v-else>
-                      <span class="text-neutral-500 italic">No sales.</span>
+                      <span class="text-white/40 italic">No sales.</span>
                     </template>
                   </div>
                 </div>
@@ -159,7 +159,7 @@
           </div>
           <template v-if="listings">
             <div class="flex flex-col gap-2 p-4 bg-primary-accent rounded-2xl">
-              <div @click="settings.extraInfoOptions.listings = !settings.extraInfoOptions.listings" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
+              <div @click="settings.extraInfoOptions.listings = !settings.extraInfoOptions.listings" class="px-2 group flex justify-between items-center text-white/40 hover:text-white cursor-pointer duration-200">
                 <h1>Listings</h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.listings }" />
               </div>
@@ -168,7 +168,7 @@
                   <div class="overflow-x-auto">
                     <table class="w-full text-xs">
                       <thead>
-                      <tr class="border-b border-neutral-700 text-neutral-500">
+                      <tr class="border-b border-primary-border text-white/40">
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'payment_token.base_price' }" @click="sortListings('payment_token.base_price')">Price</th>
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'token.mint_number' }" @click="sortListings('token.mint_number')">Mint</th>
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'maker_address' }" @click="sortListings('maker_address')">Seller</th>
@@ -177,11 +177,14 @@
                       </thead>
                       <tbody>
                       <template v-for="(listing, index) in slicedListings" :key="index">
-                        <tr class="border-b border-neutral-700 hover:bg-neutral-900 text-neutral-200">
+                        <tr class="border-b border-primary-border hover:bg-primary-accent-hover text-white/80">
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                             <span>{{ (listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ listing.payment_token.symbol }}</span>
                             <template v-if="listing.payment_token.symbol === 'ETH'">
-                              <span> ({{ ethereumInLocalCurrency(listing.payment_token.base_price) }})</span>
+                              <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(listing.payment_token.base_price) }}</span>)</span>
+                            </template>
+                            <template v-else-if="listing.payment_token.symbol === 'MATIC'">
+                              <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getListingAsGweiPrice(listing)) }}</span>)</span>
                             </template>
                           </td>
                           <td class="px-2 py-1">
@@ -205,7 +208,7 @@
           </template>
           <template v-if="sales">
             <div class="flex flex-col gap-2 p-4 bg-primary-accent rounded-2xl">
-              <div @click="settings.extraInfoOptions.salesGraph = !settings.extraInfoOptions.salesGraph" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
+              <div @click="settings.extraInfoOptions.salesGraph = !settings.extraInfoOptions.salesGraph" class="px-2 group flex justify-between items-center text-white/40 hover:text-white cursor-pointer duration-200">
                 <h1>Sales Chart</h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.salesGraph }" />
               </div>
@@ -214,7 +217,7 @@
               </template>
             </div>
             <div class="flex flex-col gap-2 p-4 bg-primary-accent rounded-2xl">
-              <div @click="settings.extraInfoOptions.sales = !settings.extraInfoOptions.sales" class="px-2 group flex justify-between items-center text-neutral-500 hover:text-white cursor-pointer duration-200">
+              <div @click="settings.extraInfoOptions.sales = !settings.extraInfoOptions.sales" class="px-2 group flex justify-between items-center text-white/40 hover:text-white cursor-pointer duration-200">
                 <h1>Sales</h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.sales }" />
               </div>
@@ -223,7 +226,7 @@
                   <div class="overflow-x-auto">
                     <table class="w-full text-xs">
                       <thead>
-                      <tr class="border-b border-neutral-700 text-neutral-500">
+                      <tr class="border-b border-primary-border text-white/40">
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'payment_token.base_price' }" @click="sortSales('payment_token.base_price')">Price</th>
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'token.mint_number' }" @click="sortSales('token.mint_number')">Mint</th>
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'buyer' }" @click="sortSales('buyer')">Buyer</th>
@@ -232,11 +235,14 @@
                       </thead>
                       <tbody>
                       <template v-for="(sale, index) in slicedSales" :key="index">
-                        <tr class="border-b border-neutral-700 hover:bg-neutral-900 text-neutral-200">
+                        <tr class="border-b border-primary-border hover:bg-primary-accent-hover text-white/80">
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                             <span>{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ sale.payment_token.symbol }}</span>
                             <template v-if="sale.payment_token.symbol === 'ETH'">
-                              <span> ({{ ethereumInLocalCurrency(sale.payment_token.base_price) }})</span>
+                              <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(sale.payment_token.base_price) }}</span>)</span>
+                            </template>
+                            <template v-else-if="sale.payment_token.symbol === 'MATIC'">
+                              <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSaleAsGweiPrice(sale)) }}</span>)</span>
                             </template>
                           </td>
                           <td class="px-2 py-1">
@@ -266,8 +272,15 @@
 
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
-import {useEthereumUsdPrice, useSelectedAvatar, useSettings, useUser} from "#imports";
-import {XMarkIcon, ChevronDownIcon} from "@heroicons/vue/24/solid";
+import {
+  useEthereumUsdPrice,
+  useSelectedAvatar,
+  useSettings,
+  useUser,
+  getListingAsGweiPrice,
+  getSaleAsGweiPrice
+} from "#imports";
+import {ChevronDownIcon} from "@heroicons/vue/24/solid";
 import {getTokenImage} from "~/global/utils";
 import {Ref} from "@vue/reactivity";
 import {Sale} from "~/types/sale";
@@ -321,6 +334,46 @@ const series = computed(() => {
   return selectedAvatar.value.series;
 });
 
+const slicedListings = computed(() => {
+  const start = (listingsCurrentPage.value - 1) * pageSize;
+  const end = start + pageSize;
+  return sortedListings().slice(start, end);
+});
+
+function sortedListings(): Listing[] {
+  return listings.value.sort((a, b) => {
+    let aValue = a[listingsSortColumn.value];
+    let bValue = b[listingsSortColumn.value];
+
+    if (listingsSortColumn.value === "payment_token.base_price") {
+      aValue = getListingAsGweiPrice(a);
+      bValue = getListingAsGweiPrice(b);
+    } else if (listingsSortColumn.value === "token.mint_number") {
+      aValue = a.token.mint_number;
+      bValue = b.token.mint_number;
+    }
+
+    if (aValue > bValue) {
+      return listingsSortDirection.value === 'asc' ? 1 : -1;
+    } else if (aValue < bValue) {
+      return listingsSortDirection.value === 'asc' ? -1 : 1;
+    } else {
+      return 0;
+    }
+  });
+}
+
+function sortListings(column: string) {
+  if (listingsSortColumn.value === column) {
+    listingsSortDirection.value = listingsSortDirection.value === 'asc' ? 'desc' : 'asc';
+  } else {
+    listingsSortColumn.value = column;
+    listingsSortDirection.value = 'asc';
+  }
+
+  listingsCurrentPage.value = 1;
+}
+
 const slicedSales = computed(() => {
   const start = (salesCurrentPage.value - 1) * pageSize;
   const end = start + pageSize;
@@ -359,46 +412,6 @@ function sortSales(column: string) {
   }
 
   salesCurrentPage.value = 1;
-}
-
-const slicedListings = computed(() => {
-  const start = (listingsCurrentPage.value - 1) * pageSize;
-  const end = start + pageSize;
-  return sortedListings().slice(start, end);
-});
-
-function sortedListings(): Listing[] {
-  return listings.value.sort((a, b) => {
-    let aValue = a[listingsSortColumn.value];
-    let bValue = b[listingsSortColumn.value];
-
-    if (listingsSortColumn.value === "payment_token.base_price") {
-      aValue = a.payment_token.base_price;
-      bValue = b.payment_token.base_price;
-    } else if (listingsSortColumn.value === "token.mint_number") {
-      aValue = a.token.mint_number;
-      bValue = b.token.mint_number;
-    }
-
-    if (aValue > bValue) {
-      return listingsSortDirection.value === 'asc' ? 1 : -1;
-    } else if (aValue < bValue) {
-      return listingsSortDirection.value === 'asc' ? -1 : 1;
-    } else {
-      return 0;
-    }
-  });
-}
-
-function sortListings(column: string) {
-  if (listingsSortColumn.value === column) {
-    listingsSortDirection.value = listingsSortDirection.value === 'asc' ? 'desc' : 'asc';
-  } else {
-    listingsSortColumn.value = column;
-    listingsSortDirection.value = 'asc';
-  }
-
-  listingsCurrentPage.value = 1;
 }
 
 function refresh() {
