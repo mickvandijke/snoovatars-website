@@ -260,6 +260,7 @@ import {getSaleAsGweiPrice} from "~/composables/helpers";
 import {getFreeCollections} from "~/global/generations";
 import {SeriesStats} from "~/types/seriesStats";
 import {computed, ComputedRef} from "vue";
+import {Haptics, ImpactStyle} from "@capacitor/haptics";
 
 const walletAddresses = useWalletAddresses();
 const cone = useConeEthPrice();
@@ -545,7 +546,13 @@ function removeWallet(wallet: string) {
   tokens.value.delete(wallet);
 }
 
+const hapticsImpactLight = async () => {
+  await Haptics.impact({ style: ImpactStyle.Light });
+};
+
 function selectAvatar(seriesStats: SeriesStats) {
+  hapticsImpactLight();
+
   selectedAvatar.value = {
     seriesStats: seriesStats,
     contract: seriesStats.series.contract_address,
