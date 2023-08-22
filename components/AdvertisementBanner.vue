@@ -53,7 +53,7 @@ const slides = [
     key: 'arcone games',
     component: BannerArconeGames,
     startDate: new Date('2023-08-22'), // Start date for this slide
-    expirationDate: new Date('2023-07-23'),
+    expirationDate: new Date('2023-09-23'),
   }
 ];
 
