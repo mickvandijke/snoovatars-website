@@ -30,7 +30,7 @@
       <RefreshButton :action="refresh" :refreshing="isRefreshing" />
     </MenuBar>
     <div class="px-2 md:px-6 w-full">
-      <div class="p-2 border-2 border-primary-border rounded-2xl">
+      <div class="p-2 border border-primary-border rounded-2xl">
         <div class="w-full overflow-x-auto">
           <table class="mt-3 w-full whitespace-nowrap">
             <thead>
@@ -72,9 +72,6 @@
             </template>
             </tbody>
           </table>
-          <div class="py-6 flex justify-center">
-            <Pagination :total-items="filteredListings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
-          </div>
           <template v-if="!user">
             <div class="py-6 flex flex-col items-center text-center gap-2">
               <div class="text-neutral-300">This is a <NuxtLink to="/upgrade" class="text-amber-500 font-bold italic">Pro</NuxtLink> feature. Please sign in using your Pro account.</div>
@@ -89,6 +86,11 @@
           </template>
         </div>
       </div>
+      <template v-if="user?.tier > 1">
+        <div class="py-6 flex justify-center">
+          <Pagination :total-items="filteredListings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
+        </div>
+      </template>
     </div>
   </div>
 </template>

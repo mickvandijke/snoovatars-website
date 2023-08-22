@@ -324,7 +324,7 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
     filteredSeriesStats = filteredSeriesStats.concat(Object.values(collection[1]));
   }
 
-  if (route.path === "/watchlist") {
+  if (route.path.includes("watchlist")) {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => watchList.value.has(seriesStat.series.name));
   }
 

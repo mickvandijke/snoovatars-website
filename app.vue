@@ -18,7 +18,7 @@
       <NuxtPage/>
     </div>
     <template v-if="!Capacitor.isNativePlatform()">
-      <Footer/>
+      <FooterSmall/>
     </template>
     <MobileNavigationBar/>
     <template v-if="!Capacitor.isNativePlatform() && !settings.cookies.accepted">
@@ -59,6 +59,7 @@ import {registerFcmDeviceToken} from "~/composables/api/fcm";
 import Prompt from "~/components/Prompt.vue";
 import {computed} from "vue";
 import HeaderTop from "~/components/HeaderTop.vue";
+import FooterSmall from "~/components/FooterSmall.vue";
 
 useHead({
   title: 'Reddit Collectible Avatars prices, statistics, sales and more! | RCAX.io',

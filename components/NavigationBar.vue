@@ -1,6 +1,7 @@
 <template>
   <div
       class="navigation-bar flex flex-col bg-primary/80 backdrop-blur-2xl z-40 w-full"
+      :class="{ 'shadow-md': scrolled }"
       @mouseleave="closeDropdowns()"
       ref="navbar"
   >
@@ -76,7 +77,7 @@
 <script setup lang="ts">
 import {Ref} from "@vue/reactivity";
 import {
-  computed,
+  computed, onBeforeMount, onBeforeUnmount,
   ref, updateEthereumPrices, useRouter, useSettings,
   useToken,
   useUser,
@@ -131,6 +132,22 @@ function logout() {
 function closeDropdowns() {
   userDropDown.value = false;
 }
+
+onBeforeMount(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+
+const scrolled = ref(false);
+
+function handleScroll() {
+  // When the user scrolls, check the pageYOffset
+  scrolled.value = window.pageYOffset > 24;
+}
+
 </script>
 
 <style>
