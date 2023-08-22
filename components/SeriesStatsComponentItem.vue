@@ -102,7 +102,7 @@
                       <template v-else>
                         <div class="pr-0.5 flex items-center text-orange-500">M</div>
                       </template>
-                      <div class="text-neutral-200">{{ (item.stats.last_sale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                      <div class="text-white/80">{{ (item.stats.last_sale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
                     </div>
                   </div>
                   <span class="text-white/40">#{{ item.stats.last_sale.token.mint_number }}</span>
@@ -127,28 +127,28 @@
               <template v-else-if="sorting === 'lowestListedPercentage'">
                 <span class="text-white/60 font-medium">Listed:</span>
                 <div class="flex gap-0.25 items-center">
-                  <div class="text-neutral-200">{{ item.stats.listed_percentage.toFixed(2) }}%</div>
+                  <div class="text-white/80">{{ item.stats.listed_percentage.toFixed(2) }}%</div>
                 </div>
               </template>
               <template v-else-if="sorting === 'lowestWeeklyAverage' || sorting === 'highestWeeklyAverage'">
                 <span class="text-white/60 font-medium">7d Avg:</span>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ (item.stats.weekly_average_price ?? 0).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                  <div class="text-white/80">{{ (item.stats.weekly_average_price ?? 0).toFixed(4).replace(/\.?0+$/, '') }}</div>
                 </div>
               </template>
               <template v-else-if="sorting === 'lowestTwoWeeklyAverage' || sorting === 'highestTwoWeeklyAverage'">
               <span class="text-white/60 font-medium">14d Avg:</span>
               <div class="flex gap-0.25 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="text-neutral-200">{{ (item.stats.two_weekly_average_price ?? 0).toFixed(2) }}</div>
+                <div class="text-white/80">{{ (item.stats.two_weekly_average_price ?? 0).toFixed(2) }}</div>
               </div>
               </template>
               <template v-else-if="sorting === 'lowestMonthlyAverage' || sorting === 'highestMonthlyAverage'">
                 <span class="text-white/60 font-medium">30d Avg:</span>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ (item.stats.monthly_average_price ?? 0).toFixed(2) }}</div>
+                  <div class="text-white/80">{{ (item.stats.monthly_average_price ?? 0).toFixed(2) }}</div>
                 </div>
               </template>
               <template v-else-if="sorting === 'artistAsc' || sorting === 'artistDesc'">
@@ -161,7 +161,7 @@
                 <span class="text-white/60 font-medium">24h Vol:</span>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ item.stats.daily_volume.toFixed(2) }}</div>
+                  <div class="text-white/80">{{ item.stats.daily_volume.toFixed(2) }}</div>
                 </div>
               </template>
               <template v-else>
@@ -171,7 +171,7 @@
                 </div>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-neutral-200">{{ item.stats.five_last_sales_average.toFixed(4).replace(/\.?0+$/, '') }}</div>
+                  <div class="text-white/80">{{ item.stats.five_last_sales_average.toFixed(4).replace(/\.?0+$/, '') }}</div>
                 </div>
               </template>
             </div>
