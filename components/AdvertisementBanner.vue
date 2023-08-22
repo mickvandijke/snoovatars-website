@@ -1,10 +1,10 @@
 <template>
   <div v-if="isBannerShowing" class="relative md:mb-6 px-2 sm:px-6 w-full">
-    <Carousel :items-to-show="1" :autoplay="12000" :wrap-around="true" pauseAutoplayOnHover>
+    <Carousel :items-to-show="1" :autoplay="10000" :wrap-around="true" pause-autoplay-on-hover>
       <Slide v-for="(slide, i) in shuffledSlides" :key="i">
         <component :is="slide.component" />
       </Slide>
-      <template #addons>
+      <template v-if="shuffledSlides > 1" #addons>
         <Pagination />
         <Navigation />
       </template>
@@ -32,30 +32,39 @@ const isBannerClosed = ref(false);
 
 const slides = [
   {
-    key: 'nyan matcher',
-    component: BannerNyanMatcher,
-    expirationDate: new Date('2023-08-28'),
-  },
-  {
-    key: 'arcone games',
-    component: BannerArconeGames,
-    expirationDate: new Date('2023-07-23'),
-  },
-  {
     key: 'rcax banner',
     component: BannerRcaxSponsoring,
+    startDate: new Date('2000-01-01'), // Start date for this slide
     expirationDate: new Date('2025-08-22'),
   },
   {
     key: 'the23club',
     component: BannerThe23Club,
+    startDate: new Date('2023-07-26'), // Start date for this slide
     expirationDate: new Date('2025-08-22'),
+  },
+  {
+    key: 'nyan matcher',
+    component: BannerNyanMatcher,
+    startDate: new Date('2023-08-20'), // Start date for this slide
+    expirationDate: new Date('2023-08-28'),
+  },
+  {
+    key: 'arcone games',
+    component: BannerArconeGames,
+    startDate: new Date('2023-08-22'), // Start date for this slide
+    expirationDate: new Date('2023-07-23'),
   }
 ];
 
 const shuffledSlides = computed(() => {
   const currentDate = new Date();
   let shuffled = [...slides];
+
+  // Filter out slides that haven't started yet
+  shuffled = shuffled.filter(slide => slide.startDate <= currentDate);
+
+  // Filter out slides that have expired
   shuffled = shuffled.filter(slide => slide.expirationDate > currentDate);
 
   for (let i = shuffled.length - 1; i > 0; i--) {
