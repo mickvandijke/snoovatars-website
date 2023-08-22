@@ -4,7 +4,7 @@
       <Slide v-for="(slide, i) in shuffledSlides" :key="i">
         <component :is="slide.component" />
       </Slide>
-      <template v-if="shuffledSlides > 1" #addons>
+      <template v-if="shuffledSlides.length > 1" #addons>
         <Pagination />
         <Navigation />
       </template>
