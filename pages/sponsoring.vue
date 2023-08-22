@@ -2,13 +2,13 @@
   <div class="px-4 md:px-6 py-12 flex flex-col gap-3 text-neutral-200 max-w-2xl">
     <h1 class="text-2xl">Sponsor RCAX's Development</h1>
 
-    <p>You can sponsor RCAX by renting a advertisement banner. Prices start from $5 a day.</p>
+    <p>You can sponsor RCAX by renting a advertisement banner. Prices start from $8 a day.</p>
 
-    <p class="italic">$5 a day if you want your banner to be one of the maximum 5 advertisement banners. This will mean that your banner will alternate with other advertisement banners.</p>
+    <p class="italic">$8 a day if you want your banner to be one of the maximum 5 advertisement banners. This will mean that your banner will alternate with other advertisement banners. The minimum amount is 14 days.</p>
 
-    <p class="italic">$20 a day if you want your banner to be the only advertisement banner.</p>
+    <p class="italic">$30 a day if you want your banner to be the only advertisement banner. The minimum amount is 3 days. Book this ahead of time as it may not always be available.</p>
 
-    <p>The minimum amount is 14 days. For solo banners the minimum amount is 3 days. The advertisement banners will only show up on the RCAX website. They will NOT be shown on the app. Users may dismiss the advertisement banners for the duration of their session.</p>
+    <p>The advertisement banners will only show up on the RCAX website. They will NOT be shown on the app. Users may dismiss the advertisement banners for the duration of their session.</p>
 
     <p>If you do not have a banner, I can also make one for you.</p>
 

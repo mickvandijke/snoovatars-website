@@ -32,7 +32,9 @@
       <ul class="md:ml-auto flex text-white/60 text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/">Trading View</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar">Avatar Exporter</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/sponsoring">Sponsoring & Ads</NuxtLink>
+        <template v-if="!Capacitor.isNativePlatform()">
+          <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/sponsoring">Sponsoring & Ads</NuxtLink>
+        </template>
         <UserMenuButton>
           <template v-if="user?.username">
             <template v-if="user?.tier < 1">
@@ -91,6 +93,7 @@ import {
 import {ethereumInLocalCurrency} from "#imports";
 import {navigateTo} from "nuxt/app";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
+import {Capacitor} from "@capacitor/core";
 
 const user = useUser();
 const token = useToken();

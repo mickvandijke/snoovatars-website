@@ -2,23 +2,23 @@
   <div class="py-6 md:py-12 px-4 flex flex-col items-center w-full max-w-xl">
     <div class="flex flex-col items-center w-full">
       <template v-if="!user">
-        <h1 class="text-2xl font-semibold text-white">Please sign in before upgrading to PRO!</h1>
+        <h1 class="text-2xl font-semibold text-white">Please sign in before upgrading to PRO.</h1>
       </template>
       <template v-else-if="user.tier === 0">
-        <h1 class="text-2xl font-semibold text-white">Upgrade to a lifetime of PRO!</h1>
-        <p class="mt-6 text-white text-center">With PRO, you will enjoy all the current and future Pro features on our platform. This includes price alerts via email and mobile push notifications. The upgrade is a one-time payment and will support the development of RCAX :).</p>
+        <h1 class="text-2xl font-semibold text-white">Upgrade to RCAX PRO!</h1>
+        <p class="mt-6 text-white text-center">With PRO, you will enjoy all the current and future Pro features on our platform. This includes price alerts, drop notifications and an all-in-one listings browser! The upgrade is a one-time payment and will support the development of RCAX :).</p>
         <template v-if="Capacitor.getPlatform() !== 'ios'">
-          <p class="mt-6 text-white text-center">Accounts are cross-platform, so you only need to upgrade once to enjoy PRO on Web, Android and iOS!</p>
+          <p class="mt-6 text-white text-center">Accounts are cross-platform, so you can share your PRO account on Web, Android and iOS!</p>
         </template>
         <template v-if="Capacitor.isNativePlatform()">
           <div class="mt-6 flex flex-col items-center w-full shadow">
             <template v-for="product in iapProducts">
-              <div class="px-2 py-2 flex justify-between gap-3 bg-neutral-800 text-neutral-200 rounded-2xl w-full">
+              <div class="px-2 py-2 flex justify-between gap-3 bg-primary-accent text-white/80 rounded-2xl w-full">
                 <div class="px-2 flex flex-col">
                   <h2 class="text-amber-500 font-bold">PRO Upgrade</h2>
                   <p class="text-sm">{{ product.description }}</p>
                 </div>
-                <button @click="orderIap(product.id)" class="p-2 flex items-center justify-center whitespace-nowrap bg-neutral-700 hover:bg-neutral-600 disabled:bg-gray-500 text-white font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer loading" :disabled="buttonDisabled()">
+                <button @click="orderIap(product.id)" class="p-2 flex items-center justify-center whitespace-nowrap bg-primary-accent hover:bg-primary-accent-hover text-white disabled:text-white/20 font-semibold text-sm border border-transparent rounded-md duration-200 cursor-pointer loading" :disabled="buttonDisabled()">
                   <template v-if="buttonDisabled()">
                     <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>

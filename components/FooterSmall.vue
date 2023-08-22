@@ -1,6 +1,6 @@
 <template>
   <div class="mt-4 md:mt-48 pb-[53px] md:pb-0 px-2 md:px-6 w-full">
-    <div class="py-3 w-full flex justify-center border-t border-primary-border">
+    <div class="px-4 md:px-2 py-6 w-full flex flex-col justify-center gap-6 border-t border-primary-border">
       <div class="w-full flex flex-col md:flex-row justify-center items-center gap-3 md:gap-12 text-[0.8rem] text-white/60 font-medium">
         <div class="border-neutral-800/90 w-fit">&copy; 2023 RCAX.</div>
         <div class="flex items-center gap-6">
@@ -27,6 +27,9 @@
             <a class="h-8" href='https://play.google.com/store/apps/details?id=io.rcax.rcax&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg' class="h-full w-auto"/></a>
           </div>
         </div>
+      </div>
+      <div class="w-full justify-start items-center gap-3 md:gap-12 text-[0.8rem] text-white/40">
+        <p><span class="font-semibold">IMPORTANT DISCLAIMER</span>: This website is not affiliated with or endorsed by reddit Inc. or OpenSea. All content provided herein our website, hyperlinked sites, associated applications, forums, blogs, social media accounts and other platforms (“Site”) is for your general information only, procured primarily from third party sources. We make no warranties of any kind in relation to our content and services, including but not limited to accuracy, security and updatedness. No part of the content and services that we provide constitutes financial advice, legal advice or any other form of advice meant for your specific reliance for any purpose. Any use or reliance on our content and services is solely at your own risk and discretion. You should conduct your own research, review, analyse and verify our content and services before relying on or using them. Trading is a highly risky activity that can lead to major losses, please therefore consult your financial advisor before making any decision. No content on our Site is meant to be a solicitation or offer.</p>
       </div>
     </div>
   </div>

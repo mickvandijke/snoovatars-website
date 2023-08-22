@@ -33,7 +33,7 @@ const props = defineProps({
 
 <style>
 .filter-menu-button--button {
-  @apply h-full bg-primary-accent text-white hover:bg-primary-accent-hover;
+  @apply h-full bg-primary-accent text-white/80 hover:text-white hover:bg-primary-accent-hover;
 }
 
 .filter-menu-button--menu {

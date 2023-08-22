@@ -69,7 +69,7 @@
             </div>
           </template>
           <ul class="p-2 grid grid-cols-1 gap-2 w-full border-2 border-primary-border rounded-2xl">
-            <template v-for="[alertHash, alert] in alerts">
+            <template v-if="alerts.size > 0" v-for="[alertHash, alert] in alerts">
               <div class="p-2 flex gap-2 items-center bg-primary-accent text-sm rounded-lg w-full">
                 <div class="flex items-center justify-center w-8 h-8 rounded-md overflow-hidden">
                   <img :src="getSeries(alert.collection_tier_hash).image" class="object-cover">
@@ -87,6 +87,9 @@
                   </button>
                 </div>
               </div>
+            </template>
+            <template v-else>
+              <span class="w-full text-white/40 text-sm text-center italic">No alerts yet.</span>
             </template>
           </ul>
           <p class="px-6 text-sm text-white/40 text-center w-full">To prevent price notifications from ending up in your spam folder, you might have to whitelist service@snoovatars.com.</p>
