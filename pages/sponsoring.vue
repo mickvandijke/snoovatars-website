@@ -1,20 +1,30 @@
 <template>
-  <div class="px-4 md:px-6 py-12 flex flex-col gap-3 text-neutral-200 max-w-2xl">
-    <h1 class="text-2xl">Sponsor RCAX's Development</h1>
+  <div class="px-4 md:px-6 py-12 flex flex-col gap-3 text-white/80 max-w-4xl">
+    <h1 class="mb-6 text-2xl">Sponsor RCAX's Development:</h1>
 
-    <p>You can sponsor RCAX by renting a advertisement banner. Prices start from $8 a day.</p>
+    <h1 class="text-xl">Advertise on RCAX</h1>
 
-    <p class="italic">$8 a day if you want your banner to be one of the maximum 5 advertisement banners. This will mean that your banner will alternate with other advertisement banners. The minimum amount is 14 days.</p>
+    <p>Drive visibility for your brand by becoming an RCAX sponsor through our eye-catching advertisement banners. With affordable pricing options starting at just $8 per day, you can effectively reach your target audience.</p>
 
-    <p class="italic">$30 a day if you want your banner to be the only advertisement banner. The minimum amount is 3 days. Book this ahead of time as it may not always be available.</p>
+    <h2>Option 1: Shared Banner Display (Starting at $8/day)</h2>
+    <p>Make your mark alongside a select group of advertisers with our shared banner display. For as low as $8 a day, your banner will take its place among a maximum of 5 rotating advertisement banners. This dynamic arrangement ensures your brand gets noticed as it alternates with other compelling ads. This option has a minimum booking of 14 days.</p>
 
-    <p>The advertisement banners will only show up on the RCAX website. They will NOT be shown on the app. Users may dismiss the advertisement banners for the duration of their session.</p>
+    <h2>Option 2: Exclusive Banner Showcase ($30/day)</h2>
+    <p>For unparalleled prominence, opt for our exclusive banner showcase at $30 per day. Your banner will reign supreme as the sole advertisement displayed. Be sure to reserve ahead of time to guarantee availability. This option has a minimum booking of 3 days.</p>
 
-    <p>If you do not have a banner, I can also make one for you.</p>
+    <h2>Important</h2>
+    <p>Your advertisement banners will exclusively appear on the RCAX website. It's important to note that these banners will not be featured on the app, because of restrictions by Apple and Google. Users also have the option to dismiss the advertisement banners during their browsing session.</p>
 
-    <p>If you are interested, please contact <a href="mailto:snoovatars@gmail.com" class="text-amber-500">snoovatars@gmail.com</a>.</p>
+    <h2>Banner design</h2>
+    <p>Don't have a banner yet? Let us take care of it! Our skilled team can craft a captivating banner that perfectly encapsulates your brand's essence.</p>
 
-    <h1 class="mt-6 text-xl">Donations</h1>
+    <h2>Sign me up!</h2>
+    <p>If you're ready to take your brand to the next level, reach out to us at <a href="mailto:snoovatars@gmail.com" class="text-white font-semibold">snoovatars@gmail.com</a> to express your interest or secure your sponsorship spot. Make sure to be on time, cause there are only a limited amount of spots available!</p>
+
+    <h1 class="mt-6 text-xl">Partnering & Sponsorships</h1>
+    <p>Interested in sponsoring or partnering up with RCAX? Reach out to us at <a href="mailto:snoovatars@gmail.com" class="text-white font-semibold">snoovatars@gmail.com</a>!</p>
+
+    <h1 class="mt-6 text-xl">Donate</h1>
 
     <p>If you want to sponsor RCAX's development anonymously, you can do so by sending something to:</p>
 
@@ -31,7 +41,7 @@
 </script>
 
 <style scoped>
-h1 {
-  @apply font-bold;
+h1, h2 {
+  @apply font-bold text-white;
 }
 </style>
