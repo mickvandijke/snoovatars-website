@@ -5,7 +5,7 @@
       @mouseleave="closeDropdowns()"
       ref="navbar"
   >
-    <nav class="py-2 px-4 sm:px-8 flex w-full items-center gap-3 md:gap-6 duration-300" :class="{ 'sm:py-4': scrolled < 72 }">
+    <nav class="py-2 px-4 sm:px-8 flex w-full items-center gap-3 md:gap-6 duration-200" :class="{ 'sm:py-4': scrolled < 72 }">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
