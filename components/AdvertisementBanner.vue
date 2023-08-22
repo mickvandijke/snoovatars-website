@@ -41,7 +41,7 @@ const slides = [
     key: 'the23club',
     component: BannerThe23Club,
     startDate: new Date('2023-07-26'), // Start date for this slide
-    expirationDate: new Date('2025-08-22'),
+    expirationDate: new Date('2023-08-25'),
   },
   {
     key: 'nyan matcher',
