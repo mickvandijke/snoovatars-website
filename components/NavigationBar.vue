@@ -1,11 +1,11 @@
 <template>
   <div
       class="navigation-bar flex flex-col bg-primary/80 backdrop-blur-2xl z-40 w-full"
-      :class="{ 'shadow-md': scrolled }"
+      :class="{ 'shadow-md': scrolled >= 24 }"
       @mouseleave="closeDropdowns()"
       ref="navbar"
   >
-    <nav class="py-2 px-4 sm:py-4 sm:px-8 flex w-full items-center gap-3 md:gap-6">
+    <nav class="py-2 px-4 sm:px-8 flex w-full items-center gap-3 md:gap-6 duration-300" :class="{ 'sm:py-4': scrolled < 96 }">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
           <NuxtLink
@@ -144,11 +144,11 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 
-const scrolled = ref(false);
+const scrolled = ref(0);
 
 function handleScroll() {
   // When the user scrolls, check the pageYOffset
-  scrolled.value = window.pageYOffset > 24;
+  scrolled.value = window.pageYOffset;
 }
 
 </script>
