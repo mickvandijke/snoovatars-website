@@ -11,7 +11,7 @@
           <p class="text-white text-[0.8rem] md:text-[1rem] font-medium max-w-sm sm:max-w-full z-10">$CONE NFT Games. Play 4 Free. HODL 2 Earn. Play games like Cone Jump, Cone Man, Cony Bird, and the Limited Edition: Cone Snake<span class="inline-flex md:hidden ml-2 w-fit px-1 py-0.5 bg-primary-accent backdrop-blur-lg text-[0.65rem] text-white/60 rounded-lg cursor-pointer">Click to Open</span></p>
 
           <a href="https://opensea.io/collection/arconegames" target="_blank" class="hidden md:block p-3 md:p-4 w-fit bg-white hover:bg-white/90 text-black/90 font-semibold rounded-2xl duration-200 z-10">Play Now</a>
-          <div class="absolute left-0 top-0 right-0 bottom-0 bg-black/50 blur-lg md:blur-3xl z-0"></div>
+          <div class="absolute left-0 top-0 right-0 bottom-0 bg-[#2C1945] blur-lg md:blur-3xl z-0"></div>
         </div>
         <div class="absolute left-0 top-0 bottom-0 right-0 flex items-center justify-center overflow-hidden rounded-lg sm:rounded-2xl z-10">
           <img src="/images/banners/arcone_banner_bg_2.png" alt="Banner Image" class="object-fill" />

@@ -86,7 +86,7 @@
           </template>
         </div>
       </div>
-      <template v-if="user?.tier > 1">
+      <template v-if="user?.tier > 0">
         <div class="py-6 flex justify-center">
           <Pagination :total-items="filteredListings.length" :page-size="pageSize" v-model:current-page="listingsCurrentPage" />
         </div>

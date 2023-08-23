@@ -1,10 +1,12 @@
 <template>
   <div class="py-3 px-6 md:py-6 relative flex flex-col items-center gap-3 w-full">
-    <NuxtLink to="/upgrade" class="mb-3 w-full max-w-sm">
-      <div class="group p-3 flex flex-col items-center gap-3 bg-amber-600 hover:bg-amber-500 rounded-2xl duration-200 cursor-pointer">
-        <h1 class="text-white text-xl font-medium">Upgrade to <span class="font-bold italic">Pro</span></h1>
-      </div>
-    </NuxtLink>
+    <template v-if="user?.tier < 1 || !user">
+      <NuxtLink to="/upgrade" class="mb-3 w-full max-w-sm">
+        <div class="group p-3 flex flex-col items-center gap-3 bg-amber-600 hover:bg-amber-500 rounded-2xl duration-200 cursor-pointer">
+          <h1 class="text-white text-xl font-medium">Upgrade to <span class="font-bold italic">Pro</span></h1>
+        </div>
+      </NuxtLink>
+    </template>
     <NuxtLink to="/avatar" class="w-full max-w-sm">
       <div class="group tool">
         <h1 class="text-white text-xl font-semibold">Avatar Exporter</h1>
@@ -31,6 +33,9 @@
 
 <script setup lang="ts">
 import {PaintBrushIcon, TagIcon, BellIcon} from "@heroicons/vue/24/solid";
+import {useUser} from "#imports";
+
+const user = useUser();
 </script>
 
 <style scoped>
