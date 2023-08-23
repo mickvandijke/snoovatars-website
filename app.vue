@@ -73,6 +73,7 @@ useHead({
     { name: "language", content: "English" },
     { name: "viewport", content: "viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1"},
     { name: "apple-itunes-app", content: "app-id=6449831133" },
+    { "http-equiv": "x-ua-compatible", content: "IE=edge" }
   ],
   htmlAttrs: {
     class: Capacitor.isNativePlatform() ? "scrollbar-hide" : ""
