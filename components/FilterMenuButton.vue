@@ -51,7 +51,7 @@ const props = defineProps({
   @apply p-2 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white/90 hover:text-white placeholder-white/20 font-medium border-none focus:outline-none w-full overflow-x-hidden rounded-lg;
 }
 
-.filter-menu-button--menu > select > option {
+.filter-menu-button--menu select > option {
   @apply bg-white text-black;
 }
 </style>
