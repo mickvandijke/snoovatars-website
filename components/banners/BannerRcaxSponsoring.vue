@@ -8,7 +8,7 @@
         <div class="flex md:flex-col gap-6 max-w-md text-left items-center md:items-start">
           <h1 class="text-white text-xl md:text-5xl font-bold">Your Banner Here?</h1>
 
-          <p class="hidden md:block text-white font-medium">Sponsor RCAX's development by renting a banner. Prices start from $8 a day.</p>
+          <p class="hidden md:block text-white font-medium">Sponsor RCAX's development by renting a banner. Prices start from $5 a day.</p>
 
           <NuxtLink to="/sponsoring" class="p-3 md:p-4 w-fit bg-white hover:bg-white/90 text-black/90 text-sm md:text-md font-semibold rounded-2xl duration-200">Read More</NuxtLink>
         </div>
