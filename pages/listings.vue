@@ -4,16 +4,16 @@
     <MenuBar>
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" />
       <FilterMenuButton :using-filter="usingFilter()">
-        <input type="number" v-model="maxPrice" :placeholder="`Max price ${paymentToken.toUpperCase()}`" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
-        <input type="number" v-model="minMint" placeholder="Min mint number" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
-        <input type="number" v-model="maxMint" placeholder="Max mint number" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
-        <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <input type="number" v-model="maxPrice" :placeholder="`Max price ${paymentToken.toUpperCase()}`">
+        <input type="number" v-model="minMint" placeholder="Min mint number">
+        <input type="number" v-model="maxMint" placeholder="Max mint number">
+        <select v-model="filterGenOption">
           <option value="all">Gen: All</option>
           <template v-for="gen in Object.keys(Filters)">
             <option :value="gen">{{ gen }}</option>
           </template>
         </select>
-        <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <select v-model="filterRarityOption">
           <option value="all">Supply: All</option>
           <option value="250">Supply: Max 250</option>
           <option value="777">Supply: Max 777</option>
@@ -23,7 +23,7 @@
           <button @click="clearFilters()" class="p-2 bg-amber-500/20 text-amber-500 text-sm rounded-md">Clear All</button>
         </template>
       </FilterMenuButton>
-      <select v-model="paymentToken" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none w-fit max-w-sm overflow-x-hidden">
+      <select v-model="paymentToken">
         <option value="eth">ETH</option>
         <option value="matic">MATIC</option>
       </select>

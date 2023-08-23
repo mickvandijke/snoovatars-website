@@ -4,31 +4,31 @@
     <MenuBar>
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" />
       <FilterMenuButton :using-filter="usingFilter()">
-        <input type="number" v-model="maxPriceEth" placeholder="Max price (ETH)" class="p-2 h-9 rounded-md bg-neutral-700 text-sm border-none focus:outline-none max-w-sm">
-        <select v-model="filterGenOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <input type="number" v-model="maxPriceEth" placeholder="Max price (ETH)">
+        <select v-model="filterGenOption">
           <option value="all">Gen: All</option>
           <template v-for="gen in Object.keys(Filters)">
             <option :value="gen">{{ gen }}</option>
           </template>
           <option value="new">new</option>
         </select>
-        <select v-model="filterArtistOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <select v-model="filterArtistOption">
           <option value="all">Artist: All</option>
           <template v-for="artist in artists">
             <option :value="artist">{{ artist }}</option>
           </template>
         </select>
-        <select v-model="filterRarityOption" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <select v-model="filterRarityOption">
           <option value="all">Supply: All</option>
           <option value="250">Supply: Max 250</option>
           <option value="777">Supply: Max 777</option>
           <option value="1000">Supply: Max 1000</option>
         </select>
-        <select v-model="filterSoldOut" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <select v-model="filterSoldOut">
           <option value="show">Sold Out: Show</option>
           <option value="hide">Sold Out: Hide</option>
         </select>
-        <select v-model="filterNoListings" class="p-2 h-9 rounded-md border-transparent bg-neutral-700 text-sm focus:outline-none max-w-sm">
+        <select v-model="filterNoListings">
           <option value="show">No Listings: Show</option>
           <option value="hide">No Listings: Hide</option>
         </select>

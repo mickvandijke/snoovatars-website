@@ -16,4 +16,8 @@
 .menubar > select {
   @apply p-2 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white/90 hover:text-white placeholder-white/20 font-medium border-none focus:outline-none w-full max-w-[7rem] md:max-w-fit rounded-lg;
 }
+
+.menubar > select > option {
+  @apply bg-white text-black;
+}
 </style>

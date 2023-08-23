@@ -2,7 +2,7 @@
   <div class="wallet-view pb-3 md:pb-0 relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
-      <select v-model="settings.wallet.valuationMethod" class="h-[38px] p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none overflow-x-hidden">
+      <select v-model="settings.wallet.valuationMethod">
         <option value="floor">Value by Floor Price</option>
         <option value="lastSale">Value by Last Sale</option>
         <option value="fiveLastSales">Value by Last 5 Sales Average</option>
@@ -10,11 +10,11 @@
         <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
         <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
       </select>
-      <select v-model="settings.wallet.filterOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none overflow-x-hidden">
+      <select v-model="settings.wallet.filterOption">
         <option value="all">Show All</option>
         <option value="premium">Show Premium Only</option>
       </select>
-      <select v-model="settings.wallet.groupMethod" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none overflow-x-hidden">
+      <select v-model="settings.wallet.groupMethod">
         <option value="group">Group by Series</option>
         <option value="mint">Show Mint Numbers</option>
       </select>

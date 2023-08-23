@@ -3,13 +3,13 @@
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name`" />
-      <select v-model="settings.activity.filterGenOption" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none sm:w-fit max-w-sm overflow-x-hidden">
+      <select v-model="settings.activity.filterGenOption">
         <option value="all">Show All</option>
         <option value="eth">Show ETH Only</option>
         <option value="premium">Show Premium Only</option>
         <option value="watchlist">Show Watchlist Only</option>
       </select>
-      <select v-model="settings.activity.feedView" class="p-2 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm border-none focus:outline-none sm:w-fit max-w-sm overflow-x-hidden">
+      <select v-model="settings.activity.feedView">
         <option value="sales">Latest Sales</option>
         <option value="listings">Latest Listings</option>
         <option value="mints">Latest Mints</option>
