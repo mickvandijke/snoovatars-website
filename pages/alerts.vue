@@ -79,10 +79,10 @@
                   <span class="text-white/60 text-xs">{{ alert.alert_type.toString().replace("SaleAbove", "Sale Above").replace("ListingBelow", "Listing Below") }}: {{ alert.price_threshold }} ETH</span>
                 </div>
                 <div class="ml-auto col-span-5 flex items-center justify-center gap-2">
-                  <button @click="openAlertModal(alertHash, alert)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-primary-accent-hover font-semibold text-white rounded-md duration-200">
+                  <button @click.self="openAlertModal(alertHash, alert)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-primary-accent-hover font-semibold text-white rounded-md duration-200">
                     <PencilSquareIcon class="text-white/40 w-4" />
                   </button>
-                  <button @click="deleteAlert(alertHash)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-red-500/25 font-semibold text-white rounded-md duration-200">
+                  <button @click.self="deleteAlert(alertHash)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-red-500/25 font-semibold text-white rounded-md duration-200">
                     <TrashIcon class="text-white/40 w-4" />
                   </button>
                 </div>

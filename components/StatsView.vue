@@ -39,7 +39,8 @@
       <select v-model="sortOption">
         <option value="highestLastSale">Sort by Highest Last Sale</option>
         <option value="lowestLastSale">Sort by Lowest Last Sale</option>
-        <option value="fiveLastSales">Sort by Highest Last 5 Sales Average</option>
+        <option value="highestFiveLastSales">Sort by Highest Last 5 Sales Average</option>
+        <option value="lowestFiveLastSales">Sort by Lowest Last 5 Sales Average</option>
         <option value="highestPrice">Sort by Highest Floor</option>
         <option value="lowestPrice">Sort by Lowest Floor</option>
         <option value="highestFloorMintRatio">Sort by Highest Mint Profit</option>
@@ -49,6 +50,7 @@
         <option value="highestMarketCap">Sort by Highest Market Cap</option>
         <option value="lowestMarketCap">Sort by Lowest Market Cap</option>
         <option value="highestDailyVolume">Sort by Highest Daily Volume</option>
+        <option value="lowestDailyVolume">Sort by Lowest Daily Volume</option>
         <option value="highestVolume">Sort by Highest Total Volume</option>
         <option value="lowestVolume">Sort by Lowest Total Volume</option>
         <option value="highestDailyChange">Sort by Today's Biggest Risers</option>
@@ -71,132 +73,147 @@
         <option value="nameAsc">Sort by Name (Ascending)</option>
         <option value="nameDesc">Sort by Name (Descending)</option>
       </select>
+      <select v-model="layout">
+        <option value="grid">Grid</option>
+        <option value="table">Table</option>
+      </select>
       <template v-if="!Capacitor.isNativePlatform()">
         <RefreshButton :action="refresh" :refreshing="isRefreshing" />
       </template>
     </MenuBar>
     <template v-if="layout === 'table'">
-      <div class="px-4 w-full overflow-x-auto rounded-lg">
-        <table class="mt-3 w-full text-xs font-bold text-center whitespace-nowrap border-collapse">
-          <thead>
-          <tr class="border-b border-neutral-800 text-neutral-400">
-            <th class="border border-neutral-800 pl-4 pr-2 py-3"></th>
-            <th class="border border-neutral-800 text-left px-2 py-3 cursor-pointer">Name</th>
-            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Supply</th>
-            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Floor</th>
-            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Last Sale</th>
-            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Last 5 Sales</th>
-            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Total Vol</th>
-            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Vol (24h)</th>
-            <th class="border border-neutral-800 px-2 py-1 cursor-pointer">Market Cap</th>
-            <th class="border border-neutral-800 text-right px-2 py-1 cursor-pointer">Change (24h)</th>
-          </tr>
-          </thead>
-          <tbody>
-          <template v-for="(item, index) in slicedItems" :key="index">
-            <tr class="hover:bg-neutral-900 text-neutral-200" :set="listing = getLowestListing(item)">
-              <td class="border border-neutral-800 p-1 w-12">
-                <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                  <a @click="openLinkWith(`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`)" class="cursor-pointer">
-                    <img :src="getTokenImage(item.series.image ?? '/img/rcax_placeholder.png')" :alt="item.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
-                  </a>
-                </div>
-              </td>
-              <td class="border border-neutral-800 text-left px-2 py-1">{{ item.series.name }}</td>
-              <td class="border border-neutral-800 px-2 py-1">{{ Math.max(item.series.total_quantity, item.series.total_sold) }}</td>
-              <td class="border border-neutral-800 px-2 py-1">
-                <template v-if="listing">
-                  <div class="flex items-center justify-center gap-0.5">
-                    <template v-if="listing.payment_token.symbol === 'ETH'">
+      <div class="px-2 md:px-6 w-full">
+        <div class="px-2 border border-primary-border rounded-2xl">
+          <div class="w-full overflow-x-auto">
+            <table class="text-xs font-medium w-full whitespace-nowrap">
+              <thead>
+              <tr class="border-b-b border-primary-border text-white/60">
+                <th @click="setTableSort('name')" class="border-b border-primary-border text-left px-2 py-3 cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('name') }">Name</th>
+                <th @click="setTableSort('supply')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('Supply') }">Supply</th>
+                <th @click="setTableSort('floor')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('Price') }">Floor</th>
+                <th @click="setTableSort('last sale')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('estLastSale') }">Last Sale</th>
+                <th @click="setTableSort('last 5 sales')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('FiveLastSales') }">Last 5 Sales</th>
+                <th @click="setTableSort('total vol')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('estVol') }">Total Vol</th>
+                <th @click="setTableSort('daily vol')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('DailyVol') }">Vol (24h)</th>
+                <th @click="setTableSort('cap')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('MarketCap') }">Market Cap</th>
+                <th @click="setTableSort('change')" class="border-b border-primary-border text-right px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('DailyChange') }">Change (24h)</th>
+              </tr>
+              </thead>
+              <tbody>
+              <template v-for="(item, index) in slicedItems" :key="index">
+                <tr class="hover:bg-primary-accent-hover text-white/80" :set="listing = getLowestListing(item)">
+                  <td class="table--cell flex items-center gap-2">
+                    <button @click="openLinkWith(`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`)">
+                      <div class="relative rounded-md w-6 h-6 flex items-center overflow-hidden">
+                        <img :src="getTokenImage(item.series.image)" :key="item.series.image" class="object-cover" :alt="item.series.name">
+                      </div>
+                    </button>
+                    <button @click="selectAvatar(item.stats)" class="font-semibold">{{ item.series.name }}</button>
+                  </td>
+                  <td class="table--cell">{{ Math.max(item.series.total_quantity, item.series.total_sold) }}</td>
+                  <td class="table--cell">
+                    <template v-if="listing">
+                      <div class="flex items-center justify-start gap-0.5">
+                        <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${getLowestListing(item).token.contract_address}/${getLowestListing(item).token.id}`)" class="flex items-center group">
+                          <template v-if="listing.payment_token.symbol === 'ETH'">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                            <div class="flex gap-1">
+                              <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(6).replace(/\.?0+$/, '') }}</span>
+                              <span class="text-white/40">(<span class="text-amber-500">{{ ethereumInLocalCurrency(listing.payment_token.base_price) }}</span>)</span>
+                              <span class="text-white/60">#{{ listing.token.mint_number }}</span>
+                            </div>
+                          </template>
+                          <template v-else-if="listing.payment_token.symbol === 'MATIC'">
+                            <div class="flex items-center text-orange-500">M</div>
+                            <div class="flex gap-1">
+                              <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                              <span class="text-white/40">(<span class="text-amber-500">{{ ethereumInLocalCurrency(getListingAsGweiPrice(listing)) }}</span>)</span>
+                              <span class="text-white/60">#{{ listing.token.mint_number }}</span>
+                            </div>
+                          </template>
+                        </button>
+                      </div>
+                    </template>
+                    <template v-else>
+                      <span class="text-white/40 italic">No listings.</span>
+                    </template>
+                  </td>
+                  <td class="table--cell">
+                    <template v-if="item.stats.last_sale">
+                      <div class="flex flex-nowrap items-center justify-start gap-1 whitespace-nowrap overflow-hidden" :set="lastSale = item.stats.last_sale">
+                        <div class="flex items-center gap-0.5">
+                          <div class="flex items-center gap-0.5">
+                            <template v-if="lastSale.payment_token.symbol === 'ETH'">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/40"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                            </template>
+                            <template v-else>
+                              <div class="flex items-center text-orange-500">M</div>
+                            </template>
+                            <div class="text-white/80">{{ (lastSale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                          </div>
+                        </div>
+                        <span class="text-white/70">({{ ethereumInLocalCurrency(getSaleAsGweiPrice(lastSale)) }})</span>
+                        <span class="text-white/60">#{{ lastSale.token.mint_number }}</span>
+                        <div class="text-white/40" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(lastSale.date_sold)) }}</div>
+                      </div>
+                    </template>
+                    <template v-else>
+                      <span class="text-white/40 italic">No sales yet.</span>
+                    </template>
+                  </td>
+                  <td class="table--cell">
+                    <div class="flex items-center justify-start gap-0.5">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                       <div class="flex gap-1">
-                        <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(6).replace(/\.?0+$/, '') }}</span>
-                        <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(listing.payment_token.base_price) }}</span>)</span>
-                        <span class="text-neutral-400">#{{ listing.token.mint_number }}</span>
-                      </div>
-                    </template>
-                    <template v-else-if="listing.payment_token.symbol === 'MATIC'">
-                      <div class="flex items-center text-orange-500">M</div>
-                      <div class="flex gap-1">
-                        <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                        <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(getListingAsGweiPrice(listing)) }}</span>)</span>
-                        <span class="text-neutral-400">#{{ listing.token.mint_number }}</span>
-                      </div>
-                    </template>
-                  </div>
-                </template>
-              </td>
-              <td class="border border-neutral-800 px-2 py-1">
-                <template v-if="item.stats.last_sale">
-                  <div class="flex flex-nowrap items-center justify-center gap-1 whitespace-nowrap overflow-hidden" :set="lastSale = item.stats.last_sale">
-                    <div class="flex items-center gap-0.5">
-                      <div class="flex items-center gap-0.5">
-                        <template v-if="lastSale.payment_token.symbol === 'ETH'">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        </template>
-                        <template v-else>
-                          <div class="flex items-center text-orange-500">M</div>
-                        </template>
-                        <div class="text-neutral-200">{{ (lastSale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
+                        <span>{{ (item.stats.eth.five_last_sales_average).toFixed(6).replace(/\.?0+$/, '') }}</span>
+                        <span class="text-white/40">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.stats.eth.five_last_sales_average * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
                       </div>
                     </div>
-                    <span class="text-neutral-300">({{ ethereumInLocalCurrency(getSaleAsGweiPrice(lastSale)) }})</span>
-                    <span class="text-neutral-400">#{{ lastSale.token.mint_number }}</span>
-                    <div class="text-neutral-500" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(lastSale.date_sold)) }}</div>
-                  </div>
-                </template>
-              </td>
-              <td class="border border-neutral-800 px-2 py-1">
-                <div class="flex items-center justify-center gap-0.5">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="flex gap-1">
-                    <span>{{ (item.stats.eth.five_last_sales_average).toFixed(6).replace(/\.?0+$/, '') }}</span>
-                    <span class="text-neutral-500">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.stats.eth.five_last_sales_average * ETH_TO_GWEI_MODIFIER) }}</span>)</span>
-                  </div>
-                </div>
-              </td>
-              <td class="border border-neutral-800 px-2 py-1">
-                <div class="flex items-center justify-center gap-0.5">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <span>{{ (item.stats.total_volume / ETH_TO_GWEI_MODIFIER).toFixed(2) }}</span>
-                </div>
-              </td>
-              <td class="border border-neutral-800 px-2 py-1">
-                <div class="flex items-center justify-center gap-0.5">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <span>{{ (item.stats.daily_volume).toFixed(2) }}</span>
-                </div>
-              </td>
-              <td class="border border-neutral-800 px-2 py-1">
-                <div class="flex items-center justify-center gap-0.5">
-                  <span>{{ ethereumInLocalCurrency(item.stats.eth.last_sale ? (item.stats.eth.last_sale.payment_token.base_price * item.series.total_sold) : 0) }}</span>
-                </div>
-              </td>
-              <td class="border border-neutral-800 px-2 py-1">
-                <div class="flex items-center justify-end gap-0.5">
-                  <template v-if="item.stats.daily_price_change > 0">
-                    <div class="text-green-500">
-                      <span>+{{ item.stats.daily_price_change.toFixed(2) }}%</span>
+                  </td>
+                  <td class="table--cell">
+                    <div class="flex items-center justify-start gap-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                      <span>{{ (item.stats.total_volume / ETH_TO_GWEI_MODIFIER).toFixed(2) }}</span>
                     </div>
-                  </template>
-                  <template v-else-if="item.stats.daily_price_change < 0">
-                    <div class="text-red-500">
-                      <span>{{ item.stats.daily_price_change.toFixed(2) }}%</span>
+                  </td>
+                  <td class="table--cell">
+                    <div class="flex items-center justify-start gap-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                      <span>{{ (item.stats.daily_volume).toFixed(2) }}</span>
                     </div>
-                  </template>
-                  <template v-else>
-                    <div class="text-neutral-200">
-                      <span>0%</span>
+                  </td>
+                  <td class="table--cell">
+                    <div class="flex items-center justify-start gap-0.5">
+                      <span>{{ ethereumInLocalCurrency(item.stats.eth.last_sale ? (item.stats.eth.last_sale.payment_token.base_price * item.series.total_sold) : 0) }}</span>
                     </div>
-                  </template>
-                </div>
-              </td>
-            </tr>
-          </template>
-          </tbody>
-        </table>
-        <div class="py-6 flex justify-center">
-          <Pagination :total-items="filteredAndSortedSeriesStats.length" :page-size="pageSize" v-model:current-page="itemsCurrentPage" />
+                  </td>
+                  <td class="table--cell">
+                    <div class="flex items-center justify-end gap-0.5">
+                      <template v-if="item.stats.daily_price_change > 0">
+                        <div class="text-green-500">
+                          <span>+{{ item.stats.daily_price_change.toFixed(2) }}%</span>
+                        </div>
+                      </template>
+                      <template v-else-if="item.stats.daily_price_change < 0">
+                        <div class="text-red-500">
+                          <span>{{ item.stats.daily_price_change.toFixed(2) }}%</span>
+                        </div>
+                      </template>
+                      <template v-else>
+                        <div class="text-white/80">
+                          <span>0%</span>
+                        </div>
+                      </template>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+              </tbody>
+            </table>
+          </div>
+          <div class="py-6 flex justify-center">
+            <Pagination :total-items="filteredAndSortedSeriesStats.length" :page-size="pageSize" v-model:current-page="itemsCurrentPage" />
+          </div>
         </div>
       </div>
     </template>
@@ -244,7 +261,7 @@ const filterSoldOut = ref<string>(route.query.soldOut as string ?? "show");
 const filterNoListings = ref<string>(route.query.noListings as string ?? "show");
 const sortOption = ref<string>(route.query.sort as string ?? "highestLastSale");
 const isRefreshing = ref(false);
-const layout = ref("grid");
+const layout = ref("table");
 const itemsCurrentPage = ref(1);
 const pageSize = ref(100);
 
@@ -544,6 +561,20 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
         }
       });
       break;
+    case "lowestDailyVolume":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aVolume = a.stats.daily_volume;
+        const bVolume = b.stats.daily_volume;
+
+        if (aVolume > bVolume) {
+          return 1;
+        } else if (aVolume < bVolume) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
     case "highestVolume":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
         const aVolume = a.stats.total_volume;
@@ -614,7 +645,7 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
         }
       });
       break;
-    case "fiveLastSales":
+    case "highestFiveLastSales":
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
         const aBasePrice = a.stats.five_last_sales_average;
         const bBasePrice = b.stats.five_last_sales_average;
@@ -623,6 +654,20 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
           return -1;
         } else if (aBasePrice < bBasePrice) {
           return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestFiveLastSales":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aBasePrice = a.stats.five_last_sales_average;
+        const bBasePrice = b.stats.five_last_sales_average;
+
+        if (aBasePrice > bBasePrice) {
+          return 1;
+        } else if (aBasePrice < bBasePrice) {
+          return -1;
         } else {
           return 0;
         }
@@ -856,10 +901,86 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
 
   return sortedSeriesStats;
 });
+
+function setTableSort(sort: string) {
+  switch (sort) {
+    case "name":
+      if (sortOption.value === "nameAsc") {
+        sortOption.value = "nameDesc";
+      } else {
+        sortOption.value = "nameAsc";
+      }
+      break;
+    case "supply":
+      if (sortOption.value === "lowestSupply") {
+        sortOption.value = "highestSupply";
+      } else {
+        sortOption.value = "lowestSupply";
+      }
+      break;
+    case "floor":
+      if (sortOption.value === "highestPrice") {
+        sortOption.value = "lowestPrice";
+      } else {
+        sortOption.value = "highestPrice";
+      }
+      break;
+    case "last sale":
+      if (sortOption.value === "highestLastSale") {
+        sortOption.value = "lowestLastSale";
+      } else {
+        sortOption.value = "highestLastSale";
+      }
+      break;
+    case "last 5 sales":
+      if (sortOption.value === "highestFiveLastSales") {
+        sortOption.value = "lowestFiveLastSales";
+      } else {
+        sortOption.value = "highestFiveLastSales";
+      }
+      break;
+    case "total vol":
+      if (sortOption.value === "highestVolume") {
+        sortOption.value = "lowestVolume";
+      } else {
+        sortOption.value = "highestVolume";
+      }
+      break;
+    case "daily vol":
+      if (sortOption.value === "highestDailyVolume") {
+        sortOption.value = "lowestDailyVolume";
+      } else {
+        sortOption.value = "highestDailyVolume";
+      }
+      break;
+    case "cap":
+      if (sortOption.value === "highestMarketCap") {
+        sortOption.value = "lowestMarketCap";
+      } else {
+        sortOption.value = "highestMarketCap";
+      }
+      break;
+    case "change":
+      if (sortOption.value === "highestDailyChange") {
+        sortOption.value = "lowestDailyChange";
+      } else {
+        sortOption.value = "highestDailyChange";
+      }
+      break;
+  }
+}
 </script>
 
-<style scoped>
+<style>
 .stats-view .searchbar {
   @apply w-fit md:w-full;
+}
+
+.stats-view .menubar select {
+  @apply max-w-[5rem];
+}
+
+.table--cell {
+  @apply border-b border-primary-border px-2 py-1 text-left;
 }
 </style>

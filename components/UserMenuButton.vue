@@ -1,6 +1,6 @@
 <template>
   <div
-      v-click-outside="() => { showUserMenu = false }"
+      v-click-outside="() => { showUserMenu = false; }"
       @click.self="showUserMenu = !showUserMenu"
       class="user-menu-button relative flex flex-row flex-nowrap items-center duration-200 cursor-pointer">
     <button @click.prevent="showUserMenu = !showUserMenu" class="user-menu-button--button flex flex-row flex-nowrap items-center gap-2">

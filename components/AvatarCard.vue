@@ -1,8 +1,8 @@
 <template>
-  <div ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-primary-accent border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:border-transparent sm:hover:border-white/20 relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer">
+  <div @click="selectAvatar" ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-primary-accent border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:border-transparent sm:hover:border-white/20 relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer">
     <template v-if="seriesStats">
       <div class="mx-auto relative flex gap-1 max-w-sm" style="height: 90px">
-        <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`)" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
+        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`) } else { selectAvatar() } }" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
           <template v-if="Capacitor.isNativePlatform()">
             <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="relative w-full h-auto mx-auto" :alt="item.name">
           </template>
@@ -20,7 +20,7 @@
             </div>
           </template>
         </button>
-        <div @click="selectAvatar" class="relative pl-1 flex flex-col overflow-hidden" style="width: 81%">
+        <div class="relative pl-1 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
             <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-neutral-300 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
             <div class="relative text-black text-[0.7rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">
