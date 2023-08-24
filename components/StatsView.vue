@@ -108,7 +108,7 @@
                         <img :src="getTokenImage(item.series.image)" :key="item.series.image" class="object-cover" :alt="item.series.name">
                       </div>
                     </button>
-                    <button @click="selectAvatar(item.stats)" class="font-semibold">{{ item.series.name }}</button>
+                    <button @click="selectAvatar(item)" class="font-semibold">{{ item.series.name }}</button>
                   </td>
                   <td class="table--cell">{{ Math.max(item.series.total_quantity, item.series.total_sold) }}</td>
                   <td class="table--cell">
@@ -230,7 +230,7 @@ import {
   updateEthereumPrices,
   updateMarketInfo,
   updateSeriesStats,
-  useEthereumUsdPrice,
+  useEthereumUsdPrice, useSelectedAvatar,
   useSeriesStatsV2, useSettings,
   useWatchList
 } from "~/composables/states";
@@ -245,6 +245,7 @@ import {getAllCollections, Filters} from "~/global/generations";
 import {getTokenImage} from "~/global/utils";
 import {openLinkWith} from "~/composables/states";
 import {ethereumInLocalCurrency} from "#imports";
+import {Haptics, ImpactStyle} from "@capacitor/haptics";
 
 const router = useRouter();
 const route = useRoute();
@@ -967,6 +968,20 @@ function setTableSort(sort: string) {
         sortOption.value = "highestDailyChange";
       }
       break;
+  }
+}
+
+const hapticsImpactLight = async () => {
+  await Haptics.impact({ style: ImpactStyle.Light });
+};
+
+function selectAvatar(seriesStats: SeriesStats) {
+  hapticsImpactLight();
+
+  useSelectedAvatar().value = {
+    seriesStats: seriesStats,
+    contract: seriesStats.series.contract_address,
+    series: seriesStats.series.name
   }
 }
 </script>
