@@ -27,6 +27,9 @@ export interface Settings {
     },
     link: {
         opener?: string;
+    },
+    stats: {
+        layout: string;
     }
 }
 
@@ -59,5 +62,8 @@ export const Default: Settings = {
     },
     link: {
         opener: undefined
+    },
+    stats: {
+        layout: "grid"
     }
 }

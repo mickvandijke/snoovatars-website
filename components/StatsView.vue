@@ -73,7 +73,7 @@
         <option value="nameAsc">Sort by Name (Ascending)</option>
         <option value="nameDesc">Sort by Name (Descending)</option>
       </select>
-      <select v-model="layout">
+      <select v-model="settings.stats.layout">
         <option value="grid">Grid</option>
         <option value="table">Table</option>
       </select>
@@ -81,7 +81,7 @@
         <RefreshButton :action="refresh" :refreshing="isRefreshing" />
       </template>
     </MenuBar>
-    <template v-if="layout === 'table'">
+    <template v-if="settings.stats.layout === 'table'">
       <div class="px-2 md:px-6 w-full">
         <div class="px-2 border border-primary-border rounded-2xl">
           <div class="w-full overflow-x-auto">
@@ -231,7 +231,7 @@ import {
   updateMarketInfo,
   updateSeriesStats,
   useEthereumUsdPrice,
-  useSeriesStatsV2,
+  useSeriesStatsV2, useSettings,
   useWatchList
 } from "~/composables/states";
 import {SeriesStats} from "~/types/seriesStats";
@@ -251,6 +251,7 @@ const route = useRoute();
 const seriesStats = useSeriesStatsV2();
 const watchList = useWatchList();
 const ethereumPriceInUsd = useEthereumUsdPrice();
+const settings = useSettings();
 
 const searchTerm = ref<string>("");
 const maxPriceEth = ref<number>(parseFloat(route.query.maxPrice as string) ?? undefined);
@@ -261,7 +262,6 @@ const filterSoldOut = ref<string>(route.query.soldOut as string ?? "show");
 const filterNoListings = ref<string>(route.query.noListings as string ?? "show");
 const sortOption = ref<string>(route.query.sort as string ?? "highestLastSale");
 const isRefreshing = ref(false);
-const layout = ref("table");
 const itemsCurrentPage = ref(1);
 const pageSize = ref(100);
 
