@@ -88,6 +88,7 @@
             <table class="text-xs font-medium w-full whitespace-nowrap">
               <thead>
               <tr class="border-b-b border-primary-border text-white/60">
+                <th class="table--cell"></th>
                 <th @click="setTableSort('name')" class="border-b border-primary-border text-left px-2 py-3 cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('name') }">Name</th>
                 <th @click="setTableSort('supply')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('Supply') }">Supply</th>
                 <th @click="setTableSort('floor')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('Price') }">Floor</th>
@@ -102,8 +103,10 @@
               <tbody>
               <template v-for="(item, index) in slicedItems" :key="index">
                 <tr class="hover:bg-primary-accent-hover text-white/80" :set="listing = getLowestListing(item)">
-                  <td class="table--cell flex items-center gap-2">
+                  <td class="border-b border-primary-border max-w-fit">
                     <span class="text-white/40">#{{ index + 1 + (pageSize * (itemsCurrentPage - 1)) }}</span>
+                  </td>
+                  <td class="table--cell flex items-center gap-2">
                     <button @click="openLinkWith(`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`)">
                       <div class="relative rounded-md w-6 h-6 flex items-center overflow-hidden">
                         <img :src="getTokenImage(item.series.image)" :key="item.series.image" class="object-cover" :alt="item.series.name">
