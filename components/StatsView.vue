@@ -77,7 +77,7 @@
         <option value="grid">Grid</option>
         <option value="table">Table</option>
       </select>
-      <template v-if="!Capacitor.isNativePlatform()">
+      <template v-if="!Capacitor.isNativePlatform() || settings.stats.layout === 'table'">
         <RefreshButton :action="refresh" :refreshing="isRefreshing" />
       </template>
     </MenuBar>
@@ -103,6 +103,7 @@
               <template v-for="(item, index) in slicedItems" :key="index">
                 <tr class="hover:bg-primary-accent-hover text-white/80" :set="listing = getLowestListing(item)">
                   <td class="table--cell flex items-center gap-2">
+                    <span class="text-white/40">#{{ index + 1 + (pageSize * (itemsCurrentPage - 1)) }}</span>
                     <button @click="openLinkWith(`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`)">
                       <div class="relative rounded-md w-6 h-6 flex items-center overflow-hidden">
                         <img :src="getTokenImage(item.series.image)" :key="item.series.image" class="object-cover" :alt="item.series.name">
