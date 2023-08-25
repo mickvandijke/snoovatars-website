@@ -82,7 +82,7 @@
       </template>
     </MenuBar>
     <template v-if="settings.stats.layout === 'table'">
-      <div class="px-2 md:px-6 w-full">
+      <div class="px-2 pb-3 md:px-6 w-full">
         <div class="px-2 border border-primary-border rounded-2xl">
           <div class="w-full overflow-x-auto">
             <table class="text-xs font-medium w-full whitespace-nowrap">
@@ -995,8 +995,8 @@ function selectAvatar(seriesStats: SeriesStats) {
   @apply w-fit md:w-full;
 }
 
-.stats-view .menubar select {
-  @apply max-w-[5rem];
+.stats-view .menubar > select {
+  @apply max-w-[5rem] md:max-w-fit;
 }
 
 .table--cell {
