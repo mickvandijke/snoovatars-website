@@ -78,7 +78,7 @@
         <div class="flex gap-1">
           <div class="flex gap-0.5 items-center">
             <ClockIcon class="text-white/40 w-3 h-3" />
-            <span class="text-white/60 font-medium">Sale:</span>
+            <span class="text-white/40 font-medium">Sale:</span>
           </div>
           <div class="flex items-center">
             <template v-if="!seriesStats.stats.last_sale">
