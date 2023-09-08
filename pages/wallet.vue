@@ -22,7 +22,7 @@
         <RefreshButton :action="refresh" :refreshing="isRefreshing" />
       </template>
     </MenuBar>
-    <div class="flex flex-col items-center max-w-[92rem]">
+    <div class="flex flex-col items-center w-full max-w-[92rem]">
       <div class="lg:hidden px-2 sm:px-6 py-2 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
         <div class="flex items-center lg:justify-end text-sm w-full">
           <div class="flex flex-nowrap gap-2 max-w-lg w-full">

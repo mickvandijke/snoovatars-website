@@ -4,13 +4,13 @@
 
     <h1 class="text-xl">Advertise on RCAX</h1>
 
-    <p>Drive visibility for your brand by becoming an RCAX sponsor through our eye-catching advertisement banners. With affordable pricing options starting at just $5 per day, you can effectively reach your target audience.</p>
+    <p>Drive visibility for your brand by becoming an RCAX sponsor through our eye-catching advertisement banners. With affordable pricing options starting at just $3 per day, you can effectively reach your target audience.</p>
 
-    <h2>Option 1: Shared Banner Display (Starting at $5/day)</h2>
-    <p>Make your mark alongside a select group of advertisers with our shared banner display. For as low as $5 a day, your banner will take its place among a maximum of 5 rotating advertisement banners. This dynamic arrangement ensures your brand gets noticed as it alternates with other compelling ads. This option has a minimum booking of 14 days.</p>
+    <h2>Option 1: Shared Banner Display ($3 / day)</h2>
+    <p>Make your mark alongside a select group of advertisers with our shared banner display. For as low as $3 a day, your banner will take its place among a maximum of 5 rotating advertisement banners. This dynamic arrangement ensures your brand gets noticed as it alternates with other compelling ads. This option has a minimum booking of 28 days.</p>
 
-    <h2>Option 2: Exclusive Banner Showcase ($15/day)</h2>
-    <p>For unparalleled prominence, opt for our exclusive banner showcase at $15 per day. Your banner will reign supreme as the sole advertisement displayed. Be sure to reserve ahead of time to guarantee availability. This option has a minimum booking of 5 days.</p>
+    <h2>Option 2: Exclusive Banner Showcase ($9 / day)</h2>
+    <p>For unparalleled prominence, opt for our exclusive banner showcase at $9 per day. Your banner will reign supreme as the sole advertisement displayed. Be sure to reserve ahead of time to guarantee availability. This option has a minimum booking of 7 days.</p>
 
     <h2>Important</h2>
     <p>Your advertisement banners will exclusively appear on the RCAX website. It's important to note that these banners will not be featured on the app, because of restrictions by Apple and Google. Users also have the option to dismiss the advertisement banners during their browsing session.</p>

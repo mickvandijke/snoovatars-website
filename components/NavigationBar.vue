@@ -1,7 +1,7 @@
 <template>
   <div
-      class="navigation-bar flex flex-col bg-primary/80 backdrop-blur-2xl z-40 w-full"
-      :class="{ 'shadow-md': scrolled >= 24 }"
+      class="navigation-bar flex flex-col bg-primary/80 backdrop-blur-2xl z-40 w-full duration-200"
+      :class="{ 'shadow-md': scrolled >= 24, 'sm:mb-4': scrolled >= 72 }"
       @mouseleave="closeDropdowns()"
       ref="navbar"
   >
@@ -30,6 +30,9 @@
       </div>
 
       <ul class="md:ml-auto flex text-white/90 text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
+<!--        <template v-if="!Capacitor.isNativePlatform()">-->
+<!--          <NuxtLink class="hidden md:block mx-1 px-3 py-1.5 bg-amber-600 text-white hover:text-white rounded-xl duration-500 cursor-pointer shadow-lg shadow-transparent hover:shadow-amber-600/40" to="/token">RCAX Whitepaper</NuxtLink>-->
+<!--        </template>-->
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/">Trading View</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar">Avatar Exporter</NuxtLink>
         <template v-if="!Capacitor.isNativePlatform()">
