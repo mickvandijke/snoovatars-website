@@ -115,6 +115,20 @@
               <template v-if="!isCollapsed(walletAddress)">
                 <div class="p-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-primary-border w-full">
                   <div class="p-1 flex items-center justify-start w-full font-bold">
+                    <div class="w-10 h-10 relative rounded-full overflow-hidden">
+                      <button @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token`)">
+                        <img src="/images/banners/rcax_icon_banner.png" class="rounded-full">
+                      </button>
+                    </div>
+                    <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
+                      <button
+                          @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token`)"
+                          class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
+                      >RCAX</button>
+                      <span class="text-amber-500 text-[0.8rem]">{{ ((getRcax(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
+                    </div>
+                  </div>
+                  <div class="p-1 flex items-center justify-start w-full font-bold">
                     <div class="w-10 h-10 relative rounded-md overflow-hidden">
                       <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)">
                         <img src="/img/bitcone.png">
@@ -272,8 +286,9 @@ const selectedAvatar = useSelectedAvatar();
 const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, Token[]>> = ref(new Map());
 const tokensCount: Ref<Map<string, Map<string, TokenGrouped>>> = ref(new Map());
-const cones: Ref<Map<string, number>> = ref(new Map());
+const rcax: Ref<Map<string, number>> = ref(new Map());
 const weth: Ref<Map<string, number>> = ref(new Map());
+const cones: Ref<Map<string, number>> = ref(new Map());
 const loading = ref(false);
 const isRefreshing = ref(false);
 const collapsedWallets: Ref<Set<string>> = ref(new Set<string>());
@@ -390,13 +405,32 @@ async function getWalletTokens(wallet: string) {
         });
 
         tokens.value.set(firstWalletAddress, firstWalletValue);
+        rcax.value.set(firstWalletAddress, 0);
         cones.value.set(firstWalletAddress, data.cones);
         weth.value.set(firstWalletAddress, data.weth ?? 0);
 
+        getRcaxBalance(firstWalletAddress);
         getConeBalance(firstWalletAddress);
         getWethBalance(firstWalletAddress);
 
         walletAddress.value = "";
+      })
+      .catch((err) => {
+        loading.value = false;
+        alert(err);
+      });
+
+  loading.value = false;
+}
+
+async function getRcaxBalance(wallet: string) {
+  loading.value = true;
+
+  const RCAX_TOKEN_ADDRESS = "0xC99BD85BA824De949cf088375225E3FdCDB6696C";
+
+  await fetchWalletTokenBalance(RCAX_TOKEN_ADDRESS, wallet)
+      .then((data) => {
+        rcax.value.set(wallet, data);
       })
       .catch((err) => {
         loading.value = false;
@@ -438,6 +472,10 @@ async function getWethBalance(wallet: string) {
       });
 
   loading.value = false;
+}
+
+function getRcax(wallet: string) {
+  return rcax.value.get(wallet);
 }
 
 function getCones(wallet: string) {

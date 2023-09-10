@@ -27,7 +27,6 @@ export const Filters = {
             "0x63e2f0c058ce9a194ec68f04320b7eb8ca555bd3",
             "0x45308788743bbdae5de7ba9e565c0502d0ebb81f",
             "0x907808732079863886443057c65827a0f1c64357",
-            "0x8d0501d85becda92b89e56177ddfceaf5fc1f0af2",
             "0x6ad08588568e258b2bdf065e7769fce398f68a1c",
             "0x946ad8e53db653053e8ef7c02dfca83ce8ba8022",
             "0x27b37e4befacc50b02102d1e2117c4ea8a54beff",
