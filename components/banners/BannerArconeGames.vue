@@ -16,7 +16,7 @@
         <div class="absolute left-0 top-0 bottom-0 right-0 flex items-center justify-center overflow-hidden rounded-lg sm:rounded-2xl z-10">
           <img src="/images/banners/arcone-gif.gif" alt="Banner Image" class="h-full" />
         </div>
-        <a href="https://opensea.io/collection/arconegames" target="_blank" class="absolute top-0 left-0 right-0 bottom-0 z-30"></a>
+        <a href="https://arconegames.firstmate.xyz/" target="_blank" class="absolute top-0 left-0 right-0 bottom-0 z-30"></a>
       </div>
     </div>
   </div>
