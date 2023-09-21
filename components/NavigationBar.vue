@@ -36,7 +36,16 @@
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/">Trading View</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar">Avatar Exporter</NuxtLink>
         <template v-if="!Capacitor.isNativePlatform()">
-          <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/sponsoring">Sponsoring & Ads</NuxtLink>
+          <DropDownMenu class="hidden md:block">
+            <template v-slot:button>
+              <span>dApps</span>
+            </template>
+            <template v-slot:menu>
+              <NuxtLink replace to="/dapps/randomavatarswap">
+                Random Avatar Swap
+              </NuxtLink>
+            </template>
+          </DropDownMenu>
         </template>
         <UserMenuButton>
           <template v-if="user?.username">
