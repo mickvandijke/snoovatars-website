@@ -107,7 +107,8 @@
               <span class="text-amber-500">{{ amountNormalized(rcaxBalance) }} $RCAX</span>
             </div>
 
-            <a href="https://quickswap.exchange/#/?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xC99BD85BA824De949cf088375225E3FdCDB6696C" target="_blank" class="ml-auto px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Buy More</a>
+            <a href="https://whitepaper.rcax.io/rcax-token#mining" target="_blank" class="ml-auto px-4 h-12 flex justify-center items-center bg-blue-600 hover:bg-blue-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Mine ⛏️</a>
+            <a href="https://quickswap.exchange/#/?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xC99BD85BA824De949cf088375225E3FdCDB6696C" target="_blank" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Buy</a>
           </div>
         </div>
 
