@@ -212,7 +212,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, getSeriesStats, markRaw, onMounted, ref, updateSeriesStats} from "#imports";
+import {computed, getSeriesStats, markRaw, onMounted, ref, updateSeriesStats, watch} from "#imports";
 import {ethers} from "ethers";
 import rcaxAbi from "~/assets/dapps/rcaxtoken/abi.json"
 import dappAbi from "~/assets/dapps/avatarswap/abi.json";
@@ -223,6 +223,8 @@ import {getTokenImage} from "~/global/utils";
 import {fetchWalletTokens} from "~/composables/api/wallet";
 import {findCollectionNameByContractAddress} from "~/global/generations";
 import detectEthereumProvider from "@metamask/detect-provider";
+import {ComputedRef} from "vue";
+import {ExternalProvider} from "@ethersproject/providers";
 
 enum View {
   Swap,
@@ -249,6 +251,7 @@ const config = useRuntimeConfig();
 const view: Ref<View> = ref(View.Swap);
 const connectedWallet: Ref<string | null> = ref(null);
 const connectedWalletAvatars: Ref<Token[]> = ref([]);
+const selectedChainId = ref(0);
 const freeDemoUsed = ref(false);
 const liquidityProviderStatus = ref(false);
 const rcaxBalance: Ref<bigint> = ref(BigInt(0));
@@ -277,6 +280,31 @@ onMounted(async () => {
   await refreshPoolFees();
 });
 
+watch([provider], async () => {
+  if (provider) {
+    const {chainId} = await provider.getNetwork();
+    selectedChainId.value = chainId;
+  } else {
+    selectedChainId.value = 0;
+  }
+});
+
+watch([connectedWallet, selectedChainId], async () => {
+  if (connectedWallet.value && selectedChainId.value !== 137) {
+    const ethereum = await getEthereumProvider();
+
+    if (ethereum) {
+      await ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{chainId: '0x89'}],
+      });
+
+      await connectProvider();
+      await refresh();
+    }
+  }
+});
+
 const amountNormalized = (amount: bigint): number => {
   const amountString = amount.toString();
   const amountWithoutZeros = amountString.slice(0, -18); // Remove 18 trailing zeros
@@ -289,8 +317,19 @@ const buttonConnectWallet = async () => {
   await refresh();
 }
 
+const getEthereumProvider = async (): Promise<ethers.providers.ExternalProvider> => {
+  let { ethereum } = window;
+
+  // Extra check needed for mobile
+  if (!ethereum) {
+    ethereum = await detectEthereumProvider();
+  }
+
+  return ethereum;
+}
+
 const connectProvider = async () => {
-  let ethereum = await detectEthereumProvider();
+  const ethereum = await getEthereumProvider();
 
   if (ethereum) {
     provider = markRaw(new ethers.providers.Web3Provider(ethereum));
@@ -301,16 +340,11 @@ const connectProvider = async () => {
 
 const connectWallet = async () => {
   if (provider) {
-    try {
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      connectedWallet.value = await signer.getAddress();
-      connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
-      connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
-    } catch (err) {
-      console.error(err);
-      alert(err);
-    }
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+    connectedWallet.value = await signer.getAddress();
+    connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
+    connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
   }
 };
 
