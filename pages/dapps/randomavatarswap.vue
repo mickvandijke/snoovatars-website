@@ -466,6 +466,7 @@ const withdrawAllAvatars = async () => {
     waitingForTransaction.value = true;
 
     try {
+      await reloadContracts();
       let tx = await connectedDappContract.withdrawAllAvatars();
       liquidityTransactionHash.value = tx.hash;
       liquidityTransactionStatus.value = TxStatus.Pending;
@@ -491,6 +492,7 @@ const setLiquidityProviderStatus = async (status: boolean) => {
     waitingForTransaction.value = true;
 
     try {
+      await reloadContracts();
       let tx = await connectedDappContract.setLiquidityProviderStatus(status);
       await tx.wait();
       liquidityProviderStatus.value = status;
