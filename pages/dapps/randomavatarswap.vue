@@ -138,7 +138,7 @@
               <button @click="setLiquidityProviderStatus(false)" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-full duration-200">Disable Liquidity Provider</button>
             </template>
             <template v-else>
-              <template v-if="rcaxTokenAllowance < selectedAvatarPoolFee">
+              <template v-if="freeDemoUsed && rcaxTokenAllowance < selectedAvatarPoolFee">
                 <button @click="setRcaxTokenAllowance(DAPP_CONTRACT_ADDRESS, selectedAvatarPoolFee)" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-full duration-200">Approve dApp to spend {{ amountNormalized(selectedAvatarPoolFee) }} $RCAX</button>
               </template>
               <template v-else>
@@ -341,13 +341,27 @@ const connectProvider = async () => {
 
 const connectWallet = async () => {
   if (provider) {
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    connectedWallet.value = await signer.getAddress();
-    connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
-    connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
+    try {
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      connectedWallet.value = await signer.getAddress();
+      connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
+      connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
+    } catch (err) {
+      console.error(err);
+    }
   }
 };
+
+const reloadContracts = async () => {
+  if (provider) {
+    const signer = provider.getSigner();
+    if (signer) {
+      connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
+      connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
+    }
+  }
+}
 
 const refreshPoolFees = async () => {
   poolFeeAwwDripMemeSingu.value = await getPoolFeeForToken("0x6acb8fb82880d39c2b8446f8778a14d34ee6cfb7");
@@ -435,7 +449,9 @@ const setRcaxTokenAllowance = async (spender: string, amount: bigint) => {
     waitingForTransaction.value = true;
 
     try {
-      await connectedRcaxContract.approve(spender, amount);
+      await reloadContracts();
+      let tx = await connectedRcaxContract.approve(spender, amount);
+      await tx.wait();
       rcaxTokenAllowance.value = amount;
     } catch (error) {
       console.error('Error setting RCAX token allowance:', error);
@@ -475,7 +491,8 @@ const setLiquidityProviderStatus = async (status: boolean) => {
     waitingForTransaction.value = true;
 
     try {
-      await connectedDappContract.setLiquidityProviderStatus(status);
+      let tx = await connectedDappContract.setLiquidityProviderStatus(status);
+      await tx.wait();
       liquidityProviderStatus.value = status;
     } catch (error) {
       console.error('Error setting liquidity provider status:', error);
