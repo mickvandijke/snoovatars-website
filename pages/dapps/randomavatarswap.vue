@@ -301,11 +301,16 @@ const connectProvider = async () => {
 
 const connectWallet = async () => {
   if (provider) {
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    connectedWallet.value = await signer.getAddress();
-    connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
-    connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
+    try {
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      connectedWallet.value = await signer.getAddress();
+      connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
+      connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
+    } catch (err) {
+      console.error(err);
+      alert(err);
+    }
   }
 };
 
