@@ -27,6 +27,7 @@
     "@capacitor/share": "^5.0.2",
     "@heroicons/vue": "^2.0.13",
     "@ionic/vue": "^7.0.10",
+    "@metamask/detect-provider": "^2.0.0",
     "chart.js": "^4.3.0",
     "click-outside-vue3": "^4.0.1",
     "cordova-plugin-purchase": "^13.4.3",

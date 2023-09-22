@@ -1,9 +1,9 @@
 <template>
-  <div class="px-4 py-6 flex flex-col sm:flex-row gap-6 max-w-6xl">
+  <div class="px-4 md:px-6 py-12 flex flex-col sm:flex-row gap-6 max-w-6xl">
     <div class="flex flex-col items-center gap-6 w-full">
       <div class="flex flex-col gap-1 items-center">
         <h1 class="text-4xl text-white font-bold">Random Avatar Swap</h1>
-        <a href="https://polygonscan.com/address/0xc44100e15553c85f2846eed703e23165c0e0b9a3" target="_blank" class="text-amber-600 hover:text-amber-500">0xc44100e15553c85f2846eed703e23165c0e0b9a3</a>
+        <a href="https://polygonscan.com/address/0xc44100e15553c85f2846eed703e23165c0e0b9a3" target="_blank" class="text-xs sm:text-sm md:text-md text-amber-600 hover:text-amber-500">0xc44100e15553c85f2846eed703e23165c0e0b9a3</a>
       </div>
 
       <div class="p-6 flex flex-col items-center gap-6 bg-black/20 w-full rounded-2xl">
@@ -112,7 +112,7 @@
         </div>
 
         <template v-if="view === View.Swap">
-          <div class="p-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 h-[16rem] sm:h-[26rem] overflow-y-scroll overflow-x-hidden border border-primary-border rounded-2xl gap-3 w-full">
+          <div class="p-3 grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 h-[16rem] sm:h-[26rem] overflow-y-scroll overflow-x-hidden border border-primary-border rounded-2xl gap-3 w-full">
             <template v-for="token in connectedWalletAvatars">
               <button @click="selectAvatarToSwap(token.contract_address, token.id, token.name, token.mint_number)" :disabled="!isAvatarCompatible(token.contract_address)" :class="{ 'opacity-50': !isAvatarCompatible(token.contract_address), 'hover:bg-primary-accent-hover': isAvatarCompatible(token.contract_address) && !isAvatarSelected(token.contract_address, token.id), 'bg-amber-600': isAvatarSelected(token.contract_address, token.id), 'bg-primary-accent': !isAvatarSelected(token.contract_address, token.id) }" class="relative p-2 h-fit flex flex-col justify-center items-center text-white rounded-xl duration-200 cursor-pointer">
                 <img :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.contract_address, token.name)?.series.name">
@@ -222,6 +222,7 @@ import {Token} from "~/types/token";
 import {getTokenImage} from "~/global/utils";
 import {fetchWalletTokens} from "~/composables/api/wallet";
 import {findCollectionNameByContractAddress} from "~/global/generations";
+import detectEthereumProvider from "@metamask/detect-provider";
 
 enum View {
   Swap,
@@ -289,7 +290,12 @@ const buttonConnectWallet = async () => {
 }
 
 const connectProvider = async () => {
-  const { ethereum } = window;
+  let { ethereum } = window;
+
+  // Extra check needed for mobile
+  if (!ethereum) {
+    ethereum = await detectEthereumProvider();
+  }
 
   if (ethereum) {
     provider = markRaw(new ethers.providers.Web3Provider(ethereum));
@@ -419,7 +425,7 @@ const withdrawAllAvatars = async () => {
       liquidityTransactionMessage.value = "All avatars successfully withdrawn!"
     } catch (error) {
       liquidityTransactionStatus.value = TxStatus.Failed;
-      liquidityTransactionMessage.value = error.data.message;
+      liquidityTransactionMessage.value = error.data?.message ?? "Please try again.";
 
       console.error('Error withdrawing all avatars:', error);
       throw error;
@@ -469,7 +475,7 @@ async function transferERC1155Token(contractAddress: string, recipientAddress: s
       console.log(`Transferred ${amount} tokens of ID ${tokenId} to ${recipientAddress}`);
     } catch (error) {
       swapTransactionStatus.value = TxStatus.Failed;
-      swapTransactionMessage.value = error.data.message;
+      swapTransactionMessage.value = error.data?.message ?? "Please try again.";
 
       console.error('Error transferring tokens:', error);
       throw error;
