@@ -117,7 +117,7 @@
               <button @click="selectAvatarToSwap(token.contract_address, token.id, token.name, token.mint_number)" :disabled="!isAvatarCompatible(token.contract_address)" :class="{ 'opacity-50': !isAvatarCompatible(token.contract_address), 'hover:bg-primary-accent-hover': isAvatarCompatible(token.contract_address) && !isAvatarSelected(token.contract_address, token.id), 'bg-amber-600': isAvatarSelected(token.contract_address, token.id), 'bg-primary-accent': !isAvatarSelected(token.contract_address, token.id) }" class="relative p-2 h-fit flex flex-col justify-center items-center text-white rounded-xl duration-200 cursor-pointer">
                 <img :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.contract_address, token.name)?.series.name">
                 <div class="absolute top-4 right-4 p-1 bg-primary text-xs font-medium rounded-md">#{{ token.mint_number }}</div>
-                <div class="mt-2 text-xs text-center font-semibold truncate w-full">{{ token.name }} {{ token.mint_number }}</div>
+                <div class="mt-2 text-xs text-center font-semibold truncate w-full">{{ token.name }}</div>
               </button>
             </template>
           </div>
