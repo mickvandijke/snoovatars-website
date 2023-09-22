@@ -290,12 +290,7 @@ const buttonConnectWallet = async () => {
 }
 
 const connectProvider = async () => {
-  let { ethereum } = window;
-
-  // Extra check needed for mobile
-  if (!ethereum) {
-    ethereum = await detectEthereumProvider();
-  }
+  let ethereum = await detectEthereumProvider();
 
   if (ethereum) {
     provider = markRaw(new ethers.providers.Web3Provider(ethereum));
