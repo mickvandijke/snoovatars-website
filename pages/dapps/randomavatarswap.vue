@@ -430,12 +430,14 @@ const setRcaxTokenAllowance = async (spender: string, amount: bigint) => {
   }
 
   if (connectedWallet.value && connectedRcaxContract) {
+    await checkRequestPolygonChain();
+
     waitingForTransaction.value = true;
 
     try {
       let tx = await connectedRcaxContract.approve(spender, amount);
       await tx.wait();
-      rcaxTokenAllowance.value = amount;
+      rcaxTokenAllowance.value = await getRcaxTokenAllowance(connectedWallet.value, spender);
     } catch (error) {
       console.error('Error setting RCAX token allowance:', error);
     } finally {
@@ -447,6 +449,8 @@ const setRcaxTokenAllowance = async (spender: string, amount: bigint) => {
 const withdrawAllAvatars = async () => {
   if (connectedWallet.value && connectedDappContract && !waitingForTransaction.value) {
     waitingForTransaction.value = true;
+
+    await checkRequestPolygonChain();
 
     try {
       let tx = await connectedDappContract.withdrawAllAvatars();
@@ -473,6 +477,8 @@ const setLiquidityProviderStatus = async (status: boolean) => {
   if (connectedWallet.value && connectedDappContract && !waitingForTransaction.value) {
     waitingForTransaction.value = true;
 
+    await checkRequestPolygonChain();
+
     try {
       let tx = await connectedDappContract.setLiquidityProviderStatus(status);
       await tx.wait();
@@ -489,6 +495,8 @@ async function transferERC1155Token(contractAddress: string, recipientAddress: s
   if (provider && !waitingForTransaction.value) {
     try {
       waitingForTransaction.value = true;
+
+      await checkRequestPolygonChain();
 
       let signer = provider.getSigner();
 
