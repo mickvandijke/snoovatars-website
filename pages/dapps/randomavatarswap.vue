@@ -3,7 +3,7 @@
     <div class="flex flex-col items-center gap-6 w-full">
       <div class="flex flex-col gap-1 items-center">
         <h1 class="text-4xl text-white font-bold">Random Avatar Swap</h1>
-        <a href="https://polygonscan.com/address/0xc44100e15553c85f2846eed703e23165c0e0b9a3" target="_blank" class="text-xs sm:text-sm md:text-md text-amber-600 hover:text-amber-500">0xc44100e15553c85f2846eed703e23165c0e0b9a3</a>
+        <a href="https://polygonscan.com/address/0xc44100e15553c85f2846eed703e23165c0e0b9a3" target="_blank" class="text-xs sm:text-sm md:text-md text-amber-600 font-bold hover:text-amber-500">0xc44100e15553c85f2846eed703e23165c0e0b9a3</a>
       </div>
 
       <div class="p-6 flex flex-col items-center gap-6 bg-black/20 w-full rounded-2xl">
@@ -101,14 +101,14 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-3 text-white/60 w-full">
+          <div class="flex flex-col sm:flex-row items-center gap-3 text-white/60 w-full">
             <div class="p-4 flex gap-2 bg-black/20 rounded-2xl w-full">
               <span>Balance:</span>
               <span class="text-amber-500">{{ amountNormalized(rcaxBalance) }} $RCAX</span>
             </div>
 
-            <a href="https://whitepaper.rcax.io/rcax-token#mining" target="_blank" class="ml-auto px-4 h-12 flex justify-center items-center bg-blue-600 hover:bg-blue-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Mine ⛏️</a>
-            <a href="https://quickswap.exchange/#/?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xC99BD85BA824De949cf088375225E3FdCDB6696C" target="_blank" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Buy</a>
+            <a href="https://whitepaper.rcax.io/rcax-token#mining" target="_blank" class="sm:ml-auto w-full sm:w-fit px-4 h-12 flex justify-center items-center bg-blue-600 hover:bg-blue-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Mine ⛏️</a>
+            <a href="https://quickswap.exchange/#/?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xC99BD85BA824De949cf088375225E3FdCDB6696C" target="_blank" class="w-full sm:w-fit px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Buy</a>
           </div>
         </div>
 
@@ -135,14 +135,14 @@
             </div>
 
             <template v-if="liquidityProviderStatus">
-              <button @click="setLiquidityProviderStatus(false)" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-full duration-200">Disable Liquidity Provider</button>
+              <ButtonLoading @click="setLiquidityProviderStatus(false)" :disabled="waitingForTransaction" :is-loading="waitingForTransaction">Disable Liquidity Provider</ButtonLoading>
             </template>
             <template v-else>
               <template v-if="freeDemoUsed && rcaxTokenAllowance < selectedAvatarPoolFee">
-                <button @click="setRcaxTokenAllowance(DAPP_CONTRACT_ADDRESS, selectedAvatarPoolFee)" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-full duration-200">Approve dApp to spend {{ amountNormalized(selectedAvatarPoolFee) }} $RCAX</button>
+                <ButtonLoading @click="setRcaxTokenAllowance(DAPP_CONTRACT_ADDRESS, selectedAvatarPoolFee)" :disabled="waitingForTransaction" :is-loading="waitingForTransaction">Approve dApp to spend {{ amountNormalized(selectedAvatarPoolFee) }} $RCAX</ButtonLoading>
               </template>
               <template v-else>
-                <button @click="swapAvatar" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-full duration-200">Swap {{ avatarToSwap[2] }} #{{ avatarToSwap[3] }}</button>
+                <ButtonLoading @click="swapAvatar" :disabled="waitingForTransaction" :is-loading="waitingForTransaction">Swap {{ avatarToSwap[2] }} #{{ avatarToSwap[3] }}</ButtonLoading>
               </template>
             </template>
           </template>
@@ -214,7 +214,7 @@
 
 <script setup lang="ts">
 import {computed, getSeriesStats, markRaw, onMounted, ref, updateSeriesStats, watch} from "#imports";
-import {ethers} from "ethers";
+import {ethers, Signer} from "ethers";
 import rcaxAbi from "~/assets/dapps/rcaxtoken/abi.json"
 import dappAbi from "~/assets/dapps/avatarswap/abi.json";
 import {useRuntimeConfig} from "#app";
@@ -225,7 +225,8 @@ import {fetchWalletTokens} from "~/composables/api/wallet";
 import {findCollectionNameByContractAddress} from "~/global/generations";
 import detectEthereumProvider from "@metamask/detect-provider";
 import {ComputedRef} from "vue";
-import {ExternalProvider} from "@ethersproject/providers";
+import {ExternalProvider, Provider} from "@ethersproject/providers";
+import ButtonLoading from "~/components/ButtonLoading.vue";
 
 enum View {
   Swap,
@@ -236,12 +237,6 @@ enum TxStatus {
   Pending,
   Confirmed,
   Failed
-}
-
-interface TxWrapper {
-  txHash?: string,
-  status: TxStatus,
-  message: string
 }
 
 const RCAX_TOKEN_ADDRESS = "0xC99BD85BA824De949cf088375225E3FdCDB6696C";
@@ -278,33 +273,37 @@ let connectedDappContract: Raw<ethers.Contract> | null = null;
 
 onMounted(async () => {
   await connectProvider();
-  await refreshPoolFees();
 });
 
-watch([provider], async () => {
+watch([provider, connectedWallet, selectedChainId], async () => {
   if (provider) {
-    const {chainId} = await provider.getNetwork();
-    selectedChainId.value = chainId;
+    await checkRequestPolygonChain();
+    await connectContracts();
+    await refreshPoolFees();
   } else {
     selectedChainId.value = 0;
   }
 });
 
-watch([connectedWallet, selectedChainId], async () => {
-  if (connectedWallet.value && selectedChainId.value !== 137) {
-    const ethereum = await getEthereumProvider();
+const checkRequestPolygonChain = async () => {
+  if (provider) {
+    const {chainId} = await provider.getNetwork();
+    selectedChainId.value = chainId;
 
-    if (ethereum) {
-      await ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{chainId: '0x89'}],
-      });
-
+    if (selectedChainId.value !== 137) {
+      await provider.send('wallet_switchEthereumChain', [{chainId: '0x89'}]);
       await connectProvider();
-      await refresh();
+
+      if (selectedChainId.value === 137) {
+        await refresh();
+      }
+    }
+
+    if (selectedChainId.value !== 137) {
+      await checkRequestPolygonChain();
     }
   }
-});
+}
 
 const amountNormalized = (amount: bigint): number => {
   const amountString = amount.toString();
@@ -313,53 +312,48 @@ const amountNormalized = (amount: bigint): number => {
 }
 
 const buttonConnectWallet = async () => {
-  await connectWallet();
+  if (!provider) {
+    throw new Error("Provider not available");
+  }
 
+  await connectWallet(provider);
   await refresh();
 }
 
-const getEthereumProvider = async (): Promise<ethers.providers.ExternalProvider> => {
-  let { ethereum } = window;
-
-  // Extra check needed for mobile
-  if (!ethereum) {
-    ethereum = await detectEthereumProvider();
-  }
-
-  return ethereum;
-}
-
 const connectProvider = async () => {
-  const ethereum = await getEthereumProvider();
-
-  if (ethereum) {
-    provider = markRaw(new ethers.providers.Web3Provider(ethereum));
-    connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, provider));
-    connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, provider));
+  if (window.ethereum) {
+    provider = markRaw(new ethers.providers.Web3Provider(window.ethereum));
+  } else {
+    provider = markRaw(new ethers.providers.Web3Provider((await detectEthereumProvider())));
   }
 }
 
-const connectWallet = async () => {
-  if (provider) {
-    try {
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      connectedWallet.value = await signer.getAddress();
-      connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
-      connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
-    } catch (err) {
-      console.error(err);
-    }
+const connectWallet = async (provider: ethers.providers.Web3Provider) => {
+  try {
+    await checkRequestPolygonChain();
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+    connectedWallet.value = await signer.getAddress();
+  } catch (err) {
+    console.error(err);
   }
 };
 
-const reloadContracts = async () => {
-  if (provider) {
+const connectContracts = async () => {
+  try {
+    if (!provider) throw new Error("Can't connect contracts, no provider available");
+
     const signer = provider.getSigner();
+
     if (signer) {
       connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, signer));
       connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, signer));
+    } else {
+      connectedRcaxContract = markRaw(new ethers.Contract(RCAX_TOKEN_ADDRESS, rcaxAbi, provider));
+      connectedDappContract = markRaw(new ethers.Contract(DAPP_CONTRACT_ADDRESS, dappAbi, provider));
     }
+  } catch (err) {
+    console.error(err);
   }
 }
 
@@ -371,17 +365,23 @@ const refreshPoolFees = async () => {
 }
 
 const refresh = async () => {
+  isRefreshing.value = true;
+
+  await checkRequestPolygonChain();
+  await connectContracts();
+
   if (connectedWallet.value) {
-    isRefreshing.value = true;
     liquidityProviderStatus.value = await getLiquidityProviderStatus(connectedWallet.value);
     freeDemoUsed.value = await getFreeDemoUsedStatus(connectedWallet.value);
     rcaxBalance.value = await getRcaxBalance(connectedWallet.value);
     rcaxTokenAllowance.value = await getRcaxTokenAllowance(connectedWallet.value, DAPP_CONTRACT_ADDRESS);
-    await updateSeriesStats();
     connectedWalletAvatars.value = await getWalletTokens(connectedWallet.value);
-    await refreshPoolFees();
-    isRefreshing.value = false;
   }
+
+  await refreshPoolFees();
+  await updateSeriesStats();
+
+  isRefreshing.value = false;
 }
 
 const getRcaxBalance = async (address: String): Promise<bigint> => {
@@ -409,47 +409,30 @@ const getRcaxTokenAllowance = async (owner: string, spender: string): Promise<bi
 };
 
 const getFreeDemoUsedStatus = async (address: string): Promise<boolean> => {
-  let status = false;
-
-  if (connectedDappContract && !waitingForTransaction.value) {
-    waitingForTransaction.value = true;
-
-    try {
-      status = await connectedDappContract.getFreeDemoUsedStatus(address);
-    } catch (error) {
-      console.error('Error getting free demo used status:', error);
-    } finally {
-      waitingForTransaction.value = false;
-    }
+  if (connectedDappContract) {
+    return await connectedDappContract.getFreeDemoUsedStatus(address);
   }
 
-  return status;
+  return false;
 };
 
 const getLiquidityProviderStatus = async (address: string): Promise<boolean> => {
-  let status = false;
-
-  if (connectedDappContract && !waitingForTransaction.value) {
-    waitingForTransaction.value = true;
-
-    try {
-      status = await connectedDappContract.getLiquidityProviderStatus(address);
-    } catch (error) {
-      console.error('Error getting liquidity provider status:', error);
-    } finally {
-      waitingForTransaction.value = false;
-    }
+  if (connectedDappContract) {
+    return await connectedDappContract.getLiquidityProviderStatus(address);
   }
 
-  return status;
+  return false;
 };
 
 const setRcaxTokenAllowance = async (spender: string, amount: bigint) => {
-  if (connectedWallet.value && connectedRcaxContract && !waitingForTransaction.value) {
+  if (waitingForTransaction.value) {
+    throw new Error("Wait for the previous transaction");
+  }
+
+  if (connectedWallet.value && connectedRcaxContract) {
     waitingForTransaction.value = true;
 
     try {
-      await reloadContracts();
       let tx = await connectedRcaxContract.approve(spender, amount);
       await tx.wait();
       rcaxTokenAllowance.value = amount;
@@ -466,7 +449,6 @@ const withdrawAllAvatars = async () => {
     waitingForTransaction.value = true;
 
     try {
-      await reloadContracts();
       let tx = await connectedDappContract.withdrawAllAvatars();
       liquidityTransactionHash.value = tx.hash;
       liquidityTransactionStatus.value = TxStatus.Pending;
@@ -492,7 +474,6 @@ const setLiquidityProviderStatus = async (status: boolean) => {
     waitingForTransaction.value = true;
 
     try {
-      await reloadContracts();
       let tx = await connectedDappContract.setLiquidityProviderStatus(status);
       await tx.wait();
       liquidityProviderStatus.value = status;

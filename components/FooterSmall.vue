@@ -3,11 +3,11 @@
     <div class="px-4 md:px-2 py-6 w-full flex flex-col justify-center gap-6 border-t border-primary-border">
       <div class="w-full flex flex-col md:flex-row justify-center items-center gap-3 md:gap-12 text-[0.8rem] text-white/60 font-medium">
         <div class="border-neutral-800/90 w-fit">&copy; 2023 RCAX.</div>
-        <div class="flex items-center gap-6">
+        <div class="grid grid-cols-2 sm:flex items-center gap-6">
           <NuxtLink to="/privacy" class="hover:text-white">Privacy Policy</NuxtLink>
-          <NuxtLink to="/tos" class="hover:text-white">Terms</NuxtLink>
+          <NuxtLink to="/tos" class="hover:text-white">Terms of Service</NuxtLink>
           <NuxtLink to="/contact" class="hover:text-white">Contact</NuxtLink>
-          <NuxtLink to="/sponsoring" class="hover:text-white">Advertise</NuxtLink>
+          <NuxtLink to="/sponsoring" class="hover:text-white">Advertising & Sponsoring</NuxtLink>
         </div>
         <div class="md:ml-auto flex items-center gap-6 md:gap-12">
           <div class="flex items-center gap-3 md:gap-6">

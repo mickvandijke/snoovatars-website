@@ -15,6 +15,7 @@ import {Capacitor} from "@capacitor/core";
 import {Prompt, PromptOption} from "~/components/Prompt.vue";
 import {Default, Settings} from "~/types/settings";
 import {SelectedAvatar} from "~/types/SelectedAvatar";
+import {fetchRcaxPrice} from "~/composables/api/rcax";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeriesHashed = () => useState<Map<string, Series>>('tier-list', () => new Map());
@@ -30,6 +31,7 @@ export const useEthereumPriceMap = () => useState<Map<string, number>>('ethereum
 export const useTotalDailyVolume = () => useState<number>('total-daily-volume', () => 0);
 export const useTotalMarketCap = () => useState<number>('total-market-cap', () => 0);
 export const useConeEthPrice = () => useState<number>('cone-eth', () => 0);
+export const useRcaxEthPrice = () => useState<number>('rcax-eth', () => 0);
 export const useWatchList = () => useState<Set<string>>('watch-list', () => new Set());
 export const useWalletAddresses = () => useState<Set<string>>('wallet-addresses', () => new Set());
 export const useUserSettings = () => useState<UserSettings>('user-settings', () => null);
@@ -126,6 +128,7 @@ export async function updateMarketInfo() {
     });
 
     updateConeEthPrice();
+    updateRcaxEthPrice();
 }
 
 export async function loadUserSettings() {
@@ -143,6 +146,12 @@ export async function setUserSettings(userSettings: UserSettings) {
 export function updateConeEthPrice() {
     fetchBitconePrice().then((price) => {
         useConeEthPrice().value = Number(price);
+    });
+}
+
+export function updateRcaxEthPrice() {
+    fetchRcaxPrice().then((price) => {
+        useRcaxEthPrice().value = Number(price);
     });
 }
 

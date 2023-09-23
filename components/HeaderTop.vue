@@ -2,6 +2,10 @@
   <div v-if="showingBarMarketInfo" class="bg-primary-accent-solid w-full text-xs overflow-hidden" ref="barMarketInfo" :class="{ 'page-mobile-padding-top': Capacitor.isNativePlatform() }">
     <div class="px-4 sm:px-8 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
       <div class="inline-flex gap-2">
+        <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xc99bd85ba824de949cf088375225e3fdcdb6696c&swapIndex=0`)" class="flex items-center gap-0.5">
+          <span class="text-white/60">RCAX:</span>
+          <span class="text-white/60 font-medium"><span class="text-white/80">{{ coneInLocalCurrency(rcax) }}</span></span>
+        </button>
         <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)" class="flex items-center gap-0.5">
           <span class="text-white/60">BitCone:</span>
           <span class="text-white/60 font-medium"><span class="text-white/80">{{ coneInLocalCurrency(cone) }}</span></span>
@@ -38,7 +42,7 @@
 <script setup lang="ts">
 import {
   computed, onMounted,
-  ref, updateEthereumPrices, updateMarketInfo, useEthereumPriceMap, useRouter, useSettings,
+  ref, updateEthereumPrices, updateMarketInfo, useEthereumPriceMap, useRcaxEthPrice, useRouter, useSettings,
   useToken, useTotalDailyVolume, useTotalMarketCap,
   useUser,
   watch
@@ -51,6 +55,7 @@ import {Capacitor} from "@capacitor/core";
 
 const user = useUser();
 const token = useToken();
+const rcax = useRcaxEthPrice();
 const cone = useConeEthPrice();
 const dailyVol = useTotalDailyVolume();
 const mCap = useTotalMarketCap();

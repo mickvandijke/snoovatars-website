@@ -4,5 +4,5 @@ export async function fetchBitconePrice(): Promise<number> {
     const response = await fetch(url);
     const data = await response.json();
 
-    return data["data"][0]["attributes"]["base_token_price_native_currency"] ?? 0;
+    return data["data"][1]["attributes"]["base_token_price_native_currency"] ?? 0;
 }

@@ -36,7 +36,7 @@ const slides = [
     key: 'rcax banner',
     component: BannerRcaxSponsoring,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2025-08-22'),
+    expirationDate: new Date('2023-09-23'),
   },
   {
     key: 'rcax token launch',
