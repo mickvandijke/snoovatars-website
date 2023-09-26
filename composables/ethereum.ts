@@ -55,7 +55,7 @@ export function coneInLocalCurrency(eth: number): string {
     let localeString = ""
     const currency = useSettings().value.currency.preferred;
 
-    let price = eth * (useEthereumPriceMap().value.get(currency) ?? 0);
+    let price = (eth * (useEthereumPriceMap().value.get(currency) ?? 0)).toPrecision(5);
 
     switch (currency) {
         case "AUD":

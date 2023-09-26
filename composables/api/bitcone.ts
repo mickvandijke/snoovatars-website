@@ -4,5 +4,13 @@ export async function fetchBitconePrice(): Promise<number> {
     const response = await fetch(url);
     const data = await response.json();
 
-    return data["data"][1]["attributes"]["base_token_price_native_currency"] ?? 0;
+    let price = 0;
+
+    for (const pool of data["data"]) {
+        if (pool["id"] === "polygon_pos_0xc3266f3ce2433e0fb83d3ae8be49a155f6230a6f") {
+            price = pool["attributes"]["base_token_price_native_currency"] ?? 0
+        }
+    }
+
+    return price;
 }

@@ -580,7 +580,7 @@ const isAvatarCompatible = (tokenAddress: string): boolean => {
 
 const getWalletTokens = async (wallet: string): Promise<Token[]> => {
   try {
-    let data = await fetchWalletTokens(wallet);
+    let data = await fetchWalletTokens(wallet, true);
     const wallets = Object.entries(data.wallets);
     const [, tokens] = wallets[0];
 
