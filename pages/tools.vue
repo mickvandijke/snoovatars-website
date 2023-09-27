@@ -7,14 +7,16 @@
         </div>
       </NuxtLink>
     </template>
-    <NuxtLink to="/dapps/randomavatarswap" class="w-full max-w-sm">
-      <div class="group tool">
-        <h1 class="text-white text-xl font-semibold">Random Avatar Swap <span class="text-purple-600 font-bold italic">dApp</span></h1>
-        <ArrowPathRoundedSquareIcon class="w-8 h-8 text-neutral-500" />
-        <p class="text-neutral-500 text-sm">This dApp can be used to swap your Reddit Collectible Avatar with another
-          random one from the dApp pool!</p>
-      </div>
-    </NuxtLink>
+    <template v-if="!Capacitor.isNativePlatform()">
+      <NuxtLink to="/dapps/randomavatarswap" class="w-full max-w-sm">
+        <div class="group tool">
+          <h1 class="text-white text-xl font-semibold">Random Avatar Swap <span class="text-purple-600 font-bold italic">dApp</span></h1>
+          <ArrowPathRoundedSquareIcon class="w-8 h-8 text-neutral-500" />
+          <p class="text-neutral-500 text-sm">This dApp can be used to swap your Reddit Collectible Avatar with another
+            random one from the dApp pool!</p>
+        </div>
+      </NuxtLink>
+    </template>
     <NuxtLink to="/avatar" class="w-full max-w-sm">
       <div class="group tool">
         <h1 class="text-white text-xl font-semibold">Avatar Exporter</h1>
@@ -42,6 +44,7 @@
 <script setup lang="ts">
 import {PaintBrushIcon, TagIcon, BellIcon, ArrowPathRoundedSquareIcon} from "@heroicons/vue/24/solid";
 import {useUser} from "#imports";
+import {Capacitor} from "@capacitor/core";
 
 const user = useUser();
 </script>
