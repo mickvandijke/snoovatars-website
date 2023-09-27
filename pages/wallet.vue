@@ -324,11 +324,15 @@ function filterWalletTokensGrouped(walletTokens: Map<string, TokenGrouped>): Map
     return walletTokens;
   }
 
-  let filteredTokens: Map<string, TokenGrouped> = walletTokens;
+  let filteredTokens: Map<string, TokenGrouped> = new Map<string, TokenGrouped>();
 
-  for (const [contractAddress, token] of Object.entries(walletTokens)) {
-    if (!getFreeCollections().includes(contractAddress)) {
-      filteredTokens.delete(contractAddress);
+  console.log(filteredTokens);
+
+  for (const [contractAddress, tokens] of walletTokens) {
+    console.log(contractAddress.slice(0,42));
+
+    if (!getFreeCollections().includes(contractAddress.slice(0,42))) {
+      filteredTokens.set(contractAddress, tokens);
     }
   }
 
