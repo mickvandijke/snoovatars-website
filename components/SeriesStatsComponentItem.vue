@@ -164,6 +164,13 @@
                   <div class="text-white/80">{{ item.stats.daily_volume.toFixed(2) }}</div>
                 </div>
               </template>
+              <template v-else-if="sorting === 'lowestWeeklyVolume' || sorting === 'highestWeeklyVolume'">
+                <span class="text-white/60 font-medium">7d Vol:</span>
+                <div class="flex gap-0.25 items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                  <div class="text-white/80">{{ item.stats.weekly_volume.toFixed(2) }}</div>
+                </div>
+              </template>
               <template v-else>
                 <div class="flex gap-0.5 items-center">
                   <ClockIcon class="text-white/60 w-3 h-3" />

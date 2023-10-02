@@ -51,6 +51,8 @@
         <option value="lowestMarketCap">Sort by Lowest Market Cap</option>
         <option value="highestDailyVolume">Sort by Highest Daily Volume</option>
         <option value="lowestDailyVolume">Sort by Lowest Daily Volume</option>
+        <option value="highestWeeklyVolume">Sort by Highest Weekly Volume</option>
+        <option value="lowestWeeklyVolume">Sort by Lowest Weekly Volume</option>
         <option value="highestVolume">Sort by Highest Total Volume</option>
         <option value="lowestVolume">Sort by Lowest Total Volume</option>
         <option value="highestDailyChange">Sort by Today's Biggest Risers</option>
@@ -570,6 +572,34 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
       sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
         const aVolume = a.stats.daily_volume;
         const bVolume = b.stats.daily_volume;
+
+        if (aVolume > bVolume) {
+          return 1;
+        } else if (aVolume < bVolume) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "highestWeeklyVolume":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aVolume = a.stats.weekly_volume;
+        const bVolume = b.stats.weekly_volume;
+
+        if (aVolume > bVolume) {
+          return -1;
+        } else if (aVolume < bVolume) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      break;
+    case "lowestWeeklyVolume":
+      sortedSeriesStats = filteredSeriesStats.sort((a, b) => {
+        const aVolume = a.stats.weekly_volume;
+        const bVolume = b.stats.weekly_volume;
 
         if (aVolume > bVolume) {
           return 1;

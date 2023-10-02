@@ -32,6 +32,7 @@ export interface SeriesStats {
         two_weekly_average_price: number;
         monthly_average_price: number;
         daily_volume: number;
+        weekly_volume: number;
         five_last_sales_average: number;
         listed_percentage: number;
         eth: {
