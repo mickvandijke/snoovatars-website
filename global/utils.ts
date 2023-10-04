@@ -32,3 +32,7 @@ export function getTokenImage(url: string): string {
 
     return url;
 }
+
+export function nowInSeconds(): number {
+    return Math.floor(Date.now() / 1000);
+}

@@ -11,7 +11,7 @@
           <p class="text-white text-[0.8rem] md:text-[1rem] font-medium max-w-sm sm:max-w-full z-10">Introducing $RCAX. A Polygon based token that can only be mined by burning Avatars 🔥. <span class="inline-flex md:hidden ml-2 w-fit px-1 py-0.5 bg-primary-accent backdrop-blur-lg text-[0.65rem] text-white/60 rounded-lg cursor-pointer">Read More</span></p>
 
           <a href="https://whitepaper.rcax.io/" target="_blank" class="hidden md:block p-3 md:p-4 w-fit bg-white hover:bg-white/90 text-black/90 font-semibold rounded-2xl duration-200 z-10">Whitepaper</a>
-          <div class="absolute left-0 top-0 right-0 bottom-0 bg-[#8247e5] opacity-80 blur-3xl z-0"></div>
+          <div class="absolute left-0 top-0 right-0 bottom-0 bg-[#8247e5]/60 opacity-80 blur-3xl z-0"></div>
         </div>
         <div class="absolute flex items-center justify-end left-0 top-0 bottom-0 right-0 overflow-hidden rounded-lg sm:rounded-2xl z-10">
         </div>
