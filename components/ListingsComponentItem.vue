@@ -37,7 +37,7 @@
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-white/60 font-medium">Date:</span>
-          <div class="text-amber-500">{{ $timeAgo(new Date(item.date_listed)) }} ago</div>
+          <div class="text-orange-500">{{ $timeAgo(new Date(item.date_listed)) }} ago</div>
         </div>
       </div>
     </div>

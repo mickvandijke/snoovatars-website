@@ -12,19 +12,19 @@ function timeAgo(date: Date): string {
     const year = day * 365;
 
     if (diff < minute) {
-        const secs = Math.round(diff / 1000);
+        const secs = Math.floor(diff / 1000);
         return `${secs}${secs === 1 ? 's' : 's'}`;
     } else if (diff < hour) {
-        const mins = Math.round(diff / minute);
+        const mins = Math.floor(diff / minute);
         return `${mins}${mins === 1 ? 'm' : 'm'}`;
     } else if (diff < day) {
-        const hours = Math.round(diff / hour);
+        const hours = Math.floor(diff / hour);
         return `${hours}${hours === 1 ? 'h' : 'h'}`;
     } else if (diff < year) {
-        const days = Math.round(diff / day);
+        const days = Math.floor(diff / day);
         return `${days}${days === 1 ? 'd' : 'd'}`;
     } else {
-        const years = Math.round(diff / year);
+        const years = Math.floor(diff / year);
         return `${years}${years === 1 ? 'y' : 'y'}`;
     }
 }
