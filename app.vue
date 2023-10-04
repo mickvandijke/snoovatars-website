@@ -12,7 +12,7 @@
     </template>
     <AvatarViewer />
     <template v-if="!Capacitor.isNativePlatform()">
-      <AdvertisementBanner class="py-3" />
+      <AdvertisementBanner class="mt-3" />
     </template>
     <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <NuxtPage/>
