@@ -326,11 +326,7 @@ function filterWalletTokensGrouped(walletTokens: Map<string, TokenGrouped>): Map
 
   let filteredTokens: Map<string, TokenGrouped> = new Map<string, TokenGrouped>();
 
-  console.log(filteredTokens);
-
   for (const [contractAddress, tokens] of walletTokens) {
-    console.log(contractAddress.slice(0,42));
-
     if (!getFreeCollections().includes(contractAddress.slice(0,42))) {
       filteredTokens.set(contractAddress, tokens);
     }

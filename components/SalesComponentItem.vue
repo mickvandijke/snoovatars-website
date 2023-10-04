@@ -10,16 +10,16 @@
                 <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="flex items-center group">
                   <template v-if="item.payment_token.symbol === 'ETH'">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                    <div class="flex gap-0.5 font-bold text-white group-hover:text-neutral-300">
+                    <div class="flex gap-0.5 text-white group-hover:text-neutral-300">
                       <span>{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                      <span class="text-white/40">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>)</span>
+                      <span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price) }}</span>
                     </div>
                   </template>
                   <template v-else-if="item.payment_token.symbol === 'MATIC'">
                     <div class="pr-0.5 flex items-center text-orange-500">M</div>
-                    <div class="flex gap-0.5 font-bold text-white group-hover:text-neutral-300">
+                    <div class="flex gap-0.5 text-white group-hover:text-neutral-300">
                       <span>{{ (item.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                      <span class="text-white/40">(<span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price / ethereumPriceMap.get("MATIC")) }}</span>)</span>
+                      <span class="text-amber-500">{{ ethereumInLocalCurrency(item.payment_token.base_price / ethereumPriceMap.get("MATIC")) }}</span>
                     </div>
                   </template>
                 </button>
@@ -28,13 +28,13 @@
           </div>
         </div>
       </div>
-      <div class="flex font-bold text-[0.7rem]">
+      <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-white/60 font-medium">Mint Number:</span>
-          <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-neutral-200 hover:text-neutral-300">#{{ item.token.mint_number }}</button>
+          <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-white/80 hover:text-white">#{{ item.token.mint_number }}</button>
         </div>
       </div>
-      <div class="flex font-bold text-[0.7rem]">
+      <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-white/60 font-medium">Date:</span>
           <div class="text-amber-500">{{ $timeAgo(new Date(item.date_sold)) }} ago</div>

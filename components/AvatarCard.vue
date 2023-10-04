@@ -1,7 +1,7 @@
 <template>
-  <div @click="selectAvatar" ref="componentRef" class="px-2 py-1 sm:p-1 sm:bg-primary-accent border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:border-transparent sm:hover:border-white/20 relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer">
+  <div @click="selectAvatar" ref="componentRef" class="py-1 px-2 md:p-0 bg-primary/80 border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:hover:bg-primary-accent relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer">
     <template v-if="seriesStats">
-      <div class="mx-auto relative flex gap-1 max-w-sm" style="height: 90px">
+      <div class="mx-auto relative flex max-w-md" style="height: 90px">
         <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`) } else { selectAvatar() } }" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
           <template v-if="Capacitor.isNativePlatform()">
             <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="relative w-full h-auto mx-auto" :alt="item.name">
@@ -15,17 +15,20 @@
             </div>
           </template>
           <template v-if="ranking">
-            <div class="px-1 absolute bottom-1 left-1 bg-gray-600 rounded-md">
-              <h1 class="text-[0.65rem] text-white/90 font-semibold rounded-md">#{{ ranking }}</h1>
+            <div class="px-1 absolute bottom-1 left-1 bg-primary-accent-solid/60 rounded-md">
+              <h1 class="text-[0.65rem] text-white font-semibold rounded-md">#{{ ranking }}</h1>
             </div>
           </template>
+          <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-lg" :class="getMintClasses(seriesStats.series.total_quantity)">
+            <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
+          </div>
         </button>
-        <div class="relative pl-1 flex flex-col overflow-hidden" style="width: 81%">
+        <div class="relative pl-2 pr-1 py-0.5 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
             <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-neutral-300 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
-            <div class="relative text-black text-[0.7rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">
-              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
-            </div>
+<!--            <div class="relative text-black text-[0.7rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">-->
+<!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
+<!--            </div>-->
             <div class="ml-auto flex items-center gap-1 font-bold">
               <template v-if="watchList.has(seriesStats.series.name)">
                 <div @click.stop="removeFromWatchList(seriesStats.series.name)" class="flex items-center justify-center cursor-pointer">
@@ -39,7 +42,7 @@
               </template>
             </div>
           </div>
-          <div class="h-full flex flex-col justify-between">
+          <div class="relative h-full flex flex-col justify-between">
             <slot></slot>
           </div>
           <div class="mt-auto flex items-center gap-1">
@@ -72,7 +75,6 @@
               <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-white/40 hover:text-white/60 text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
             </template>
             <div class="ml-auto px-0.5 py-0.25 text-[0.65rem] text-white/40" :key="getGeneration">{{ getGeneration }}</div>
-            <InformationCircleIcon @click.stop="selectAvatar" class="w-5 h-5 text-white/20 cursor-pointer" />
           </div>
         </div>
       </div>

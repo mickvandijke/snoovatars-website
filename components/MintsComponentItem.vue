@@ -7,13 +7,13 @@
           <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-white hover:text-amber-500">#{{ item.token.mint_number }}</button>
         </div>
       </div>
-      <div class="flex font-bold text-[0.7rem]">
+      <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-white/60 font-medium">Minter:</span>
-          <button @click="openLinkWith(`https://opensea.io/${item.minter}`)" class="text-neutral-200 hover:text-amber-500">{{ item.minter.slice(2, 6) }}</button>
+          <button @click="openLinkWith(`https://opensea.io/${item.minter}`)" class="text-white/80 hover:text-white">{{ item.minter.slice(2, 6) }}</button>
         </div>
       </div>
-      <div class="flex font-bold text-[0.7rem]">
+      <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-white/60 font-medium">Date:</span>
           <div class="text-amber-500">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>

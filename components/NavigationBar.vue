@@ -1,19 +1,9 @@
 <template>
-  <div
-      class="navigation-bar flex flex-col bg-primary/80 backdrop-blur-2xl z-40 w-full duration-200"
-      :class="{ 'shadow-md': scrolled >= 24, 'sm:mb-4': scrolled >= 72 }"
-      @mouseleave="closeDropdowns()"
-      ref="navbar"
-  >
-    <nav class="py-2 px-4 sm:px-8 flex w-full items-center gap-3 md:gap-6 duration-200" :class="{ 'sm:py-4': scrolled < 72 }">
+  <div class="navigation-bar flex flex-col border-b border-primary-accent sm:border-primary-border z-40 w-full duration-200" :class="{ 'sm:mb-6': scrolled >= 72 }" @mouseleave="closeDropdowns()" ref="navbar">
+    <nav class="py-2 px-4 sm:px-6 flex w-full items-center gap-3 md:gap-6 duration-200" :class="{ 'sm:py-4': scrolled < 72 }">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
-          <NuxtLink
-              class="text-2xl font-bold text-white lg:text-3xl duration-500"
-              to="/home"
-          >
-            RCA<span class="italic text-amber-500">X</span>
-          </NuxtLink>
+          <NuxtLink class="text-2xl font-bold text-white lg:text-3xl duration-500" to="/home">RCA<span class="italic text-amber-500">X</span></NuxtLink>
         </div>
         <div class="ml-auto flex items-center flex-nowrap gap-0.5">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -30,9 +20,6 @@
       </div>
 
       <ul class="md:ml-auto flex text-white/90 text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
-        <template v-if="!Capacitor.isNativePlatform()">
-          <a href="https://whitepaper.rcax.io/" target="_blank" class="hidden md:block mx-1 px-3 py-1.5 bg-amber-600 text-white hover:text-white rounded-xl duration-500 cursor-pointer shadow-lg shadow-transparent hover:shadow-amber-600/40">RCAX Whitepaper</a>
-        </template>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/">Trading View</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar">Avatar Exporter</NuxtLink>
         <template v-if="!Capacitor.isNativePlatform()">
@@ -91,7 +78,7 @@
 <script setup lang="ts">
 import {Ref} from "@vue/reactivity";
 import {
-  computed, onBeforeMount, onBeforeUnmount,
+  computed, onBeforeMount, onBeforeUnmount, onMounted,
   ref, updateEthereumPrices, useRouter, useSettings,
   useToken,
   useUser,
@@ -115,10 +102,12 @@ const settings = useSettings();
 
 const showMenu: Ref<boolean> = ref(false);
 const userDropDown: Ref<boolean> = ref(false);
-const navbar = ref(null);
-const navbarHeight = ref(0);
+const navbar: Ref<HTMLElement | null> = ref(null);
+const navbarIsStickied = ref(false);
 
-defineExpose({ navbarHeight });
+onMounted(() => {
+  updateNavbarStickiedState();
+});
 
 router.afterEach(() => {
   showMenu.value = false;
@@ -156,13 +145,26 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 
+function updateNavbarStickiedState() {
+  let stickied = false;
+
+  if (navbar.value) {
+    const rect = navbar.value?.getBoundingClientRect();
+
+    stickied = rect.top <= 0;
+  }
+
+  navbarIsStickied.value = stickied;
+}
+
 const scrolled = ref(0);
 
 function handleScroll() {
   // When the user scrolls, check the pageYOffset
   scrolled.value = window.pageYOffset;
-}
 
+  updateNavbarStickiedState();
+}
 </script>
 
 <style>

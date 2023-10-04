@@ -19,7 +19,8 @@ module.exports = {
                 "primary-border": "rgba(255, 255, 255, 0.08)",
                 "primary-accent": "rgba(255, 255, 255, 0.04)",
                 "primary-accent-hover": "rgba(255, 255, 255, 0.1)",
-                "primary-accent-solid": "rgba(34, 37, 40, 1)"
+                "primary-accent-solid": "rgba(34, 37, 40, 1)",
+                "primary-dark": "#131517",
             }
         },
     },

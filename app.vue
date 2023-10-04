@@ -1,18 +1,18 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <template v-if="Capacitor.isNativePlatform()">
-      <div class="sticky top-0 w-full max-w-full z-50">
+      <div class="sticky top-0 bg-primary/80 backdrop-blur-2xl w-full max-w-full z-50">
         <HeaderTop />
         <NavigationBar ref="navbarcomp"/>
       </div>
     </template>
     <template v-else>
       <HeaderTop />
-      <NavigationBar class="sticky top-0" ref="navbarcomp"/>
+      <NavigationBar class="sticky top-0 bg-primary/80 backdrop-blur-2xl" ref="navbarcomp"/>
     </template>
     <AvatarViewer />
     <template v-if="!Capacitor.isNativePlatform()">
-      <AdvertisementBanner />
+      <AdvertisementBanner class="py-3" />
     </template>
     <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
       <NuxtPage/>
@@ -135,12 +135,6 @@ router.afterEach(() => {
   if (token.value) {
     getUser();
   }
-});
-
-const pagePaddingTop = computed(() => {
-  let navbarHeight = navbarcomp.value?.navbarHeight ?? 0;
-
-  return { paddingTop: `${navbarHeight}px` };
 });
 
 function loadGoogleAnalytics() {
