@@ -66,9 +66,10 @@
                 replace
                 to="/signup"
             >
-              Create Account
+              Create account
             </NuxtLink>
           </template>
+          <button>Reset settings</button>
         </UserMenuButton>
       </ul>
     </nav>
@@ -120,6 +121,10 @@ const selectedCurrency = computed(() => {
 watch([selectedCurrency], () => {
   updateEthereumPrices();
 });
+
+function resetSettings() {
+  useSettings().value.link.opener = undefined;
+}
 
 async function deleteAccount() {
   if (!user.value.username) {
