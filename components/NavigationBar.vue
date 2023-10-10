@@ -69,7 +69,7 @@
               Create account
             </NuxtLink>
           </template>
-          <button>Reset settings</button>
+          <button @click="resetSettings()">Reset settings</button>
         </UserMenuButton>
       </ul>
     </nav>
