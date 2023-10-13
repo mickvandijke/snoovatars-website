@@ -2,7 +2,7 @@
   <div v-if="showingBarMarketInfo" class="sm:py-2 border-b border-primary-accent sm:border-primary-border w-full text-xs overflow-hidden" ref="barMarketInfo" :class="{ 'page-mobile-padding-top': Capacitor.isNativePlatform() }">
     <div class="px-4 sm:px-6 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
       <div class="inline-flex gap-2 sm:gap-3">
-        <button @click="openLinkWith(`https://app.1inch.io/#/137/simple/swap/ETH/RCAX`)" class="flex items-center gap-1 text-amber-500 hover:text-amber-400 duration-200">
+        <button @click="openLinkWith(`https://app.1inch.io/#/137/simple/swap/ETH/0xc99bd85ba824de949cf088375225e3fdcdb6696c`)" class="flex items-center gap-1 text-amber-500 hover:text-amber-400 duration-200">
           <span class="text-white/60">RCAX:</span>
           <span class="font-medium">{{ coneInLocalCurrency(rcax) }}</span>
         </button>
