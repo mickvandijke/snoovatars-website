@@ -30,7 +30,7 @@
         </div>
       </div>
       <template v-if="!Capacitor.isNativePlatform()">
-        <a href="https://whitepaper.rcax.io/" target="_blank" class="hidden md:flex gap-1 ml-auto mx-1 px-3 py-1.5 hover:bg-primary-accent border border-amber-500 text-white hover:text-white font-medium rounded-lg duration-200 cursor-pointer">
+        <a href="https://whitepaper.rcax.io/" target="_blank" class="hidden md:flex gap-1 ml-auto mx-1 px-3 py-1.5 text-white/80 hover:text-white font-semibold rounded-lg duration-200 cursor-pointer">
           <span class="text-amber-500">NEW</span>
           <span>RCAX Token Launch!</span>
         </a>
