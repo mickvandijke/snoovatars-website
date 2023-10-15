@@ -23,7 +23,7 @@
             <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
           </div>
         </button>
-        <div class="relative pl-2 pr-1 py-0.5 flex flex-col overflow-hidden" style="width: 81%">
+        <div class="relative pl-2 sm:pr-1 py-0.5 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
             <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-white/80 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
 <!--            <div class="relative text-black text-[0.7rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">-->
