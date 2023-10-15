@@ -29,7 +29,7 @@ import BannerRcaxSponsoring from "~/components/banners/BannerRcaxSponsoring.vue"
 import BannerThe23Club from "~/components/banners/BannerThe23Club.vue";
 import {
   BannersBannerRcaxTokenHalving,
-  BannersBannerRcaxTokenLaunch,
+  BannersBannerRcaxTokenLaunch, BannersBannerRedditAvatarGiveaways,
   BannersBannerRedditAvatarTraders
 } from "#components";
 
@@ -59,6 +59,12 @@ const slides = [
     component: BannersBannerRedditAvatarTraders,
     startDate: new Date('2000-01-01'), // Start date for this slide
     expirationDate: new Date('2025-10-11'),
+  },
+  {
+    key: 'r/redditavatargiveaway',
+    component: BannersBannerRedditAvatarGiveaways,
+    startDate: new Date('2023-10-14'), // Start date for this slide
+    expirationDate: new Date('2023-10-31'),
   },
   {
     key: 'the23club',
