@@ -116,13 +116,13 @@
                 <div class="p-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-primary-border w-full">
                   <div class="p-1 flex items-center justify-start w-full font-bold">
                     <div class="w-10 h-10 relative rounded-full overflow-hidden">
-                      <button @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token`)">
-                        <img src="/images/banners/rcax_icon_banner.png" class="rounded-full">
+                      <button @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)">
+                        <img src="/images/branding/rcax/rcaxIconTransparent.svg" class="rounded-full">
                       </button>
                     </div>
                     <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
                       <button
-                          @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token`)"
+                          @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)"
                           class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
                       >RCAX</button>
                       <span class="text-amber-500 text-[0.8rem]">{{ ((getRcax(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>

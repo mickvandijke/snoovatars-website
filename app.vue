@@ -63,7 +63,7 @@ import FooterSmall from "~/components/FooterSmall.vue";
 
 useHead({
   title: 'Reddit Collectible Avatars prices, statistics, sales and more! | RCAX.io',
-  link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+  link: [{ rel: 'icon', type: 'image/png', href: '/images/branding/rcax/rcaxIconDark.png' }],
   meta: [
     { name: "title", content: "RCAX" },
     { name: 'description', content: 'Reddit Collectible Avatars prices, statistics, sales and more!' },
