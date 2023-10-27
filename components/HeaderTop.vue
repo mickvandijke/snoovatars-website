@@ -2,7 +2,7 @@
   <div v-if="showingBarMarketInfo" class="sm:py-2 border-b border-primary-accent sm:border-primary-border w-full text-xs overflow-hidden" ref="barMarketInfo" :class="{ 'page-mobile-padding-top': Capacitor.isNativePlatform() }">
     <div class="px-4 sm:px-6 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
       <div class="inline-flex gap-2 sm:gap-3">
-        <button @click="openLinkWith(`https://app.1inch.io/#/137/simple/swap/ETH/0xc99bd85ba824de949cf088375225e3fdcdb6696c`)" class="flex items-center gap-1 text-amber-500 hover:text-amber-400 duration-200">
+        <button @click="openLinkWith(`https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d`)" class="flex items-center gap-1 text-amber-500 hover:text-amber-400 duration-200">
           <span class="text-white/60">RCAX:</span>
           <span class="font-medium">{{ coneInLocalCurrency(rcax) }}</span>
         </button>
@@ -41,15 +41,23 @@
 
 <script setup lang="ts">
 import {
-  computed, onMounted,
-  ref, updateEthereumPrices, updateMarketInfo, useEthereumPriceMap, useRcaxEthPrice, useRouter, useSettings,
-  useToken, useTotalDailyVolume, useTotalMarketCap,
+  computed,
+  onMounted,
+  ref,
+  updateEthereumPrices,
+  updateMarketInfo,
+  useEthereumPriceMap,
+  useRcaxEthPrice,
+  useRouter,
+  useSettings,
+  useToken,
+  useTotalDailyVolume,
+  useTotalMarketCap,
   useUser,
   watch
 } from "#imports";
 import {useConeEthPrice} from "~/composables/states";
 import {ethereumInLocalCurrency, coneInLocalCurrency} from "#imports";
-import {ComputedRef} from "vue";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
 import {Capacitor} from "@capacitor/core";
 

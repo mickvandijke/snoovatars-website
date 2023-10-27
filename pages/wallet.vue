@@ -113,11 +113,11 @@
                 </div>
               </div>
               <template v-if="!isCollapsed(walletAddress)">
-                <div class="p-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-primary-border w-full">
+                <div class="p-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-primary-border w-full">
                   <div class="p-1 flex items-center justify-start w-full font-bold">
                     <div class="w-10 h-10 relative rounded-full overflow-hidden">
                       <button @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)">
-                        <img src="/images/branding/rcax/rcaxIconTransparent.svg" class="rounded-full">
+                        <img src="/images/branding/rcax/rcaxIcon.svg" class="rounded-full">
                       </button>
                     </div>
                     <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
@@ -125,16 +125,56 @@
                           @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)"
                           class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
                       >RCAX</button>
-                      <span class="text-amber-500 text-[0.8rem]">{{ ((getRcax(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
+                      <span class="text-amber-500 text-[0.8rem]">{{
+                          ((getRcax(walletAddress) ?? 0) / 1000000000000000000).toLocaleString()
+                        }}</span>
+                    </div>
+                    <div @click="openLinkWith(`https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d`)" class="ml-auto flex flex-col items-end text-[0.8rem] cursor-pointer">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                        <div class="text-white">{{
+                            rcaxToEth((getRcax(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '')
+                          }}</div>
+                        <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{
+                            ethereumInLocalCurrency(rcaxToEth((getRcax(walletAddress) ?? 0)))
+                          }}</span>)</div>
+                      </div>
+                      <div class="flex items-center">
+                        <div class="ml-1 text-white/40"> (<span class="text-white/70">{{
+                            coneInLocalCurrency(rcaxEthPrice)
+                          }}</span>)</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-1 flex items-center justify-start w-full font-bold">
+                    <div class="w-10 h-10 relative rounded-full overflow-hidden">
+                      <button @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)">
+                        <img src="/images/branding/rcax/rcaxAppIcon.png">
+                      </button>
+                    </div>
+                    <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
+                      <button
+                          @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)"
+                          class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
+                      >RCAX Classic</button>
+                      <span class="text-amber-500 text-[0.8rem]">{{
+                          ((getRcaxClassic(walletAddress) ?? 0) / 1000000000000000000).toLocaleString()
+                        }}</span>
                     </div>
                     <div @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xc99bd85ba824de949cf088375225e3fdcdb6696c&swapIndex=0`)" class="ml-auto flex flex-col items-end text-[0.8rem] cursor-pointer">
                       <div class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-white">{{ rcaxToEth((getRcax(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                        <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(rcaxToEth((getRcax(walletAddress) ?? 0))) }}</span>)</div>
+                        <div class="text-white">{{
+                            rcaxToEth((getRcaxClassic(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '')
+                          }}</div>
+                        <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{
+                            ethereumInLocalCurrency(rcaxToEth((getRcaxClassic(walletAddress) ?? 0)))
+                          }}</span>)</div>
                       </div>
                       <div class="flex items-center">
-                        <div class="ml-1 text-white/40"> (<span class="text-white/70">{{ coneInLocalCurrency(rcaxEthPrice) }}</span>)</div>
+                        <div class="ml-1 text-white/40"> (<span class="text-white/70">{{
+                            coneInLocalCurrency(rcaxClassicEthPrice)
+                          }}</span>)</div>
                       </div>
                     </div>
                   </div>
@@ -271,7 +311,13 @@ import {
   updateSeriesStats,
   getSeriesStats,
   useWalletAddresses,
-  useConeEthPrice, updateEthereumPrices, updateMarketInfo, useSettings, useSelectedAvatar, useRcaxEthPrice
+  useConeEthPrice,
+  updateEthereumPrices,
+  updateMarketInfo,
+  useSettings,
+  useSelectedAvatar,
+  useRcaxClassicEthPrice,
+  useRcaxEthPrice
 } from "~/composables/states";
 import {getLowestListingAsGweiPrice, onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
@@ -291,6 +337,7 @@ import {rcaxToEth} from "~/composables/api/rcax";
 
 const walletAddresses = useWalletAddresses();
 const rcaxEthPrice = useRcaxEthPrice();
+const rcaxClassicEthPrice = useRcaxClassicEthPrice();
 const cone = useConeEthPrice();
 const settings = useSettings();
 const selectedAvatar = useSelectedAvatar();
@@ -299,6 +346,7 @@ const walletAddress = ref<string>("");
 const tokens: Ref<Map<string, Token[]>> = ref(new Map());
 const tokensCount: Ref<Map<string, Map<string, TokenGrouped>>> = ref(new Map());
 const rcax: Ref<Map<string, number>> = ref(new Map());
+const rcaxClassic: Ref<Map<string, number>> = ref(new Map());
 const weth: Ref<Map<string, number>> = ref(new Map());
 const cones: Ref<Map<string, number>> = ref(new Map());
 const loading = ref(false);
@@ -418,10 +466,12 @@ async function getWalletTokens(wallet: string) {
 
         tokens.value.set(firstWalletAddress, firstWalletValue);
         rcax.value.set(firstWalletAddress, 0);
+        rcaxClassic.value.set(firstWalletAddress, 0);
         cones.value.set(firstWalletAddress, data.cones);
         weth.value.set(firstWalletAddress, data.weth ?? 0);
 
         getRcaxBalance(firstWalletAddress);
+        getRcaxClassicBalance(firstWalletAddress);
         getConeBalance(firstWalletAddress);
         getWethBalance(firstWalletAddress);
 
@@ -438,11 +488,28 @@ async function getWalletTokens(wallet: string) {
 async function getRcaxBalance(wallet: string) {
   loading.value = true;
 
-  const RCAX_TOKEN_ADDRESS = "0xC99BD85BA824De949cf088375225E3FdCDB6696C";
+  const RCAX_TOKEN_ADDRESS = "0x875f123220024368968d9f1ab1f3f9c2f3fd190d";
 
   await fetchWalletTokenBalance(RCAX_TOKEN_ADDRESS, wallet)
       .then((data) => {
         rcax.value.set(wallet, data);
+      })
+      .catch((err) => {
+        loading.value = false;
+        alert(err);
+      });
+
+  loading.value = false;
+}
+
+async function getRcaxClassicBalance(wallet: string) {
+  loading.value = true;
+
+  const RCAX_TOKEN_ADDRESS = "0xC99BD85BA824De949cf088375225E3FdCDB6696C";
+
+  await fetchWalletTokenBalance(RCAX_TOKEN_ADDRESS, wallet)
+      .then((data) => {
+        rcaxClassic.value.set(wallet, data);
       })
       .catch((err) => {
         loading.value = false;
@@ -488,6 +555,10 @@ async function getWethBalance(wallet: string) {
 
 function getRcax(wallet: string) {
   return rcax.value.get(wallet);
+}
+
+function getRcaxClassic(wallet: string) {
+  return rcaxClassic.value.get(wallet);
 }
 
 function getCones(wallet: string) {
