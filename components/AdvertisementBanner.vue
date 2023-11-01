@@ -28,6 +28,7 @@ import BannerArconeGames from "~/components/banners/BannerArconeGames.vue";
 import BannerRcaxSponsoring from "~/components/banners/BannerRcaxSponsoring.vue";
 import BannerThe23Club from "~/components/banners/BannerThe23Club.vue";
 import {
+  BannersBannerRcaxMarketplaceBeta,
   BannersBannerRcaxTokenHalving,
   BannersBannerRcaxTokenLaunch, BannersBannerRedditAvatarGiveaways,
   BannersBannerRedditAvatarTraders
@@ -41,6 +42,12 @@ const slides = [
     component: BannerRcaxSponsoring,
     startDate: new Date('2000-01-01'), // Start date for this slide
     expirationDate: new Date('2025-09-23'),
+  },
+  {
+    key: 'rcax marketplace beta',
+    component: BannersBannerRcaxMarketplaceBeta,
+    startDate: new Date('2000-01-01'), // Start date for this slide
+    expirationDate: new Date('2025-08-22'),
   },
   {
     key: 'rcax token launch',
