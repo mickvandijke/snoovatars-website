@@ -32,11 +32,13 @@
             </div>
           </div>
 
-          <template v-if="rcaxClassicAllowance < rcaxClassicBalance">
-            <ButtonLoading @click="setRcaxClassicAllowance(RCAX_TOKEN_ADDRESS, rcaxClassicBalance)" :disabled="waitingForTransaction" :is-loading="waitingForTransaction">Approve to convert tokens</ButtonLoading>
-          </template>
-          <template v-else>
-            <ButtonLoading @click="convertClassicTokens(rcaxClassicBalance)" :disabled="waitingForTransaction" :is-loading="waitingForTransaction">Convert classic tokens</ButtonLoading>
+          <template v-if="rcaxClassicBalance > 0">
+            <template v-if="rcaxClassicAllowance < rcaxClassicBalance">
+              <ButtonLoading @click="setRcaxClassicAllowance(RCAX_TOKEN_ADDRESS, rcaxClassicBalance)" :disabled="waitingForTransaction" :is-loading="waitingForTransaction">Approve to convert tokens</ButtonLoading>
+            </template>
+            <template v-else>
+              <ButtonLoading @click="convertClassicTokens(rcaxClassicBalance)" :disabled="waitingForTransaction" :is-loading="waitingForTransaction">Convert classic tokens</ButtonLoading>
+            </template>
           </template>
         </div>
       </template>
