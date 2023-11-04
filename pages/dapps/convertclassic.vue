@@ -10,12 +10,12 @@
       </template>
       <template v-else>
         <div class="flex flex-col gap-3 w-full">
-          <div class="p-4 flex bg-black/20 text-white/60 w-full rounded-2xl">
-            <div class="flex gap-2">
+          <div class="flex items-center gap-3 text-white/60 w-full">
+            <div class="p-4 flex gap-2 bg-black/20 rounded-2xl w-full">
               <span>Connected Wallet:</span>
               <span class="text-amber-500">{{ connectedWallet.slice(0, 8) }}</span>
             </div>
-            <RefreshButton :action="refresh" :refreshing="isRefreshing" class="ml-auto" />
+            <RefreshButton :action="refresh" :refreshing="isRefreshing" />
           </div>
 
           <div class="flex flex-col sm:flex-row items-center gap-3 text-white/60 w-full">
