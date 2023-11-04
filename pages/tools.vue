@@ -16,6 +16,13 @@
             random one from the dApp pool!</p>
         </div>
       </NuxtLink>
+      <NuxtLink to="/dapps/convertclassic" class="w-full max-w-sm">
+        <div class="group tool">
+          <h1 class="text-white text-xl font-semibold">Convert Classic Tokens <span class="text-purple-600 font-bold italic">dApp</span></h1>
+          <ArrowPathRoundedSquareIcon class="w-8 h-8 text-neutral-500" />
+          <p class="text-neutral-500 text-sm">Easily convert your RCAX Classic tokens to RCAX (V2).</p>
+        </div>
+      </NuxtLink>
     </template>
     <NuxtLink to="/avatar" class="w-full max-w-sm">
       <div class="group tool">

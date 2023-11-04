@@ -215,7 +215,7 @@
 <script setup lang="ts">
 import {computed, getSeriesStats, markRaw, onMounted, ref, updateSeriesStats, watch} from "#imports";
 import {ethers, Signer} from "ethers";
-import rcaxAbi from "~/assets/dapps/rcaxtoken/abi.json"
+import rcaxAbi from "~/assets/dapps/rcaxclassic/abi.json"
 import dappAbi from "~/assets/dapps/avatarswap/abi.json";
 import {useRuntimeConfig} from "#app";
 import {Raw, Ref} from "@vue/reactivity";

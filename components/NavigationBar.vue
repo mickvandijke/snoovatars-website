@@ -32,6 +32,9 @@
               <NuxtLink replace to="/dapps/randomavatarswap">
                 Random Avatar Swap
               </NuxtLink>
+              <NuxtLink replace to="/dapps/convertclassic">
+                Convert RCAX Classic to V2
+              </NuxtLink>
             </template>
           </DropDownMenu>
         </template>
