@@ -54,6 +54,7 @@ import rcaxClassicAbi from "~/assets/dapps/rcaxclassic/abi.json";
 import {useRuntimeConfig} from "#app";
 import {Raw, Ref} from "@vue/reactivity";
 import detectEthereumProvider from "@metamask/detect-provider";
+import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
 
 const RCAX_CLASSIC_ADDRESS = "0xC99BD85BA824De949cf088375225E3FdCDB6696C";
 const RCAX_TOKEN_ADDRESS = "0x875f123220024368968d9f1aB1f3F9C2f3fd190d";
@@ -204,6 +205,13 @@ const setRcaxClassicAllowance = async (spender: string, amount: bigint) => {
     await checkRequestPolygonChain();
 
     waitingForTransaction.value = true;
+
+    console.log(amount.toString());
+
+    // Give a little extra room of 1 token to avoid rounding problems
+    amount = BigInt(amount) + BigInt(ETH_TO_GWEI_MODIFIER);
+
+    console.log(amount.toString());
 
     try {
       let tx = await connectedRcaxClassicContract.approve(spender, amount);
