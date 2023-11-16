@@ -1,22 +1,24 @@
 <template>
-  <div @click="selectAvatar" ref="componentRef" class="py-1 px-2 md:p-0 sm:bg-primary-accent-solid sm:hover:bg-white/10 border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:hover:border-white/20 relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer">
+  <div @click="selectAvatar" ref="componentRef" class="py-1 px-2 md:p-0 sm:bg-primary-accent-solid sm:hover:bg-white/10 border-dashed border-t last:border-b sm:border sm:border-primary-accent-solid sm:border-solid border-primary-border relative flex flex-col gap-1 w-full sm:rounded-md overflow-hidden cursor-pointer">
     <template v-if="seriesStats">
       <div class="mx-auto relative flex max-w-md" style="height: 90px">
-        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats?.collection.contract_address}?attributes[Series]=${seriesStats?.series.name}`) } else { selectAvatar() } }" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
-          <template v-if="Capacitor.isNativePlatform()">
-            <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="relative w-full h-auto mx-auto" :alt="item.name">
-          </template>
-          <template v-else>
-            <img :src="getTokenImage(item.image)" :key="item.image" class="relative w-full h-auto mx-auto" :alt="item.name">
-          </template>
+        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats?.collection.contract_address}?attributes[Series]=${seriesStats?.series.name}`) } else { selectAvatar() } }" class="p-1 relative flex items-center overflow-hidden" style="width: 19%">
+          <div class="relative w-full h-auto mx-auto rounded-lg overflow-hidden">
+            <template v-if="Capacitor.isNativePlatform()">
+              <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="object-cover" :alt="item.name">
+            </template>
+            <template v-else>
+              <img :src="getTokenImage(item.image)" :key="item.image" class="object-cover" :alt="item.name">
+            </template>
+          </div>
           <template v-if="Capacitor.getPlatform() !== 'ios'">
-            <div class="absolute top-1 right-1 w-4 h-4 rounded-full">
+            <div class="absolute top-0.5 right-0 w-4 h-4 rounded-full">
               <img src="/images/branding/rcax/rcaxIcon.svg" />
             </div>
           </template>
           <template v-if="ranking">
-            <div class="px-1 absolute bottom-1 left-1 bg-primary-accent-solid/60 rounded-md">
-              <h1 class="text-[0.65rem] text-white font-semibold rounded-md">#{{ ranking }}</h1>
+            <div class="absolute bottom-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium rounded-tr-lg">
+              <h1 class="text-white/60 rounded-md">#{{ ranking }}</h1>
             </div>
           </template>
           <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-lg" :class="getMintClasses(seriesStats.series.total_quantity)">
@@ -25,7 +27,7 @@
         </button>
         <div class="relative pl-2 sm:pr-1 py-0.5 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
-            <button @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}?attributes[Series]=${seriesStats.series.name.replace(' ', '+')}`)" class="text-white hover:text-white/80 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <button @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}?attributes[Series]=${seriesStats.series.name.replace(' ', '+')}`)" class="text-white hover:text-white/80 font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
 <!--            <div class="relative text-black text-[0.7rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">-->
 <!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
 <!--            </div>-->
