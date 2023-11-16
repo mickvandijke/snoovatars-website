@@ -11,7 +11,7 @@
           </template>
           <template v-if="Capacitor.getPlatform() !== 'ios'">
             <div class="absolute top-1 right-1 w-4 h-4 rounded-full">
-              <OpenseaIcon />
+              <img src="/images/branding/rcax/rcaxIcon.svg" />
             </div>
           </template>
           <template v-if="ranking">
