@@ -17,11 +17,11 @@
 <!--            </div>-->
 <!--          </template>-->
           <template v-if="ranking">
-            <div class="absolute bottom-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium rounded-tr-lg">
+            <div class="absolute bottom-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium rounded-tr-md">
               <h1 class="text-white/60 rounded-md">#{{ ranking }}</h1>
             </div>
           </template>
-          <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-lg shadow" :class="getMintClasses(seriesStats.series.total_quantity)">
+          <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-md shadow" :class="getMintClasses(seriesStats.series.total_quantity)">
             <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
           </div>
         </button>
@@ -152,7 +152,7 @@ function getMintClasses(totalQuantity: number) {
   } else if (totalQuantity <= 777) {
     return ["text-gray-300"];
   } else {
-    return ["text-white/60"];
+    return ["text-orange-600"];
   }
 }
 </script>
