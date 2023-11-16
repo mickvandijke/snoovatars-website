@@ -11,11 +11,11 @@
               <img :src="getTokenImage(item.image)" :key="item.image" class="object-cover" :alt="item.name">
             </template>
           </div>
-          <template v-if="Capacitor.getPlatform() !== 'ios'">
-            <div class="absolute top-0.5 right-0 w-4 h-4 rounded-full">
-              <img src="/images/branding/rcax/rcaxIcon.svg" />
-            </div>
-          </template>
+<!--          <template v-if="Capacitor.getPlatform() !== 'ios'">-->
+<!--            <div class="absolute top-0.5 right-0 w-4 h-4 rounded-full">-->
+<!--              <img src="/images/branding/rcax/rcaxIcon.svg" />-->
+<!--            </div>-->
+<!--          </template>-->
           <template v-if="ranking">
             <div class="absolute bottom-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium rounded-tr-lg">
               <h1 class="text-white/60 rounded-md">#{{ ranking }}</h1>
