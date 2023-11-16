@@ -93,8 +93,8 @@
             <div class="bg-primary-accent sm:border border-primary-border flex flex-col items-center overflow-hidden w-full rounded-2xl">
               <div class="p-2 flex gap-2 w-full rounded">
                 <div class="pl-2 flex items-center overflow-hidden">
-                  <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="hidden md:block p-2 text-white/40 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
-                  <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="md:hidden text-white/40 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</button>
+                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="hidden md:block p-2 text-white/40 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
+                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="md:hidden text-white/40 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</button>
                 </div>
                 <div class="flex gap-2">
                   <button @click="removeWallet(walletAddress)" class="px-1 py-1 text-white font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
@@ -234,7 +234,7 @@
                     <template v-for="series in sortedWalletTokensGrouped(filterWalletTokensGrouped(tokensCount.get(walletAddress)))">
                       <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                         <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                          <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(series.contract_address, series.name)?.collection.slug}?search[query]=${series.name}`)" class="cursor-pointer">
+                          <a @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${series.contract_address}?attributes[Series]=${series.name.replace(' ', '+')}`)" class="cursor-pointer">
                             <template v-if="Capacitor.isNativePlatform()">
                               <img v-lazy-pix="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" src="/img/rcax_placeholder.png" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                             </template>
@@ -266,7 +266,7 @@
                     <template v-for="token in sortedTokens(filterWalletTokens(walletTokens))">
                       <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                         <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                          <a @click.stop="openLinkWith(`https://opensea.io/collection/${getSeriesStats(token.contract_address, token.name)?.collection.slug}?search[query]=${token.name}`)" class="cursor-pointer">
+                          <a @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${token.contract_address}?attributes[Series]=${token.name.replace(' ', '+')}`)" class="cursor-pointer">
                             <template v-if="Capacitor.isNativePlatform()">
                               <img v-lazy-pix="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" src="/img/rcax_placeholder.png" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                             </template>

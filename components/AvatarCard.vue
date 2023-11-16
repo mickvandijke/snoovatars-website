@@ -2,7 +2,7 @@
   <div @click="selectAvatar" ref="componentRef" class="py-1 px-2 md:p-0 sm:bg-primary-accent-solid sm:hover:bg-white/10 border-dashed border-t last:border-b sm:border sm:border-solid border-primary-border sm:hover:border-white/20 relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer">
     <template v-if="seriesStats">
       <div class="mx-auto relative flex max-w-md" style="height: 90px">
-        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}?search[query]=${seriesStats?.series.name}`) } else { selectAvatar() } }" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
+        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats?.collection.contract_address}?attributes[Series]=${seriesStats?.series.name}`) } else { selectAvatar() } }" class="relative rounded-lg flex items-center overflow-hidden" style="width: 19%">
           <template v-if="Capacitor.isNativePlatform()">
             <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="relative w-full h-auto mx-auto" :alt="item.name">
           </template>
@@ -25,7 +25,7 @@
         </button>
         <div class="relative pl-2 sm:pr-1 py-0.5 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
-            <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white hover:text-white/80 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <button @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}?attributes[Series]=${seriesStats.series.name.replace(' ', '+')}`)" class="text-white hover:text-white/80 font-bold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
 <!--            <div class="relative text-black text-[0.7rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">-->
 <!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
 <!--            </div>-->
@@ -48,7 +48,7 @@
           <div class="mt-auto flex items-center gap-1">
             <template v-if="!hideFloor && false">
               <template v-if="seriesStats.stats.lowest_listing">
-                <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
+                <button @click.stop="openLinkWith(`https://marketplace.rcax.io/asset/${seriesStats.stats.lowest_listing.token.contract_address}:${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="flex gap-0.5 font-bold text-neutral-400">
                     <span>{{ (seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
@@ -72,7 +72,7 @@
                   FREE
                 </template>
               </div>
-              <button @click.stop="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}`)" class="text-white/40 hover:text-white/60 text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
+              <button @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}`)" class="text-white/40 hover:text-white/60 text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
             </template>
             <div class="ml-auto px-0.5 py-0.25 text-[0.65rem] text-white/40" :key="getGeneration">{{ getGeneration }}</div>
           </div>

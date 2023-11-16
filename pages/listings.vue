@@ -47,7 +47,7 @@
             <template v-for="(listing, index) in slicedListings" :key="index">
               <tr class="border-b border-primary-border hover:bg-primary-accent-hover text-white/80 text-xs">
                 <td class="relative px-2 py-1 flex gap-2">
-                  <button @click="openLinkWith(`https://opensea.io/collection/${listing.stats?.collection.slug}?search[query]=${listing.listing.token.name}`)">
+                  <button @click="openLinkWith(`https://marketplace.rcax.io/collection/${listing.listing.token.contract_address}?attributes[Series]=${listing.listing.token.name.replace(' ', '+')}`)">
                     <div class="relative rounded-md w-6 h-6 flex items-center overflow-hidden">
                       <img :src="getTokenImage(listing.stats.series.image)" :key="listing.stats.series.image" class="object-cover" :alt="listing.stats.series.name">
                     </div>
@@ -56,16 +56,16 @@
                 </td>
                 <td class="px-2 py-1">{{ listing.stats?.series.total_sold }}</td>
                 <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                  <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.listing.token.contract_address}/${listing.listing.token.id}`)">
+                  <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${listing.listing.token.contract_address}:${listing.listing.token.id}`)">
                     <span>{{ (listing.listing.payment_token.base_price / 1000000000000000000).toFixed(6).replace(/\.?0+$/, '') }} {{ listing.listing.payment_token.symbol }}</span>
                     <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getListingAsGweiPrice(listing.listing)) }}</span>)</span>
                   </button>
                 </td>
                 <td class="px-2 py-1">
-                  <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.listing.token.contract_address}/${listing.listing.token.id}`)" class="text-amber-500">#{{ listing.listing.token.mint_number }}</button>
+                  <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${listing.listing.token.contract_address}:${listing.listing.token.id}`)" class="text-amber-500">#{{ listing.listing.token.mint_number }}</button>
                 </td>
                 <td class="px-2 py-1">
-                  <button @click="openLinkWith(`https://opensea.io/${listing.listing.maker_address}`)" class="text-amber-500">{{ listing.listing.maker_address.slice(2, 5) }}</button>
+                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${listing.listing.maker_address}`)" class="text-amber-500">{{ listing.listing.maker_address.slice(2, 5) }}</button>
                 </td>
                 <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.listing.date_listed)) }} ago</td>
               </tr>

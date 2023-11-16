@@ -42,13 +42,13 @@
                 <div class="flex items-center gap-1">
                   <div class="text-white/40">Name:</div>
                   <div class="flex gap-0.5 items-center">
-                    <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`)" class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+                    <button @click="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}?attributes[Series]=${seriesStats.series.name}`)" class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
                   <div class="text-white/40">Collection:</div>
                   <div class="flex gap-0.5 items-center overflow-hidden w-full truncate">
-                    <button @click="openLinkWith(`https://opensea.io/collection/${seriesStats?.collection.slug}`)" class="text-white">{{ seriesStats.collection.name.replace("x Reddit Collectible Avatars", "") }}</button>
+                    <button @click="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats?.collection.contract_address}`)" class="text-white">{{ seriesStats.collection.name.replace("x Reddit Collectible Avatars", "") }}</button>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
@@ -196,10 +196,10 @@
                             </template>
                           </td>
                           <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
+                            <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${listing.token.contract_address}:${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
                           </td>
                           <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://opensea.io/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
+                            <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
                           </td>
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.date_listed)) }}</td>
                         </tr>
@@ -254,10 +254,10 @@
                             </template>
                           </td>
                           <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`)" class="text-amber-500">#{{ sale.token.mint_number }}</button>
+                            <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${sale.token.contract_address}:${sale.token.id}`)" class="text-amber-500">#{{ sale.token.mint_number }}</button>
                           </td>
                           <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://opensea.io/${sale.buyer}`)" class="text-amber-500">{{ sale.buyer.slice(2, 5) }}</button>
+                            <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${sale.buyer}`)" class="text-amber-500">{{ sale.buyer.slice(2, 5) }}</button>
                           </td>
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }}</td>
                         </tr>

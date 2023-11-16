@@ -109,7 +109,7 @@
                     <span class="text-white/40">#{{ index + 1 + (pageSize * (itemsCurrentPage - 1)) }}</span>
                   </td>
                   <td class="table--cell flex items-center gap-2">
-                    <button @click="openLinkWith(`https://opensea.io/collection/${item.collection.slug}?search[query]=${item.series.name}`)">
+                    <button @click="openLinkWith(`https://marketplace.rcax.io/collection/${item.collection.contract_address}?attributes[Series]=${item.series.name.replace(' ', '+')}`)">
                       <div class="relative rounded-md w-6 h-6 flex items-center overflow-hidden">
                         <img :src="getTokenImage(item.series.image)" :key="item.series.image" class="object-cover" :alt="item.series.name">
                       </div>
@@ -120,7 +120,7 @@
                   <td class="table--cell">
                     <template v-if="listing">
                       <div class="flex items-center justify-start gap-0.5">
-                        <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${getLowestListing(item).token.contract_address}/${getLowestListing(item).token.id}`)" class="flex items-center group">
+                        <button @click.stop="openLinkWith(`https://marketplace.rcax.io/asset/${getLowestListing(item).token.contract_address}:${getLowestListing(item).token.id}`)" class="flex items-center group">
                           <template v-if="listing.payment_token.symbol === 'ETH'">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                             <div class="flex gap-1">
