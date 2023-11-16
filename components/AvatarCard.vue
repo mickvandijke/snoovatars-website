@@ -1,9 +1,9 @@
 <template>
-  <div @click="selectAvatar" ref="componentRef" class="py-1 px-2 md:p-0 sm:bg-primary-accent-solid sm:hover:bg-white/10 border-dashed border-t last:border-b sm:border sm:border-primary-accent-solid sm:border-solid border-primary-border relative flex flex-col gap-1 w-full sm:rounded-md overflow-hidden cursor-pointer">
+  <div @click="selectAvatar" ref="componentRef" class="py-1 px-2 md:p-0 sm:bg-primary-accent-solid sm:hover:bg-white/5 border-dashed border-t last:border-b sm:border sm:border-primary-accent-solid sm:border-solid border-primary-border relative flex flex-col gap-1 w-full sm:rounded-md overflow-hidden cursor-pointer duration-300">
     <template v-if="seriesStats">
       <div class="mx-auto relative flex max-w-md" style="height: 90px">
         <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats?.collection.contract_address}?attributes[Series]=${seriesStats?.series.name}`) } else { selectAvatar() } }" class="p-1 relative flex items-center overflow-hidden" style="width: 19%">
-          <div class="relative w-full h-auto mx-auto rounded-lg overflow-hidden">
+          <div class="relative w-full h-auto mx-auto rounded-lg shadow-md overflow-hidden">
             <template v-if="Capacitor.isNativePlatform()">
               <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="object-cover" :alt="item.name">
             </template>
@@ -21,7 +21,7 @@
               <h1 class="text-white/60 rounded-md">#{{ ranking }}</h1>
             </div>
           </template>
-          <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-lg" :class="getMintClasses(seriesStats.series.total_quantity)">
+          <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-lg shadow" :class="getMintClasses(seriesStats.series.total_quantity)">
             <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
           </div>
         </button>
@@ -66,7 +66,7 @@
               </template>
             </template>
             <template v-else>
-              <div class="text-[0.65rem] font-medium" :class="{ 'text-green-500/90': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-500/90': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
+              <div class="text-[0.65rem] font-semibold" :class="{ 'text-green-500/60': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-500/60': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
                 <template v-if="seriesStats && seriesStats.series.mint_price > 0">
                   ${{ seriesStats.series.mint_price / 100.00 }}
                 </template>
