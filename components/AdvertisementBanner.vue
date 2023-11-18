@@ -28,6 +28,7 @@ import BannerArconeGames from "~/components/banners/BannerArconeGames.vue";
 import BannerRcaxSponsoring from "~/components/banners/BannerRcaxSponsoring.vue";
 import BannerThe23Club from "~/components/banners/BannerThe23Club.vue";
 import {
+  BannersBannerConeHeads,
   BannersBannerRcaxMarketplaceBeta,
   BannersBannerRcaxTokenHalving,
   BannersBannerRcaxTokenLaunch, BannersBannerRedditAvatarGiveaways,
@@ -38,22 +39,28 @@ const isBannerClosed = ref(false);
 
 const slides = [
   {
+    key: 'r/ConeHeads banner',
+    component: BannersBannerConeHeads,
+    startDate: new Date('2023-11-18'), // Start date for this slide
+    expirationDate: new Date('2023-11-27'),
+  },
+  {
     key: 'rcax banner',
     component: BannerRcaxSponsoring,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2025-09-23'),
+    expirationDate: new Date('2000-09-23'),
   },
   {
     key: 'rcax marketplace beta',
     component: BannersBannerRcaxMarketplaceBeta,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2025-08-22'),
+    expirationDate: new Date('2000-08-22'),
   },
   {
     key: 'rcax token launch',
     component: BannersBannerRcaxTokenLaunch,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2025-08-22'),
+    expirationDate: new Date('2000-08-22'),
   },
   {
     key: 'rcax token halving',
@@ -65,7 +72,7 @@ const slides = [
     key: 'r/redditavatartraders',
     component: BannersBannerRedditAvatarTraders,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2025-10-11'),
+    expirationDate: new Date('2000-10-11'),
   },
   {
     key: 'r/redditavatargiveaway',
