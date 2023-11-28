@@ -48,19 +48,19 @@ const slides = [
     key: 'rcax banner',
     component: BannerRcaxSponsoring,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2000-09-23'),
+    expirationDate: new Date('3000-09-23'),
   },
   {
     key: 'rcax marketplace beta',
     component: BannersBannerRcaxMarketplaceBeta,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2000-08-22'),
+    expirationDate: new Date('3000-08-22'),
   },
   {
     key: 'rcax token launch',
     component: BannersBannerRcaxTokenLaunch,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2000-08-22'),
+    expirationDate: new Date('3000-08-22'),
   },
   {
     key: 'rcax token halving',
@@ -72,7 +72,7 @@ const slides = [
     key: 'r/redditavatartraders',
     component: BannersBannerRedditAvatarTraders,
     startDate: new Date('2000-01-01'), // Start date for this slide
-    expirationDate: new Date('2000-10-11'),
+    expirationDate: new Date('3000-10-11'),
   },
   {
     key: 'r/redditavatargiveaway',
@@ -120,6 +120,10 @@ const shuffledSlides = computed(() => {
 
 const isBannerShowing: ComputedRef<boolean> = computed(() => {
   if (Capacitor.isNativePlatform()) {
+    return false;
+  }
+
+  if (shuffledSlides.value.length < 1) {
     return false;
   }
 
