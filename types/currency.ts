@@ -21,5 +21,6 @@ export const CURRENCIES: Array<Currency> = [
     { name: "Philippine Peso", ticker: "PHP" },
     { name: "South Korean Won", ticker: "KRW" },
     { name: "Swedish Krona", ticker: "SEK" },
-    { name: "Norwegian Krone", ticker: "NOK" }
+    { name: "Norwegian Krone", ticker: "NOK" },
+    { name: "New Zealand Dollar", ticker: "NZD" },
 ];
