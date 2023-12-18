@@ -109,7 +109,7 @@
                     <span class="text-white/40">#{{ index + 1 + (pageSize * (itemsCurrentPage - 1)) }}</span>
                   </td>
                   <td class="table--cell flex items-center gap-2">
-                    <button @click="openLinkWith(`https://marketplace.rcax.io/collection/${item.collection.contract_address}?attributes[Series]=${item.series.name.replace(' ', '+')}`)">
+                    <button @click="openLinkWith(marketplaceLink(item))">
                       <div class="relative rounded-md w-6 h-6 flex items-center overflow-hidden">
                         <img :src="getTokenImage(item.series.image)" :key="item.series.image" class="object-cover" :alt="item.series.name">
                       </div>
@@ -252,6 +252,7 @@ import {getTokenImage} from "~/global/utils";
 import {openLinkWith} from "~/composables/states";
 import {ethereumInLocalCurrency} from "#imports";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
+import {marketplaceLink} from "~/global/marketplace";
 
 const router = useRouter();
 const route = useRoute();

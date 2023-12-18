@@ -42,13 +42,13 @@
                 <div class="flex items-center gap-1">
                   <div class="text-white/40">Name:</div>
                   <div class="flex gap-0.5 items-center">
-                    <button @click="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}?attributes[Series]=${seriesStats.series.name}`)" class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+                    <button @click="openLinkWith(marketplaceLink(seriesStats))" class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
                   <div class="text-white/40">Collection:</div>
                   <div class="flex gap-0.5 items-center overflow-hidden w-full truncate">
-                    <button @click="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats?.collection.contract_address}`)" class="text-white">{{ seriesStats.collection.name.replace("x Reddit Collectible Avatars", "") }}</button>
+                    <button @click="openLinkWith(marketplaceLink(seriesStats))" class="text-white">{{ seriesStats.collection.name.replace("x Reddit Collectible Avatars", "") }}</button>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
@@ -296,6 +296,7 @@ import {Listing} from "~/types/listing";
 import {fetchListingsForSeries} from "~/composables/api/listings";
 import {fetchSalesForSeries} from "~/composables/api/sales";
 import {Capacitor} from "@capacitor/core";
+import {marketplaceLink} from "~/global/marketplace";
 
 const selectedAvatar = useSelectedAvatar();
 const ethereumPriceInUsd = useEthereumUsdPrice();

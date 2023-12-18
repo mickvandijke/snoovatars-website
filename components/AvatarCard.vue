@@ -2,7 +2,7 @@
   <div @click="selectAvatar" ref="componentRef" class="py-1 px-2 md:p-0 sm:bg-primary-accent-solid sm:hover:bg-white/5 border-dashed border-t last:border-b sm:border sm:border-primary-accent-solid sm:border-solid border-primary-border relative flex flex-col gap-1 w-full sm:rounded-md overflow-hidden cursor-pointer duration-300">
     <template v-if="seriesStats">
       <div class="mx-auto relative flex max-w-md" style="height: 90px">
-        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats?.collection.contract_address}?attributes[Series]=${seriesStats?.series.name}`) } else { selectAvatar() } }" class="pl-1 py-1 relative flex items-center overflow-hidden" style="width: 19%">
+        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(marketplaceLink(seriesStats)) } else { selectAvatar() } }" class="pl-1 py-1 relative flex items-center overflow-hidden" style="width: 19%">
           <div class="relative flex items-center w-full h-auto sm:w-auto sm:h-full mx-auto rounded-lg shadow-md overflow-hidden">
             <template v-if="Capacitor.isNativePlatform()">
               <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="object-cover" :alt="item.name">
@@ -27,7 +27,7 @@
         </button>
         <div class="relative pl-2 sm:pr-1 py-0.5 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
-            <button @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}?attributes[Series]=${seriesStats.series.name.replace(' ', '+')}`)" class="text-white hover:text-white/80 font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <button @click.stop="openLinkWith(marketplaceLink(seriesStats))" class="text-white hover:text-white/80 font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
 <!--            <div class="relative bg-white/5 py-0.25 px-1 text-black text-[0.65rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">-->
 <!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
 <!--            </div>-->
@@ -77,7 +77,7 @@
                   FREE
                 </template>
               </div>
-              <button @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}`)" class="text-white/40 hover:text-white/60 text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
+              <button @click.stop="openLinkWith(marketplaceLink(seriesStats))" class="text-white/40 hover:text-white/60 text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
             </template>
             <div class="ml-auto px-0.5 py-0.25 text-[0.65rem] text-white/40" :key="getGeneration">{{ getGeneration }}</div>
           </div>
@@ -99,6 +99,7 @@ import {Capacitor} from "@capacitor/core";
 import {getTokenImage} from "~/global/utils";
 import {findCollectionNameByContractAddress} from "~/global/generations";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
+import {marketplaceLink} from "~/global/marketplace";
 
 export interface AvatarCardItem {
   name: string;

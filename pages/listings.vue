@@ -47,7 +47,7 @@
             <template v-for="(listing, index) in slicedListings" :key="index">
               <tr class="border-b border-primary-border hover:bg-primary-accent-hover text-white/80 text-xs">
                 <td class="relative px-2 py-1 flex gap-2">
-                  <button @click="openLinkWith(`https://marketplace.rcax.io/collection/${listing.listing.token.contract_address}?attributes[Series]=${listing.listing.token.name.replace(' ', '+')}`)">
+                  <button @click="openLinkWith(marketplaceLink(listing.stats))">
                     <div class="relative rounded-md w-6 h-6 flex items-center overflow-hidden">
                       <img :src="getTokenImage(listing.stats.series.image)" :key="listing.stats.series.image" class="object-cover" :alt="listing.stats.series.name">
                     </div>
@@ -114,6 +114,7 @@ import {Filters} from "~/global/generations";
 import {getSeriesStats} from "~/composables/states";
 import {getTokenImage} from "~/global/utils";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
+import {marketplaceLink} from "~/global/marketplace";
 
 interface ListingWithStats {
   listing: Listing;

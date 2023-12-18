@@ -234,7 +234,7 @@
                     <template v-for="series in sortedWalletTokensGrouped(filterWalletTokensGrouped(tokensCount.get(walletAddress)))">
                       <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                         <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                          <a @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${series.contract_address}?attributes[Series]=${series.name.replace(' ', '+')}`)" class="cursor-pointer">
+                          <a @click.stop="openLinkWith(marketplaceLink(getSeriesStats(series.contract_address, series.name)))" class="cursor-pointer">
                             <template v-if="Capacitor.isNativePlatform()">
                               <img v-lazy-pix="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" src="/img/rcax_placeholder.png" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                             </template>
@@ -266,7 +266,7 @@
                     <template v-for="token in sortedTokens(filterWalletTokens(walletTokens))">
                       <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                         <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                          <a @click.stop="openLinkWith(`https://marketplace.rcax.io/collection/${token.contract_address}?attributes[Series]=${token.name.replace(' ', '+')}`)" class="cursor-pointer">
+                          <a @click.stop="openLinkWith(marketplaceLink(getSeriesStats(token.contract_address, token.name)))" class="cursor-pointer">
                             <template v-if="Capacitor.isNativePlatform()">
                               <img v-lazy-pix="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" src="/img/rcax_placeholder.png" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
                             </template>
@@ -334,6 +334,7 @@ import {SeriesStats} from "~/types/seriesStats";
 import {computed, ComputedRef} from "vue";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
 import {rcaxToEth} from "~/composables/api/rcax";
+import {marketplaceLink} from "~/global/marketplace";
 
 const walletAddresses = useWalletAddresses();
 const rcaxEthPrice = useRcaxEthPrice();
