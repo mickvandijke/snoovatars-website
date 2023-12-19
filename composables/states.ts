@@ -163,7 +163,7 @@ export function updateRcaxEthPrice() {
 }
 
 export async function updateSeriesHashed() {
-    const seriesMap: Map<string, Series> = new Map();
+    useSeriesHashed().value = new Map();
     const promises: Promise<void>[] = [];
 
     const seriesPerCollection = await fetchSeries();
@@ -172,13 +172,12 @@ export async function updateSeriesHashed() {
         for (const serie of Object.values(collection)) {
             promises.push((async () => {
                 const hash = await calculate_hash(serie);
-                seriesMap.set(hash, serie);
+                useSeriesHashed().value.set(hash, serie);
             })());
         }
     }
 
     await Promise.all(promises);
-    useSeriesHashed().value = seriesMap;
 }
 
 export async function updateEthereumPrices() {

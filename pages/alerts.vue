@@ -7,7 +7,7 @@
         <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Sign In</NuxtLink>
       </div>
     </template>
-    <template v-else-if="loading || loadingSeries">
+    <template v-else-if="loading">
       <div class="min-h-full w-full flex flex-col items-center">
         <button disabled type="button" class="text-white border border-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center">
           <svg class="inline mr-3 w-4 h-4 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,17 +72,19 @@
             <template v-if="alerts.size > 0" v-for="[alertHash, alert] in alerts">
               <div class="p-2 flex gap-2 items-center bg-primary-accent text-sm rounded-lg w-full">
                 <div class="flex items-center justify-center w-8 h-8 rounded-md overflow-hidden">
-                  <img :src="getSeries(alert.collection_tier_hash).image" class="object-cover">
+                  <template v-if="getSeries(alert.collection_tier_hash)">
+                    <img :src="getSeries(alert.collection_tier_hash).image" class="object-cover">
+                  </template>
                 </div>
                 <div class="col-span-6 flex flex-col">
                   <span class="text-white font-semibold">{{alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}</span>
                   <span class="text-white/60 text-xs">{{ alert.alert_type.toString().replace("SaleAbove", "Sale Above").replace("ListingBelow", "Listing Below") }}: {{ alert.price_threshold }} ETH</span>
                 </div>
                 <div class="ml-auto col-span-5 flex items-center justify-center gap-2">
-                  <button @click.self="openAlertModal(alertHash, alert)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-primary-accent-hover font-semibold text-white rounded-md duration-200">
+                  <button @click="openAlertModal(alertHash, alert)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-primary-accent-hover font-semibold text-white rounded-md duration-200">
                     <PencilSquareIcon class="text-white/40 w-4" />
                   </button>
-                  <button @click.self="deleteAlert(alertHash)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-red-500/25 font-semibold text-white rounded-md duration-200">
+                  <button @click="deleteAlert(alertHash)" class="w-8 h-8 flex items-center justify-center bg-primary-accent hover:bg-red-500/25 font-semibold text-white rounded-md duration-200">
                     <TrashIcon class="text-white/40 w-4" />
                   </button>
                 </div>
@@ -128,9 +130,9 @@
               <select-search
                   id="tier"
                   v-model="newAlert.collection_tier_hash"
-                  :options="selectSeries()"
+                  :options="seriesOptions"
                   :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Select avatar'"
-                  @change="onSelectedTier()"
+                  @change="onSelectedTier"
               />
               <!--            <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-white/60 text-left">[Optional] Select a specific mint number</label>-->
               <!--            <select-search-->
@@ -183,7 +185,7 @@ import {
 } from "~/composables/states";
 import {Alert, alert_list_from_object, AlertHash, AlertType, AlertMaxQuota, AlertQuota} from "~/types/alert";
 import {useRuntimeConfig} from "#app";
-import {onMounted, ref, watch} from "#imports";
+import {onBeforeMount, onMounted, ref, watch} from "#imports";
 import {Ref} from "@vue/reactivity";
 import {SelectSearchOption} from "~/types/select_search";
 import {handleCatch} from "~/composables/api/error";
@@ -194,7 +196,6 @@ import {UserSettings} from "~/types/user";
 import {PencilSquareIcon, TrashIcon, XMarkIcon} from "@heroicons/vue/24/solid";
 
 const loading = ref(true);
-const loadingSeries = ref(true);
 const series = useSeriesHashed();
 const avatars = useAvatarList();
 const alerts = useAlertList();
@@ -212,6 +213,11 @@ const userSettings: Ref<UserSettings> = ref({
   new_deployed_contracts_alert: false,
   email_notifications: false,
   push_notifications: false
+});
+const seriesOptions: Ref<Array<SelectSearchOption>> = ref([]);
+
+onBeforeMount( () => {
+  updateSeriesHashed();
 });
 
 onMounted(async () => {
@@ -238,9 +244,17 @@ watch(userSettings, () => {
   }
 }, { deep: true });
 
-updateSeriesHashed().finally(() => {
-  loadingSeries.value = false;
-});
+watch([series], async () => {
+  let arr = new Array<SelectSearchOption>();
+
+  for await (const serie of series.value.values()) {
+    let option: SelectSearchOption = new SelectSearchOption(`${serie.name} (${serie.contract_address.slice(0, 5)})`, await calculate_hash(serie));
+
+    arr.push(option);
+  }
+
+  seriesOptions.value = arr;
+}, { deep: true });
 
 function getSeries(seriesHash: string) {
   return series.value.get(seriesHash);
@@ -270,18 +284,6 @@ function selectAvatars(): Array<SelectSearchOption> {
   })
 
   array.unshift(new SelectSearchOption("None", null));
-
-  return array;
-}
-
-function selectSeries(): Array<SelectSearchOption> {
-  let array: Array<SelectSearchOption> = new Array<SelectSearchOption>();
-
-  series.value.forEach(async (series) => {
-    let option: SelectSearchOption = new SelectSearchOption(`${series.name} (${series.contract_address.slice(0, 5)})`, await calculate_hash(series));
-
-    array.push(option);
-  })
 
   return array;
 }

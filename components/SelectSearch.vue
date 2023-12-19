@@ -1,23 +1,22 @@
 <template>
-  <div class="relative block w-full">
+  <div
+      class="group relative block w-full"
+  >
     <div class="flex flex-row flex-nowrap">
       <input
           v-model="search"
           :placeholder="props.placeholder"
           :disabled="props.disabled"
-          @focus="focussed = true"
-          @blur="focussed = false"
+          @focus="notClicked = true"
       >
     </div>
     <div
-        v-if="(focussed || hoveringOptions) && filteredOptions().length > 0"
+        v-if="filteredOptions.length > 0 && notClicked"
         id="options"
-        class="absolute block mt-2 z-50 rounded-2xl divide-y divide-gray-100 shadow-lg bg-neutral-700 text-neutral-300 max-h-48 w-full overflow-y-auto"
-        @mouseover="hoveringOptions = true"
-        @mouseleave="hoveringOptions = false"
+        class="absolute hidden group-focus-within:block mt-2 z-50 rounded-2xl divide-y divide-gray-100 shadow-lg bg-neutral-700 text-neutral-300 max-h-48 w-full overflow-y-auto"
     >
       <ul class="py-1 text-sm">
-        <li v-for="option in filteredOptions()">
+        <li v-for="option in filteredOptions">
           <button
               @click.prevent="selectValue(option.value)"
               class="inline-flex py-2 px-4 w-full text-sm hover:bg-neutral-600 hover:text-white duration-200"
@@ -35,14 +34,14 @@
 <script setup lang="ts">
 import {PropType} from "@vue/runtime-core";
 import {Ref} from "@vue/reactivity";
-import {ref} from "#imports";
+import {computed, ref} from "#imports";
 import {SelectSearchOption} from "~/types/select_search";
+import {ComputedRef} from "vue";
 
 const MAX_OPTIONS_IN_LIST = 300;
 
-const focussed: Ref<boolean> = ref(false);
-const hoveringOptions: Ref<boolean> = ref(false);
 const search: Ref<string> = ref("");
+const notClicked = ref(false);
 
 const props = defineProps({
   modelValue: String,
@@ -60,11 +59,12 @@ function selectValue(value: any) {
   emit('update:modelValue', value);
   emit('change');
   search.value = "";
-  hoveringOptions.value = false;
+  notClicked.value = false;
 }
 
-function filteredOptions(): Array<SelectSearchOption> {
-  if (search.value.length == 0) {
+const filteredOptions: ComputedRef<Array<SelectSearchOption>> = computed(() => {
+  if (!search.value) {
+    console.log(props.options);
     return props.options.slice(0, MAX_OPTIONS_IN_LIST).sort(sortOptions);
   }
 
@@ -73,7 +73,7 @@ function filteredOptions(): Array<SelectSearchOption> {
   });
 
   return filtered.sort(sortOptions);
-}
+});
 
 function sortOptions(a: SelectSearchOption, b: SelectSearchOption) {
   const nameA = a.name.toUpperCase(); // ignore upper and lowercase
