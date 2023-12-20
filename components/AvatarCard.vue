@@ -5,10 +5,10 @@
         <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(marketplaceLink(seriesStats)) } else { selectAvatar() } }" class="pl-1 py-1 relative flex items-center overflow-hidden" style="width: 19%">
           <div class="relative flex items-center w-full h-auto sm:w-auto sm:h-full mx-auto rounded-lg shadow-md overflow-hidden">
             <template v-if="Capacitor.isNativePlatform()">
-              <img v-lazy-pix="getTokenImage(item.image)" :key="item.image" src="/img/rcax_placeholder.png" class="object-cover" :alt="item.name">
+              <img v-lazy-pix="getTokenImage(seriesStats.series.image)" :key="item.image" src="/img/rcax_placeholder.png" class="object-cover" :alt="item.name">
             </template>
             <template v-else>
-              <img :src="getTokenImage(item.image)" :key="item.image" class="object-cover" :alt="item.name">
+              <img :src="getTokenImage(seriesStats.series.image)" :key="item.image" class="object-cover" :alt="item.name">
             </template>
           </div>
 <!--          <template v-if="Capacitor.getPlatform() !== 'ios'">-->
