@@ -4,7 +4,7 @@
 
     <p>Please note that deleting your account is an irreversible process. Once your account is deleted, all associated data and information will be permanently removed.</p>
 
-    <p>If you have any questions or encounter any issues during the account deletion process, please contact our support team at <a href="mailto:snoovatars@gmail.com">snoovatars@gmail.com</a>.</p>
+    <p>If you have any questions or encounter any issues during the account deletion process, please contact our support team at <a href="mailto:warmbiertje@rcax.io">warmbiertje@rcax.io</a>.</p>
 
     <p>After submitting, you must click the confirmation link in the account's associated email.</p>
 

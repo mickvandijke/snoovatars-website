@@ -4,7 +4,7 @@
 
     <h1 class="text-xl">Advertise on RCAX</h1>
 
-    <p>Drive visibility for your brand by becoming an RCAX sponsor through our eye-catching advertisement banners. With affordable pricing options starting at just ${{ SHARED_BANNER_PRICE_USD }} per day, you can effectively reach your target audience. Note that these prices are not final and might be subject to change. Always message snoovatars@gmail.com for a final quote.</p>
+    <p>Drive visibility for your brand by becoming an RCAX sponsor through our eye-catching advertisement banners. With affordable pricing options starting at just ${{ SHARED_BANNER_PRICE_USD }} per day, you can effectively reach your target audience. Note that these prices are not final and might be subject to change. Always message warmbiertje@rcax.io for a final quote.</p>
 
     <h2>Option 1: Shared Banner Display ({{ SHARED_BANNER_PRICE_USD }} / day)</h2>
     <p>Make your mark alongside a select group of advertisers with our shared banner display. For as low as ${{ SHARED_BANNER_PRICE_USD }} a day, your banner will take its place among a maximum of 5 rotating advertisement banners. This dynamic arrangement ensures your brand gets noticed as it alternates with other compelling ads. This option has a minimum booking of 14 days.</p>
@@ -19,10 +19,10 @@
     <p>Don't have a banner yet? Let us take care of it! Our skilled team can craft a captivating banner that perfectly encapsulates your brand's essence.</p>
 
     <h2>Sign me up!</h2>
-    <p>If you're ready to take your brand to the next level, reach out to us at <a href="mailto:snoovatars@gmail.com" class="text-white font-semibold">snoovatars@gmail.com</a> to express your interest or secure your sponsorship spot. Make sure to be on time, cause there are only a limited amount of spots available!</p>
+    <p>If you're ready to take your brand to the next level, reach out to us at <a href="mailto:warmbiertje@rcax.io" class="text-white font-semibold">warmbiertje@rcax.io</a> to express your interest or secure your sponsorship spot. Make sure to be on time, cause there are only a limited amount of spots available!</p>
 
     <h1 class="mt-6 text-xl">Partnering & Sponsorships</h1>
-    <p>Interested in sponsoring or partnering up with RCAX? Reach out to us at <a href="mailto:snoovatars@gmail.com" class="text-white font-semibold">snoovatars@gmail.com</a>!</p>
+    <p>Interested in sponsoring or partnering up with RCAX? Reach out to us at <a href="mailto:warmbiertje@rcax.io" class="text-white font-semibold">warmbiertje@rcax.io</a>!</p>
 
     <h1 class="mt-6 text-xl">Donate</h1>
 
