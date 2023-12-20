@@ -12,10 +12,12 @@ export function marketplaceLink(seriesStats: SeriesStats): string {
   let link: string;
 
   if (marketplace.value === Marketplace.rcax) {
-    link = `https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}?search=${seriesStats.series.name}`;
+    link = `https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}`;
 
     if (seriesStats.series.name === 'Gold Hodl') {
-      link += '&attributes[Hat]=Gold+Hodl';
+      link += '?attributes[Hat]=Gold+Hodl';
+    } else {
+      link += `?search=${seriesStats.series.name}`;
     }
   } else {
     link = `https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`
