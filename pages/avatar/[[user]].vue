@@ -30,7 +30,7 @@
             </template>
           </select>
         </div>
-        <VirtualContainerGrid :items="filteredAvatarBackgrounds" :buffer-mobile="12" :buffer-desktop="20" class="p-1.5 h-[16rem] sm:h-[28rem] md:h-[38rem] border border-primary-border rounded-2xl">
+        <VirtualContainerGrid :items="filteredAvatarBackgrounds" :buffer-mobile="12" :buffer-desktop="20" class="p-1.5 h-[16rem] sm:h-[28rem] md:h-[38rem] w-full border border-primary-border rounded-2xl">
           <template #default="{ item, index }">
             <BackgroundItem @click="setBackground(getBackgroundIndex(item))" :background="item" class="p-2 h-fit flex flex-col justify-center items-center bg-primary-accent text-white rounded-xl hover:bg-primary-accent-hover duration-200 cursor-pointer"/>
           </template>
