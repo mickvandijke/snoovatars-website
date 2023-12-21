@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtImg :src="background.path" placeholder="/img/rcax_placeholder.png" />
+    <NuxtImg preload :src="background.path" placeholder="/img/rcax_placeholder.png" />
     <div class="mt-2 text-xs text-center font-medium truncate w-full">{{ background.name }}</div>
   </div>
 </template>

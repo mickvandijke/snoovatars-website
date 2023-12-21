@@ -12,10 +12,10 @@
       </div>
       <div class="relative px-4 py-4 sm:px-6 w-full h-full flex flex-col items-center gap-6 overflow-y-auto scrollbar-hide" :class="{ 'page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
         <div class="relative max-w-[18rem] z-20">
-          <NuxtImg :src="avatarImage" placeholder="/img/rcax_placeholder.png" />
+          <NuxtImg preload :src="avatarImage" placeholder="/img/rcax_placeholder.png" />
         </div>
         <div class="absolute top-0 z-10">
-          <NuxtImg class="blur-3xl opacity-30" :src="avatarImage" placeholder="/img/rcax_placeholder.png" />
+          <NuxtImg preload class="blur-3xl opacity-30" :src="avatarImage" placeholder="/img/rcax_placeholder.png" />
         </div>
         <div class="flex flex-col items-center gap-3">
           <h2 class="text-neutral-300">{{ selectedAvatar.series }}</h2>
