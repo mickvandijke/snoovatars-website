@@ -6,7 +6,7 @@ export enum Marketplace {
   opensea
 }
 
-export function marketplaceLink(seriesStats: SeriesStats): string {
+export function marketplaceLink(seriesStats: SeriesStats, noSearch: boolean): string {
   const marketplace = useSelectedMarketplace();
 
   let link: string;
@@ -16,7 +16,7 @@ export function marketplaceLink(seriesStats: SeriesStats): string {
 
     if (seriesStats.series.name === 'Gold Hodl') {
       link += '?attributes[Hat]=Gold+Hodl';
-    } else {
+    } else if (!noSearch) {
       link += `?search=${seriesStats.series.name}`;
     }
   } else {
