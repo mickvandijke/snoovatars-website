@@ -54,12 +54,12 @@ function handleScroll() {
   const contentScrollTop = container.value?.scrollTop ?? 0;
   const contentClientHeight = container.value?.clientHeight ?? 0;
 
-  if (contentHeight - contentScrollTop <= contentClientHeight) {
-      const newIndex = visibleItems.value.length + buffer.value;
+  if (contentHeight - contentScrollTop <= contentClientHeight * 2) {
+    const newIndex = visibleItems.value.length + buffer.value;
 
-      if (endIndex.value !== newIndex) {
-        endIndex.value = newIndex;
-      }
+    if (endIndex.value !== newIndex) {
+      endIndex.value = newIndex;
+    }
   }
 }
 
