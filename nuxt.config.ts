@@ -18,5 +18,7 @@ export default defineNuxtConfig({
     modules: [
         '@nuxt/image',
     ],
-    image: {}
+    image: {
+        provider: 'static'
+    },
 })
