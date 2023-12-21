@@ -15,10 +15,6 @@ export default defineNuxtConfig({
             POLYGON_RPC_URL: process.env.POLYGON_RPC_URL
         }
     },
-    modules: [
-        '@nuxt/image',
-    ],
-    image: {
-        provider: 'static'
-    },
+    modules: [],
+    image: {},
 })

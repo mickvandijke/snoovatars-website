@@ -4,7 +4,7 @@
       <div class="mx-auto relative flex max-w-md" style="height: 90px">
         <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(marketplaceLink(seriesStats)) } else { selectAvatar() } }" class="pl-1 py-1 relative flex items-center overflow-hidden" style="width: 19%">
           <div class="relative flex items-center w-full h-auto sm:w-auto sm:h-full mx-auto rounded-lg shadow-md overflow-hidden">
-            <NuxtImg preload class="object-cover" :key="item.image" :src="getTokenImage(seriesStats.series.image)" placeholder="/img/rcax_placeholder.png" :alt="item.name" />
+            <ImgPlaceholder img-class="object-cover" :key="item.image" :src="getTokenImage(seriesStats.series.image)" :alt="item.name" />
           </div>
 <!--          <template v-if="Capacitor.getPlatform() !== 'ios'">-->
 <!--            <div class="absolute top-0.5 right-0 w-4 h-4 rounded-full">-->

@@ -1,13 +1,12 @@
 <template>
   <div>
-    <NuxtImg preload :src="background.path" placeholder="/img/rcax_placeholder.png" />
+    <ImgPlaceholder :src="background.path" />
     <div class="mt-2 text-xs text-center font-medium truncate w-full">{{ background.name }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {AvatarBackground} from "~/types/avatarBackgrounds";
-import {ref} from "vue";
 
 const props = defineProps({
   background: {
@@ -15,8 +14,6 @@ const props = defineProps({
     required: true,
   }
 });
-
-const loaded = ref(false);
 </script>
 
 <style scoped>
