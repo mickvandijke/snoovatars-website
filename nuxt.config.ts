@@ -14,5 +14,9 @@ export default defineNuxtConfig({
             API_BASE_URL: process.env.API_BASE_URL,
             POLYGON_RPC_URL: process.env.POLYGON_RPC_URL
         }
-    }
+    },
+    modules: [
+        '@nuxt/image',
+    ],
+    image: {}
 })
