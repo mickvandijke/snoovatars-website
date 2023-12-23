@@ -32,12 +32,19 @@ import {
   BannersBannerRcaxMarketplaceBeta,
   BannersBannerRcaxTokenHalving,
   BannersBannerRcaxTokenLaunch, BannersBannerRedditAvatarGiveaways,
-  BannersBannerRedditAvatarTraders
+  BannersBannerRedditAvatarTraders,
+  BannersBannerConeDesk
 } from "#components";
 
 const isBannerClosed = ref(false);
 
 const slides = [
+  {
+    key: 'r/ConeDesk banner',
+    component: BannersBannerConeDesk,
+    startDate: new Date('2023-12-23'), // Start date for this slide
+    expirationDate: new Date('2023-12-31'),
+  },
   {
     key: 'r/ConeHeads banner',
     component: BannersBannerConeHeads,
@@ -47,19 +54,19 @@ const slides = [
   {
     key: 'rcax banner',
     component: BannerRcaxSponsoring,
-    startDate: new Date('2000-01-01'), // Start date for this slide
+    startDate: new Date('2023-12-31'), // Start date for this slide
     expirationDate: new Date('3000-09-23'),
   },
   {
     key: 'rcax marketplace beta',
     component: BannersBannerRcaxMarketplaceBeta,
-    startDate: new Date('2000-01-01'), // Start date for this slide
+    startDate: new Date('2023-12-31'), // Start date for this slide
     expirationDate: new Date('3000-08-22'),
   },
   {
     key: 'rcax token launch',
     component: BannersBannerRcaxTokenLaunch,
-    startDate: new Date('2000-01-01'), // Start date for this slide
+    startDate: new Date('2023-12-31'), // Start date for this slide
     expirationDate: new Date('3000-08-22'),
   },
   {
@@ -71,7 +78,7 @@ const slides = [
   {
     key: 'r/redditavatartraders',
     component: BannersBannerRedditAvatarTraders,
-    startDate: new Date('2000-01-01'), // Start date for this slide
+    startDate: new Date('2023-12-31'), // Start date for this slide
     expirationDate: new Date('3000-10-11'),
   },
   {
