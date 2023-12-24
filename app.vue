@@ -8,7 +8,7 @@
     </template>
     <template v-else>
       <HeaderTop />
-      <NavigationBar class="sticky top-0 bg-primary/80 backdrop-blur-2xl" ref="navbarcomp"/>
+      <NavigationBar class="sticky top-0 bg-ios-bg-navbar backdrop-blur-2xl" ref="navbarcomp"/>
     </template>
     <AvatarViewer />
     <template v-if="!Capacitor.isNativePlatform()">
@@ -254,7 +254,7 @@ const getDeliveredNotifications = async () => {
 }
 
 html, body {
-  @apply bg-primary;
+  @apply bg-ios-bg-primary;
   -webkit-tap-highlight-color: transparent;
 }
 

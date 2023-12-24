@@ -54,29 +54,12 @@
     <template v-else>
       <div class="flex flex-row justify-between gap-1">
         <div class="flex flex-col">
-          <div class="flex gap-2 font-bold text-[0.7rem] items-center">
-            <div class="flex gap-1">
+          <div class="flex gap-2 items-center">
+            <div class="flex gap-1 text-[0.7rem]">
               <span class="text-white/60 font-medium">Floor:</span>
               <template v-if="lowestListing">
-                <div class="flex flex-col">
-                  <button @click.stop="openLinkWith(`https://marketplace.rcax.io/asset/${lowestListing.token.contract_address}:${lowestListing.token.id}`)" class="flex items-center group">
-                    <template v-if="lowestListing.payment_token.symbol === 'ETH'">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      <div class="flex gap-1 font-bold text-white group-hover:text-neutral-300">
-                        <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                        <span class="text-amber-500 font-medium">{{ ethereumInLocalCurrency(lowestListing.payment_token.base_price) }}</span>
-                        <span class="text-white/40 font-medium">#{{ lowestListing.token.mint_number }}</span>
-                      </div>
-                    </template>
-                    <template v-else-if="lowestListing.payment_token.symbol === 'MATIC'">
-                      <div class="pr-0.5 flex items-center text-orange-500">M</div>
-                      <div class="flex gap-1 font-bold text-white group-hover:text-neutral-300">
-                        <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                        <span class="text-amber-500 font-medium">{{ ethereumInLocalCurrency(lowestListing.payment_token.base_price / ethereumPriceMap.get("MATIC")) }}</span>
-                        <span class="text-white/40 font-medium">#{{ lowestListing.token.mint_number }}</span>
-                      </div>
-                    </template>
-                  </button>
+                <div class="flex flex-col font-semibold">
+                  <ListingPrice :listing="lowestListing" />
                 </div>
               </template>
               <template v-else>

@@ -27,6 +27,7 @@
         <select v-model="filterSoldOut">
           <option value="show">Sold Out: Show</option>
           <option value="hide">Sold Out: Hide</option>
+          <option value="only">Sold Out: Only</option>
         </select>
         <select v-model="filterNoListings">
           <option value="show">No Listings: Show</option>
@@ -395,8 +396,12 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
       break;
   }
 
-  if (filterSoldOut.value === "hide" || sortingOnShop.value) {
+  if (filterSoldOut.value === "hide") {
     filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_sold < seriesStat.series.total_quantity);
+  }
+
+  if (filterSoldOut.value === "only") {
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => seriesStat.series.total_sold >= seriesStat.series.total_quantity);
   }
 
   if (filterNoListings.value === "hide") {

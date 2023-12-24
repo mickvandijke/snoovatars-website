@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 md:mt-48 pb-[53px] md:pb-0 px-2 md:px-6 w-full">
+  <div class="mt-4 md:mt-24 pb-[53px] md:pb-0 px-2 md:px-6 w-full">
     <div class="px-4 md:px-2 py-6 w-full flex flex-col justify-center gap-6 border-t border-primary-border">
       <div class="w-full flex flex-col md:flex-row justify-center items-center gap-3 md:gap-12 text-[0.8rem] text-white/60 font-medium">
         <div class="border-neutral-800/90 w-fit">&copy; 2023 RCAX.</div>
