@@ -1,4 +1,4 @@
-import {useRcaxClassicEthPrice} from "~/composables/states";
+import {useRcaxClassicEthPrice, useRcaxEthPrice} from "~/composables/states";
 
 export async function fetchRcaxClassicPrice(): Promise<number> {
     const url = "https://api.geckoterminal.com/api/v2/networks/polygon_pos/tokens/0xc99bd85ba824de949cf088375225e3fdcdb6696c/pools";
@@ -34,6 +34,10 @@ export async function fetchRcaxPrice(): Promise<number> {
     return price;
 }
 
-export function rcaxToEth(cone: number): number {
+export function rcaxClassicToEth(cone: number): number {
     return cone * useRcaxClassicEthPrice().value;
+}
+
+export function rcaxToEth(cone: number): number {
+    return cone * useRcaxEthPrice().value;
 }

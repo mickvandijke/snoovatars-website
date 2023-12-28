@@ -1,29 +1,44 @@
 <template>
-  <div @click="selectAvatar" ref="componentRef" class="py-1 px-2 md:p-0 sm:bg-primary-accent-solid sm:hover:bg-white/5 border-dashed border-t last:border-b sm:border sm:border-primary-accent-solid sm:border-solid border-primary-border relative flex flex-col gap-1 w-full sm:rounded-md overflow-hidden cursor-pointer duration-300">
+  <div @click="selectAvatar" ref="componentRef" class="p-2 sm:bg-primary-accent-solid sm:hover:bg-white/10 relative flex flex-col gap-1 w-full sm:rounded-lg border-t sm:border-none border-primary-accent-solid overflow-hidden cursor-pointer duration-300">
     <template v-if="seriesStats">
-      <div class="mx-auto relative flex max-w-md" style="height: 90px">
-        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(marketplaceLink(seriesStats)) } else { selectAvatar() } }" class="pl-1 py-1 relative flex items-center overflow-hidden" style="width: 19%">
-          <div class="relative flex items-center w-full h-auto sm:w-auto sm:h-full mx-auto rounded-lg shadow-md overflow-hidden">
-            <ImgPlaceholder img-class="object-cover" :key="item.image" :src="getTokenImage(seriesStats.series.image)" :alt="item.name" />
-          </div>
-<!--          <template v-if="Capacitor.getPlatform() !== 'ios'">-->
-<!--            <div class="absolute top-0.5 right-0 w-4 h-4 rounded-full">-->
-<!--              <img src="/images/branding/rcax/rcaxIcon.svg" />-->
+<!--      <div class="absolute top-0 left-0 px-2 text-[0.7rem] font-semibold italic rounded-br-md shadow z-20" :class="getMintClasses(seriesStats.series.total_quantity)">-->
+<!--        <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
+<!--      </div>-->
+      <div class="mx-auto relative flex max-w-md z-10" style="height: 90px">
+        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(marketplaceLink(seriesStats)) } else { selectAvatar() } }" class="relative flex items-center" style="width: 19%">
+          <div class="relative flex items-center w-full h-full sm:w-auto sm:h-full mx-auto">
+            <div class="relative max-w-[18rem] z-20">
+              <img-placeholder img-class="rounded-lg" :src="getTokenImage(seriesStats.series.image)" />
+              <div class="absolute top-0 left-0 px-1 py-0 text-[0.7rem] font-semibold italic rounded-br-md rounded-tl-md border-r-2 border-b-2 border-primary-accent-solid shadow z-20" :class="getMintClasses(seriesStats.series.total_quantity)">
+                <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
+              </div>
+            </div>
+<!--            <div class="absolute left-1 top-1 px-1.5 bg-primary rounded-lg text-[0.65rem] font-semibold italic z-30" :class="getMintClasses(seriesStats.series.total_quantity)">-->
+<!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
 <!--            </div>-->
-<!--          </template>-->
-<!--          <template v-if="ranking">-->
-<!--            <div class="absolute bottom-0 left-0 px-1 py-0.25 bg-amber-600 text-[0.7rem] font-medium rounded-tr-md drop-shadow">-->
-<!--              <h1 class="text-white rounded-md">#{{ ranking }}</h1>-->
-<!--            </div>-->
-<!--          </template>-->
-          <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-md shadow" :class="getMintClasses(seriesStats.series.total_quantity)">
-            <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
+            <!--            <ImgPlaceholder img-class="object-cover rounded-2xl" :key="item.image" :src="getTokenImage(seriesStats.series.image)" :alt="item.name" />-->
           </div>
+          <!--          <template v-if="Capacitor.getPlatform() !== 'ios'">-->
+          <!--            <div class="absolute top-0.5 right-0 w-4 h-4 rounded-full">-->
+          <!--              <img src="/images/branding/rcax/rcaxIcon.svg" />-->
+          <!--            </div>-->
+          <!--          </template>-->
+          <!--          <template v-if="ranking">-->
+          <!--            <div class="absolute bottom-0 left-0 px-1 py-0.25 bg-amber-600 text-[0.7rem] font-medium rounded-tr-md drop-shadow">-->
+          <!--              <h1 class="text-white rounded-md">#{{ ranking }}</h1>-->
+          <!--            </div>-->
+          <!--          </template>-->
+          <!--          <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-md shadow" :class="getMintClasses(seriesStats.series.total_quantity)">-->
+          <!--            <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
+          <!--          </div>-->
         </button>
-        <div class="relative pl-2 sm:pr-1 py-0.5 flex flex-col overflow-hidden" style="width: 81%">
+        <div class="relative pl-2 flex flex-col overflow-hidden" style="width: 81%">
           <div class="flex items-center gap-1 text-[0.7rem]">
-            <button @click.stop="openLinkWith(marketplaceLink(seriesStats))" class="text-white hover:text-white/80 font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <button @click.stop="openLinkWith(marketplaceLink(seriesStats))" class="text-white font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
 <!--            <div class="relative bg-white/5 py-0.25 px-1 text-black text-[0.65rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">-->
+<!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
+<!--            </div>-->
+<!--            <div class="px-1.5 bg-primary rounded-lg text-[0.65rem] font-semibold italic z-30" :class="getMintClasses(seriesStats.series.total_quantity)">-->
 <!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
 <!--            </div>-->
             <template v-if="ranking">
@@ -147,13 +162,13 @@ function selectAvatar() {
 
 function getMintClasses(totalQuantity: number) {
   if (totalQuantity <= 250) {
-    return ["text-yellow-500"];
+    return ["bg-yellow-500"];
   } else if (totalQuantity <= 777) {
-    return ["text-gray-300"];
+    return ["bg-gray-300"];
   } else if (totalQuantity <= 5000) {
-    return ["text-gray-500"];
+    return ["bg-white"];
   } else {
-    return ["text-red-500"];
+    return ["bg-white"];
   }
 }
 </script>

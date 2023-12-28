@@ -90,7 +90,7 @@
         </div>
         <div class="mt-2 lg:mt-3 px-2 sm:px-6 flex flex-col items-center gap-3 md:gap-12 w-full overflow-hidden">
           <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
-            <div class="bg-primary-accent sm:border border-primary-border flex flex-col items-center overflow-hidden w-full rounded-2xl">
+            <div class="bg-primary-accent sm:border border-primary-border flex flex-col items-center overflow-hidden w-full rounded-lg">
               <div class="p-2 flex gap-2 w-full rounded">
                 <div class="pl-2 flex items-center overflow-hidden">
                   <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="hidden md:block p-2 text-white/40 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
@@ -165,7 +165,7 @@
                       <div class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                         <div class="text-white">{{
-                            rcaxToEth((getRcaxClassic(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '')
+                            rcaxClassicToEth((getRcaxClassic(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '')
                           }}</div>
                         <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{
                             ethereumInLocalCurrency(rcaxToEth((getRcaxClassic(walletAddress) ?? 0)))
@@ -333,7 +333,7 @@ import {getFreeCollections} from "~/global/generations";
 import {SeriesStats} from "~/types/seriesStats";
 import {computed, ComputedRef} from "vue";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
-import {rcaxToEth} from "~/composables/api/rcax";
+import {rcaxToEth, rcaxClassicToEth} from "~/composables/api/rcax";
 import {marketplaceLink} from "~/global/marketplace";
 
 const walletAddresses = useWalletAddresses();
