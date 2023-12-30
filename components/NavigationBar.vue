@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation-bar flex flex-col z-40 w-full duration-200" :class="{ 'sm:mb-6': scrolled >= 72 }" @mouseleave="closeDropdowns()" ref="navbar">
+  <div class="navigation-bar flex flex-col z-40 w-full sm:shadow-none duration-200" :class="{ 'shadow sm:mb-6': scrolled >= 72 }" @mouseleave="closeDropdowns()" ref="navbar">
     <nav class="py-3 px-4 sm:px-6 flex w-full items-center gap-3 md:gap-6 duration-200" :class="{ 'sm:py-4': scrolled < 72 }">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
@@ -42,7 +42,7 @@
             </template>
           </DropDownMenu>
         </template>
-        <UserMenuButton>
+        <UserMenuButton class="sm:px-2">
           <template v-if="user?.username">
             <template v-if="user?.tier < 1">
               <NuxtLink
