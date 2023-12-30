@@ -34,6 +34,10 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
 
     let symbol = currencyFormatter.formatToParts(0)[0].value;
 
+    if (symbol.startsWith("US")) {
+        symbol = symbol.slice(2, symbol.length);
+    }
+
     if (abbreviate) {
         [price, abb] = abbreviateNumber(price);
     } else if (price >= 100) {
@@ -76,6 +80,10 @@ export function gweiInLocalCurrency(eth: number): string {
     });
 
     let symbol = currencyFormatter.formatToParts(0)[0].value;
+
+    if (symbol.startsWith("US")) {
+        symbol = symbol.slice(2, symbol.length);
+    }
 
     let fullString = `${symbol}${price.toLocaleString(localeString, { maximumFractionDigits: 9 })}`;
 
