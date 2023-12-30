@@ -15,8 +15,9 @@ import {Capacitor} from "@capacitor/core";
 import {Prompt, PromptOption} from "~/components/Prompt.vue";
 import {Default, Settings} from "~/types/settings";
 import {SelectedAvatar} from "~/types/SelectedAvatar";
-import {fetchRcaxClassicPrice, fetchRcaxPrice} from "~/composables/api/rcax";
+import {fetchRcaxClassicPrice, fetchRcaxPrice, fetchRcaxPriceInfo} from "~/composables/api/rcax";
 import {Marketplace} from "~/global/marketplace";
+import {GeckoInfo} from "~/types/coingecko";
 
 export const useCollections = () => useState<Map<string, Collection>>('collection-list', () => new Map());
 export const useSeriesHashed = () => useState<Map<string, Series>>('tier-list', () => new Map());
@@ -41,6 +42,7 @@ export const usePrompt = () => useState<Prompt>('prompt', () => null);
 export const useSettings = () => useState<Settings>('settings', () => null);
 export const useSelectedAvatar = () => useState<SelectedAvatar>('selected-avatar', () => null);
 export const useSelectedMarketplace = () => useState<Marketplace>('selected-marketplace', () => Marketplace.rcax);
+export const useRcaxTokenInfo = () => useState<GeckoInfo>('rcax-token-info', () => null);
 
 export function loadSettings() {
     let json = localStorage.getItem("settings");
@@ -130,8 +132,13 @@ export async function updateMarketInfo() {
         useTotalMarketCap().value = mc;
     });
 
+    await updateRcaxPriceInfo();
     updateConeEthPrice();
     updateRcaxEthPrice();
+}
+
+export async function updateRcaxPriceInfo() {
+    useRcaxTokenInfo().value = await fetchRcaxPriceInfo();
 }
 
 export async function loadUserSettings() {

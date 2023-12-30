@@ -7,6 +7,34 @@
         </div>
       </NuxtLink>
     </template>
+    <NuxtLink to="/listings" class="w-full max-w-sm">
+      <div class="group tool w-full">
+        <h1 class="text-white text-xl font-semibold">Listings Browser <span class="text-amber-500 font-bold italic">Pro</span></h1>
+        <TagIcon class="w-8 h-8 text-neutral-500" />
+        <p class="text-neutral-500 text-sm">Browse the listings of all collections combined in one simple table. Makes it easy to snatch specific mint numbers you like!</p>
+      </div>
+    </NuxtLink>
+    <NuxtLink to="/alerts" class="w-full max-w-sm">
+      <div class="group tool">
+        <h1 class="text-white text-xl font-semibold">Price Alerts <span class="text-amber-500 font-bold italic">Pro</span></h1>
+        <BellIcon class="w-8 h-8 text-neutral-500" />
+        <p class="text-neutral-500 text-sm">Set Custom Real-Time Price Alerts. Get notified over Mobile Push Notifications or Email.</p>
+      </div>
+    </NuxtLink>
+    <NuxtLink to="/avatar" class="w-full max-w-sm">
+      <div class="group tool">
+        <h1 class="text-white text-xl font-semibold">Avatar Exporter</h1>
+        <PaintBrushIcon class="w-8 h-8 text-neutral-500" />
+        <p class="text-neutral-500 text-sm">Customize your mashup and download it in high quality.</p>
+      </div>
+    </NuxtLink>
+    <NuxtLink to="/lookup" class="w-full max-w-sm">
+      <div class="group tool">
+        <h1 class="text-white text-xl text-center font-semibold">Reddit Identity Lookup</h1>
+        <ArrowPathRoundedSquareIcon class="w-8 h-8 text-neutral-500" />
+        <p class="text-neutral-500 text-sm">Lookup a Reddit user's address from their username or a username from an address.</p>
+      </div>
+    </NuxtLink>
     <template v-if="!Capacitor.isNativePlatform()">
       <NuxtLink to="/dapps/randomavatarswap" class="w-full max-w-sm">
         <div class="group tool">
@@ -24,27 +52,6 @@
         </div>
       </NuxtLink>
     </template>
-    <NuxtLink to="/avatar" class="w-full max-w-sm">
-      <div class="group tool">
-        <h1 class="text-white text-xl font-semibold">Avatar Exporter</h1>
-        <PaintBrushIcon class="w-8 h-8 text-neutral-500" />
-        <p class="text-neutral-500 text-sm">Customize your mashup and download it in high quality.</p>
-      </div>
-    </NuxtLink>
-    <NuxtLink to="/listings" class="w-full max-w-sm">
-      <div class="group tool w-full">
-        <h1 class="text-white text-xl font-semibold">Listings Browser <span class="text-amber-500 font-bold italic">Pro</span></h1>
-        <TagIcon class="w-8 h-8 text-neutral-500" />
-        <p class="text-neutral-500 text-sm">Browse the listings of all collections combined in one simple table. Makes it easy to snatch specific mint numbers you like!</p>
-      </div>
-    </NuxtLink>
-    <NuxtLink to="/alerts" class="w-full max-w-sm">
-      <div class="group tool">
-        <h1 class="text-white text-xl font-semibold">Price Alerts <span class="text-amber-500 font-bold italic">Pro</span></h1>
-        <BellIcon class="w-8 h-8 text-neutral-500" />
-        <p class="text-neutral-500 text-sm">Set Custom Real-Time Price Alerts. Get notified over Mobile Push Notifications or Email.</p>
-      </div>
-    </NuxtLink>
   </div>
 </template>
 

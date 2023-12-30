@@ -36,3 +36,12 @@ export function getTokenImage(url: string): string {
 export function nowInSeconds(): number {
     return Math.floor(Date.now() / 1000);
 }
+
+export async function clipboard(text: string) {
+    try {
+        await navigator.clipboard.writeText(text);
+        alert('Copied');
+    } catch($e) {
+        alert('Cannot copy');
+    }
+}

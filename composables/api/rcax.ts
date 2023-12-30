@@ -34,6 +34,13 @@ export async function fetchRcaxPrice(): Promise<number> {
     return price;
 }
 
+export async function fetchRcaxPriceInfo(): Promise<Object> {
+    const url = "https://api.geckoterminal.com/api/v2/networks/polygon_pos/tokens/0x875f123220024368968d9f1ab1f3f9c2f3fd190d";
+
+    const response = await fetch(url);
+    return await response.json();
+}
+
 export function rcaxClassicToEth(cone: number): number {
     return cone * useRcaxClassicEthPrice().value;
 }

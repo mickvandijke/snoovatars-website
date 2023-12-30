@@ -27,7 +27,7 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
             break;
     }
 
-    const currencyFormatter = new Intl.NumberFormat("en-US", {
+    const currencyFormatter = new Intl.NumberFormat(undefined, {
         style: "currency",
         currency,
     });
@@ -44,6 +44,8 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
 
     let priceString = price.toLocaleString(localeString);
 
+    console.log(priceString)
+
     if (priceString.includes('.') && priceString.split('.')[1].length === 1 || priceString.includes(',') && priceString.split(',')[1].length === 1) {
         priceString += '0';
     }
@@ -51,11 +53,11 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
     return `${symbol}${priceString}${abb}`;
 }
 
-export function coneInLocalCurrency(eth: number): string {
+export function gweiInLocalCurrency(eth: number): string {
     let localeString = ""
     const currency = useSettings().value.currency.preferred;
 
-    let price = (eth * (useEthereumPriceMap().value.get(currency) ?? 0)).toPrecision(5);
+    let price = Number((eth * (useEthereumPriceMap().value.get(currency) ?? 0)).toPrecision(5));
 
     switch (currency) {
         case "AUD":
@@ -70,14 +72,14 @@ export function coneInLocalCurrency(eth: number): string {
             break;
     }
 
-    const currencyFormatter = new Intl.NumberFormat("en-US", {
+    const currencyFormatter = new Intl.NumberFormat(undefined, {
         style: "currency",
         currency,
     });
 
     let symbol = currencyFormatter.formatToParts(0)[0].value;
 
-    let fullString = `${symbol}${price.toLocaleString(localeString, { minimumFractionDigits: 10 })}`;
+    let fullString = `${symbol}${price.toLocaleString(localeString, { maximumFractionDigits: 9 })}`;
 
     let zeroDecimalsString = '';
 

@@ -58,7 +58,7 @@
         </div>
         <div class="mt-2 flex flex-col items-center gap-2 text-white/80 w-full max-w-xs">
           <template v-if="!Capacitor.isNativePlatform() && bgSeriesStats">
-            <a :href="marketplaceLink(bgSeriesStats)" target="_blank" class="mb-2 p-2 max-w-full flex items-center gap-1.5 border-2 border-primary-border hover:border-amber-500 rounded-lg duration-300">
+            <a :href="marketplaceLink(bgSeriesStats)" target="_blank" class="mb-2 py-2 px-3 max-w-full flex items-center gap-1.5 border-2 border-primary-border hover:border-amber-500 rounded-lg duration-300">
               Buy <span class="text-white font-semibold truncate">{{ selectedBackground.name }}</span> on <img src="/images/branding/rcax/rcaxIcon.svg" class="w-5 h-5">
               <span class="text-sm text-white/60">({{ ethereumInLocalCurrency(getLowestListingAsGweiPrice(bgSeriesStats)) }})</span>
             </a>

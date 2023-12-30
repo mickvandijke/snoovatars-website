@@ -168,7 +168,7 @@ function getMintClasses(totalQuantity: number) {
   } else if (totalQuantity <= 5000) {
     return ["bg-white"];
   } else {
-    return ["bg-white"];
+    return ["bg-red-500"];
   }
 }
 </script>

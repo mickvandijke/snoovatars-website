@@ -141,7 +141,7 @@
                       </div>
                       <div class="flex items-center">
                         <div class="ml-1 text-white/40"> (<span class="text-white/70">{{
-                            coneInLocalCurrency(rcaxEthPrice)
+                            gweiInLocalCurrency(rcaxEthPrice)
                           }}</span>)</div>
                       </div>
                     </div>
@@ -173,7 +173,7 @@
                       </div>
                       <div class="flex items-center">
                         <div class="ml-1 text-white/40"> (<span class="text-white/70">{{
-                            coneInLocalCurrency(rcaxClassicEthPrice)
+                            gweiInLocalCurrency(rcaxClassicEthPrice)
                           }}</span>)</div>
                       </div>
                     </div>
@@ -198,7 +198,7 @@
                         <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(coneToEth((getCones(walletAddress) ?? 0))) }}</span>)</div>
                       </div>
                       <div class="flex items-center">
-                        <div class="ml-1 text-white/40"> (<span class="text-white/70">{{ coneInLocalCurrency(cone) }}</span>)</div>
+                        <div class="ml-1 text-white/40"> (<span class="text-white/70">{{ gweiInLocalCurrency(cone) }}</span>)</div>
                       </div>
                     </div>
                   </div>
@@ -212,7 +212,7 @@
                       <button
                           @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619?a=${ walletAddress }`)"
                           class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
-                      >wETH</button>
+                      >Ethereum</button>
                       <span class="text-amber-500 text-[0.8rem]">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
                     </div>
                     <div class="ml-auto flex flex-col items-end text-[0.8rem]">
@@ -323,11 +323,11 @@ import {getLowestListingAsGweiPrice, onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
 import {fetchWalletTokenBalance, fetchWalletTokens} from "~/composables/api/wallet";
 import {WalletTokens} from "~/types/wallet";
-import {ethereumInLocalCurrency, coneToEth, coneInLocalCurrency} from "#imports";
+import {ethereumInLocalCurrency, coneToEth, gweiInLocalCurrency} from "#imports";
 import {ArrowPathIcon, ChevronDownIcon, XMarkIcon} from "@heroicons/vue/24/solid";
 import {Token} from "~/types/token";
 import {Capacitor} from "@capacitor/core";
-import {getTokenImage} from "~/global/utils";
+import {getTokenImage, isValidEthereumAddress} from "~/global/utils";
 import {getSaleAsGweiPrice} from "~/composables/helpers";
 import {getFreeCollections} from "~/global/generations";
 import {SeriesStats} from "~/types/seriesStats";
@@ -335,6 +335,7 @@ import {computed, ComputedRef} from "vue";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
 import {rcaxToEth, rcaxClassicToEth} from "~/composables/api/rcax";
 import {marketplaceLink} from "~/global/marketplace";
+import {getCryptoContactFromId, getUserInfo} from "~/composables/api/reddit";
 
 const walletAddresses = useWalletAddresses();
 const rcaxEthPrice = useRcaxEthPrice();
@@ -434,6 +435,19 @@ function refresh() {
 
 async function getWalletTokens(wallet: string) {
   loading.value = true;
+
+  if (!isValidEthereumAddress(wallet)) {
+    try {
+      let userInfo = await getUserInfo(wallet);
+      let userId = userInfo['data']['id'];
+      let cryptoInfo = await getCryptoContactFromId(userId);
+      wallet = cryptoInfo['contacts'][`t2_${userId}`][0]['address'];
+    } catch(err) {
+      loading.value = false;
+      alert(err);
+      return;
+    }
+  }
 
   await fetchWalletTokens(wallet)
       .then((data) => {

@@ -27,11 +27,14 @@
         <template v-if="!Capacitor.isNativePlatform()">
           <DropDownMenu class="hidden md:block">
             <template v-slot:button>
-              <span>dApps</span>
+              <span>Apps</span>
             </template>
             <template v-slot:menu>
               <NuxtLink replace to="/dapps/randomavatarswap">
                 Random Avatar Swap
+              </NuxtLink>
+              <NuxtLink replace to="/lookup">
+                Reddit Identity Lookup
               </NuxtLink>
               <NuxtLink replace to="/dapps/convertclassic">
                 Convert RCAX Classic to V2
