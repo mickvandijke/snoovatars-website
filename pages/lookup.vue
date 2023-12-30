@@ -11,7 +11,7 @@
       <template v-if="foundAddress">
         <div class="flex flex-col items-center gap-2 w-full">
           <h2 class="text-green-500 text-sm">FOUND ADDRESS</h2>
-          <input disabled :value="foundAddress" class="text-white/60 text-center">
+          <input disabled :value="foundAddress" class="text-amber-500 text-center">
         </div>
       </template>
     </div>
@@ -25,7 +25,7 @@
       <template v-if="foundUsername">
         <div class="flex flex-col items-center gap-2 w-full">
           <h2 class="text-green-500 text-sm">FOUND USERNAME</h2>
-          <input disabled :value="foundUsername" class="text-white/60 text-center">
+          <input disabled :value="foundUsername" class="text-amber-500 text-center">
         </div>
       </template>
     </div>
