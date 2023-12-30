@@ -235,12 +235,7 @@
                       <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
                         <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                           <a @click.stop="openLinkWith(marketplaceLink(getSeriesStats(series.contract_address, series.name)))" class="cursor-pointer">
-                            <template v-if="Capacitor.isNativePlatform()">
-                              <img v-lazy-pix="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" src="/img/rcax_placeholder.png" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
-                            </template>
-                            <template v-else>
-                              <img :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(series.contract_address, series.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
-                            </template>
+                            <img-placeholder img-class="absolute top-0 left-0 w-full h-full object-cover" :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" />
                           </a>
                         </div>
                         <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">

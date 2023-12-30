@@ -64,7 +64,6 @@ function selectValue(value: any) {
 
 const filteredOptions: ComputedRef<Array<SelectSearchOption>> = computed(() => {
   if (!search.value) {
-    console.log(props.options);
     return props.options.slice(0, MAX_OPTIONS_IN_LIST).sort(sortOptions);
   }
 

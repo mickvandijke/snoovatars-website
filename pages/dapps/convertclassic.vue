@@ -206,12 +206,8 @@ const setRcaxClassicAllowance = async (spender: string, amount: bigint) => {
 
     waitingForTransaction.value = true;
 
-    console.log(amount.toString());
-
     // Give a little extra room of 1 token to avoid rounding problems
     amount = BigInt(amount) + BigInt(ETH_TO_GWEI_MODIFIER);
-
-    console.log(amount.toString());
 
     try {
       let tx = await connectedRcaxClassicContract.approve(spender, amount);

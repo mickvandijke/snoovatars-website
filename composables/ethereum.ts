@@ -44,8 +44,6 @@ export function ethereumInLocalCurrency(eth: number, abbreviate: boolean): strin
 
     let priceString = price.toLocaleString(localeString);
 
-    console.log(priceString)
-
     if (priceString.includes('.') && priceString.split('.')[1].length === 1 || priceString.includes(',') && priceString.split(',')[1].length === 1) {
         priceString += '0';
     }
