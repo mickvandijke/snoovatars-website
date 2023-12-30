@@ -19,7 +19,7 @@
     <div class="p-6 flex flex-col gap-6 w-full bg-primary-accent-solid rounded-lg">
       <div class="flex flex-col items-center gap-2 w-full">
         <h2>Address to Username</h2>
-        <input type="text" autocomplete="off" name=“address” class="" placeholder="Address" v-model="addressQuery" @keyup.enter.prevent="getUsernameFromAddress()">
+        <input type="text" autocomplete="off" name=“address” class="" placeholder="0x.." v-model="addressQuery" @keyup.enter.prevent="getUsernameFromAddress()">
         <button :disabled="!addressQuery || loading" class="px-4 h-10 bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white text-sm disabled:text-white/20 font-medium whitespace-nowrap rounded-lg duration-200 w-full" @click="getUsernameFromAddress()">Lookup</button>
       </div>
       <template v-if="foundUsername">
