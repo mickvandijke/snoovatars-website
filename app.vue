@@ -62,8 +62,8 @@ import HeaderTop from "~/components/HeaderTop.vue";
 import FooterSmall from "~/components/FooterSmall.vue";
 
 useHead({
-  title: 'Reddit Collectible Avatars prices, statistics, sales and more! | RCAX.io',
-  link: [{ rel: 'icon', type: 'image/png', href: '/images/branding/rcax/rcaxIconDark.png' }],
+  title: 'RCAX.io | Reddit Collectible Avatars prices, statistics, sales and more! | RCAX.io',
+  link: [{ rel: 'icon', type: 'image/png', href: '/images/coins/rcax/icon.png' }],
   meta: [
     { name: "title", content: "RCAX" },
     { name: 'description', content: 'Reddit Collectible Avatars prices, statistics, sales and more!' },

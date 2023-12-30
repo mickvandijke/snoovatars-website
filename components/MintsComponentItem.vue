@@ -16,7 +16,7 @@
       <div class="flex font-medium text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-white/60 font-medium">Date:</span>
-          <div class="text-orange-500">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
+          <div class="text-amber-500">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
         </div>
       </div>
     </div>

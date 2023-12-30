@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center max-w-full max-h-full overflow-hidden">
+  <div class="flex items-center max-w-full max-h-full">
     <img v-show="!loaded" src="/img/rcax_placeholder.png" :class="imgClass" />
     <img v-show="loaded" :src="src" @load="loaded = true" @error="loaded = false" :class="imgClass" />
   </div>
