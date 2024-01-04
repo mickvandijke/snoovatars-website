@@ -1,10 +1,13 @@
-# Nuxt 3 Minimal Starter
-
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
-
 ## Setup
 
-Make sure to install the dependencies:
+1. Clone the project.
+2. Create a `.env` file with the following contents:
+```env
+SITE_URL: http://localhost:3001
+API_BASE_URL: https://api.snoovatars.com
+POLYGON_RPC_URL: https://polygon-rpc.com
+```
+3. Make sure to install the dependencies:
 
 ```bash
 # yarn
