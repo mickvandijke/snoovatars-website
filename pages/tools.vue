@@ -28,6 +28,13 @@
         <p class="text-neutral-500 text-sm">Customize your mashup and download it in high quality.</p>
       </div>
     </NuxtLink>
+    <NuxtLink to="/shop" class="w-full max-w-sm">
+      <div class="group tool">
+        <h1 class="text-white text-xl font-semibold">Shop Watcher</h1>
+        <ShoppingBagIcon class="w-8 h-8 text-neutral-500" />
+        <p class="text-neutral-500 text-sm">See what avatars are about to released in the shop and make use of the direct shop links.</p>
+      </div>
+    </NuxtLink>
     <NuxtLink to="/lookup" class="w-full max-w-sm">
       <div class="group tool">
         <h1 class="text-white text-xl text-center font-semibold">Reddit Identity Lookup</h1>
@@ -56,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import {PaintBrushIcon, TagIcon, BellIcon, ArrowPathRoundedSquareIcon} from "@heroicons/vue/24/solid";
+import {PaintBrushIcon, TagIcon, BellIcon, ArrowPathRoundedSquareIcon, ShoppingBagIcon} from "@heroicons/vue/24/solid";
 import {useUser} from "#imports";
 import {Capacitor} from "@capacitor/core";
 
