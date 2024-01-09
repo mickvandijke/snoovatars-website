@@ -32,7 +32,7 @@
       <div class="group tool">
         <h1 class="text-white text-xl font-semibold">Shop Watcher</h1>
         <ShoppingBagIcon class="w-8 h-8 text-neutral-500" />
-        <p class="text-neutral-500 text-sm">See what avatars are about to released in the shop and make use of the direct shop links.</p>
+        <p class="text-neutral-500 text-sm">See what avatars are about to be released in the shop and make use of the direct shop links.</p>
       </div>
     </NuxtLink>
     <NuxtLink to="/lookup" class="w-full max-w-sm">
