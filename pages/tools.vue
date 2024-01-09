@@ -1,7 +1,7 @@
 <template>
   <div class="py-3 px-6 md:py-6 relative flex flex-col items-center gap-3 w-full">
     <template v-if="user?.tier < 1 || !user">
-      <NuxtLink to="/upgrade" class="mb-3 w-full max-w-sm">
+      <NuxtLink to="/upgrade" class="w-full max-w-sm">
         <div class="group p-3 flex flex-col items-center gap-3 bg-amber-600 hover:bg-amber-500 rounded-2xl duration-200 cursor-pointer">
           <h1 class="text-white text-xl font-medium">Upgrade to <span class="font-bold italic">Pro</span></h1>
         </div>
@@ -38,7 +38,7 @@
     <NuxtLink to="/lookup" class="w-full max-w-sm">
       <div class="group tool">
         <h1 class="text-white text-xl text-center font-semibold">Reddit Identity Lookup</h1>
-        <ArrowPathRoundedSquareIcon class="w-8 h-8 text-neutral-500" />
+        <MagnifyingGlassIcon class="w-8 h-8 text-neutral-500" />
         <p class="text-neutral-500 text-sm">Lookup a Reddit user's address from their username or a username from an address.</p>
       </div>
     </NuxtLink>
@@ -54,7 +54,7 @@
       <NuxtLink to="/dapps/convertclassic" class="w-full max-w-sm">
         <div class="group tool">
           <h1 class="text-white text-xl font-semibold">Convert Classic Tokens <span class="text-purple-600 font-bold italic">dApp</span></h1>
-          <ArrowPathRoundedSquareIcon class="w-8 h-8 text-neutral-500" />
+          <ArrowPathIcon class="w-8 h-8 text-neutral-500" />
           <p class="text-neutral-500 text-sm">Easily convert your RCAX Classic tokens to RCAX (V2).</p>
         </div>
       </NuxtLink>
@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import {PaintBrushIcon, TagIcon, BellIcon, ArrowPathRoundedSquareIcon, ShoppingBagIcon} from "@heroicons/vue/24/solid";
+import {PaintBrushIcon, TagIcon, BellIcon, ArrowPathRoundedSquareIcon, ShoppingBagIcon, MagnifyingGlassIcon, ArrowPathIcon} from "@heroicons/vue/24/solid";
 import {useUser} from "#imports";
 import {Capacitor} from "@capacitor/core";
 

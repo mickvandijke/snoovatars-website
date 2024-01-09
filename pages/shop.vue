@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 w-full">
+  <div class="mt-3 md:mt-0 flex flex-col gap-6 w-full">
     <StatsTabs class="hidden md:block" />
     <div class="px-2 md:px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-2">
       <template v-for="item in sortedItems">
