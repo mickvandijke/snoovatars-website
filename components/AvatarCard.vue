@@ -110,6 +110,7 @@ import {getTokenImage} from "~/global/utils";
 import {findCollectionNameByContractAddress} from "~/global/generations";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
 import {marketplaceLink} from "~/global/marketplace";
+import {getMintClasses} from "~/global/mint";
 
 export interface AvatarCardItem {
   name: string;
@@ -157,20 +158,6 @@ function selectAvatar() {
     seriesStats: props.seriesStats,
     contract: props.seriesStats.series.contract_address,
     series: props.seriesStats.series.name
-  }
-}
-
-function getMintClasses(totalQuantity: number) {
-  if (totalQuantity <= 75) {
-    return ["bg-sky-400"];
-  } else if (totalQuantity <= 250) {
-    return ["bg-yellow-300"];
-  } else if (totalQuantity <= 777) {
-    return ["bg-gray-300"];
-  } else if (totalQuantity <= 5000) {
-    return ["bg-orange-300"];
-  } else {
-    return ["bg-red-500"];
   }
 }
 </script>

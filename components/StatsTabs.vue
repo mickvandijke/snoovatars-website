@@ -26,9 +26,15 @@
         </NuxtLink>
       </li>
       <li>
+        <NuxtLink to="/shop" class="nlink" active-class="active">
+          <ShoppingBagIcon class="nlinkicon"/>
+          <span class="">Shop</span>
+        </NuxtLink>
+      </li>
+      <li>
         <NuxtLink to="/listings" class="nlink" active-class="active">
-          <TagIcon class="nlinkicon"/>
-          <span class="">Listings</span>
+          <GlobeEuropeAfricaIcon class="nlinkicon"/>
+          <span class="">Browser</span>
         </NuxtLink>
       </li>
       <li>
@@ -42,12 +48,12 @@
 </template>
 
 <script setup lang="ts">
-import {StarIcon, BellIcon, ChartBarIcon, WalletIcon, TagIcon, BoltIcon} from "@heroicons/vue/24/solid";
+import {StarIcon, BellIcon, ChartBarIcon, WalletIcon, TagIcon, BoltIcon, ShoppingBagIcon, GlobeEuropeAfricaIcon} from "@heroicons/vue/24/solid";
 </script>
 
 <style scoped>
 .nlink {
-  @apply inline-flex gap-3 py-3 px-6 text-center capitalize hover:text-white border-b-2 border-transparent duration-200;
+  @apply inline-flex gap-3 py-4 px-6 text-center capitalize hover:text-white border-b-2 border-transparent duration-200;
 }
 
 .active {
