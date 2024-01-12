@@ -3,8 +3,9 @@
     <nav class="py-3 px-4 sm:px-6 flex w-full items-center gap-3 md:gap-6 duration-200" :class="{ 'sm:py-4': scrolled < 72 }">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
-          <img class="w-8 h-8 mr-2" src="/images/branding/rcax/rcaxIcon.svg">
-          <NuxtLink class="text-2xl font-bold text-white lg:text-3xl duration-500" to="/home">RCA<span class="italic text-amber-500">X</span></NuxtLink>
+<!--          <img class="w-8 h-8 mr-2" src="/images/branding/rcax/rcaxIcon.svg">-->
+          <img class="h-6" src="/images/branding/rcax/rcaxLogo2024Light.svg">
+<!--          <NuxtLink class="text-2xl font-bold text-white lg:text-3xl duration-500" to="/home">RCA<span class="italic text-amber-500">X</span></NuxtLink>-->
         </div>
         <div class="ml-auto flex items-center flex-nowrap gap-0.5">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
