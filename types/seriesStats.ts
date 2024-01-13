@@ -13,6 +13,7 @@ export interface SeriesStats {
         }
     };
     series: {
+        id: string;
         name: string;
         contract_address: string;
         image: string;

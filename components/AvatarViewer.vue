@@ -17,18 +17,26 @@
         <div class="absolute top-0 z-10">
           <img-placeholder img-class="blur-3xl opacity-30" :src="avatarImage" />
         </div>
-        <div class="flex flex-col items-center gap-3">
+        <div class="flex flex-col items-center gap-3 z-30">
           <h2 class="text-neutral-300">{{ selectedAvatar.series }}</h2>
           <div class="flex gap-2 text-sm">
-            <div class="p-2 border border-neutral-800 rounded-lg">
-              <span class="px-1 text-neutral-300">${{ selectedAvatar.seriesStats.series.mint_price / 100 }}</span>
-            </div>
-            <div class="p-2 border border-neutral-800 rounded-lg">
-              <span class="text-neutral-300">{{ selectedAvatar.seriesStats.series.status.toUpperCase().replace("_", " ") }}</span>
-            </div>
             <div class="px-3 py-2 bg-gradient-to-b border-primary-border rounded-lg" :class="getMintClasses(selectedAvatar.seriesStats.series.total_quantity)">
               <span>{{ Math.max(selectedAvatar.seriesStats.series.total_quantity, selectedAvatar.seriesStats.series.total_sold) }}</span>
             </div>
+            <div class="p-2 border border-white/20 rounded-lg">
+              <span class="px-1 text-white/60">${{ selectedAvatar.seriesStats.series.mint_price / 100 }}</span>
+            </div>
+            <template v-if="selectedAvatar.seriesStats.series.total_sold >= selectedAvatar.seriesStats.series.total_quantity">
+              <div class="p-2 border border-white/20 rounded-lg">
+                <span class="text-white/60">SOLD OUT</span>
+              </div>
+            </template>
+            <template v-else>
+<!--              :href="`https://www.reddit.com/avatar/shop/product/${selectedAvatar.seriesStats.series.id}`"-->
+              <a class="block p-2 border border-amber-600 bg-amber-600 hover:bg-amber-500 hover:border-amber-500 rounded-lg duration-300">
+                <span class="text-white">AVAILABLE</span>
+              </a>
+            </template>
           </div>
         </div>
         <div class="flex flex-col gap-4 w-full">
@@ -67,6 +75,12 @@
                   <div class="text-white/40">Total Minted:</div>
                   <div class="flex gap-0.5 items-center">
                     <div class="text-white/80">{{ seriesStats.series.total_sold }}</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1">
+                  <div class="text-white/40">Total Stock:</div>
+                  <div class="flex gap-0.5 items-center">
+                    <div class="text-white/80">{{ Math.max((seriesStats.series.total_quantity - seriesStats.series.total_sold), 0) }}</div>
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
@@ -297,6 +311,7 @@ import {fetchListingsForSeries} from "~/composables/api/listings";
 import {fetchSalesForSeries} from "~/composables/api/sales";
 import {Capacitor} from "@capacitor/core";
 import {marketplaceLink} from "~/global/marketplace";
+import {getMintClasses} from "~/global/mint";
 
 const selectedAvatar = useSelectedAvatar();
 const ethereumPriceInUsd = useEthereumUsdPrice();
@@ -431,16 +446,6 @@ function refresh() {
   fetchSalesForSeries(contract.value, series.value).then((seriesSales) => {
     sales.value = seriesSales;
   });
-}
-
-function getMintClasses(totalQuantity: number) {
-  if (totalQuantity <= 250) {
-    return ["bg-yellow-500/0 from-yellow-500/25 to-yellow-500/10 text-yellow-500 italic"];
-  } else if (totalQuantity <= 777) {
-    return ["bg-gray-300/0 from-gray-300/25 to-gray-300/10 text-gray-300 italic"];
-  } else {
-    return ["bg-neutral-400/0 from-neutral-400/25 to-neutral-400/10 text-neutral-400 italic"];
-  }
 }
 </script>
 
