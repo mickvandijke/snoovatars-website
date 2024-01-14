@@ -78,7 +78,7 @@ onBeforeMount(() => {
 
 const sortedItems: ComputedRef<Array<Object>> = computed(() => {
   return Object.values(items.value).sort((a, b) => {
-    return a['edge']['node']['totalQuantity'] > b['edge']['node']['totalQuantity']
+    return a['date_available'] < b['date_available']
   })
 })
 
