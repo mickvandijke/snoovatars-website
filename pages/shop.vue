@@ -78,7 +78,7 @@ onBeforeMount(() => {
 
 const sortedItems: ComputedRef<Array<Object>> = computed(() => {
   return Object.values(items.value).sort((a, b) => {
-    return a['date_available'] < b['date_available']
+    return new Date(a['date_available']) < new Date(b['date_available']);
   })
 })
 
