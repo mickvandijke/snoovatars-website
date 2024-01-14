@@ -25,7 +25,7 @@
       <template v-if="foundUsername">
         <div class="flex flex-col items-center gap-2 w-full">
           <h2 class="text-green-500 text-sm">FOUND USERNAME</h2>
-          <input disabled :value="foundUsername" class="text-amber-500 text-center">
+          <a :href="`https://reddit.com/u/${foundUsername}`" target="_blank" class="text-orange-600 text-center">{{ foundUsername }}</a>
         </div>
       </template>
     </div>

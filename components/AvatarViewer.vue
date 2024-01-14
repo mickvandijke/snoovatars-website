@@ -32,7 +32,7 @@
               </div>
             </template>
             <template v-else>
-              <a :href="`https://www.reddit.com/avatar/shop/product/${selectedAvatar.seriesStats.series.id}`" class="block p-2 border border-amber-600 bg-amber-600 hover:bg-amber-500 hover:border-amber-500 rounded-lg duration-300">
+              <a :href="`https://www.reddit.com/avatar/shop/product/${selectedAvatar.seriesStats.series.id}`" target="_blank" class="block p-2 border border-amber-600 bg-amber-600 hover:bg-amber-500 hover:border-amber-500 rounded-lg duration-300">
                 <span class="text-white">BUY NOW</span>
               </a>
             </template>

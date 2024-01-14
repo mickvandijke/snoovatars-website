@@ -24,6 +24,16 @@
                 </template>
               </div>
             </div>
+            <div class="flex gap-1 text-white/40 text-sm">
+              <template v-if="item['date_available']">
+                <span>Released</span>
+                <span class="text-amber-500">{{ $timeAgo(new Date(item['date_available'])) }} ago</span>
+              </template>
+              <template v-else>
+                <span>Found</span>
+                <span class="text-amber-500">{{ $timeAgo(new Date(item['date_found'])) }} ago</span>
+              </template>
+            </div>
           </div>
           <div>
             <div class="grid grid-cols-2 divide-x divide-white/10 py-1.5 bg-primary-accent-solid/40 rounded-lg">
