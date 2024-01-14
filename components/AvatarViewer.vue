@@ -26,15 +26,14 @@
             <div class="p-2 border border-white/20 rounded-lg">
               <span class="px-1 text-white/60">${{ selectedAvatar.seriesStats.series.mint_price / 100 }}</span>
             </div>
-            <template v-if="selectedAvatar.seriesStats.series.total_sold >= selectedAvatar.seriesStats.series.total_quantity">
+            <template v-if="selectedAvatar.seriesStats.series.total_sold >= selectedAvatar.seriesStats.series.total_quantity || !selectedAvatar.seriesStats.series.id">
               <div class="p-2 border border-white/20 rounded-lg">
                 <span class="text-white/60">SOLD OUT</span>
               </div>
             </template>
             <template v-else>
-<!--              :href="`https://www.reddit.com/avatar/shop/product/${selectedAvatar.seriesStats.series.id}`"-->
-              <a class="block p-2 border border-amber-600 bg-amber-600 hover:bg-amber-500 hover:border-amber-500 rounded-lg duration-300">
-                <span class="text-white">AVAILABLE</span>
+              <a :href="`https://www.reddit.com/avatar/shop/product/${selectedAvatar.seriesStats.series.id}`" class="block p-2 border border-amber-600 bg-amber-600 hover:bg-amber-500 hover:border-amber-500 rounded-lg duration-300">
+                <span class="text-white">BUY NOW</span>
               </a>
             </template>
           </div>
