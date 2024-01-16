@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 px-6 md:py-6 relative flex flex-col items-center gap-3 w-full">
+  <div class="py-3 px-2 md:px-6 md:py-6 relative flex flex-col items-center gap-3 w-full">
     <template v-if="user?.tier < 1 || !user">
       <NuxtLink to="/upgrade" class="w-full max-w-sm">
         <div class="group p-3 flex flex-col items-center gap-3 bg-amber-600 hover:bg-amber-500 rounded-2xl duration-200 cursor-pointer">

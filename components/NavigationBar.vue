@@ -1,10 +1,11 @@
 <template>
-  <div class="navigation-bar flex flex-col z-40 w-full sm:shadow-none duration-200" :class="{ 'shadow sm:mb-6': scrolled >= 72 }" @mouseleave="closeDropdowns()" ref="navbar">
+  <div class="navigation-bar flex flex-col z-40 w-full duration-200" :class="{ 'shadow sm:mb-6': scrolled >= 72 }" @mouseleave="closeDropdowns()" ref="navbar">
     <nav class="py-3 px-4 sm:px-6 flex w-full items-center gap-3 md:gap-6 duration-200" :class="{ 'sm:py-4': scrolled < 72 }">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
 <!--          <img class="w-8 h-8 mr-2" src="/images/branding/rcax/rcaxIcon.svg">-->
-          <img class="h-6" src="/images/branding/rcax/rcaxLogo2024Light.svg">
+          <img class="h-8 md:h-9 mr-2.5" src="/images/branding/rcax/RCAX_Logo_Color.svg">
+          <img class="h-5 md:h-6" src="/images/branding/rcax/rcaxLogo2024Light.svg">
 <!--          <NuxtLink class="text-2xl font-bold text-white lg:text-3xl duration-500" to="/home">RCA<span class="italic text-amber-500">X</span></NuxtLink>-->
         </div>
         <div class="ml-auto flex items-center flex-nowrap gap-0.5">

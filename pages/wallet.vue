@@ -117,7 +117,7 @@
                   <div class="p-1 flex items-center justify-start w-full font-bold">
                     <div class="w-10 h-10 relative rounded-full overflow-hidden">
                       <button @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)">
-                        <img src="/images/branding/rcax/rcaxIcon.svg" class="rounded-full">
+                        <img src="/images/branding/rcax/RCAX_Round_Color.svg" class="rounded-full">
                       </button>
                     </div>
                     <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">

@@ -27,7 +27,8 @@ module.exports = {
                 "ios-bg-navbar": "rgba(18, 18, 18, 0.8)",
                 "ios-text-primary": "rgb(255, 255, 255)",
                 "ios-text-secondary": "rgba(255, 255, 255, .55)",
-                "ios-text-tertiary": "rgb(107 114 128)"
+                "ios-text-tertiary": "rgb(107 114 128)",
+                "reddit": "rgb(255, 86, 0, 1)"
             }
         },
     },
