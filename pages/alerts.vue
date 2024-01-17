@@ -27,12 +27,12 @@
               <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-white font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
             </div>
             <div class="p-6 flex flex-col gap-y-4 border-2 border-primary-border w-full rounded-2xl">
-              <template v-if="user.tier > 0">
+              <template v-if="user.tier >= 0">
                 <template v-for="[key, value] in Object.entries(userSettings)">
                   <div class="flex justify-between items-center">
                     <div class="flex gap-1 items-center">
                       <span class="text-sm text-white/80">{{ key.replace(/_/g, " ") }}</span>
-                      <NuxtLink to="/home#plans" class="text-amber-500 text-xs font-bold">Pro</NuxtLink>
+                      <!--                      <NuxtLink to="/home#plans" class="text-amber-500 text-xs font-bold">Pro</NuxtLink>-->
                     </div>
                     <label class="relative flex justify-between items-center group p-1 cursor-pointer">
                       <input v-model="userSettings[key]" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
@@ -107,12 +107,12 @@
                 <span>Concurrent Alerts:</span>
                 <span class="ml-auto">{{ alerts.size }}/{{ alertMaxQuota.alerts }}</span>
               </li>
-<!--              <li class="flex flex-row flex-nowrap text-white/60 text-sm rounded-2xl block w-full">-->
-<!--                <span>Email Notifications:</span>-->
-<!--                <span class="ml-auto">{{ alertQuota.emails_sent }}/{{ alertMaxQuota.emails_sent }}</span>-->
-<!--              </li>-->
+              <!--              <li class="flex flex-row flex-nowrap text-white/60 text-sm rounded-2xl block w-full">-->
+              <!--                <span>Email Notifications:</span>-->
+              <!--                <span class="ml-auto">{{ alertQuota.emails_sent }}/{{ alertMaxQuota.emails_sent }}</span>-->
+              <!--              </li>-->
             </ul>
-<!--            <p class="px-6 text-sm text-white/40 text-center w-full">*Free tier quotas might change at any moment without notice.</p>-->
+            <!--            <p class="px-6 text-sm text-white/40 text-center w-full">*Free tier quotas might change at any moment without notice.</p>-->
           </div>
         </template>
       </div>

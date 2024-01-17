@@ -78,10 +78,23 @@ onBeforeMount(() => {
 
 const sortedItems: ComputedRef<Array<Object>> = computed(() => {
   return Object.values(items.value).sort((a, b) => {
-    return new Date(a['date_available']) < new Date(b['date_available']);
-  })
-})
+    const dateAvailableA = new Date(a['date_available']);
+    const dateAvailableB = new Date(b['date_available']);
 
+    // First, compare by date_available
+    if (dateAvailableA < dateAvailableB) {
+      return 1;
+    } else if (dateAvailableA > dateAvailableB) {
+      return -1;
+    } else {
+      // If date_available is equal, compare by date_released
+      const dateReleasedA = new Date(a['date_found']);
+      const dateReleasedB = new Date(b['date_found']);
+
+      return dateReleasedB - dateReleasedA;
+    }
+  });
+});
 </script>
 
 <style scoped>
