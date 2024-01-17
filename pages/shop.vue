@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3 md:mt-0 flex flex-col gap-6 w-full">
     <StatsTabs class="hidden md:block" />
-    <div class="px-2 md:px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-2">
+    <div class="px-2 md:px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2">
       <template v-for="item in sortedItems">
         <div class="p-4 w-full flex flex-col gap-2 border border-primary-accent-solid rounded-2xl overflow-hidden">
           <div class="relative overflow-hidden rounded-2xl">
