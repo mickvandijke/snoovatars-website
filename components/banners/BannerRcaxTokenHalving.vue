@@ -6,9 +6,9 @@
           <img src="/images/banners/rcax_polygon.png" class="object-contain md:max-h-64 rounded-2xl shadow-xl">
         </div>
         <div class="py-2 md:py-0 relative flex flex-col gap-2 md:gap-6 max-w-md md:max-w-xl text-left items-center md:items-start z-20">
-          <h1 class="w-full md:w-fit text-white text-xl md:text-5xl font-bold z-10">RCAX Halving Timer</h1>
+          <h1 class="w-full md:w-fit text-header text-xl md:text-5xl font-bold z-10">RCAX Halving Timer</h1>
 
-          <div class="flex items-center gap-1 md:gap-2 text-white text-xl md:text-3xl font-bold max-w-sm sm:max-w-full z-10">
+          <div class="flex items-center gap-1 md:gap-2 text-header text-xl md:text-3xl font-bold max-w-sm sm:max-w-full z-10">
             <template v-if="countdownValues[0] === 0 && countdownValues[1] === 0 && countdownValues[2] === 0 && countdownValues[3] === 0">
               <div>{{ countdownText }}</div>
             </template>
@@ -19,7 +19,7 @@
               <div class="px-1.5 py-1 bg-white/20 rounded-lg">{{ countdownValues[3] }}</div>
             </template>
             <div class="block md:hidden ml-2">
-              <span class="px-1 py-0.5 bg-primary-accent backdrop-blur-lg text-[0.65rem] text-white/60 font-medium rounded-lg cursor-pointer">Read More</span>
+              <span class="px-1 py-0.5 bg-secondary backdrop-blur-lg text-[0.65rem] text-details font-medium rounded-lg cursor-pointer">Read More</span>
             </div>
           </div>
 

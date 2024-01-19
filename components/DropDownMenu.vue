@@ -32,14 +32,14 @@ const props = defineProps({
 
 <style>
 .menu-button--button {
-  @apply text-white/90 hover:text-white duration-300;
+  @apply text-white/90 hover:text-header duration-300;
 }
 
 .menu-button--menu {
-  @apply bg-primary-accent-solid/90 backdrop-blur-xl border border-primary-border rounded-xl shadow-xl;
+  @apply bg-secondary/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl;
 }
 
 .menu-button--menu--item-wrapper > * {
-  @apply p-3 w-full whitespace-nowrap inline-flex items-center hover:bg-primary-accent text-white rounded-lg duration-200;
+  @apply p-3 w-full whitespace-nowrap inline-flex items-center hover:bg-secondary text-header rounded-lg duration-200;
 }
 </style>

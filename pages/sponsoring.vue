@@ -19,10 +19,10 @@
     <p>Don't have a banner yet? Let us take care of it! Our skilled team can craft a captivating banner that perfectly encapsulates your brand's essence.</p>
 
     <h2>Sign me up!</h2>
-    <p>If you're ready to take your brand to the next level, reach out to us at <a href="mailto:warmbiertje@rcax.io" class="text-white font-semibold">warmbiertje@rcax.io</a> to express your interest or secure your sponsorship spot. Make sure to be on time, cause there are only a limited amount of spots available!</p>
+    <p>If you're ready to take your brand to the next level, reach out to us at <a href="mailto:warmbiertje@rcax.io" class="text-header font-semibold">warmbiertje@rcax.io</a> to express your interest or secure your sponsorship spot. Make sure to be on time, cause there are only a limited amount of spots available!</p>
 
     <h1 class="mt-6 text-xl">Partnering & Sponsorships</h1>
-    <p>Interested in sponsoring or partnering up with RCAX? Reach out to us at <a href="mailto:warmbiertje@rcax.io" class="text-white font-semibold">warmbiertje@rcax.io</a>!</p>
+    <p>Interested in sponsoring or partnering up with RCAX? Reach out to us at <a href="mailto:warmbiertje@rcax.io" class="text-header font-semibold">warmbiertje@rcax.io</a>!</p>
 
     <h1 class="mt-6 text-xl">Donate</h1>
 

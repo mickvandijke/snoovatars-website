@@ -9,7 +9,7 @@
           <img v-for="i in 12" :src="getRandomAvatarImgSrc()" class="w-16">
         </div>
         <div class="flex flex-col justify-center items-center">
-          <h1 class="max-w-lg py-4 text-center text-4xl text-white font-bold">Collecting <span class="text-amber-500">avatars</span> has never been this <span class="text-amber-500">easy.</span></h1>
+          <h1 class="max-w-lg py-4 text-center text-4xl text-header font-bold">Collecting <span class="text-amber-500">avatars</span> has never been this <span class="text-amber-500">easy.</span></h1>
         </div>
         <div class="w-full flex flex-row justify-center">
           <img v-for="i in 12" :src="getRandomAvatarImgSrc()" class="w-16">
@@ -80,10 +80,10 @@
       </div>
     </div>
 
-    <h2 class="mb-12 text-xl text-white font-bold text-center">We continually want to improve the service, so stay tuned for new updates!</h2>
+    <h2 class="mb-12 text-xl text-header font-bold text-center">We continually want to improve the service, so stay tuned for new updates!</h2>
 
     <NuxtLink
-        class="px-6 py-4 max-w-xs bg-primary-accent hover:bg-primary-accent-hover font-bold text-lg text-amber-500 rounded-2xl duration-200"
+        class="px-6 py-4 max-w-xs bg-secondary hover:bg-tertiary font-bold text-lg text-amber-500 rounded-2xl duration-200"
         to="/signup"
     >
       Sign up for free
@@ -95,7 +95,7 @@
       <div class="grid lg:grid-cols-2 gap-6 lg:gap-x-12">
 
         <div class="mb-6 lg:mb-0 flex flex-col items-center">
-          <div class="block max-w-xs w-full shadow-lg bg-primary-accent border-2 border-primary-border h-full rounded-2xl">
+          <div class="block max-w-xs w-full shadow-lg bg-secondary border-2 border-white/10 h-full rounded-2xl">
             <div class="p-6 border-b border-neutral-700 text-center">
               <p class="uppercase mb-4 text-sm">
                 <strong>Free</strong>
@@ -118,7 +118,7 @@
         </div>
 
         <div class="mb-6 lg:mb-0 flex flex-col items-center">
-          <div class="block max-w-xs w-full shadow-lg bg-primary-accent border-2 border-amber-500 h-full rounded-2xl">
+          <div class="block max-w-xs w-full shadow-lg bg-secondary border-2 border-amber-500 h-full rounded-2xl">
             <div class="p-6 border-b border-neutral-700 text-center">
               <p class="uppercase mb-4 text-sm">
                 <strong class="text-amber-500">Pro</strong>
@@ -181,6 +181,6 @@ function getRandomAvatarImgSrc() {
 
 <style scoped>
 .signup {
-  @apply inline-block px-6 py-2.5 bg-amber-600 text-white font-medium text-sm leading-tight rounded-2xl shadow-md hover:bg-amber-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full;
+  @apply inline-block px-6 py-2.5 bg-amber-600 text-header font-medium text-sm leading-tight rounded-2xl shadow-md hover:bg-amber-500 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full;
 }
 </style>

@@ -22,12 +22,12 @@
         <RefreshButton :action="refresh" :refreshing="isRefreshing" />
       </template>
     </MenuBar>
-    <div class="flex flex-col items-center w-full max-w-[92rem]">
+    <div class="flex flex-col items-center w-full">
       <div class="lg:hidden px-2 sm:px-6 py-2 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
         <div class="flex items-center lg:justify-end text-sm w-full">
           <div class="flex flex-nowrap gap-2 max-w-lg w-full">
             <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit Username (without u/) or Wallet Address">
-            <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200 cursor-pointer">
+            <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200 cursor-pointer">
               <template v-if="loading">
                 <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
@@ -46,7 +46,7 @@
           <div class="hidden lg:flex items-center lg:justify-end text-sm w-full">
             <div class="flex flex-nowrap gap-2 max-w-lg w-full">
               <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit Username (without u/) or Wallet Address">
-              <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200 cursor-pointer">
+              <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200 cursor-pointer">
                 <template v-if="loading">
                   <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
@@ -70,7 +70,7 @@
             </div>
             <div class="flex gap-1">
               <span class="text-white/40">Total items:</span>
-              <span class="text-white font-medium">{{ getTotalItems }}</span>
+              <span class="text-header font-medium">{{ getTotalItems }}</span>
             </div>
           </div>
           <div class="px-2 flex md:hidden flex-col md:flex-row items-center gap-1 text-sm w-full">
@@ -84,21 +84,21 @@
             </div>
             <div class="flex gap-1">
               <span class="text-white/40">Total items:</span>
-              <span class="text-white font-medium">{{ getTotalItems }}</span>
+              <span class="text-header font-medium">{{ getTotalItems }}</span>
             </div>
           </div>
         </div>
         <div class="mt-2 lg:mt-3 px-2 sm:px-6 flex flex-col items-center gap-3 md:gap-12 w-full overflow-hidden">
           <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
-            <div class="bg-primary-accent sm:border border-primary-border flex flex-col items-center overflow-hidden w-full rounded-lg">
+            <div class="bg-secondary sm:border border-white/10 flex flex-col items-center overflow-hidden w-full rounded-lg">
               <div class="p-2 flex gap-2 w-full rounded">
                 <div class="pl-2 flex items-center overflow-hidden">
-                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="hidden md:block p-2 text-white/40 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
-                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="md:hidden text-white/40 hover:text-white text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</button>
+                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="hidden md:block p-2 text-white/40 hover:text-header text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
+                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="md:hidden text-white/40 hover:text-header text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</button>
                 </div>
                 <div class="flex gap-2">
-                  <button @click="removeWallet(walletAddress)" class="px-1 py-1 text-white font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
-                    <XMarkIcon class="w-5 h-5 text-white/60 group-hover:text-red-400 duration-200" />
+                  <button @click="removeWallet(walletAddress)" class="px-1 py-1 text-header font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
+                    <XMarkIcon class="w-5 h-5 text-details group-hover:text-red-400 duration-200" />
                   </button>
                 </div>
                 <div class="ml-auto md:p-2 flex items-center text-sm rounded-md font-bold">
@@ -108,12 +108,12 @@
                 </div>
                 <div class="flex items-center gap-2">
                   <button @click="toggleCollapse(walletAddress)" class="px-1 py-1 font-semibold text-sm flex items-center border border-transparent rounded-md duration-200 cursor-pointer">
-                    <ChevronDownIcon class="w-5 h-5 text-white/60 group-hover:text-red-400 duration-200" :class="{ 'rotate-90': isCollapsed(walletAddress) }" />
+                    <ChevronDownIcon class="w-5 h-5 text-details group-hover:text-red-400 duration-200" :class="{ 'rotate-90': isCollapsed(walletAddress) }" />
                   </button>
                 </div>
               </div>
               <template v-if="!isCollapsed(walletAddress)">
-                <div class="p-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-primary-border w-full">
+                <div class="p-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-1 border-t border-white/10 w-full">
                   <div class="p-1 flex items-center justify-start w-full font-bold">
                     <div class="w-10 h-10 relative rounded-full overflow-hidden">
                       <button @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)">
@@ -123,7 +123,7 @@
                     <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
                       <button
                           @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)"
-                          class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
+                          class="text-header whitespace-nowrap text-ellipsis overflow-hidden"
                       >RCAX</button>
                       <span class="text-amber-500 text-[0.8rem]">{{
                           ((getRcax(walletAddress) ?? 0) / 1000000000000000000).toLocaleString()
@@ -155,7 +155,7 @@
                     <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
                       <button
                           @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)"
-                          class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
+                          class="text-header whitespace-nowrap text-ellipsis overflow-hidden"
                       >RCAX Classic</button>
                       <span class="text-amber-500 text-[0.8rem]">{{
                           ((getRcaxClassic(walletAddress) ?? 0) / 1000000000000000000).toLocaleString()
@@ -187,7 +187,7 @@
                     <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
                       <button
                           @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)"
-                          class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
+                          class="text-header whitespace-nowrap text-ellipsis overflow-hidden"
                       >BitCone</button>
                       <span class="text-amber-500 text-[0.8rem]">{{ ((getCones(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
                     </div>
@@ -211,7 +211,7 @@
                     <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
                       <button
                           @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619?a=${ walletAddress }`)"
-                          class="text-white whitespace-nowrap text-ellipsis overflow-hidden"
+                          class="text-header whitespace-nowrap text-ellipsis overflow-hidden"
                       >Ethereum</button>
                       <span class="text-amber-500 text-[0.8rem]">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
                     </div>
@@ -229,17 +229,17 @@
                 </div>
               </template>
               <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
-                <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-primary-border w-full">
+                <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-white/10 w-full">
                   <template v-if="settings.wallet.groupMethod === 'group'">
                     <template v-for="series in sortedWalletTokensGrouped(filterWalletTokensGrouped(tokensCount.get(walletAddress)))">
-                      <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
+                      <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-tertiary rounded-lg font-bold cursor-pointer">
                         <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                           <a @click.stop="openLinkWith(marketplaceLink(getSeriesStats(series.contract_address, series.name)))" class="cursor-pointer">
                             <img-placeholder img-class="absolute top-0 left-0 w-full h-full object-cover" :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" />
                           </a>
                         </div>
                         <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">
-                          <span class="text-white whitespace-nowrap text-ellipsis overflow-hidden">{{getSeriesStats(series.contract_address, series.name)?.series.name }}</span>
+                          <span class="text-header whitespace-nowrap text-ellipsis overflow-hidden">{{getSeriesStats(series.contract_address, series.name)?.series.name }}</span>
                           <span class="text-amber-500 text-[0.8rem]">{{ series.count }}</span>
                         </div>
                         <div class="col-span-3 md:col-span-5 flex flex-col items-end justify-center text-[0.8rem]">
@@ -259,7 +259,7 @@
                   </template>
                   <template v-else>
                     <template v-for="token in sortedTokens(filterWalletTokens(walletTokens))">
-                      <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-primary-accent-hover rounded-lg font-bold cursor-pointer">
+                      <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-tertiary rounded-lg font-bold cursor-pointer">
                         <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
                           <a @click.stop="openLinkWith(marketplaceLink(getSeriesStats(token.contract_address, token.name)))" class="cursor-pointer">
                             <template v-if="Capacitor.isNativePlatform()">

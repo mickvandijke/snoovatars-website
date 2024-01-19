@@ -1,14 +1,14 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
     <template v-if="Capacitor.isNativePlatform()">
-      <div class="sticky top-0 bg-primary/80 backdrop-blur-2xl w-full max-w-full z-50">
+      <div class="sticky top-0 bg-primary/95 backdrop-blur w-full max-w-full z-50">
         <HeaderTop />
         <NavigationBar ref="navbarcomp"/>
       </div>
     </template>
     <template v-else>
       <HeaderTop />
-      <NavigationBar class="sticky top-0 bg-primary/80 backdrop-blur-2xl" ref="navbarcomp"/>
+      <NavigationBar class="sticky top-0 bg-primary/95 backdrop-blur" ref="navbarcomp"/>
     </template>
     <AvatarViewer />
     <template v-if="!Capacitor.isNativePlatform()">
@@ -258,11 +258,11 @@ html, body {
 }
 
 select {
-  @apply p-2 h-10 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white capitalize placeholder-white/20 font-medium border-none focus:outline-none overflow-x-hidden rounded-lg cursor-pointer;
+  @apply p-2 h-10 bg-secondary hover:bg-tertiary text-sm text-header capitalize placeholder-white/20 font-medium border-none focus:outline-none overflow-x-hidden rounded-lg cursor-pointer;
 }
 
 input {
-  @apply p-2 h-10 bg-transparent text-white placeholder-white/40 border border-primary-border hover:border-white/25 rounded-lg w-full duration-200 cursor-text;
+  @apply p-2 h-10 bg-transparent text-header placeholder-white/40 border border-white/10 hover:border-white/25 rounded-lg w-full duration-200 cursor-text;
 }
 
 input.light, select.light {

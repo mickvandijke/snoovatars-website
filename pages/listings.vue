@@ -30,12 +30,12 @@
       <RefreshButton :action="refresh" :refreshing="isRefreshing" />
     </MenuBar>
     <div class="px-2 md:px-6 w-full">
-      <div class="px-2 border border-primary-border rounded-2xl">
+      <div class="px-2 border border-white/10 rounded-2xl">
         <div class="w-full overflow-x-auto">
           <table class="w-full whitespace-nowrap">
             <thead>
-            <tr class="border-b border-primary-border text-white/80 text-xs">
-              <th class="border-b border-primary-border text-left px-2 py-3 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'name' }" @click="sortListings('name')">Name</th>
+            <tr class="border-b border-white/10 text-white/80 text-xs">
+              <th class="border-b border-white/10 text-left px-2 py-3 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'name' }" @click="sortListings('name')">Name</th>
               <th class="table--cell" :class="{ 'text-amber-500': listingsSortColumn === 'supply' }" @click="sortListings('supply')">Supply</th>
               <th class="table--cell" :class="{ 'text-amber-500': listingsSortSecondaryColumn === 'price' }" @click="sortSecondaryListings('price')">Price</th>
               <th class="table--cell" :class="{ 'text-amber-500': listingsSortColumn === 'mint_number' }" @click="sortListings('mint_number')">Mint</th>
@@ -45,7 +45,7 @@
             </thead>
             <tbody>
             <template v-for="(listing, index) in slicedListings" :key="index">
-              <tr class="border-b border-primary-border hover:bg-primary-accent-hover text-white/80 text-xs">
+              <tr class="border-b border-white/10 hover:bg-tertiary text-white/80 text-xs">
                 <td class="relative px-2 py-1 flex gap-2">
                   <button @click="openLinkWith(marketplaceLink(listing.stats))">
                     <div class="relative rounded-md w-6 h-6 flex items-center overflow-hidden">
@@ -80,13 +80,13 @@
       <template v-if="!user">
         <div class="py-6 flex flex-col items-center text-center gap-2">
           <div class="text-neutral-300">This is a <NuxtLink to="/upgrade" class="text-amber-500 font-bold italic">Pro</NuxtLink> feature. Please sign in using your Pro account.</div>
-          <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Sign In</NuxtLink>
+          <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-header font-bold rounded-lg">Sign In</NuxtLink>
         </div>
       </template>
       <template v-else-if="user.tier < 1">
         <div class="py-6 flex flex-col items-center text-center gap-2">
           <div class="text-neutral-300">Please upgrade to <NuxtLink to="/upgrade" class="text-amber-500 font-bold italic">Pro</NuxtLink> to use this feature.</div>
-          <NuxtLink to="/upgrade" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-lg">Upgrade</NuxtLink>
+          <NuxtLink to="/upgrade" class="px-4 py-2 bg-amber-600 text-header font-bold rounded-lg">Upgrade</NuxtLink>
         </div>
       </template>
     </div>
@@ -329,6 +329,6 @@ function selectAvatar(stats: SeriesStats) {
 
 <style scoped>
 .table--cell {
-  @apply border-b border-primary-border px-2 py-1 text-left cursor-pointer;
+  @apply border-b border-white/10 px-2 py-1 text-left cursor-pointer;
 }
 </style>

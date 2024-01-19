@@ -20,15 +20,15 @@
         <div class="flex flex-col items-center gap-3 z-30">
           <h2 class="text-neutral-300">{{ selectedAvatar.series }}</h2>
           <div class="flex gap-2 text-sm">
-            <div class="px-3 py-2 bg-gradient-to-b border-primary-border rounded-lg" :class="getMintClasses(selectedAvatar.seriesStats.series.total_quantity)">
+            <div class="px-3 py-2 bg-gradient-to-b border-white/10 rounded-lg" :class="getMintClasses(selectedAvatar.seriesStats.series.total_quantity)">
               <span>{{ Math.max(selectedAvatar.seriesStats.series.total_quantity, selectedAvatar.seriesStats.series.total_sold) }}</span>
             </div>
             <div class="p-2 border border-white/20 rounded-lg">
-              <span class="px-1 text-white/60">${{ selectedAvatar.seriesStats.series.mint_price / 100 }}</span>
+              <span class="px-1 text-details">${{ selectedAvatar.seriesStats.series.mint_price / 100 }}</span>
             </div>
             <template v-if="selectedAvatar.seriesStats.series.total_sold >= selectedAvatar.seriesStats.series.total_quantity || !selectedAvatar.seriesStats.series.id">
               <div class="p-2 border border-white/20 rounded-lg">
-                <span class="text-white/60">SOLD OUT</span>
+                <span class="text-details">SOLD OUT</span>
               </div>
             </template>
             <template v-else>
@@ -39,8 +39,8 @@
           </div>
         </div>
         <div class="flex flex-col gap-4 w-full">
-          <div class="flex flex-col gap-2 p-4 bg-primary-accent rounded-2xl">
-            <div @click="settings.extraInfoOptions.marketData = !settings.extraInfoOptions.marketData" class="px-2 flex justify-between items-center text-white/40 hover:text-white cursor-pointer duration-200">
+          <div class="flex flex-col gap-2 p-4 bg-secondary rounded-2xl">
+            <div @click="settings.extraInfoOptions.marketData = !settings.extraInfoOptions.marketData" class="px-2 flex justify-between items-center text-white/40 hover:text-header cursor-pointer duration-200">
               <h1>Advanced Details</h1>
               <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.marketData }" />
             </div>
@@ -77,7 +77,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-1">
-                  <div class="text-white/40">Total Stock:</div>
+                  <div class="text-white/40">Stock Left:</div>
                   <div class="flex gap-0.5 items-center">
                     <div class="text-white/80">{{ Math.max((seriesStats.series.total_quantity - seriesStats.series.total_sold), 0) }}</div>
                   </div>
@@ -179,8 +179,8 @@
             </template>
           </div>
           <template v-if="listings">
-            <div class="flex flex-col gap-2 p-4 bg-primary-accent rounded-2xl">
-              <div @click="settings.extraInfoOptions.listings = !settings.extraInfoOptions.listings" class="px-2 group flex justify-between items-center text-white/40 hover:text-white cursor-pointer duration-200">
+            <div class="flex flex-col gap-2 p-4 bg-secondary rounded-2xl">
+              <div @click="settings.extraInfoOptions.listings = !settings.extraInfoOptions.listings" class="px-2 group flex justify-between items-center text-white/40 hover:text-header cursor-pointer duration-200">
                 <h1>Listings</h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.listings }" />
               </div>
@@ -189,7 +189,7 @@
                   <div class="overflow-x-auto">
                     <table class="w-full text-xs">
                       <thead>
-                      <tr class="border-b border-primary-border text-white/40">
+                      <tr class="border-b border-white/10 text-white/40">
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'payment_token.base_price' }" @click="sortListings('payment_token.base_price')">Price</th>
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'token.mint_number' }" @click="sortListings('token.mint_number')">Mint</th>
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': listingsSortColumn === 'maker_address' }" @click="sortListings('maker_address')">Seller</th>
@@ -198,7 +198,7 @@
                       </thead>
                       <tbody>
                       <template v-for="(listing, index) in slicedListings" :key="index">
-                        <tr class="border-b border-primary-border hover:bg-primary-accent-hover text-white/80">
+                        <tr class="border-b border-white/10 hover:bg-tertiary text-white/80">
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                             <span>{{ (listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ listing.payment_token.symbol }}</span>
                             <template v-if="listing.payment_token.symbol === 'ETH'">
@@ -228,8 +228,8 @@
             </div>
           </template>
           <template v-if="sales">
-            <div class="flex flex-col gap-2 p-4 bg-primary-accent rounded-2xl">
-              <div @click="settings.extraInfoOptions.salesGraph = !settings.extraInfoOptions.salesGraph" class="px-2 group flex justify-between items-center text-white/40 hover:text-white cursor-pointer duration-200">
+            <div class="flex flex-col gap-2 p-4 bg-secondary rounded-2xl">
+              <div @click="settings.extraInfoOptions.salesGraph = !settings.extraInfoOptions.salesGraph" class="px-2 group flex justify-between items-center text-white/40 hover:text-header cursor-pointer duration-200">
                 <h1>Sales Chart</h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.salesGraph }" />
               </div>
@@ -237,8 +237,8 @@
                 <SalesChart :sales="sales" class="px-2" />
               </template>
             </div>
-            <div class="flex flex-col gap-2 p-4 bg-primary-accent rounded-2xl">
-              <div @click="settings.extraInfoOptions.sales = !settings.extraInfoOptions.sales" class="px-2 group flex justify-between items-center text-white/40 hover:text-white cursor-pointer duration-200">
+            <div class="flex flex-col gap-2 p-4 bg-secondary rounded-2xl">
+              <div @click="settings.extraInfoOptions.sales = !settings.extraInfoOptions.sales" class="px-2 group flex justify-between items-center text-white/40 hover:text-header cursor-pointer duration-200">
                 <h1>Sales</h1>
                 <ChevronDownIcon class="w-6 h-6" :class="{ 'rotate-90': !settings.extraInfoOptions.sales }" />
               </div>
@@ -247,7 +247,7 @@
                   <div class="overflow-x-auto">
                     <table class="w-full text-xs">
                       <thead>
-                      <tr class="border-b border-primary-border text-white/40">
+                      <tr class="border-b border-white/10 text-white/40">
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'payment_token.base_price' }" @click="sortSales('payment_token.base_price')">Price</th>
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'token.mint_number' }" @click="sortSales('token.mint_number')">Mint</th>
                         <th class="text-left px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': salesSortColumn === 'buyer' }" @click="sortSales('buyer')">Buyer</th>
@@ -256,7 +256,7 @@
                       </thead>
                       <tbody>
                       <template v-for="(sale, index) in slicedSales" :key="index">
-                        <tr class="border-b border-primary-border hover:bg-primary-accent-hover text-white/80">
+                        <tr class="border-b border-white/10 hover:bg-tertiary text-white/80">
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                             <span>{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ sale.payment_token.symbol }}</span>
                             <template v-if="sale.payment_token.symbol === 'ETH'">

@@ -1,12 +1,12 @@
 <template>
   <div class="px-4 md:px-6 py-12 flex flex-col items-center gap-6 text-neutral-200 w-full sm:max-w-2xl">
-    <h1 class="text-xl font-bold text-white duration-500">Reddit Identity <span class="italic text-amber-500">Lookup</span></h1>
+    <h1 class="text-xl font-bold text-header duration-500">Reddit Identity <span class="italic text-amber-500">Lookup</span></h1>
 
-    <div class="p-6 flex flex-col gap-6 w-full bg-primary-accent-solid rounded-lg">
+    <div class="p-6 flex flex-col gap-6 w-full bg-secondary rounded-lg">
       <div class="flex flex-col items-center gap-2 w-full">
         <h2>Username to Address</h2>
         <input type="text" autocomplete="off" name=“username” class="" placeholder="Username (without u/)" v-model="usernameQuery" @keyup.enter.prevent="getAddressFromUsername()">
-        <button :disabled="!usernameQuery || loading" class="px-4 h-10 bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white text-sm disabled:text-white/20 font-medium whitespace-nowrap rounded-lg duration-200 w-full" @click="getAddressFromUsername()">Lookup</button>
+        <button :disabled="!usernameQuery || loading" class="px-4 h-10 bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header text-sm disabled:text-white/20 font-medium whitespace-nowrap rounded-lg duration-200 w-full" @click="getAddressFromUsername()">Lookup</button>
       </div>
       <template v-if="foundAddress">
         <div class="flex flex-col items-center gap-2 w-full">
@@ -16,11 +16,11 @@
       </template>
     </div>
 
-    <div class="p-6 flex flex-col gap-6 w-full bg-primary-accent-solid rounded-lg">
+    <div class="p-6 flex flex-col gap-6 w-full bg-secondary rounded-lg">
       <div class="flex flex-col items-center gap-2 w-full">
         <h2>Address to Username</h2>
         <input type="text" autocomplete="off" name=“address” class="" placeholder="0x.." v-model="addressQuery" @keyup.enter.prevent="getUsernameFromAddress()">
-        <button :disabled="!addressQuery || loading" class="px-4 h-10 bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white text-sm disabled:text-white/20 font-medium whitespace-nowrap rounded-lg duration-200 w-full" @click="getUsernameFromAddress()">Lookup</button>
+        <button :disabled="!addressQuery || loading" class="px-4 h-10 bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header text-sm disabled:text-white/20 font-medium whitespace-nowrap rounded-lg duration-200 w-full" @click="getUsernameFromAddress()">Lookup</button>
       </div>
       <template v-if="foundUsername">
         <div class="flex flex-col items-center gap-2 w-full">

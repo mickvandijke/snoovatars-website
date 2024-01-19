@@ -2,12 +2,12 @@
   <div class="px-4 md:px-6 py-12 flex flex-col sm:flex-row gap-6 max-w-6xl">
     <div class="flex flex-col items-center gap-6 w-full">
       <div class="flex flex-col gap-1 items-center">
-        <h1 class="text-4xl text-white font-bold">Random Avatar Swap</h1>
+        <h1 class="text-4xl text-header font-bold">Random Avatar Swap</h1>
         <a href="https://polygonscan.com/address/0xc44100e15553c85f2846eed703e23165c0e0b9a3" target="_blank" class="text-xs sm:text-sm md:text-md text-amber-600 font-bold hover:text-amber-500">0xc44100e15553c85f2846eed703e23165c0e0b9a3</a>
       </div>
 
       <div class="p-6 flex flex-col items-center gap-6 bg-black/20 w-full rounded-2xl">
-        <p class="text-white/60">
+        <p class="text-details">
           This dApp can be used to swap your Reddit Collectible Avatar with another
           random one from the dApp pool. The Avatars in the pool are provided by so
           called liquidity providers. The pools are separated by the release generation. So
@@ -18,9 +18,9 @@
         </p>
 
         <div class="flex flex-col gap-3 w-full">
-          <h2 class="text-white font-bold">COMPATIBLE AVATARS / POOLS</h2>
+          <h2 class="text-header font-bold">COMPATIBLE AVATARS / POOLS</h2>
 
-          <ul class="px-4 text-white/60 list-disc">
+          <ul class="px-4 text-details list-disc">
             <li>Aww Friends / Drip Squad / Meme Team / The Singularity</li>
             <li>Generation 1</li>
             <li>Generation 2</li>
@@ -29,13 +29,13 @@
         </div>
 
         <div class="flex flex-col gap-3 w-full">
-          <h2 class="text-white font-bold">SERVICE FEES PER POOL</h2>
+          <h2 class="text-header font-bold">SERVICE FEES PER POOL</h2>
 
-          <p class="text-white/60">
+          <p class="text-details">
             The first swap is free. After the free swap you will have to pay the following fees.
           </p>
 
-          <table class="text-white/60 text-left">
+          <table class="text-details text-left">
             <thead>
             <th>Pool</th>
             <th>Swap Fee</th>
@@ -62,15 +62,15 @@
         </div>
 
         <div class="flex flex-col gap-3 w-full">
-          <h2 class="text-white font-bold">WARNING BEFORE USE</h2>
+          <h2 class="text-header font-bold">WARNING BEFORE USE</h2>
 
-          <p class="text-white/60">
+          <p class="text-details">
             If the pool has low liquidity and you use the same pool multiple times, you
             might receive the same Avatar you sent earlier as it will become a part of the
             pool.
           </p>
 
-          <p class="text-white/60">
+          <p class="text-details">
             USE THIS DAPP AT YOUR OWN RISK. WE ARE NOT LIABLE FOR ANY DAMAGES
             THAT MAY BE A RESULT OF INTERACTING WITH THIS DAPP.
           </p>
@@ -79,43 +79,43 @@
     </div>
     <div class="flex flex-col items-center gap-6 w-full">
       <div class="mx-8 rounded-2xl flex gap-1 p-2 relative items-center bg-black/20 w-full">
-        <button @click="view = View.Swap" :class="{ 'active-tab': view === View.Swap }" class="p-2 w-full flex justify-center hover:bg-primary-accent text-white font-medium rounded-2xl duration-200 cursor-pointer">
+        <button @click="view = View.Swap" :class="{ 'active-tab': view === View.Swap }" class="p-2 w-full flex justify-center hover:bg-secondary text-header font-medium rounded-2xl duration-200 cursor-pointer">
           <span>Swap</span>
         </button>
-        <button @click="view = View.LiquidityProvider" :class="{ 'active-tab': view === View.LiquidityProvider }" class="p-2 w-full flex justify-center hover:bg-primary-accent text-white font-medium rounded-2xl duration-200 cursor-pointer">
+        <button @click="view = View.LiquidityProvider" :class="{ 'active-tab': view === View.LiquidityProvider }" class="p-2 w-full flex justify-center hover:bg-secondary text-header font-medium rounded-2xl duration-200 cursor-pointer">
           <span>Provide Liquidity</span>
         </button>
       </div>
 
       <template v-if="!connectedWallet">
-        <button @click="buttonConnectWallet" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200">Connect Wallet</button>
+        <button @click="buttonConnectWallet" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 font-medium rounded-xl w-fit duration-200">Connect Wallet</button>
       </template>
       <template v-else>
         <RefreshButton :action="refresh" :refreshing="isRefreshing" />
 
         <div class="flex flex-col gap-3 w-full">
-          <div class="p-4 flex bg-black/20 text-white/60 w-full rounded-2xl">
+          <div class="p-4 flex bg-black/20 text-details w-full rounded-2xl">
             <div class="flex gap-2">
               <span>Connected Wallet:</span>
               <span class="text-amber-500">{{ connectedWallet.slice(0, 8) }}</span>
             </div>
           </div>
 
-          <div class="flex flex-col sm:flex-row items-center gap-3 text-white/60 w-full">
+          <div class="flex flex-col sm:flex-row items-center gap-3 text-details w-full">
             <div class="p-4 flex gap-2 bg-black/20 rounded-2xl w-full">
               <span>Balance:</span>
               <span class="text-amber-500">{{ amountNormalized(rcaxBalance) }} $RCAX</span>
             </div>
 
-            <a href="https://whitepaper.rcax.io/rcax-token-v2#mining" target="_blank" class="sm:ml-auto w-full sm:w-fit px-4 h-12 flex justify-center items-center bg-blue-600 hover:bg-blue-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Mine ⛏️</a>
-            <a href="https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d" target="_blank" class="w-full sm:w-fit px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Buy</a>
+            <a href="https://whitepaper.rcax.io/rcax-token-v2#mining" target="_blank" class="sm:ml-auto w-full sm:w-fit px-4 h-12 flex justify-center items-center bg-blue-600 hover:bg-blue-500 disabled:bg-white/5 text-header disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Mine ⛏️</a>
+            <a href="https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d" target="_blank" class="w-full sm:w-fit px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 font-medium rounded-xl w-fit duration-200 cursor-pointer whitespace-nowrap">Buy</a>
           </div>
         </div>
 
         <template v-if="view === View.Swap">
-          <div class="p-3 grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 h-[16rem] sm:h-[26rem] overflow-y-scroll overflow-x-hidden border border-primary-border rounded-2xl gap-3 w-full">
+          <div class="p-3 grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 h-[16rem] sm:h-[26rem] overflow-y-scroll overflow-x-hidden border border-white/10 rounded-2xl gap-3 w-full">
             <template v-for="token in connectedWalletAvatars">
-              <button @click="selectAvatarToSwap(token.contract_address, token.id, token.name, token.mint_number)" :disabled="!isAvatarCompatible(token.contract_address)" :class="{ 'opacity-50': !isAvatarCompatible(token.contract_address), 'hover:bg-primary-accent-hover': isAvatarCompatible(token.contract_address) && !isAvatarSelected(token.contract_address, token.id), 'bg-amber-600': isAvatarSelected(token.contract_address, token.id), 'bg-primary-accent': !isAvatarSelected(token.contract_address, token.id) }" class="relative p-2 h-fit flex flex-col justify-center items-center text-white rounded-xl duration-200 cursor-pointer">
+              <button @click="selectAvatarToSwap(token.contract_address, token.id, token.name, token.mint_number)" :disabled="!isAvatarCompatible(token.contract_address)" :class="{ 'opacity-50': !isAvatarCompatible(token.contract_address), 'hover:bg-tertiary': isAvatarCompatible(token.contract_address) && !isAvatarSelected(token.contract_address, token.id), 'bg-amber-600': isAvatarSelected(token.contract_address, token.id), 'bg-primary-accent': !isAvatarSelected(token.contract_address, token.id) }" class="relative p-2 h-fit flex flex-col justify-center items-center text-header rounded-xl duration-200 cursor-pointer">
                 <img :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.contract_address, token.name)?.series.name">
                 <div class="absolute top-4 right-4 p-1 bg-primary text-xs font-medium rounded-md">#{{ token.mint_number }}</div>
                 <div class="mt-2 text-xs text-center font-semibold truncate w-full">{{ token.name }}</div>
@@ -147,7 +147,7 @@
             </template>
           </template>
           <template v-else>
-            <button disabled class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-full duration-200">Swap</button>
+            <button disabled class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 font-medium rounded-xl w-full duration-200">Swap</button>
           </template>
 
           <template v-if="swapTransactionHash && swapTransactionStatus !== TxStatus.Failed">
@@ -172,7 +172,7 @@
         </template>
         <template v-else>
           <template v-if="!liquidityProviderStatus">
-            <button @click="setLiquidityProviderStatus(true)" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-full duration-200">Enable Liquidity Provider</button>
+            <button @click="setLiquidityProviderStatus(true)" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 font-medium rounded-xl w-full duration-200">Enable Liquidity Provider</button>
           </template>
           <template v-else>
             <div class="p-6 w-full flex items-center justify-center bg-red-500/20 rounded-xl">
@@ -183,12 +183,12 @@
               <span class="text-white">Liquidity providers get 50% of the service fee whenever one of their avatars gets swapped in the pool. But please note that the first swap for a user is free, so you might not always receive a service fee when your avatar is swapped!</span>
             </div>
 
-            <div class="p-6 bg-gray-500/20 text-white rounded-xl">
+            <div class="p-6 bg-gray-500/20 text-header rounded-xl">
               <p>Use <a href="https://opensea.io/account" target="_blank" class="text-sky-500">opensea.io</a> to transfer one or more avatars to the dApp address: {{ DAPP_CONTRACT_ADDRESS }}. As longs as the Liquidity Provider Status is true, avatars will be added to the liquidity pools instead of being swapped. You can disable the Liquidity Provider Status again in the "swap" tab.</p>
             </div>
           </template>
 
-          <button @click="withdrawAllAvatars()" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-full duration-200">Withdraw All Avatars</button>
+          <button @click="withdrawAllAvatars()" :disabled="waitingForTransaction" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 font-medium rounded-xl w-full duration-200">Withdraw All Avatars</button>
 
           <template v-if="liquidityTransactionHash && liquidityTransactionStatus !== TxStatus.Failed">
             <div :class="{ 'bg-gray-500/20': liquidityTransactionStatus === TxStatus.Pending, 'bg-green-500/20': liquidityTransactionStatus === TxStatus.Confirmed }" class="px-4 h-12 w-full flex items-center justify-center rounded-xl">

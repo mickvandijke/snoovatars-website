@@ -33,14 +33,14 @@ const props = defineProps({
 
 <style>
 .filter-menu-button--button {
-  @apply h-full bg-primary-accent text-white/90 hover:text-white hover:bg-primary-accent-hover;
+  @apply h-full bg-secondary text-white/90 hover:text-header hover:bg-tertiary;
 }
 
 .filter-menu-button--menu {
   left: 50%;
   top: 100%;
   transform: translateX(-50%);
-  @apply bg-primary-accent-solid/90 backdrop-blur-xl border border-primary-border rounded-lg shadow-xl;
+  @apply bg-secondary/90 backdrop-blur-xl border border-white/10 rounded-lg shadow-xl;
 }
 
 .filter-menu-button--menu > * {
@@ -48,7 +48,7 @@ const props = defineProps({
 }
 
 .filter-menu-button--menu select, .filter-menu-button--menu input {
-  @apply p-2 bg-primary-accent hover:bg-primary-accent-hover text-sm text-white/90 hover:text-white placeholder-white/20 font-medium border-none focus:outline-none w-full overflow-x-hidden rounded-lg;
+  @apply p-2 bg-secondary hover:bg-tertiary text-sm text-white/90 hover:text-header placeholder-white/20 font-medium border-none focus:outline-none w-full overflow-x-hidden rounded-lg;
 }
 
 .filter-menu-button--menu select > option {

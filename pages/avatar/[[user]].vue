@@ -1,10 +1,10 @@
 <template>
   <div class="avatar-view px-4 py-4 sm:px-8 flex flex-col items-center gap-6 w-full">
     <div class="flex flex-col gap-6 items-center w-full max-w-md">
-      <h1 class="text-xl font-bold text-white duration-500">Avatar <span class="italic text-amber-500">Exporter</span></h1>
+      <h1 class="text-xl font-bold text-header duration-500">Avatar <span class="italic text-amber-500">Exporter</span></h1>
       <div class="flex items-center gap-2 w-full">
         <input v-model="userSearch" placeholder="Reddit Username (without u/)" @keyup.enter.prevent="searchUser(userSearch)" />
-        <button :disabled="!userSearch || pending || userSearch === user" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200" @click="searchUser(userSearch)">
+        <button :disabled="!userSearch || pending || userSearch === user" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200" @click="searchUser(userSearch)">
           <template v-if="!pending">
             <span>Let's go!</span>
           </template>
@@ -30,9 +30,9 @@
             </template>
           </select>
         </div>
-        <VirtualContainerGrid :items="filteredAvatarBackgrounds" :buffer-mobile="12" :buffer-desktop="20" class="p-1.5 h-[16rem] sm:h-[28rem] md:h-[38rem] w-full border border-primary-border rounded-2xl">
+        <VirtualContainerGrid :items="filteredAvatarBackgrounds" :buffer-mobile="12" :buffer-desktop="20" class="p-1.5 h-[16rem] sm:h-[28rem] md:h-[38rem] w-full border border-white/10 rounded-2xl">
           <template #default="{ item, index }">
-            <BackgroundItem @click="setBackground(getBackgroundIndex(item))" :background="item" class="p-2 h-fit flex flex-col justify-center items-center bg-primary-accent text-white rounded-xl hover:bg-primary-accent-hover duration-200 cursor-pointer"/>
+            <BackgroundItem @click="setBackground(getBackgroundIndex(item))" :background="item" class="p-2 h-fit flex flex-col justify-center items-center bg-secondary text-header rounded-xl hover:bg-tertiary duration-200 cursor-pointer"/>
           </template>
         </VirtualContainerGrid>
       </div>
@@ -58,9 +58,9 @@
         </div>
         <div class="mt-2 flex flex-col items-center gap-2 text-white/80 w-full max-w-xs">
           <template v-if="!Capacitor.isNativePlatform() && bgSeriesStats">
-            <a :href="marketplaceLink(bgSeriesStats)" target="_blank" class="mb-2 py-2 px-3 max-w-full flex items-center gap-1.5 border border-primary-border hover:border-amber-500 rounded-lg duration-300">
-              Buy <span class="text-white font-semibold truncate">{{ selectedBackground.name }}</span> on <img src="/images/branding/rcax/rcaxIcon.svg" class="w-5 h-5">
-              <span class="text-sm text-white/60">({{ ethereumInLocalCurrency(getLowestListingAsGweiPrice(bgSeriesStats)) }})</span>
+            <a :href="marketplaceLink(bgSeriesStats)" target="_blank" class="mb-2 py-2 px-3 max-w-full flex items-center gap-1.5 border border-white/10 hover:border-amber-500 rounded-lg duration-300">
+              Buy <span class="text-header font-semibold truncate">{{ selectedBackground.name }}</span> on <img src="/images/branding/rcax/rcaxIcon.svg" class="w-5 h-5">
+              <span class="text-sm text-details">({{ ethereumInLocalCurrency(getLowestListingAsGweiPrice(bgSeriesStats)) }})</span>
             </a>
           </template>
           <label>Avatar Size</label>
@@ -71,7 +71,7 @@
           <select v-model="avatarPosition" @change="drawAvatar">
             <option v-for="position in AvatarPosition" :value="position">{{ position }}</option>
           </select>
-          <button :disabled="savingImage || pending" class="mt-4 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-xl duration-200" @click="saveImage">Download</button>
+          <button :disabled="savingImage || pending" class="mt-4 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-header font-medium rounded-xl duration-200" @click="saveImage">Download</button>
         </div>
         <img ref="background" crossorigin="anonymous" class="hidden" :src="`${selectedBackground.path}?not-from-cache-please`" alt="background">
         <img ref="foreground" crossorigin="anonymous" class="hidden" :src="`${avatar}?not-from-cache-please`" alt="foreground">
@@ -479,6 +479,6 @@ async function savePermissions() {
 }
 
 .avatar-view input {
-  @apply p-2 h-10 bg-transparent text-white placeholder-white/40 border border-primary-border hover:border-neutral-600 rounded-lg w-full duration-200 cursor-pointer;
+  @apply p-2 h-10 bg-transparent text-header placeholder-white/40 border border-white/10 hover:border-neutral-600 rounded-lg w-full duration-200 cursor-pointer;
 }
 </style>

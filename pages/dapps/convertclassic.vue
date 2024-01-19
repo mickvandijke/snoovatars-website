@@ -2,15 +2,15 @@
   <div class="px-4 md:px-6 py-12 flex flex-col gap-6 max-w-6xl">
     <div class="flex flex-col items-center gap-6 w-full">
       <div class="flex flex-col gap-1 items-center">
-        <h1 class="text-4xl text-white text-center font-bold">Convert RCAX Classic to V2</h1>
+        <h1 class="text-4xl text-header text-center font-bold">Convert RCAX Classic to V2</h1>
       </div>
 
       <template v-if="!connectedWallet">
-        <button @click="buttonConnectWallet" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-white disabled:text-white/20 font-medium rounded-xl w-fit duration-200">Connect wallet</button>
+        <button @click="buttonConnectWallet" class="px-4 h-12 flex justify-center items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 font-medium rounded-xl w-fit duration-200">Connect wallet</button>
       </template>
       <template v-else>
         <div class="flex flex-col gap-3 w-full">
-          <div class="flex items-center gap-3 text-white/60 w-full">
+          <div class="flex items-center gap-3 text-details w-full">
             <div class="p-4 flex gap-2 bg-black/20 rounded-2xl w-full">
               <span>Connected Wallet:</span>
               <span class="text-amber-500">{{ connectedWallet.slice(0, 8) }}</span>
@@ -18,14 +18,14 @@
             <RefreshButton :action="refresh" :refreshing="isRefreshing" />
           </div>
 
-          <div class="flex flex-col sm:flex-row items-center gap-3 text-white/60 w-full">
+          <div class="flex flex-col sm:flex-row items-center gap-3 text-details w-full">
             <div class="p-4 flex gap-2 bg-black/20 rounded-2xl w-full">
               <span>Balance:</span>
               <span class="text-purple-500">{{ amountNormalized(rcaxClassicBalance) }} RCAX Classic</span>
             </div>
           </div>
 
-          <div class="flex flex-col sm:flex-row items-center gap-3 text-white/60 w-full">
+          <div class="flex flex-col sm:flex-row items-center gap-3 text-details w-full">
             <div class="p-4 flex gap-2 bg-black/20 rounded-2xl w-full">
               <span>Balance:</span>
               <span class="text-amber-500">{{ amountNormalized(rcaxBalance) }} RCAX</span>

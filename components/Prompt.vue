@@ -4,7 +4,7 @@
       <h2 class="text-neutral-400 text-sm mb-4">{{ prompter.title }}</h2>
       <div class="flex flex-col gap-2">
         <template v-for="option in prompter.options">
-          <button class="px-4 py-2 bg-amber-600 text-white text-sm rounded-md" @click.stop="selectOption(option.value)">
+          <button class="px-4 py-2 bg-amber-600 text-header text-sm rounded-md" @click.stop="selectOption(option.value)">
             {{ option.name }}
           </button>
         </template>
@@ -12,7 +12,7 @@
           <input type="checkbox" class="form-checkbox h-4 w-4 text-red-500 rounded" v-model="saveDefault" />
           <span class="px-2 text-neutral-400 text-sm">Remember choice</span>
         </div>
-        <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-md" @click.stop="prompter = null">
+        <button class="px-4 py-2 bg-red-500 text-header text-sm rounded-md" @click.stop="prompter = null">
           Cancel
         </button>
       </div>

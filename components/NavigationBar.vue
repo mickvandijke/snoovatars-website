@@ -1,16 +1,16 @@
 <template>
-  <div class="navigation-bar flex flex-col z-40 w-full duration-200" :class="{ 'shadow sm:mb-6': scrolled >= 72 }" @mouseleave="closeDropdowns()" ref="navbar">
+  <div class="navigation-bar flex flex-col z-40 w-full duration-200" :class="{ 'sm:mb-6': scrolled >= 72 }" @mouseleave="closeDropdowns()" ref="navbar">
     <nav class="py-3 px-4 sm:px-6 flex w-full items-center gap-3 md:gap-6 duration-200" :class="{ 'sm:py-4': scrolled < 72 }">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <div class="flex flex-row flex-nowrap items-center">
 <!--          <img class="w-8 h-8 mr-2" src="/images/branding/rcax/rcaxIcon.svg">-->
           <img class="h-8 md:h-9 mr-2.5" src="/images/branding/rcax/RCAX_Logo_Color.svg">
           <img class="h-5 md:h-6" src="/images/branding/rcax/rcaxLogo2024Light.svg">
-<!--          <NuxtLink class="text-2xl font-bold text-white lg:text-3xl duration-500" to="/home">RCA<span class="italic text-amber-500">X</span></NuxtLink>-->
+<!--          <NuxtLink class="text-2xl font-bold text-header lg:text-3xl duration-500" to="/home">RCA<span class="italic text-amber-500">X</span></NuxtLink>-->
         </div>
         <div class="ml-auto flex items-center flex-nowrap gap-0.5">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-white/60"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <span class="font-semibold text-white whitespace-nowrap">{{ ethereumInLocalCurrency(ETH_TO_GWEI_MODIFIER) }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+          <span class="font-semibold text-header whitespace-nowrap">{{ ethereumInLocalCurrency(ETH_TO_GWEI_MODIFIER) }}</span>
         </div>
       </div>
 
@@ -22,14 +22,14 @@
         </select>
       </div>
 
-      <ul class="md:ml-auto flex text-white/90 text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
-        <a href="https://marketplace.rcax.io" class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" target="_blank">Marketplace</a>
-        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/">Avatars</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar">Exporter</NuxtLink>
+      <ul class="md:ml-auto flex text-details text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
+        <a href="https://marketplace.rcax.io" class="hidden md:block px-4 py-2 hover:text-header rounded-lg duration-200 cursor-pointer" target="_blank">Marketplace</a>
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-header rounded-lg duration-200 cursor-pointer" to="/" active-class="text-details">Avatars</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-header rounded-lg duration-200 cursor-pointer" to="/avatar" active-class="text-details">Exporter</NuxtLink>
         <template v-if="!Capacitor.isNativePlatform()">
           <DropDownMenu class="hidden md:block">
             <template v-slot:button>
-              <span>Apps</span>
+              <span class="text-details">Apps</span>
             </template>
             <template v-slot:menu>
               <NuxtLink replace to="/dapps/randomavatarswap">

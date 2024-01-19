@@ -1,5 +1,5 @@
 <template>
-  <div @click="selectAvatar" ref="componentRef" class="p-2 sm:bg-primary-accent-solid sm:hover:bg-white/10 relative flex flex-col gap-1 w-full sm:rounded-lg border-t sm:border-none border-primary-accent-solid overflow-hidden cursor-pointer duration-300">
+  <div @click="selectAvatar" ref="componentRef" class="p-2 sm:bg-secondary sm:hover:bg-tertiary relative flex flex-col gap-1 w-full sm:rounded-lg border-t sm:border-none border-secondary overflow-hidden cursor-pointer duration-300">
     <template v-if="seriesStats">
 <!--      <div class="absolute top-0 left-0 px-2 text-[0.7rem] font-semibold italic rounded-br-md shadow z-20" :class="getMintClasses(seriesStats.series.total_quantity)">-->
 <!--        <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
@@ -9,7 +9,7 @@
           <div class="relative flex items-center h-full w-fit sm:h-full mx-auto">
             <div class="relative w-fit max-h-full overflow-hidden rounded-lg">
               <img-placeholder img-class="max-h-[90px]" :src="getTokenImage(seriesStats.series.image)" />
-              <div class="absolute top-0 left-0 px-1 py-0 text-[0.7rem] font-semibold italic rounded-br-md border-r-2 border-b-2 border-primary-accent-solid shadow" :class="getMintClasses(Math.max(seriesStats.series.total_quantity, seriesStats.series.total_sold))">
+              <div class="absolute top-0 left-0 px-1 py-0 text-[0.7rem] font-semibold italic rounded-br-md border-r-2 border-b-2 border-secondary shadow" :class="getMintClasses(Math.max(seriesStats.series.total_quantity, seriesStats.series.total_sold))">
                 <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
               </div>
             </div>
@@ -25,16 +25,16 @@
           <!--          </template>-->
           <!--          <template v-if="ranking">-->
           <!--            <div class="absolute bottom-0 left-0 px-1 py-0.25 bg-amber-600 text-[0.7rem] font-medium rounded-tr-md drop-shadow">-->
-          <!--              <h1 class="text-white rounded-md">#{{ ranking }}</h1>-->
+          <!--              <h1 class="text-header rounded-md">#{{ ranking }}</h1>-->
           <!--            </div>-->
           <!--          </template>-->
-          <!--          <div class="absolute top-0 left-0 px-1 py-0.25 bg-primary-accent-solid text-[0.7rem] font-medium italic rounded-br-md shadow" :class="getMintClasses(seriesStats.series.total_quantity)">-->
+          <!--          <div class="absolute top-0 left-0 px-1 py-0.25 bg-secondary text-[0.7rem] font-medium italic rounded-br-md shadow" :class="getMintClasses(seriesStats.series.total_quantity)">-->
           <!--            <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
           <!--          </div>-->
         </button>
         <div class="relative pl-2 flex flex-col overflow-hidden grow">
           <div class="flex items-center gap-1 text-[0.7rem]">
-            <button @click.stop="openLinkWith(marketplaceLink(seriesStats))" class="text-white font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
+            <button @click.stop="openLinkWith(marketplaceLink(seriesStats))" class="text-header font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
 <!--            <div class="relative bg-white/5 py-0.25 px-1 text-black text-[0.65rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">-->
 <!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
 <!--            </div>-->
@@ -87,7 +87,7 @@
                   FREE
                 </template>
               </div>
-              <button @click.stop="openLinkWith(marketplaceLink(seriesStats, true))" class="text-white/40 hover:text-white/60 text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
+              <button @click.stop="openLinkWith(marketplaceLink(seriesStats, true))" class="text-white/40 hover:text-details text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
             </template>
             <div class="ml-auto px-0.5 py-0.25 text-[0.65rem] text-white/40" :key="getGeneration">{{ getGeneration }}</div>
           </div>

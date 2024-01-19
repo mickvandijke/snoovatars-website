@@ -9,7 +9,7 @@
         <Navigation />
       </template>
     </Carousel>
-    <button @click="isBannerClosed = !isBannerClosed" class="p-1 absolute text-xs sm:text-sm font-medium top-1 right-2.5 sm:right-7 md:top-2 md:right-9 bg-primary-accent-solid/60 backdrop-blur-2xl text-white/60 hover:bg-primary-accent-solid duration-200 rounded-full z-20">
+    <button @click="isBannerClosed = !isBannerClosed" class="p-1 absolute text-xs sm:text-sm font-medium top-1 right-2.5 sm:right-7 md:top-2 md:right-9 bg-secondary/60 backdrop-blur-2xl text-details hover:bg-secondary duration-200 rounded-full z-20">
       <XMarkIcon class="w-5 h-5" />
     </button>
   </div>
@@ -155,7 +155,7 @@ const isBannerShowing: ComputedRef<boolean> = computed(() => {
 .carousel__next {
   box-sizing: content-box;
 
-  @apply bg-primary-accent backdrop-blur-xl text-white/60 hover:bg-primary-accent-hover duration-200 rounded-full;
+  @apply bg-secondary backdrop-blur-xl text-details hover:bg-tertiary duration-200 rounded-full;
 }
 
 .carousel__pagination {

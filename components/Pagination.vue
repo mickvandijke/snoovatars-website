@@ -15,7 +15,7 @@
       1
     </button>
     <template v-if="currentPage > 3">
-      <span class="text-white/60">...</span>
+      <span class="text-details">...</span>
     </template>
     <template v-for="page in [currentPage - 1, currentPage, currentPage + 1]" :key="page">
       <button
@@ -28,7 +28,7 @@
       </button>
     </template>
     <template v-if="currentPage < pageCount - 2">
-      <span class="text-white/60">...</span>
+      <span class="text-details">...</span>
     </template>
     <button
         v-if="pageCount > 1"
@@ -80,7 +80,7 @@ const pageCount = computed(() => {
 
 <style scoped>
 .pag-button {
-  @apply px-2 h-full bg-primary-accent text-sm text-white/60 hover:bg-primary-accent-hover disabled:text-white/40 rounded-md;
+  @apply px-2 h-full bg-secondary text-sm text-details hover:bg-tertiary disabled:text-white/40 rounded-md;
 }
 
 .pag-button.active {

@@ -86,13 +86,13 @@
     </MenuBar>
     <template v-if="settings.stats.layout === 'table'">
       <div class="px-2 pb-3 md:px-6 w-full">
-        <div class="px-2 border border-primary-border rounded-2xl">
+        <div class="px-2 border border-white/10 rounded-2xl">
           <div class="w-full overflow-x-auto">
             <table class="text-xs font-medium w-full whitespace-nowrap">
               <thead>
-              <tr class="border-b-b border-primary-border text-white/60">
+              <tr class="border-b-b border-white/10 text-details">
                 <th class="table--cell"></th>
-                <th @click="setTableSort('name')" class="border-b border-primary-border text-left px-2 py-3 cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('name') }">Name</th>
+                <th @click="setTableSort('name')" class="border-b border-white/10 text-left px-2 py-3 cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('name') }">Name</th>
                 <th @click="setTableSort('supply')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('Supply') }">Supply</th>
                 <th @click="setTableSort('floor')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('Price') }">Floor</th>
                 <th @click="setTableSort('last sale')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('estLastSale') }">Last Sale</th>
@@ -100,13 +100,13 @@
                 <th @click="setTableSort('total vol')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('estVol') }">Total Vol</th>
                 <th @click="setTableSort('daily vol')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('DailyVol') }">Vol (24h)</th>
                 <th @click="setTableSort('cap')" class="table--cell cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('MarketCap') }">Market Cap</th>
-                <th @click="setTableSort('change')" class="border-b border-primary-border text-right px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('DailyChange') }">Change (24h)</th>
+                <th @click="setTableSort('change')" class="border-b border-white/10 text-right px-2 py-1 cursor-pointer" :class="{ 'text-amber-500': sortOption.includes('DailyChange') }">Change (24h)</th>
               </tr>
               </thead>
               <tbody>
               <template v-for="(item, index) in slicedItems" :key="index">
-                <tr class="hover:bg-primary-accent-hover text-white/80" :set="listing = getLowestListing(item)">
-                  <td class="border-b border-primary-border max-w-fit">
+                <tr class="hover:bg-tertiary text-white/80" :set="listing = getLowestListing(item)">
+                  <td class="border-b border-white/10 max-w-fit">
                     <span class="text-white/40">#{{ index + 1 + (pageSize * (itemsCurrentPage - 1)) }}</span>
                   </td>
                   <td class="table--cell flex items-center gap-2">
@@ -127,7 +127,7 @@
                             <div class="flex gap-1">
                               <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(6).replace(/\.?0+$/, '') }}</span>
                               <span class="text-white/40">(<span class="text-amber-500">{{ ethereumInLocalCurrency(listing.payment_token.base_price) }}</span>)</span>
-                              <span class="text-white/60">#{{ listing.token.mint_number }}</span>
+                              <span class="text-details">#{{ listing.token.mint_number }}</span>
                             </div>
                           </template>
                           <template v-else-if="listing.payment_token.symbol === 'MATIC'">
@@ -135,7 +135,7 @@
                             <div class="flex gap-1">
                               <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
                               <span class="text-white/40">(<span class="text-amber-500">{{ ethereumInLocalCurrency(getListingAsGweiPrice(listing)) }}</span>)</span>
-                              <span class="text-white/60">#{{ listing.token.mint_number }}</span>
+                              <span class="text-details">#{{ listing.token.mint_number }}</span>
                             </div>
                           </template>
                         </button>
@@ -160,7 +160,7 @@
                           </div>
                         </div>
                         <span class="text-white/70">({{ ethereumInLocalCurrency(getSaleAsGweiPrice(lastSale)) }})</span>
-                        <span class="text-white/60">#{{ lastSale.token.mint_number }}</span>
+                        <span class="text-details">#{{ lastSale.token.mint_number }}</span>
                         <div class="text-white/40" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(lastSale.date_sold)) }}</div>
                       </div>
                     </template>
@@ -1036,6 +1036,6 @@ function selectAvatar(seriesStats: SeriesStats) {
 }
 
 .table--cell {
-  @apply border-b border-primary-border px-2 py-1 text-left;
+  @apply border-b border-white/10 px-2 py-1 text-left;
 }
 </style>

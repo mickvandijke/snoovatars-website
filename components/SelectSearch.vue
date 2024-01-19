@@ -19,7 +19,7 @@
         <li v-for="option in filteredOptions">
           <button
               @click.prevent="selectValue(option.value)"
-              class="inline-flex py-2 px-4 w-full text-sm hover:bg-neutral-600 hover:text-white duration-200"
+              class="inline-flex py-2 px-4 w-full text-sm hover:bg-neutral-600 hover:text-header duration-200"
           >
             <div class="inline-flex items-center">
               {{ option.name }}
