@@ -1,6 +1,6 @@
 <template>
   <div v-if="isBannerShowing" class="relative md:mb-6 px-2 sm:px-6 w-full">
-    <Carousel :items-to-show="1" :autoplay="10000" :wrap-around="true" pause-autoplay-on-hover>
+    <Carousel :items-to-show="1" :autoplay="10000" :wrap-around="true" pause-autoplay-on-hover class="drop-shadow-lg">
       <Slide v-for="(slide, i) in shuffledSlides" :key="i">
         <component :is="slide.component" />
       </Slide>

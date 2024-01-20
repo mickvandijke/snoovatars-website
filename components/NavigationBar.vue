@@ -24,7 +24,7 @@
 
       <ul class="md:ml-auto flex text-details text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
         <a href="https://marketplace.rcax.io" class="hidden md:block px-4 py-2 hover:text-header rounded-lg duration-200 cursor-pointer" target="_blank">Marketplace</a>
-        <NuxtLink class="hidden md:block px-4 py-2 hover:text-header rounded-lg duration-200 cursor-pointer" to="/" active-class="text-details">Avatars</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-header rounded-lg duration-200 cursor-pointer" to="/" exact-active-class="text-details">Avatars</NuxtLink>
         <NuxtLink class="hidden md:block px-4 py-2 hover:text-header rounded-lg duration-200 cursor-pointer" to="/avatar" active-class="text-details">Exporter</NuxtLink>
         <template v-if="!Capacitor.isNativePlatform()">
           <DropDownMenu class="hidden md:block">

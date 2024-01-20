@@ -1,7 +1,6 @@
 <template>
   <div class="avatar-view px-4 py-4 sm:px-8 flex flex-col items-center gap-6 w-full">
     <div class="flex flex-col gap-6 items-center w-full max-w-md">
-      <h1 class="text-xl font-bold text-header duration-500">Avatar <span class="italic text-amber-500">Exporter</span></h1>
       <div class="flex items-center gap-2 w-full">
         <input v-model="userSearch" placeholder="Reddit Username (without u/)" @keyup.enter.prevent="searchUser(userSearch)" />
         <button :disabled="!userSearch || pending || userSearch === user" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200" @click="searchUser(userSearch)">
@@ -23,7 +22,7 @@
       <div class="flex flex-col items-center md:w-3/4 max-w-3xl gap-3">
         <div class="sm:px-3 flex gap-2 md:items-start w-full">
           <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name`" class="w-full" />
-          <select v-model="filterGenOption" class="w-fit">
+          <select v-model="filterGenOption" class="w-fit rounded-2xl">
             <option value="all">Gen: All</option>
             <template v-for="gen in Object.keys(Filters)">
               <option :value="gen">{{ gen }}</option>

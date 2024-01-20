@@ -258,7 +258,7 @@ html, body {
 }
 
 select {
-  @apply p-2 h-10 bg-secondary hover:bg-tertiary text-sm text-header capitalize placeholder-white/20 font-medium border-none focus:outline-none overflow-x-hidden rounded-lg cursor-pointer;
+  @apply p-2 h-10 bg-secondary hover:bg-tertiary text-sm text-header capitalize placeholder-white/20 font-medium border-none focus:outline-none overflow-x-hidden rounded-2xl cursor-pointer;
 }
 
 input {

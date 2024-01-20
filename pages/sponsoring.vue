@@ -7,10 +7,10 @@
     <p>Drive visibility for your brand by becoming an RCAX sponsor through our eye-catching advertisement banners. With affordable pricing options starting at just ${{ SHARED_BANNER_PRICE_USD }} per day, you can effectively reach your target audience. Note that these prices are not final and might be subject to change. Always message warmbiertje@rcax.io for a final quote.</p>
 
     <h2>Option 1: Shared Banner Display ({{ SHARED_BANNER_PRICE_USD }} / day)</h2>
-    <p>Make your mark alongside a select group of advertisers with our shared banner display. For as low as ${{ SHARED_BANNER_PRICE_USD }} a day, your banner will take its place among a maximum of 5 rotating advertisement banners. This dynamic arrangement ensures your brand gets noticed as it alternates with other compelling ads. This option has a minimum booking of 14 days.</p>
+    <p>Make your mark alongside a select group of advertisers with our shared banner display. For as low as ${{ SHARED_BANNER_PRICE_USD }} a day, your banner will take its place among a maximum of 5 rotating advertisement banners. This dynamic arrangement ensures your brand gets noticed as it alternates with other compelling ads. This option has a minimum booking of 5 days.</p>
 
     <h2>Option 2: Exclusive Banner Showcase (${{ EXCLUSIVE_BANNER_PRICE_USD }} / day)</h2>
-    <p>For unparalleled prominence, opt for our exclusive banner showcase at ${{ EXCLUSIVE_BANNER_PRICE_USD }} per day. Your banner will reign supreme as the sole advertisement displayed. Be sure to reserve ahead of time to guarantee availability. This option has a minimum booking of 7 days.</p>
+    <p>For unparalleled prominence, opt for our exclusive banner showcase at ${{ EXCLUSIVE_BANNER_PRICE_USD }} per day. Your banner will reign supreme as the sole advertisement displayed. Be sure to reserve ahead of time to guarantee availability. This option has a minimum booking of 3 days.</p>
 
     <h2>Important</h2>
     <p>Your advertisement banners will exclusively appear on the RCAX website. It's important to note that these banners will not be featured on the app, because of restrictions by Apple and Google. Users also have the option to dismiss the advertisement banners during their browsing session.</p>
