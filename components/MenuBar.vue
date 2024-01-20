@@ -1,5 +1,5 @@
 <template>
-  <div class="menubar px-2 py-2 sm:px-6 sm:py-3 inline-flex justify-center sm:justify-start gap-2 sm:gap-3 z-10 w-full" style="max-width: 100%;">
+  <div class="menubar sm:mb-3 px-2 py-2 sm:px-6 sm:py-3 inline-flex justify-center sm:justify-start gap-2 sm:gap-3 sm:border-t sm:border-b border-tertiary z-10 w-full" style="max-width: 100%;">
     <slot></slot>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <div class="px-6 z-20 w-full">
-    <ul class="flex items-center justify-start text-sm font-medium text-header text-center border-b border-tertiary w-full">
+  <div class="px-6 pb-3 z-20 w-full">
+    <ul class="flex gap-2 items-center justify-start text-sm font-medium text-header text-center w-full">
       <li>
         <NuxtLink to="/wallet" class="nlink" active-class="active">
           <WalletIcon class="nlinkicon"/>
@@ -53,11 +53,11 @@ import {StarIcon, BellIcon, ChartBarIcon, WalletIcon, TagIcon, BoltIcon, Shoppin
 
 <style scoped>
 .nlink {
-  @apply inline-flex gap-3 py-4 px-6 text-center capitalize hover:text-header border-b-2 border-transparent duration-200;
+  @apply inline-flex gap-2 py-2.5 px-4 bg-secondary text-center capitalize text-details hover:text-header rounded-2xl duration-200;
 }
 
 .active {
-  @apply text-header border-white hover:text-white;
+  @apply bg-white text-primary hover:text-primary;
 }
 
 .nlinkicon {
