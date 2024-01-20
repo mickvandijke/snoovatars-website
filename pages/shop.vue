@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3 md:mt-0 flex flex-col w-full">
+  <div class="flex flex-col w-full">
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <select class="ml-auto" v-model="settings.shop.showAvailable">

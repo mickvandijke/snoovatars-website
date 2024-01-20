@@ -3,7 +3,7 @@
       v-click-outside="() => { showFilterMenu = false }"
       @click.self="showFilterMenu = !showFilterMenu"
       class="filter-menu-button relative flex flex-row flex-nowrap items-center duration-200 cursor-pointer">
-    <button @click.prevent="showFilterMenu = !showFilterMenu" class="filter-menu-button--button px-4 flex flex-row flex-nowrap items-center gap-2 rounded-lg">
+    <button @click.prevent="showFilterMenu = !showFilterMenu" class="filter-menu-button--button px-4 flex flex-row flex-nowrap items-center gap-2 rounded-2xl">
       <AdjustmentsHorizontalIcon class="w-6 h-6" :class="{ 'text-amber-500': usingFilter }" />
       <span class="hidden sm:block text-sm font-medium">Filters</span>
     </button>
@@ -33,7 +33,7 @@ const props = defineProps({
 
 <style>
 .filter-menu-button--button {
-  @apply h-full bg-secondary text-white/90 hover:text-header hover:bg-tertiary;
+  @apply h-full bg-secondary text-header hover:text-header hover:bg-tertiary;
 }
 
 .filter-menu-button--menu {
@@ -48,7 +48,7 @@ const props = defineProps({
 }
 
 .filter-menu-button--menu select, .filter-menu-button--menu input {
-  @apply p-2 bg-secondary hover:bg-tertiary text-sm text-white/90 hover:text-header placeholder-white/20 font-medium border-none focus:outline-none w-full overflow-x-hidden rounded-lg;
+  @apply p-2 bg-secondary hover:bg-tertiary text-sm text-header hover:text-header placeholder-white/20 font-medium border-none focus:outline-none w-full overflow-x-hidden rounded-lg;
 }
 
 .filter-menu-button--menu select > option {

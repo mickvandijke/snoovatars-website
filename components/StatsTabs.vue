@@ -1,6 +1,6 @@
 <template>
   <div class="px-6 z-20 w-full">
-    <ul class="flex items-center justify-start text-sm font-medium text-white/90 text-center border-b border-tertiary w-full">
+    <ul class="flex items-center justify-start text-sm font-medium text-header text-center border-b border-tertiary w-full">
       <li>
         <NuxtLink to="/wallet" class="nlink" active-class="active">
           <WalletIcon class="nlinkicon"/>

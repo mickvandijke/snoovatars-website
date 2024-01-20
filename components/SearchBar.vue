@@ -34,7 +34,7 @@ const props = defineProps({
 
 <style scoped>
 .searchbar {
-  @apply px-2 py-1 bg-secondary w-full border border-transparent hover:border-white/20 focus-within:bg-transparent focus-within:border-white/40 focus-within:hover:border-white/40 rounded-lg duration-300 cursor-text;
+  @apply px-2 py-1 bg-secondary w-full border border-transparent hover:border-white/20 focus-within:bg-transparent focus-within:border-white/40 focus-within:hover:border-white/40 rounded-2xl duration-300 cursor-text;
 }
 
 .searchbar--icon {

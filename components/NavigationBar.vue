@@ -15,7 +15,7 @@
       </div>
 
       <div class="ml-auto md:ml-0 h-full">
-        <select v-model="settings.currency.preferred">
+        <select class="bg-secondary/80 rounded-2xl text-details" v-model="settings.currency.preferred">
           <template v-for="currency in CURRENCIES">
             <option :value="currency.ticker">{{ currency.ticker }}</option>
           </template>

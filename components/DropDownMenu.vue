@@ -32,7 +32,7 @@ const props = defineProps({
 
 <style>
 .menu-button--button {
-  @apply text-white/90 hover:text-header duration-300;
+  @apply text-header hover:text-header duration-300;
 }
 
 .menu-button--menu {
