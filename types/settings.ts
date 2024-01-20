@@ -30,6 +30,9 @@ export interface Settings {
     },
     stats: {
         layout: string;
+    },
+    shop: {
+        showAvailable: boolean;
     }
 }
 
@@ -65,5 +68,8 @@ export const Default: Settings = {
     },
     stats: {
         layout: "grid"
-    }
+    },
+    shop: {
+        showAvailable: true
+    },
 }

@@ -3,7 +3,7 @@
     <StatsTabs class="hidden md:block" />
     <MenuBar>
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" />
-      <FilterMenuButton :using-filter="usingFilter()">
+      <FilterMenuButton :using-filter="usingFilter">
         <input type="number" v-model="maxPriceEth" placeholder="Max price (ETH)">
         <select v-model="filterGenOption">
           <option value="all">Gen: All</option>
@@ -33,7 +33,7 @@
           <option value="show">No Listings: Show</option>
           <option value="hide">No Listings: Hide</option>
         </select>
-        <template v-if="usingFilter()">
+        <template v-if="usingFilter">
           <button @click="clearFilters()" class="p-2 bg-amber-500/20 text-amber-500 text-sm rounded-md">Clear All</button>
         </template>
       </FilterMenuButton>
@@ -312,9 +312,9 @@ const artists = computed(() => {
   return artistsArray;
 });
 
-function usingFilter(): boolean {
+const usingFilter: ComputedRef<boolean> = computed(() => {
   return !!maxPriceEth.value || filterGenOption.value !== "all" || filterArtistOption.value !== "all" || filterRarityOption.value !== "all" || filterSoldOut.value !== "show" || filterNoListings.value !== "show";
-}
+});
 
 function clearFilters() {
   maxPriceEth.value = undefined;

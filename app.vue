@@ -62,7 +62,7 @@ import HeaderTop from "~/components/HeaderTop.vue";
 import FooterSmall from "~/components/FooterSmall.vue";
 
 useHead({
-  title: 'RCAX.io | Reddit Collectible Avatars prices, statistics, sales and more! | RCAX.io',
+  title: 'RCAX | Reddit Collectible Avatars prices, statistics, sales and more!',
   link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
   meta: [
     { name: "title", content: "RCAX" },
