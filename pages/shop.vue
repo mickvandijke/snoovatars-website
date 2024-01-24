@@ -15,7 +15,7 @@
         <div class="p-4 w-full flex flex-col gap-2 border border-tertiary rounded-2xl overflow-hidden">
           <div class="relative overflow-hidden rounded-2xl">
             <a :href="`https://www.reddit.com/avatar/shop/product/storefront_nft_${item['edge']['node']['item']['benefits']['avatarOutfit']['id']}`" target="_blank">
-              <img :src="item['edge']['node']['item']['benefits']['avatarOutfit']['preRenderImage']['url']">
+              <ImgPlaceholder :src="item['edge']['node']['item']['benefits']['avatarOutfit']['preRenderImage']['url']" />
             </a>
             <div class="absolute bottom-0 w-full px-3 py-1.5 bg-secondary/40 backdrop-blur-2xl">
               <h2 class="text-center text-white/80 text-sm font-semibold truncate">{{ item['edge']['node']['item']['name'] }}</h2>
