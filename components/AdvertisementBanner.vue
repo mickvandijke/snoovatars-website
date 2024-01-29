@@ -33,7 +33,7 @@ import {
   BannersBannerRcaxTokenHalving,
   BannersBannerRcaxTokenLaunch, BannersBannerRedditAvatarGiveaways,
   BannersBannerRedditAvatarTraders,
-  BannersBannerConeDesk
+  BannersBannerConeDesk, BannersBannerRedditAvatarTrading
 } from "#components";
 
 const isBannerClosed = ref(false);
@@ -76,8 +76,8 @@ const slides = [
     expirationDate: new Date('2023-10-11'),
   },
   {
-    key: 'r/redditavatartraders',
-    component: BannersBannerRedditAvatarTraders,
+    key: 'r/avatartrading',
+    component: BannersBannerRedditAvatarTrading,
     startDate: new Date('2023-12-31'), // Start date for this slide
     expirationDate: new Date('3000-10-11'),
   },
