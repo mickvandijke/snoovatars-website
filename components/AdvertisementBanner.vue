@@ -32,24 +32,17 @@ import {
   BannersBannerRcaxMarketplaceBeta,
   BannersBannerRcaxTokenHalving,
   BannersBannerRcaxTokenLaunch, BannersBannerRedditAvatarGiveaways,
-  BannersBannerRedditAvatarTraders,
-  BannersBannerConeDesk, BannersBannerRedditAvatarTrading
+  BannersBannerConeDesk, BannersBannerRedditAvatarTrading, BannersBannerRcaEggs
 } from "#components";
 
 const isBannerClosed = ref(false);
 
 const slides = [
   {
-    key: 'r/ConeDesk banner',
-    component: BannersBannerConeDesk,
+    key: 'RCA Eggs',
+    component: BannersBannerRcaEggs,
     startDate: new Date('2023-12-23'), // Start date for this slide
-    expirationDate: new Date('2023-12-31'),
-  },
-  {
-    key: 'r/ConeHeads banner',
-    component: BannersBannerConeHeads,
-    startDate: new Date('2023-11-18'), // Start date for this slide
-    expirationDate: new Date('2023-11-27'),
+    expirationDate: new Date('2025-12-31'),
   },
   {
     key: 'rcax banner',
@@ -76,34 +69,10 @@ const slides = [
     expirationDate: new Date('2023-10-11'),
   },
   {
-    key: 'r/avatartrading',
-    component: BannersBannerRedditAvatarTrading,
-    startDate: new Date('2023-12-31'), // Start date for this slide
-    expirationDate: new Date('3000-10-11'),
-  },
-  {
-    key: 'r/redditavatargiveaway',
-    component: BannersBannerRedditAvatarGiveaways,
-    startDate: new Date('2023-10-14'), // Start date for this slide
-    expirationDate: new Date('2023-10-31'),
-  },
-  {
-    key: 'the23club',
-    component: BannerThe23Club,
-    startDate: new Date('2023-07-26'), // Start date for this slide
-    expirationDate: new Date('2023-08-25'),
-  },
-  {
     key: 'nyan matcher',
     component: BannerNyanMatcher,
     startDate: new Date('2023-08-20'), // Start date for this slide
     expirationDate: new Date('2023-08-28'),
-  },
-  {
-    key: 'arcone games',
-    component: BannerArconeGames,
-    startDate: new Date('2023-08-22'), // Start date for this slide
-    expirationDate: new Date('2023-09-23'),
   }
 ];
 
