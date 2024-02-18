@@ -88,28 +88,28 @@ export async function openLinkWith(link: string) {
         return;
     }
 
-    if (Capacitor.isNativePlatform() || window.matchMedia('(max-width: 640px)').matches) {
-        if (useSettings().value.link.opener) {
-            link = link.replace("https://", useSettings().value.link.opener);
-        } else {
-            let [linkOpener, savedAsDefault] = await promptOptions("Open link using:", [
-                {
-                    name: "Browser",
-                    value: "https://"
-                },
-                {
-                    name: "Wallet App",
-                    value: "dapp://"
-                }
-            ]);
-
-            if (savedAsDefault) {
-                useSettings().value.link.opener = linkOpener;
-            }
-
-            link = link.replace("https://", linkOpener);
-        }
-    }
+    // if (Capacitor.isNativePlatform() || window.matchMedia('(max-width: 640px)').matches) {
+    //     if (useSettings().value.link.opener) {
+    //         link = link.replace("https://", useSettings().value.link.opener);
+    //     } else {
+    //         let [linkOpener, savedAsDefault] = await promptOptions("Open link using:", [
+    //             {
+    //                 name: "Browser",
+    //                 value: "https://"
+    //             },
+    //             {
+    //                 name: "Wallet App",
+    //                 value: "dapp://"
+    //             }
+    //         ]);
+    //
+    //         if (savedAsDefault) {
+    //             useSettings().value.link.opener = linkOpener;
+    //         }
+    //
+    //         link = link.replace("https://", linkOpener);
+    //     }
+    // }
 
     window.open(link, '_blank');
 }
