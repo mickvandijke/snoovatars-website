@@ -44,7 +44,7 @@ export async function fetchListingsLatest(): Promise<Array<Listing>> {
 export async function fetchListingsForSeries(contract_address: string, series: string): Promise<Array<Listing>> {
     const config = useRuntimeConfig();
     const BACKEND_ADDR = config.public.API_BASE_URL;
-    const url = `${BACKEND_ADDR}/listings/${contract_address}/${series}`;
+    const url = `${BACKEND_ADDR}/listings/${contract_address}/${encodeURIComponent(series)}`;
 
     const response = await fetch(url, {
         method: "GET",
