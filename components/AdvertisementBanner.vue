@@ -27,6 +27,7 @@ import BannerNyanMatcher from "~/components/banners/BannerNyanMatcher.vue";
 import BannerArconeGames from "~/components/banners/BannerArconeGames.vue";
 import BannerRcaxSponsoring from "~/components/banners/BannerRcaxSponsoring.vue";
 import BannerThe23Club from "~/components/banners/BannerThe23Club.vue";
+import BannerIt from "~/components/banners/BannerIt.vue";
 import {
   BannersBannerConeHeads,
   BannersBannerRcaxMarketplaceBeta,
@@ -38,6 +39,12 @@ import {
 const isBannerClosed = ref(false);
 
 const slides = [
+  {
+    key: 'I&T',
+    component: BannerIt,
+    startDate: new Date('2024-02-19'), // Start date for this slide
+    expirationDate: new Date('2024-02-26'),
+  },
   {
     key: 'RCA Eggs',
     component: BannersBannerRcaEggs,
