@@ -16,7 +16,7 @@ export async function fetchSalesLatest(): Promise<[Array<Sale>, Map<string, Map<
 export async function fetchSalesForSeries(contract_address: string, series: string): Promise<Array<Sale>> {
     const config = useRuntimeConfig();
     const BACKEND_ADDR = config.public.API_BASE_URL;
-    const url = `${BACKEND_ADDR}/sales/${contract_address}/${series}`;
+    const url = `${BACKEND_ADDR}/sales/${contract_address}/${encodeURIComponent(series)}`;
 
     const response = await fetch(url);
     const data: ApiResponseForSeries = await response.json();
