@@ -133,7 +133,7 @@ const filteredSales: ComputedRef<Sale[]> = computed(() => {
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
     if (settings.value.activity.filterGenOption === "watchlist") {
-      filteredSales = filteredSales.filter((sale) => watchList.value.has(sale.token.name));
+      filteredSales = filteredSales.filter((sale) => watchList.value.has(sale.token.contract_address + sale.token.name));
     } else if (settings.value.activity.filterGenOption === "eth") {
       filteredSales = filteredSales.filter((sale) => sale.payment_token.symbol == "ETH");
     } else {
@@ -153,7 +153,7 @@ const filteredListings: ComputedRef<Listing[]> = computed(() => {
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all") {
     if (settings.value.activity.filterGenOption === "watchlist") {
-      filteredListings = filteredListings.filter((listing) => watchList.value.has(listing.token.name));
+      filteredListings = filteredListings.filter((listing) => watchList.value.has(listing.token.contract_address + listing.token.name));
     } else if (settings.value.activity.filterGenOption === "eth") {
       filteredListings = filteredListings.filter((listing) => listing.payment_token.symbol == "ETH");
     } else {
@@ -173,7 +173,7 @@ const filteredMints: ComputedRef<Mint[]> = computed(() => {
 
   if (settings.value.activity.filterGenOption && settings.value.activity.filterGenOption != "all" && settings.value.activity.filterGenOption != "eth") {
     if (settings.value.activity.filterGenOption === "watchlist") {
-      filteredMints = filteredMints.filter((mint) => watchList.value.has(mint.token.name));
+      filteredMints = filteredMints.filter((mint) => watchList.value.has(mint.token.contract_address + mint.token.name));
     } else {
       filteredMints = filteredMints.filter((mint) => !getFreeCollections().includes(mint.token.contract_address));
     }

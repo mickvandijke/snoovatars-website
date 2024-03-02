@@ -351,7 +351,7 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
   }
 
   if (route.path.includes("watchlist")) {
-    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => watchList.value.has(seriesStat.series.name));
+    filteredSeriesStats = filteredSeriesStats.filter((seriesStat) => watchList.value.has(seriesStat.series.contract_address + seriesStat.series.name));
   }
 
   if (maxPriceEth.value) {

@@ -218,15 +218,17 @@ export function getSeriesStats(contractAddress: string, name: string) {
 }
 
 export function loadWatchList() {
-    const defaultWatchList: Set<string> = new Set(['The Hands', 'Gummy', 'Snooze Paralysis', 'Julia Jewels']);
+    const defaultWatchList: Set<string> = new Set(['0x8d0501d85becda92b89e56177ddfcea5fc1f0af2The Hands', '0x907808732079863886443057c65827a0f1c64357Rainbow Foustling', '0x27b37e4befacc50b02102d1e2117c4ea8a54beffGummy', '0x45ee1caed83525673843321107bccadecb9065d7Snooze Paralysis', '0x425bf054ef7bad65b7bdd8e6587b1c3500e4f4caJulia Jewels']);
 
     const watchListJson = localStorage.getItem("watchList");
 
     if (watchListJson) {
         const watchList = JSON.parse(watchListJson);
 
-        if (watchList) {
-            useWatchList().value = new Set<string>(watchList);
+        const filteredArray = watchList.filter((item: string) => item.length >= 42);
+
+        if (filteredArray.length > 0) {
+            useWatchList().value = new Set<string>(filteredArray);
             return;
         }
     }

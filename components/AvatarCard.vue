@@ -45,13 +45,13 @@
               <h1 class="text-white/20 font-semibold rounded-md">#{{ ranking }}</h1>
             </template>
             <div class="ml-auto flex items-center gap-1 font-bold">
-              <template v-if="watchList.has(seriesStats.series.name)">
-                <div @click.stop="removeFromWatchList(seriesStats.series.name)" class="flex items-center justify-center cursor-pointer">
+              <template v-if="watchList.has(seriesStats.collection.contract_address + seriesStats.series.name)">
+                <div @click.stop="removeFromWatchList(seriesStats.series.contract_address + seriesStats.series.name)" class="flex items-center justify-center cursor-pointer">
                   <StarIcon class="w-5 h-5 text-yellow-500" />
                 </div>
               </template>
               <template v-else>
-                <div @click.stop="addToWatchList(seriesStats.series.name)" class="group flex items-center justify-center cursor-pointer">
+                <div @click.stop="addToWatchList(seriesStats.collection.contract_address + seriesStats.series.name)" class="group flex items-center justify-center cursor-pointer">
                   <StarIconOutlined class="w-5 h-5 text-white/20 group-hover:text-yellow-500" />
                 </div>
               </template>

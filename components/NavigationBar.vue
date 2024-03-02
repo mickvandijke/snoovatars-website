@@ -38,8 +38,8 @@
               <NuxtLink replace to="/lookup">
                 Reddit Identity Lookup
               </NuxtLink>
-              <NuxtLink replace to="/dapps/convertclassic">
-                Convert RCAX Classic to V2
+              <NuxtLink to="https://avatartraits.xyz">
+                AvatarTraits.xyz
               </NuxtLink>
             </template>
           </DropDownMenu>
