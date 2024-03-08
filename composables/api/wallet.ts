@@ -3,7 +3,7 @@ import {ApiResponse, ApiTokenBalanceResponse} from "~/types/wallet";
 
 export async function fetchWalletTokens(wallet_address: string, forceRefresh?: boolean): Promise<ApiResponse> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
     const url = `${BACKEND_ADDR}/v2/wallet/${wallet_address}?force=${forceRefresh ?? false}`;
 
     try {
@@ -22,7 +22,7 @@ export async function fetchWalletTokens(wallet_address: string, forceRefresh?: b
 
 export async function fetchWalletTokenBalance(token_address: string, wallet_address: string): Promise<number> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
     const url = `${BACKEND_ADDR}/token/${token_address}/${wallet_address}`;
 
     try {

@@ -3,7 +3,7 @@ import {API_UNREACHABLE, API_UNRECOGNIZED_RESPONSE} from "~/global/constants";
 
 export async function getTokens() {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/tokens`;
 

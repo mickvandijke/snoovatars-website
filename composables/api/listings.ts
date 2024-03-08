@@ -5,7 +5,7 @@ import {handleResponseError} from "~/composables/api/error";
 
 export async function fetchListings(): Promise<Record<string, Record<string, Record<string, Listing>>>> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/listings`;
 
@@ -32,7 +32,7 @@ export async function fetchListings(): Promise<Record<string, Record<string, Rec
 
 export async function fetchListingsLatest(): Promise<Array<Listing>> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
     const url = `${BACKEND_ADDR}/listings/latest`;
 
     const response = await fetch(url);
@@ -43,7 +43,7 @@ export async function fetchListingsLatest(): Promise<Array<Listing>> {
 
 export async function fetchListingsForSeries(contract_address: string, series: string): Promise<Array<Listing>> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
     const url = `${BACKEND_ADDR}/listings/${contract_address}/${encodeURIComponent(series)}`;
 
     const response = await fetch(url, {

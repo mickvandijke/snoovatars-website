@@ -3,7 +3,7 @@ import {ApiResponseMarket} from "~/types/info";
 
 export async function fetchMarketInfo(): Promise<[number, number]> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
     const url = `${BACKEND_ADDR}/info/market`;
 
     const response = await fetch(url);

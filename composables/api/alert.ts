@@ -14,7 +14,7 @@ import {handleCatch, handleResponseError} from "~/composables/api/error";
 
 export async function createAlert(alert: Alert, old_alert_hash?: string) {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/jwt/alert/create`;
 
@@ -50,7 +50,7 @@ export class GetAlertsResponse {
 
 export async function getAlerts(): Promise<GetAlertsResponse> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/jwt/alerts`;
 
@@ -108,7 +108,7 @@ export async function getAlerts(): Promise<GetAlertsResponse> {
 
 export async function getAlertQuotas() {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/alert/quotas`;
 

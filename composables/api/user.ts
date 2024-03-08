@@ -21,7 +21,7 @@ export function deleteToken() {
 
 export async function createUser(email: string, username: string, password: string): Promise<string> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/jwt/user/create`;
 
@@ -56,7 +56,7 @@ export async function createUser(email: string, username: string, password: stri
 
 export async function loginUserCredentials(username: string, password: string): Promise<string> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/jwt/login/credentials`;
 
@@ -91,7 +91,7 @@ export async function loginUserCredentials(username: string, password: string): 
 
 export async function getUser() {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/jwt/user`;
 
@@ -131,7 +131,7 @@ export async function getUser() {
 
 export async function verifyUser(verificationCode: string) {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/verify/email/${verificationCode}`;
 
@@ -152,7 +152,7 @@ export async function verifyUser(verificationCode: string) {
 
 export async function getUserSettings(): Promise<UserSettings> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/jwt/user/settings`;
 
@@ -175,7 +175,7 @@ export async function getUserSettings(): Promise<UserSettings> {
 
 export async function updateUserSettings(userSettings: UserSettings): Promise<UserSettings> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/jwt/user/settings`;
 
@@ -204,7 +204,7 @@ export async function updateUserSettings(userSettings: UserSettings): Promise<Us
 
 export async function deleteUser(usernameOrEmail: string): Promise<string> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/user/delete`;
 

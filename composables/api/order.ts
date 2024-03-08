@@ -3,7 +3,7 @@ import {handleResponseError} from "~/composables/api/error";
 
 export async function postGoogleOrder(order: CdvPurchase.Transaction): Promise<string> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/webhooks/google/order/confirm`;
 
@@ -30,7 +30,7 @@ export async function postGoogleOrder(order: CdvPurchase.Transaction): Promise<s
 
 export async function postAppleOrder(order: CdvPurchase.Transaction): Promise<string> {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/webhooks/apple/order/confirm`;
 

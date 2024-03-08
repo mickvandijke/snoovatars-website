@@ -7,13 +7,13 @@
           v-model="search"
           :placeholder="props.placeholder"
           :disabled="props.disabled"
-          @focus="notClicked = true"
+          @focus="openList = true"
       >
     </div>
     <div
-        v-if="filteredOptions.length > 0 && notClicked"
+        v-if="filteredOptions.length > 0 && openList"
         id="options"
-        class="absolute hidden group-focus-within:block mt-2 z-50 rounded-2xl divide-y divide-gray-100 shadow-lg bg-neutral-700 text-neutral-300 max-h-48 w-full overflow-y-auto"
+        class="absolute group-focus-within:block mt-2 z-50 rounded-2xl divide-y divide-gray-100 shadow-lg bg-neutral-700 text-neutral-300 max-h-48 w-full overflow-y-auto"
     >
       <ul class="py-1 text-sm">
         <li v-for="option in filteredOptions">
@@ -41,7 +41,7 @@ import {ComputedRef} from "vue";
 const MAX_OPTIONS_IN_LIST = 300;
 
 const search: Ref<string> = ref("");
-const notClicked = ref(false);
+const openList = ref(false);
 
 const props = defineProps({
   modelValue: String,
@@ -56,10 +56,12 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'change'])
 
 function selectValue(value: any) {
+  console.log("selected: ", value);
+
   emit('update:modelValue', value);
   emit('change');
   search.value = "";
-  notClicked.value = false;
+  openList.value = false;
 }
 
 const filteredOptions: ComputedRef<Array<SelectSearchOption>> = computed(() => {

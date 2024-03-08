@@ -5,7 +5,7 @@ import {deleteToken} from "~/composables/api/user";
 
 export async function redeemOrder(orderId: string) {
     const config = useRuntimeConfig();
-    const BACKEND_ADDR = config.public.API_BASE_URL;
+    const BACKEND_ADDR = config.public.apiBaseUrl;
 
     let url = `${BACKEND_ADDR}/jwt/redeem/${orderId}`;
 

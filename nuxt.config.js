@@ -10,11 +10,8 @@ export default defineNuxtConfig({
     ssr: false,
     runtimeConfig: {
         public: {
-            SITE_URL: process.env.SITE_URL,
-            API_BASE_URL: process.env.API_BASE_URL,
-            POLYGON_RPC_URL: process.env.POLYGON_RPC_URL
+            apiBaseUrl: 'https://api.snoovatars.com',
         }
     },
     modules: [],
-    image: {},
 })
