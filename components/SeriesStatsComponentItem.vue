@@ -83,7 +83,7 @@
               </template>
             </div>
           </div>
-          <div class="flex font-bold text-[0.7rem]">
+          <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
               <template v-if="sorting === 'lowestFloorMintRatio' || sorting === 'highestFloorMintRatio'">
                 <div class="flex items-center gap-0.5 font-bold overflow-hidden">

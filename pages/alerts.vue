@@ -26,7 +26,7 @@
               <h2 class="header">Settings</h2>
               <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-header font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
             </div>
-            <div class="p-6 flex flex-col gap-y-4 border-2 border-white/10 w-full rounded-2xl">
+            <div class="p-6 flex flex-col gap-y-4 border border-white/10 w-full rounded-2xl">
               <template v-if="user.tier >= 0">
                 <template v-for="[key, value] in Object.entries(userSettings)">
                   <div class="flex justify-between items-center">
@@ -68,7 +68,7 @@
               <span>Although you can create price alerts, they will not fire until you <NuxtLink to="/upgrade" class="text-amber-500 font-bold">upgrade to Pro</NuxtLink> and enable email and/or push notifications.</span>
             </div>
           </template>
-          <ul class="p-2 grid grid-cols-1 gap-2 w-full border-2 border-white/10 rounded-2xl">
+          <ul class="p-2 grid grid-cols-1 gap-2 w-full border border-white/10 rounded-2xl">
             <template v-if="alerts.size > 0" v-for="[alertHash, alert] in alerts">
               <div class="p-2 flex gap-2 items-center bg-secondary text-sm rounded-lg w-full">
                 <div class="flex items-center justify-center w-8 h-8 rounded-md overflow-hidden">
@@ -102,7 +102,7 @@
               <h2 class="header">Quota</h2>
               <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-header font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
             </div>
-            <ul class="p-6 flex flex-col gap-y-4 border-2 border-white/10 w-full rounded-2xl">
+            <ul class="p-6 flex flex-col gap-y-4 border border-white/10 w-full rounded-2xl">
               <li class="flex flex-row flex-nowrap text-details text-sm rounded-2xl block w-full">
                 <span>Concurrent Alerts:</span>
                 <span class="ml-auto">{{ alerts.size }}/{{ alertMaxQuota.alerts }}</span>

@@ -29,7 +29,7 @@
         <template v-if="!Capacitor.isNativePlatform()">
           <DropDownMenu class="hidden md:block">
             <template v-slot:button>
-              <span class="text-details">Apps</span>
+              <span class="text-details px-4 py-2">Apps</span>
             </template>
             <template v-slot:menu>
               <NuxtLink replace to="/dapps/randomavatarswap">
