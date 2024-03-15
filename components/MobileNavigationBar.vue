@@ -1,20 +1,25 @@
 <template>
   <div class="fixed md:hidden bottom-0 w-full z-40 bg-secondary/90 backdrop-blur-lg" style="padding-bottom: env(safe-area-inset-bottom);">
-    <div class="py-5 grid grid-cols-5 justify-around items-center text-white/40" :class="{ 'py-4': Capacitor.isNativePlatform() }">
+    <div class="py-2 grid grid-cols-5 justify-around items-center text-white/40">
       <NuxtLink to="/wallet" class="flex flex-col items-center justify-center" :class="{ 'active-tab': isActive('/wallet') }">
         <component :is="iconForRoute('/wallet')" class="icon-size"/>
+        <span class="text-xs font-medium">Wallet</span>
       </NuxtLink>
       <NuxtLink to="/watchlist" class="flex flex-col items-center justify-center" :class="{ 'active-tab': isActive('/watchlist') }">
         <component :is="iconForRoute('/watchlist')" class="icon-size"/>
+        <span class="text-xs font-medium">Watchlist</span>
       </NuxtLink>
       <NuxtLink to="/" class="flex flex-col items-center justify-center" :class="{ 'active-tab': isActive('/') }">
         <component :is="iconForRoute('/')" class="icon-size"/>
+        <span class="text-xs font-medium">Stats</span>
       </NuxtLink>
       <NuxtLink to="/events" class="flex flex-col items-center justify-center" :class="{ 'active-tab': isActive('/events') }">
         <component :is="iconForRoute('/events')" class="icon-size"/>
+        <span class="text-xs font-medium">Activity</span>
       </NuxtLink>
       <NuxtLink to="/tools" class="flex flex-col items-center justify-center" :class="{ 'active-tab': isActive('/tools') }">
         <component :is="iconForRoute('/tools')" class="icon-size"/>
+        <span class="text-xs font-medium">More</span>
       </NuxtLink>
     </div>
   </div>
