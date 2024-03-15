@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showingBarMarketInfo" class="sm:py-2 border-b border-white/5 w-full text-xs overflow-hidden" ref="barMarketInfo" :class="{ 'page-mobile-padding-top bg-secondary/90 backdrop-blur-lg': Capacitor.isNativePlatform() }">
+  <div v-if="showingBarMarketInfo" class="sm:py-2 border-b border-white/5 w-full text-xs overflow-hidden" ref="barMarketInfo" :class="{ 'page-mobile-padding-top bg-primary/90 backdrop-blur-lg': Capacitor.isNativePlatform() }">
     <div class="px-4 sm:px-6 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
       <div class="inline-flex gap-2 sm:gap-3">
         <button @click="openLinkWith(`https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d`)" class="flex items-center gap-1 text-header hover:text-amber-400 duration-200">

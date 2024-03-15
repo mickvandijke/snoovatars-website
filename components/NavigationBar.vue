@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col bg-primary border-b border-white/5 z-40 w-full duration-200" :class="{ 'bg-secondary/90 backdrop-blur-lg': scrolled >= 72 || Capacitor.isNativePlatform() }" @mouseleave="closeDropdowns()" ref="navbar">
+  <div class="flex flex-col bg-primary border-b border-white/5 z-40 w-full duration-200" :class="{ 'bg-primary/90 backdrop-blur-lg': scrolled >= 72 || Capacitor.isNativePlatform() }" @mouseleave="closeDropdowns()" ref="navbar">
     <nav class="py-2 sm:py-3 px-4 sm:px-6 flex w-full items-center gap-3 md:gap-6 duration-200">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <NuxtLink to="/" class="flex flex-row flex-nowrap items-center">

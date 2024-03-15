@@ -9,7 +9,7 @@
           <div class="relative flex items-center h-full w-fit sm:h-full mx-auto">
             <div class="relative w-fit max-h-full overflow-hidden rounded-lg">
               <img-placeholder img-class="max-h-[90px]" :src="getTokenImage(seriesStats.series.image)" />
-              <div class="absolute top-1 left-1 px-1.5 py-0 bg-secondary/90 backdrop-blur text-[0.7rem] font-semibold italic rounded-md" :class="getMintClassesText(Math.max(seriesStats.series.total_quantity, seriesStats.series.total_sold))">
+              <div class="absolute top-1 left-1 px-1.5 py-0 bg-tertiary/80 backdrop-blur text-[0.7rem] font-semibold italic rounded-lg" :class="getMintClassesText(Math.max(seriesStats.series.total_quantity, seriesStats.series.total_sold))">
                 <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
               </div>
             </div>
