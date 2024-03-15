@@ -11,7 +11,7 @@ import {Capacitor} from "@capacitor/core";
 
 <style>
 .menubar {
-  @apply bg-primary/90 backdrop-blur-lg border-b border-secondary sticky top-[56px] sm:top-[64px] sm:mb-3 px-2 py-2 sm:px-6 sm:py-3 inline-flex justify-center sm:justify-start gap-2 sm:gap-3 z-10 w-full;
+  @apply bg-primary/90 backdrop-blur-lg border-b border-white/5 sticky top-[56px] sm:top-[64px] sm:mb-3 px-2 py-2 sm:px-6 sm:py-3 inline-flex justify-center sm:justify-start gap-2 sm:gap-3 z-10 w-full;
 }
 
 .menubar > * {
