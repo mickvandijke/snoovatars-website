@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row justify-between gap-1">
     <div class="flex flex-col">
-      <div class="flex font-bold text-[0.7rem]">
+      <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-details font-medium">Mint Number:</span>
           <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${item.token.contract_address}:${item.token.id}`)" class="text-header hover:text-amber-500">#{{ item.token.mint_number }}</button>

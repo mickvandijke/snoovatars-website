@@ -69,7 +69,7 @@
               </template>
             </div>
           </div>
-          <div class="flex font-bold text-[0.7rem]">
+          <div class="flex text-[0.7rem]">
             <div class="flex gap-1">
               <div class="flex gap-0.5 items-center">
                 <ClockIcon class="text-details w-3 h-3" />

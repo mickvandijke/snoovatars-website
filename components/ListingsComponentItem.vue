@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row justify-between gap-1">
     <div class="flex flex-col">
-      <div class="flex font-bold text-[0.7rem]">
+      <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-details font-medium">Price:</span>
           <div class="flex flex-nowrap items-center gap-1 whitespace-nowrap overflow-hidden">
