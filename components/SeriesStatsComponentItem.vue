@@ -23,7 +23,7 @@
           </div>
           <div class="flex flex-col items-end">
             <template v-if="item.series.total_sold < item.series.total_quantity">
-              <div class="flex gap-2 font-bold text-[0.7rem] items-center">
+              <div class="flex gap-2 text-[0.7rem] items-center">
                 <div class="flex gap-1">
                   <span class="text-white/40 font-medium">Next Mint:</span>
                   <div class="flex gap-0.25 items-center">
@@ -58,7 +58,7 @@
             <div class="flex gap-1 text-[0.7rem]">
               <span class="text-details font-medium">Floor:</span>
               <template v-if="lowestListing">
-                <div class="flex flex-col font-semibold">
+                <div class="flex flex-col font-medium">
                   <ListingPrice :listing="lowestListing" />
                 </div>
               </template>
@@ -86,7 +86,7 @@
           <div class="flex font-medium text-[0.7rem]">
             <div class="flex gap-1">
               <template v-if="sorting === 'lowestFloorMintRatio' || sorting === 'highestFloorMintRatio'">
-                <div class="flex items-center gap-0.5 font-bold overflow-hidden">
+                <div class="flex items-center gap-0.5 font-medium overflow-hidden">
                   <span class="text-details font-medium">Mint Profit:</span>
                   <div class="flex gap-0.25 items-center">
                     <div :class="{ 'text-green-500': mintProfitInPercentage >= 0, 'text-red-500': mintProfitInPercentage < 0 }">{{ mintProfitInPercentage }}%</div>
