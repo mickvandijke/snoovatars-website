@@ -33,7 +33,7 @@ const props = defineProps({
 
 <style>
 .filter-menu-button--button {
-  @apply h-full bg-secondary text-header hover:text-header hover:bg-tertiary;
+  @apply h-full border border-white/5 text-white/80 hover:text-header;
 }
 
 .filter-menu-button--menu {

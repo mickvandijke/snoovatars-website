@@ -5,7 +5,7 @@
        @touchend="onTouchEnd"
   >
     <transition
-        leave-active-class="transition ease-in duration-300"
+        leave-active-class="transition ease-in duration-100"
         leave-from-class="transform opacity-100 scale-100"
         leave-to-class="transform opacity-0 scale-95"
     >

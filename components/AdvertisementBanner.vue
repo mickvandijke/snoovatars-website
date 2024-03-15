@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isBannerShowing" class="relative md:mb-6 px-2 sm:px-6 w-full">
+  <div v-if="isBannerShowing" class="relative md:my-2 px-2 sm:px-6 w-full">
     <Carousel :items-to-show="1" :autoplay="10000" :wrap-around="true" pause-autoplay-on-hover class="drop-shadow-lg">
       <Slide v-for="(slide, i) in shuffledSlides" :key="i">
         <component :is="slide.component" />
@@ -49,7 +49,7 @@ const slides = [
     key: 'RCA Eggs',
     component: BannersBannerRcaEggs,
     startDate: new Date('2023-12-23'), // Start date for this slide
-    expirationDate: new Date('2025-12-31'),
+    expirationDate: new Date('2023-12-31'),
   },
   {
     key: 'rcax banner',

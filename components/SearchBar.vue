@@ -34,7 +34,7 @@ const props = defineProps({
 
 <style scoped>
 .searchbar {
-  @apply px-2 py-1 bg-secondary w-full border border-transparent hover:border-white/20 focus-within:bg-transparent focus-within:border-white/40 focus-within:hover:border-white/40 rounded-2xl duration-300 cursor-text;
+  @apply px-2 py-1 w-full border border-white/5 hover:border-white/10 focus-within:bg-transparent focus-within:border-white/20 focus-within:hover:border-white/40 rounded-2xl duration-300 cursor-text;
 }
 
 .searchbar--icon {
@@ -42,7 +42,7 @@ const props = defineProps({
 }
 
 .searchbar--input {
-  @apply p-0 bg-transparent text-sm text-white/80 font-medium placeholder-white/25 border-none focus:outline-none cursor-text;
+  @apply p-0 bg-transparent text-sm text-white/80 placeholder-white/25 border-none focus:outline-none cursor-text;
 }
 
 .searchbar--action {

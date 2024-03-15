@@ -1,5 +1,5 @@
 <template>
-  <div class="px-6 pb-3 z-20 w-full">
+  <div class="px-6 py-3 z-20 w-full">
     <ul class="flex gap-2 items-center justify-start text-sm font-medium text-header text-center w-full">
       <li>
         <NuxtLink to="/wallet" class="nlink" active-class="active">
