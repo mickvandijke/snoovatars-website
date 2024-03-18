@@ -3,36 +3,36 @@
     <div class="flex flex-col">
       <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-details font-medium">Mint Number:</span>
-          <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${item.token.contract_address}:${item.token.id}`)" class="text-header hover:text-amber-500">#{{ item.token.mint_number }}</button>
+          <span class="text-details">Mint Number:</span>
+          <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${item.token.contract_address}:${item.token.id}`)" class="text-white hover:text-amber-500">#{{ item.token.mint_number }}</button>
         </div>
       </div>
-      <div class="flex font-medium text-[0.7rem]">
+      <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-details font-medium">Minter:</span>
+          <span class="text-details">Minter:</span>
           <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${item.minter}`)" class="text-white/80 hover:text-white">{{ item.minter.slice(2, 6) }}</button>
         </div>
       </div>
-      <div class="flex font-medium text-[0.7rem]">
+      <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-details font-medium">Date:</span>
-          <div class="text-amber-500">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
+          <span class="text-details">Date:</span>
+          <div class="text-white/80">{{ $timeAgo(new Date(item.date_minted)) }} ago</div>
         </div>
       </div>
     </div>
     <div class="flex flex-col items-end">
-      <div class="flex font-medium text-[0.7rem]">
+      <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-white/40 font-medium">Stock:</span>
-          <span class="text-details font-medium">{{ shopStock > 999 ? "999+" : shopStock }} left</span>
+          <span class="text-white/40">Stock:</span>
+          <span class="text-details">{{ shopStock > 999 ? "999+" : shopStock }} left</span>
         </div>
       </div>
-      <div class="flex font-medium text-[0.7rem]">
+      <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-white/40 font-medium">Floor:</span>
+          <span class="text-white/40">Floor:</span>
           <div class="flex items-center">
             <template v-if="!lowestListing">
-              <span class="text-details font-medium">None.</span>
+              <span class="text-details">None.</span>
             </template>
             <template v-else-if="lowestListing.payment_token.symbol === 'ETH'">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -49,9 +49,9 @@
           </div>
         </div>
       </div>
-      <div class="flex font-medium text-[0.7rem]">
+      <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
-          <span class="text-white/40 font-medium">Profit:</span>
+          <span class="text-white/40">Profit:</span>
           <div :class="{ 'text-green-500': mintProfitInPercentage >= 0, 'text-red-500': mintProfitInPercentage < 0 }">{{ mintProfitInPercentage }}%</div>
         </div>
       </div>

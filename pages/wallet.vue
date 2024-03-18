@@ -149,7 +149,7 @@
                   <div class="p-1 flex items-center justify-start w-full font-bold">
                     <div class="w-10 h-10 relative rounded-md overflow-hidden">
                       <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)">
-                        <img src="/img/bitcone.png">
+                        <img src="/images/coins/cone/icon.webp">
                       </button>
                     </div>
                     <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">

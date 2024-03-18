@@ -4,17 +4,17 @@
       <div class="flex flex-col">
         <div class="flex flex-row justify-between gap-1">
           <div class="flex flex-col">
-            <div class="flex gap-2 font-medium text-[0.7rem] items-center">
+            <div class="flex gap-2 text-[0.7rem] items-center">
               <div class="flex gap-1">
-                <span class="text-details font-medium">Stock:</span>
+                <span class="text-details">Stock:</span>
                 <div class="flex gap-0.25 items-center">
                   <span class="text-white">{{ Math.max((item.series.total_quantity - item.series.total_sold), 0) }}</span>
                 </div>
               </div>
             </div>
-            <div class="flex gap-2 font-medium text-[0.7rem] items-center">
+            <div class="flex gap-2 text-[0.7rem] items-center">
               <div class="flex gap-1">
-                <span class="text-details font-medium">Percentage:</span>
+                <span class="text-details">Percentage:</span>
                 <div class="flex gap-0.25 items-center">
                   <span class="text-amber-500">{{ Math.round((item.series.total_sold / item.series.total_quantity) * 100 ) }}%</span>
                 </div>
@@ -25,7 +25,7 @@
             <template v-if="item.series.total_sold < item.series.total_quantity">
               <div class="flex gap-2 text-[0.7rem] items-center">
                 <div class="flex gap-1">
-                  <span class="text-white/40 font-medium">Next Mint:</span>
+                  <span class="text-white/40">Next Mint:</span>
                   <div class="flex gap-0.25 items-center">
                     <span class="text-amber-500">#{{ item.series.total_quantity - (item.series.total_quantity - item.series.total_sold) + 1 }}</span>
                   </div>
@@ -33,9 +33,9 @@
               </div>
             </template>
             <template v-if="lowestListing">
-              <div class="flex gap-2 font-medium text-[0.7rem] items-center">
+              <div class="flex gap-2 text-[0.7rem] items-center">
                 <div class="flex gap-1">
-                  <span class="text-white/40 font-medium">Mint Profit:</span>
+                  <span class="text-white/40">Mint Profit:</span>
                   <div class="flex items-center">
                     <div :class="{ 'text-green-500': mintProfitInPercentage >= 0, 'text-red-500': mintProfitInPercentage < 0 }">{{ mintProfitInPercentage }}%</div>
                   </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="py-1 flex items-center">
           <div class="w-full bg-amber-900 rounded-md overflow-hidden">
-            <div class="h-2 bg-amber-600 text-[0.65rem] font-medium text-white/80 text-center rounded-md overflow-hidden" :style="{ 'width': `${Math.min(100, Math.round((item.series.total_sold / item.series.total_quantity) * 100 ))}%` }"></div>
+            <div class="h-2 bg-amber-600 text-[0.65rem] text-white/80 text-center rounded-md overflow-hidden" :style="{ 'width': `${Math.min(100, Math.round((item.series.total_sold / item.series.total_quantity) * 100 ))}%` }"></div>
           </div>
         </div>
       </div>
@@ -56,15 +56,15 @@
         <div class="flex flex-col">
           <div class="flex gap-2 items-center">
             <div class="flex gap-1 text-[0.7rem]">
-              <span class="text-details font-medium">Floor:</span>
+              <span class="text-details">Floor:</span>
               <template v-if="lowestListing">
-                <div class="flex flex-col font-medium">
+                <div class="flex flex-col">
                   <ListingPrice :listing="lowestListing" />
                 </div>
               </template>
               <template v-else>
                 <div class="flex text-[0.7rem]">
-                  <span class="text-white/40 font-medium">No listings found.</span>
+                  <span class="text-white/40">No listings found.</span>
                 </div>
               </template>
             </div>
@@ -73,68 +73,68 @@
             <div class="flex gap-1">
               <div class="flex gap-0.5 items-center">
                 <ClockIcon class="text-details w-3 h-3" />
-                <span class="text-details font-medium">Sale:</span>
+                <span class="text-details">Sale:</span>
               </div>
               <template v-if="item.stats.last_sale">
                 <LastSale :sale="item.stats.last_sale" />
               </template>
               <template v-else>
-                <span class="text-white/40 font-medium">No sales yet.</span>
+                <span class="text-white/40">No sales yet.</span>
               </template>
             </div>
           </div>
-          <div class="flex font-medium text-[0.7rem]">
+          <div class="flex text-[0.7rem]">
             <div class="flex gap-1">
               <template v-if="sorting === 'lowestFloorMintRatio' || sorting === 'highestFloorMintRatio'">
-                <div class="flex items-center gap-0.5 font-medium overflow-hidden">
-                  <span class="text-details font-medium">Mint Profit:</span>
+                <div class="flex items-center gap-0.5 overflow-hidden">
+                  <span class="text-details">Mint Profit:</span>
                   <div class="flex gap-0.25 items-center">
                     <div :class="{ 'text-green-500': mintProfitInPercentage >= 0, 'text-red-500': mintProfitInPercentage < 0 }">{{ mintProfitInPercentage }}%</div>
                   </div>
                 </div>
               </template>
               <template v-else-if="sorting === 'lowestListedPercentage'">
-                <span class="text-details font-medium">Listed:</span>
+                <span class="text-details">Listed:</span>
                 <div class="flex gap-0.25 items-center">
                   <div class="text-white/80">{{ item.stats.listed_percentage.toFixed(2) }}%</div>
                 </div>
               </template>
               <template v-else-if="sorting === 'lowestWeeklyAverage' || sorting === 'highestWeeklyAverage'">
-                <span class="text-details font-medium">7d Avg:</span>
+                <span class="text-details">7d Avg:</span>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="text-white/80">{{ (item.stats.weekly_average_price ?? 0).toFixed(4).replace(/\.?0+$/, '') }}</div>
                 </div>
               </template>
               <template v-else-if="sorting === 'lowestTwoWeeklyAverage' || sorting === 'highestTwoWeeklyAverage'">
-              <span class="text-details font-medium">14d Avg:</span>
+              <span class="text-details">14d Avg:</span>
               <div class="flex gap-0.25 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                 <div class="text-white/80">{{ (item.stats.two_weekly_average_price ?? 0).toFixed(2) }}</div>
               </div>
               </template>
               <template v-else-if="sorting === 'lowestMonthlyAverage' || sorting === 'highestMonthlyAverage'">
-                <span class="text-details font-medium">30d Avg:</span>
+                <span class="text-details">30d Avg:</span>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="text-white/80">{{ (item.stats.monthly_average_price ?? 0).toFixed(2) }}</div>
                 </div>
               </template>
               <template v-else-if="sorting === 'artistAsc' || sorting === 'artistDesc'">
-                <span class="text-details font-medium">Artist:</span>
+                <span class="text-details">Artist:</span>
                 <div class="flex gap-0.25 items-center">
                   <a :href="`https://reddit.com/u/${item.collection.artist.displayName}`" target="_blank" class="text-amber-500">{{ item.collection.artist.displayName }}</a>
                 </div>
               </template>
               <template v-else-if="sorting === 'lowestDailyVolume' || sorting === 'highestDailyVolume'">
-                <span class="text-details font-medium">24h Vol:</span>
+                <span class="text-details">24h Vol:</span>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="text-white/80">{{ item.stats.daily_volume.toFixed(2) }}</div>
                 </div>
               </template>
               <template v-else-if="sorting === 'lowestWeeklyVolume' || sorting === 'highestWeeklyVolume'">
-                <span class="text-details font-medium">7d Vol:</span>
+                <span class="text-details">7d Vol:</span>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="text-white/80">{{ item.stats.weekly_volume.toFixed(2) }}</div>
@@ -143,7 +143,7 @@
               <template v-else>
                 <div class="flex gap-0.5 items-center">
                   <ClockIcon class="text-details w-3 h-3" />
-                  <span class="text-details font-medium">5 Sales Avg:</span>
+                  <span class="text-details">5 Sales Avg:</span>
                 </div>
                 <div class="flex gap-0.25 items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
@@ -154,9 +154,9 @@
           </div>
         </div>
         <div class="absolute right-0 flex flex-col items-end">
-          <div class="flex font-medium text-[0.7rem]">
+          <div class="flex text-[0.7rem]">
             <div class="flex gap-1">
-              <span class="text-white/40 font-medium">24h:</span>
+              <span class="text-white/40">24h:</span>
               <template v-if="item.stats.daily_price_change > 0">
                 <div class="flex gap-0.5 items-center text-green-500 text-[0.65rem] rounded">
                   <span>+{{ dailyPriceChange }}%</span>
@@ -174,18 +174,18 @@
               </template>
             </div>
           </div>
-          <div class="flex font-medium text-[0.7rem]">
+          <div class="flex text-[0.7rem]">
             <div class="flex gap-1">
-              <span class="text-white/40 font-medium">Vol:</span>
+              <span class="text-white/40">Vol:</span>
               <div class="flex gap-0.25 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                 <div class="text-details">{{ (item.stats.total_volume / 1000000000000000000).toFixed(2) }}</div>
               </div>
             </div>
           </div>
-          <div class="flex font-medium text-[0.7rem]">
+          <div class="flex text-[0.7rem]">
             <div class="flex gap-1">
-              <span class="text-white/40 font-medium">Cap:</span>
+              <span class="text-white/40">Cap:</span>
               <div class="flex gap-0.25 items-center">
                 <div class="text-details">{{ ethereumInLocalCurrency(item.series.total_sold * item.stats.last_sale?.payment_token.base_price ?? 0, true) }}</div>
               </div>

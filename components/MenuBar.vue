@@ -27,6 +27,6 @@ import {Capacitor} from "@capacitor/core";
 }
 
 .mobile-padding-top {
-  top: calc(82px + env(safe-area-inset-top));
+  top: calc(105px + env(safe-area-inset-top));
 }
 </style>

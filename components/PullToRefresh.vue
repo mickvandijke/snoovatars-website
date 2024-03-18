@@ -11,14 +11,14 @@
     >
       <template v-if="isRefreshing">
         <div class="md:hidden flex flex-col items-center justify-center" style="height: 40px;">
-          <IonSpinner class="w-5 h-5 text-amber-500" />
+          <IonSpinner class="w-5 h-5 text-reddit" />
         </div>
       </template>
     </transition>
     <template v-if="!isRefreshing">
       <div class="flex flex-col items-center justify-center" ref="pullIndicator">
         <template v-if="pullDistance > 0">
-          <ArrowDownIcon class="w-5 h-5 text-neutral-500 duration-200" :class="{ 'rotate-180': pullDistance > pullToRefreshThreshold }" />
+          <ArrowDownIcon class="w-5 h-5 text-white/20 duration-200" :class="{ 'rotate-180': pullDistance > pullToRefreshThreshold }" />
         </template>
       </div>
     </template>

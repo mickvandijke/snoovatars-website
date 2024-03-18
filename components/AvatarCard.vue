@@ -1,46 +1,20 @@
 <template>
-  <div @click="selectAvatar" ref="componentRef" class="p-2 sm:bg-secondary sm:hover:bg-tertiary relative flex flex-col gap-1 w-full sm:rounded-2xl overflow-hidden cursor-pointer duration-300">
+  <div @click="selectAvatar" ref="componentRef" class="p-2 sm:bg-secondary sm:hover:bg-tertiary relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer duration-300">
     <template v-if="seriesStats">
-<!--      <div class="absolute top-0 left-0 px-2 text-[0.7rem] font-semibold italic rounded-br-md shadow z-20" :class="getMintClasses(seriesStats.series.total_quantity)">-->
-<!--        <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
-<!--      </div>-->
       <div class="relative flex w-full" style="height: 90px">
         <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(marketplaceLink(seriesStats)) } else { selectAvatar() } }" class="relative flex items-center w-fit">
           <div class="relative flex items-center h-full w-fit sm:h-full mx-auto">
             <div class="relative w-fit max-h-full overflow-hidden rounded-lg">
               <img-placeholder img-class="max-h-[90px]" :src="getTokenImage(seriesStats.series.image)" />
-              <div class="absolute top-1 left-1 px-1.5 py-0 bg-tertiary/80 backdrop-blur text-[0.7rem] font-semibold italic rounded-lg" :class="getMintClassesText(Math.max(seriesStats.series.total_quantity, seriesStats.series.total_sold))">
+              <div class="absolute top-1 left-1 px-1.5 py-0 bg-tertiary/80 backdrop-blur text-[0.7rem] font-medium rounded-md" :class="getMintClassesText(Math.max(seriesStats.series.total_quantity, seriesStats.series.total_sold))">
                 <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
               </div>
             </div>
-<!--            <div class="absolute left-1 top-1 px-1.5 bg-primary rounded-lg text-[0.65rem] font-semibold italic z-30" :class="getMintClasses(seriesStats.series.total_quantity)">-->
-<!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
-<!--            </div>-->
-            <!--            <ImgPlaceholder img-class="object-cover rounded-2xl" :key="item.image" :src="getTokenImage(seriesStats.series.image)" :alt="item.name" />-->
           </div>
-          <!--          <template v-if="Capacitor.getPlatform() !== 'ios'">-->
-          <!--            <div class="absolute top-0.5 right-0 w-4 h-4 rounded-full">-->
-          <!--              <img src="/images/branding/rcax/rcaxIcon.svg" />-->
-          <!--            </div>-->
-          <!--          </template>-->
-          <!--          <template v-if="ranking">-->
-          <!--            <div class="absolute bottom-0 left-0 px-1 py-0.25 bg-amber-600 text-[0.7rem] font-medium rounded-tr-md drop-shadow">-->
-          <!--              <h1 class="text-header rounded-md">#{{ ranking }}</h1>-->
-          <!--            </div>-->
-          <!--          </template>-->
-          <!--          <div class="absolute top-0 left-0 px-1 py-0.25 bg-secondary text-[0.7rem] font-medium italic rounded-br-md shadow" :class="getMintClasses(seriesStats.series.total_quantity)">-->
-          <!--            <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
-          <!--          </div>-->
         </button>
         <div class="relative pl-2 flex flex-col overflow-hidden grow">
           <div class="flex items-center gap-1 text-[0.7rem]">
             <button @click.stop="openLinkWith(marketplaceLink(seriesStats))" class="text-header font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
-<!--            <div class="relative bg-white/5 py-0.25 px-1 text-black text-[0.65rem] font-medium rounded italic" :class="getMintClasses(seriesStats.series.total_quantity)">-->
-<!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
-<!--            </div>-->
-<!--            <div class="px-1.5 bg-primary rounded-lg text-[0.65rem] font-semibold italic z-30" :class="getMintClasses(seriesStats.series.total_quantity)">-->
-<!--              <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>-->
-<!--            </div>-->
             <template v-if="ranking">
               <h1 class="text-white/20 font-semibold rounded-md">#{{ ranking }}</h1>
             </template>

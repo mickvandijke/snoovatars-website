@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed md:hidden bottom-0 w-full z-40 bg-secondary/90 backdrop-blur-lg" style="padding-bottom: env(safe-area-inset-bottom);">
+  <div class="fixed md:hidden bottom-0 w-full z-40 bg-secondary/90 backdrop-blur-lg border-t border-white/5" style="padding-bottom: env(safe-area-inset-bottom);">
     <div class="py-2 grid grid-cols-5 justify-around items-center text-white/40">
       <NuxtLink to="/wallet" class="flex flex-col items-center justify-center" :class="{ 'active-tab': isActive('/wallet') }">
         <component :is="iconForRoute('/wallet')" class="icon-size"/>

@@ -1,36 +1,42 @@
 <template>
-  <div v-if="showingBarMarketInfo" class="sm:py-2 border-b border-white/5 w-full text-xs overflow-hidden" ref="barMarketInfo" :class="{ 'page-mobile-padding-top bg-primary/90 backdrop-blur-lg': Capacitor.isNativePlatform() }">
-    <div class="px-4 sm:px-6 py-1 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
-      <div class="inline-flex gap-2 sm:gap-3">
-        <button @click="openLinkWith(`https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d`)" class="flex items-center gap-1 text-header hover:text-amber-400 duration-200">
-          <span class="text-details">RCAX:</span>
-          <span class="font-medium">{{ gweiInLocalCurrency(rcax) }}</span>
+  <div v-if="showingBarMarketInfo" class="border-white/5 w-full text-xs overflow-hidden" ref="barMarketInfo" :class="{ 'page-mobile-padding-top bg-primary/90 backdrop-blur-lg': Capacitor.isNativePlatform() }">
+    <div class="px-2 sm:px-6 py-2 flex whitespace-nowrap items-center overflow-x-auto scrollbar-hide">
+      <div class="inline-flex shrink-0 gap-2 sm:gap-3">
+        <button @click="openLinkWith(`https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d`)" class="px-3 py-2 flex items-center divide-x divide-white/5 bg-tertiary/50 hover:bg-tertiary rounded-xl duration-200">
+          <img class="h-4 pr-2" src="/images/branding/rcax/RCAX_Logo_Color.svg">
+          <span class="text-white/60 px-2">{{ gweiInLocalCurrency(rcax) }}</span>
+          <div class="pl-2 flex gap-1">
+            <span class="text-white/40">MC:</span>
+            <span class="text-white/60">{{ ethereumInLocalCurrency(rcax * (rcaxInfo?.data.attributes.total_supply ?? 0)) }}</span>
+          </div>
         </button>
-        <button @click="openLinkWith(`https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d`)" class="flex items-center gap-1 text-header hover:text-amber-400 duration-200">
-          <span class="text-details">RCAX Market Cap:</span>
-          <span class="font-medium">{{ ethereumInLocalCurrency(rcax * (rcaxInfo?.data.attributes.total_supply ?? 0)) }}</span>
-        </button>
-        <div class="flex items-center gap-0.5">
-          <span class="text-details">Avatar 24h Vol:</span>
-          <div class="flex gap-0.25 items-center font-medium">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-            <div class="flex gap-1 text-header">
-              <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
-<!--              <span class="text-header font-medium">{{ ethereumInLocalCurrency(dailyVol * ETH_TO_GWEI_MODIFIER) }}</span>-->
+        <div class="px-3 py-2 flex items-center divide-x divide-white/5 bg-tertiary/50 rounded-xl duration-200">
+          <span class="text-white/60 pr-2">RCA</span>
+          <div class="px-2 flex gap-1">
+            <span class="text-white/40">24h Vol:</span>
+            <div class="flex gap-0.25 items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+              <div class="flex gap-1 text-white/60">
+                <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
+              </div>
             </div>
           </div>
+          <div class="pl-2 flex gap-1">
+            <span class="text-white/40">MC:</span>
+            <span class="text-white/60">{{ ethereumInLocalCurrency(mCap * ETH_TO_GWEI_MODIFIER) }}</span>
+          </div>
         </div>
-        <div class="flex items-center gap-1">
-          <span class="text-details">Avatar Market Cap:</span>
-          <span class="text-header font-medium">{{ ethereumInLocalCurrency(mCap * ETH_TO_GWEI_MODIFIER) }}</span>
+        <div class="px-3 py-2 flex items-center divide-x divide-white/5 bg-tertiary/50 rounded-xl duration-200">
+          <img class="h-4 pr-2" src="/images/coins/cone/icon.webp">
+          <span class="text-white/60 px-2">{{ gweiInLocalCurrency(cone) }}</span>
+          <div class="pl-2 flex gap-1">
+            <span class="text-white/40">MC:</span>
+            <span class="text-white/60">{{ ethereumInLocalCurrency(cone * 600000000000 * ETH_TO_GWEI_MODIFIER) }}</span>
+          </div>
         </div>
-        <div class="flex items-center gap-1">
-          <span class="text-details">CONE:</span>
-          <span class="text-header font-medium">{{ gweiInLocalCurrency(cone) }}</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <span class="text-details">MATIC:</span>
-          <span class="text-header font-medium">{{ ethereumInLocalCurrency(1 / ethereumPriceMap.get("MATIC") * ETH_TO_GWEI_MODIFIER) }}</span>
+        <div class="px-3 py-2 flex items-center divide-x divide-white/5 bg-tertiary/50 rounded-xl duration-200">
+          <img class="h-3 pr-2" src="/images/coins/matic/icon.svg">
+          <span class="text-white/60 pl-2">{{ ethereumInLocalCurrency(1 / ethereumPriceMap.get("MATIC") * ETH_TO_GWEI_MODIFIER) }}</span>
         </div>
       </div>
       <template v-if="!Capacitor.isNativePlatform()">
