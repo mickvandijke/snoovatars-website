@@ -1,7 +1,7 @@
 <template>
   <div class="pb-3 relative flex flex-col items-center w-full">
     <StatsTabs class="hidden md:block" />
-    <MenuBar>
+    <MenuBar class="mb-3">
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" />
       <FilterMenuButton :using-filter="usingFilter()">
         <input type="number" v-model="maxPrice" :placeholder="`Max price ${paymentToken.toUpperCase()}`">

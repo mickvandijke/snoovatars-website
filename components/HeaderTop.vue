@@ -11,22 +11,6 @@
           </div>
         </button>
         <div class="px-3 py-2 flex items-center divide-x divide-white/5 bg-tertiary/50 rounded-xl duration-200">
-          <span class="text-white/60 pr-2">RCA</span>
-          <div class="px-2 flex gap-1">
-            <span class="text-white/40">24h Vol:</span>
-            <div class="flex gap-0.25 items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-              <div class="flex gap-1 text-white/60">
-                <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="pl-2 flex gap-1">
-            <span class="text-white/40">MC:</span>
-            <span class="text-white/60">{{ ethereumInLocalCurrency(mCap * ETH_TO_GWEI_MODIFIER) }}</span>
-          </div>
-        </div>
-        <div class="px-3 py-2 flex items-center divide-x divide-white/5 bg-tertiary/50 rounded-xl duration-200">
           <img class="h-4 pr-2" src="/images/coins/cone/icon.webp">
           <span class="text-white/60 px-2">{{ gweiInLocalCurrency(cone) }}</span>
           <div class="pl-2 flex gap-1">
@@ -39,12 +23,22 @@
           <span class="text-white/60 pl-2">{{ ethereumInLocalCurrency(1 / ethereumPriceMap.get("MATIC") * ETH_TO_GWEI_MODIFIER) }}</span>
         </div>
       </div>
-      <template v-if="!Capacitor.isNativePlatform()">
-        <a href="https://whitepaper.rcax.io/" target="_blank" class="hidden md:flex gap-1 ml-auto mx-1 px-3 py-1.5 text-header hover:text-header font-semibold rounded-lg duration-200 cursor-pointer">
-          <span class="text-orange-500">NEW</span>
-          <span>RCAX Token Launch!</span>
-        </a>
-      </template>
+      <div class="ml-auto px-3 py-2 flex items-center divide-x divide-white/5 bg-tertiary/50 rounded-xl duration-200">
+        <span class="text-white/60 pr-2">RCA</span>
+        <div class="px-2 flex gap-1">
+          <span class="text-white/40">24h Vol:</span>
+          <div class="flex gap-0.25 items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+            <div class="flex gap-1 text-white/60">
+              <span>{{ dailyVol.toFixed(4).replace(/\.?0+$/, '') }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="pl-2 flex gap-1">
+          <span class="text-white/40">MC:</span>
+          <span class="text-white/60">{{ ethereumInLocalCurrency(mCap * ETH_TO_GWEI_MODIFIER) }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -4,7 +4,7 @@
       @click.self="showUserMenu = !showUserMenu"
       class="user-menu-button relative flex flex-row flex-nowrap items-center duration-200 cursor-pointer">
     <button @click.prevent="showUserMenu = !showUserMenu" class="user-menu-button--button flex flex-row flex-nowrap items-center gap-2">
-      <UserCircleIcon class="w-8 h-8" />
+      <UserCircleIcon class="h-9" />
     </button>
     <template v-if="showUserMenu">
       <div class="user-menu-button--menu absolute right-0 top-full mt-2 z-10 w-fit max-w-lg">
@@ -32,7 +32,7 @@ const props = defineProps({
 
 <style>
 .user-menu-button--button {
-  @apply text-details hover:text-header duration-300;
+  @apply text-white/40 hover:text-white/60 duration-300;
 }
 
 .user-menu-button--menu {

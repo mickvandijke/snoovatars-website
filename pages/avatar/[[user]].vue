@@ -1,18 +1,16 @@
 <template>
-  <div class="avatar-view px-4 py-4 sm:px-8 flex flex-col items-center gap-6 w-full">
-    <div class="flex flex-col gap-6 items-center w-full max-w-md">
-      <div class="flex items-center gap-2 w-full">
-        <input v-model="userSearch" placeholder="Reddit Username (without u/)" @keyup.enter.prevent="searchUser(userSearch)" />
-        <button :disabled="!userSearch || pending || userSearch === user" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200" @click="searchUser(userSearch)">
-          <template v-if="!pending">
-            <span>Let's go!</span>
-          </template>
-          <template v-else>
-            <IonSpinner class="w-5 h-5" />
-          </template>
-        </button>
-      </div>
-    </div>
+  <div class="avatar-view pb-3 md:pb-0 relative flex flex-col items-center w-full">
+    <MenuBar class="mb-3">
+      <SearchBar v-model:search-term="userSearch" placeholder="Reddit Username (without u/)"></SearchBar>
+      <button :disabled="!userSearch || pending || userSearch === user" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-2xl duration-200" @click="searchUser(userSearch)">
+        <template v-if="!pending">
+          <span>Let's go!</span>
+        </template>
+        <template v-else>
+          <IonSpinner class="w-5 h-5" />
+        </template>
+      </button>
+    </MenuBar>
     <template v-if="error">
       <div class="p-4 bg-red-500/20 rounded-2xl">
         <span class="text-white/80">{{ error }}</span>
