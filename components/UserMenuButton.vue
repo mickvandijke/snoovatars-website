@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import {ref} from "#imports";
-import {UserCircleIcon} from "@heroicons/vue/24/solid";
+import {UserCircleIcon} from "@heroicons/vue/24/outline";
 
 const showUserMenu = ref(false);
 
@@ -32,7 +32,7 @@ const props = defineProps({
 
 <style>
 .user-menu-button--button {
-  @apply text-white/40 hover:text-white/60 duration-300;
+  @apply text-white/40 hover:text-white duration-300;
 }
 
 .user-menu-button--menu {

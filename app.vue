@@ -1,15 +1,7 @@
 <template>
   <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
-    <template v-if="Capacitor.isNativePlatform()">
-      <div class="sticky top-0 w-full max-w-full z-50">
-        <HeaderTop />
-        <NavigationBar ref="navbarcomp"/>
-      </div>
-    </template>
-    <template v-else>
-      <HeaderTop />
-      <NavigationBar class="sticky top-0" ref="navbarcomp"/>
-    </template>
+    <HeaderTop :hide-items="scrolled >= 48" :class="{ 'sticky -top-[48px]': Capacitor.isNativePlatform() }" ref="barMarketInfo" />
+    <NavigationBar />
     <AvatarViewer />
     <template v-if="!Capacitor.isNativePlatform()">
       <AdvertisementBanner class="" />
@@ -34,7 +26,7 @@
 import {useHead} from "nuxt/app";
 import {
   loadWatchList,
-  onBeforeMount, ref, updateMarketInfo,
+  onBeforeMount, onBeforeUnmount, ref, updateMarketInfo,
   useCollections, useRouter,
   useUser,
   watch
@@ -60,6 +52,7 @@ import Prompt from "~/components/Prompt.vue";
 import {computed} from "vue";
 import HeaderTop from "~/components/HeaderTop.vue";
 import FooterSmall from "~/components/FooterSmall.vue";
+import {Ref} from "@vue/reactivity";
 
 useHead({
   title: 'RCAX | Reddit Collectible Avatars prices, statistics, sales and more!',
@@ -88,7 +81,8 @@ const router = useRouter();
 const prompter = usePrompt();
 const settings = useSettings();
 
-const navbarcomp = ref<HTMLInputElement | null>(null);
+const barMarketInfo: Ref<HTMLElement | null> = ref(null);
+const scrolled = ref(0);
 
 loadSettings();
 loadWalletAddresses();
@@ -102,6 +96,8 @@ if (settings.value.cookies?.accepted ?? false) {
 }
 
 onBeforeMount(async () => {
+  window.addEventListener('scroll', handleScroll);
+
   let tokenOpt = localStorage.getItem("Token");
 
   if (tokenOpt) {
@@ -111,6 +107,10 @@ onBeforeMount(async () => {
   fetchCollections().then((collections) => {
     useCollections().value = collections;
   });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
 });
 
 watch([settings], () => {
@@ -136,6 +136,11 @@ router.afterEach(() => {
     getUser();
   }
 });
+
+function handleScroll() {
+  // When the user scrolls, check the pageYOffset
+  scrolled.value = window.pageYOffset;
+}
 
 function loadGoogleAnalytics() {
   if (!Capacitor.isNativePlatform()) {

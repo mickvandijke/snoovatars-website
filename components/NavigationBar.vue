@@ -1,25 +1,20 @@
 <template>
-  <div class="flex flex-col bg-primary border-white/5 z-40 w-full duration-200" :class="{ 'bg-primary/90 backdrop-blur-lg': scrolled >= 20 || Capacitor.isNativePlatform() }" @mouseleave="closeDropdowns()" ref="navbar">
+  <div class="sticky top-0 flex flex-col bg-primary border-white/5 z-40 w-full duration-200" :class="{ 'nav-top': Capacitor.isNativePlatform() }" @mouseleave="closeDropdowns()" ref="navbar">
     <nav class="py-2 sm:py-3 px-4 sm:px-6 flex w-full items-center gap-3 md:gap-6 duration-200">
       <div class="flex flex-row items-center gap-4 lg:gap-6">
         <NuxtLink to="/" class="flex flex-row flex-nowrap items-center">
           <img class="h-8 mr-2.5" src="/images/branding/rcax/RCAX_Logo_Color.svg">
           <img class="h-5" src="/images/branding/rcax/rcaxLogo2024Light.svg">
         </NuxtLink>
-        <div class="ml-auto px-3 py-2 flex items-center flex-nowrap gap-2 bg-tertiary/50 rounded-xl">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="h-3.5 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-          <span class="text-white/60 text-sm whitespace-nowrap">{{ ethereumInLocalCurrency(ETH_TO_GWEI_MODIFIER) }}</span>
-        </div>
       </div>
 
-      <ul class="ml-auto flex text-white/40 text-[0.95rem] font-medium gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
-        <a href="https://marketplace.rcax.io" class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" target="_blank">Marketplace</a>
-        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/" exact-active-class="text-white/40">Avatars</NuxtLink>
-        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar" active-class="text-white/40">Exporter</NuxtLink>
+      <ul class="flex text-white/60 text-[0.95rem] gap-3 lg:flex lg:gap-0 lg:flex-row lg:items-center lg:space-x-3">
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/" exact-active-class="text-white">Avatars</NuxtLink>
+        <NuxtLink class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" to="/avatar" active-class="text-white">Exporter</NuxtLink>
         <template v-if="!Capacitor.isNativePlatform()">
           <DropDownMenu class="hidden md:block">
             <template v-slot:button>
-              <span class="text-white/40 hover:text-white px-4 py-2">Apps</span>
+              <span class="text-white/60 hover:text-white px-4 py-2">Apps</span>
             </template>
             <template v-slot:menu>
               <NuxtLink replace to="/dapps/randomavatarswap">
@@ -34,49 +29,52 @@
             </template>
           </DropDownMenu>
         </template>
-        <UserMenuButton class="sm:px-2">
-          <select class="bg-transparent hover:bg-transparent hover:text-white text-white/40" v-model="settings.currency.preferred">
-            <template v-for="currency in CURRENCIES">
-              <option :value="currency.ticker">{{ currency.ticker }}</option>
-            </template>
-          </select>
-          <template v-if="user?.username">
-            <template v-if="user?.tier < 1">
-              <NuxtLink
-                  replace
-                  to="/upgrade"
-              >
-                Upgrade to Pro
-              </NuxtLink>
-            </template>
-            <div @click="deleteAccount()">
-              <a class="inline-flex items-center">
-                <span class="flex flex-nowrap whitespace-nowrap">Delete account</span>
-              </a>
-            </div>
-            <div @click="logout()">
-              <a class="inline-flex items-center">
-                <span class="flex flex-nowrap whitespace-nowrap">Sign out</span>
-              </a>
-            </div>
-          </template>
-          <template v-else>
-            <NuxtLink
-                replace
-                to="/login"
-            >
-              Login
-            </NuxtLink>
-            <NuxtLink
-                replace
-                to="/signup"
-            >
-              Create account
-            </NuxtLink>
-          </template>
-          <button @click="resetSettings()">Reset settings</button>
-        </UserMenuButton>
+        <a href="https://marketplace.rcax.io" class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" target="_blank">Marketplace</a>
+
       </ul>
+
+      <UserMenuButton class="ml-auto sm:px-2">
+        <select class="bg-transparent hover:bg-transparent hover:text-white text-white/40" v-model="settings.currency.preferred">
+          <template v-for="currency in CURRENCIES">
+            <option :value="currency.ticker">{{ currency.ticker }}</option>
+          </template>
+        </select>
+        <template v-if="user?.username">
+          <template v-if="user?.tier < 1">
+            <NuxtLink
+                replace
+                to="/upgrade"
+            >
+              Upgrade to Pro
+            </NuxtLink>
+          </template>
+          <div @click="deleteAccount()">
+            <a class="inline-flex items-center">
+              <span class="flex flex-nowrap whitespace-nowrap">Delete account</span>
+            </a>
+          </div>
+          <div @click="logout()">
+            <a class="inline-flex items-center">
+              <span class="flex flex-nowrap whitespace-nowrap">Sign out</span>
+            </a>
+          </div>
+        </template>
+        <template v-else>
+          <NuxtLink
+              replace
+              to="/login"
+          >
+            Login
+          </NuxtLink>
+          <NuxtLink
+              replace
+              to="/signup"
+          >
+            Create account
+          </NuxtLink>
+        </template>
+        <button @click="resetSettings()">Reset settings</button>
+      </UserMenuButton>
     </nav>
   </div>
 </template>
@@ -177,8 +175,12 @@ function handleScroll() {
 }
 </script>
 
-<style>
+<style scoped>
 .navigation-bar select {
   @apply h-8 max-h-full;
+}
+
+.nav-top {
+  top: env(safe-area-inset-top);
 }
 </style>

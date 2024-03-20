@@ -16,7 +16,7 @@
         <span class="text-white/80">{{ error }}</span>
       </div>
     </template>
-    <div class="flex flex-col md:flex-row md:justify-center md:items-center gap-6 md:gap-12 w-full" :class="{ 'hidden': !avatar }">
+    <div class="px-2 flex flex-col md:flex-row md:justify-center md:items-center gap-6 md:gap-12 w-full" :class="{ 'hidden': !avatar }">
       <div class="flex flex-col items-center md:w-3/4 max-w-3xl gap-3">
         <div class="sm:px-3 flex gap-2 md:items-start w-full">
           <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name`" class="w-full" />
@@ -27,7 +27,7 @@
             </template>
           </select>
         </div>
-        <VirtualContainerGrid :items="filteredAvatarBackgrounds" :buffer-mobile="12" :buffer-desktop="20" class="p-1.5 h-[16rem] sm:h-[28rem] md:h-[38rem] w-full border border-white/10 rounded-2xl">
+        <VirtualContainerGrid :items="filteredAvatarBackgrounds" :buffer-mobile="12" :buffer-desktop="20" class="p-1.5 h-[16rem] sm:h-[28rem] md:h-[38rem] w-full border border-white/5 rounded-2xl">
           <template #default="{ item, index }">
             <BackgroundItem @click="setBackground(getBackgroundIndex(item))" :background="item" class="p-2 h-fit flex flex-col justify-center items-center bg-secondary text-header rounded-xl hover:bg-tertiary duration-200 cursor-pointer"/>
           </template>
@@ -37,12 +37,12 @@
         <div class="flex justify-center">
           <div class="w-72 h-96 relative">
             <img
-                class="w-full h-full absolute z-20"
+                class="w-full h-full absolute z-10"
                 :src="selectedBackground.path"
                 :alt="avatarAltText"
             >
             <img
-                class="absolute z-30"
+                class="absolute z-20"
                 :class="{ 'w-36': avatarSize === 'small', 'w-48': avatarSize === AvatarSize.Normal, 'w-60': avatarSize === 'large', 'centered': avatarPosition === AvatarPosition.Centered, 'normal': avatarPosition === AvatarPosition.Normal }"
                 style="left: 50%;"
                 :src="avatar"
@@ -55,8 +55,8 @@
         </div>
         <div class="mt-2 flex flex-col items-center gap-2 text-white/80 w-full max-w-xs">
           <template v-if="!Capacitor.isNativePlatform() && bgSeriesStats">
-            <a :href="marketplaceLink(bgSeriesStats)" target="_blank" class="mb-2 py-2 px-3 max-w-full flex items-center gap-1.5 border border-white/10 hover:border-amber-500 rounded-lg duration-300">
-              Buy <span class="text-header font-semibold truncate">{{ selectedBackground.name }}</span> on <img src="/images/branding/rcax/RCAX_Badge_Color.svg" class="w-5 h-5">
+            <a :href="marketplaceLink(bgSeriesStats)" target="_blank" class="mb-2 py-2 px-4 max-w-full flex items-center gap-1.5 border border-white/10 hover:border-amber-500 rounded-lg duration-300">
+              Buy <span class="text-white font-semibold truncate">{{ selectedBackground.name }}</span> on <img src="/images/branding/rcax/RCAX_Badge_Color.svg" class="w-5 h-5">
               <span class="text-sm text-details">({{ ethereumInLocalCurrency(getLowestListingAsGweiPrice(bgSeriesStats)) }})</span>
             </a>
           </template>

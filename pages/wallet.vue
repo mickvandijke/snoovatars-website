@@ -147,30 +147,6 @@
                     </div>
                   </div>
                   <div class="p-1 flex items-center justify-start w-full font-bold">
-                    <div class="w-10 h-10 relative rounded-md overflow-hidden">
-                      <button @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)">
-                        <img src="/images/coins/cone/icon.webp">
-                      </button>
-                    </div>
-                    <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
-                      <button
-                          @click="openLinkWith(`https://quickswap.exchange/#/swap/v2?currency0=0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619&currency1=0xbA777aE3a3C91fCD83EF85bfe65410592Bdd0f7c&swapIndex=0`)"
-                          class="text-header whitespace-nowrap text-ellipsis overflow-hidden"
-                      >BitCone</button>
-                      <span class="text-amber-500 text-[0.8rem]">{{ ((getCones(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
-                    </div>
-                    <div class="ml-auto flex flex-col items-end text-[0.8rem]">
-                      <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-white">{{ coneToEth((getCones(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                        <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(coneToEth((getCones(walletAddress) ?? 0))) }}</span>)</div>
-                      </div>
-                      <div class="flex items-center">
-                        <div class="ml-1 text-white/40"> (<span class="text-white/70">{{ gweiInLocalCurrency(cone) }}</span>)</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="p-1 flex items-center justify-start w-full font-bold">
                     <div class="w-10 h-10 relative bg-purple-800 rounded-full overflow-hidden">
                       <button @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619`)" class="flex justify-center w-full h-full">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="p-2 h-full text-white"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
