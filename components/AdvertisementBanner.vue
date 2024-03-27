@@ -35,10 +35,17 @@ import {
   BannersBannerRcaxTokenLaunch, BannersBannerRedditAvatarGiveaways,
   BannersBannerConeDesk, BannersBannerRedditAvatarTrading, BannersBannerRcaEggs
 } from "#components";
+import BannerStripesGlow from "~/components/banners/BannerStripesGlow.vue";
 
 const isBannerClosed = ref(false);
 
 const slides = [
+  {
+    key: 'r/StripesGlow',
+    component: BannerStripesGlow,
+    startDate: new Date('2024-03-27'), // Start date for this slide
+    expirationDate: new Date('2024-04-01'),
+  },
   {
     key: 'I&T',
     component: BannerIt,
