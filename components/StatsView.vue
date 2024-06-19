@@ -305,6 +305,8 @@ const artists = computed(() => {
 
   let artistsArray = Array.from(artists);
 
+  artistsArray = artistsArray.filter((v) => !!v);
+
   artistsArray.sort(function (a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
