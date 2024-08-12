@@ -62,19 +62,19 @@ const slides = [
     key: 'rcax banner',
     component: BannerRcaxSponsoring,
     startDate: new Date('2023-12-31'), // Start date for this slide
-    expirationDate: new Date('3000-09-23'),
+    expirationDate: new Date('2000-09-23'),
   },
   {
     key: 'rcax marketplace beta',
     component: BannersBannerRcaxMarketplaceBeta,
     startDate: new Date('2023-12-31'), // Start date for this slide
-    expirationDate: new Date('3000-08-22'),
+    expirationDate: new Date('2000-08-22'),
   },
   {
     key: 'rcax token launch',
     component: BannersBannerRcaxTokenLaunch,
     startDate: new Date('2023-12-31'), // Start date for this slide
-    expirationDate: new Date('3000-08-22'),
+    expirationDate: new Date('2000-08-22'),
   },
   {
     key: 'rcax token halving',
@@ -86,7 +86,7 @@ const slides = [
     key: 'nyan matcher',
     component: BannerNyanMatcher,
     startDate: new Date('2023-08-20'), // Start date for this slide
-    expirationDate: new Date('2023-08-28'),
+    expirationDate: new Date('2024-09-13'),
   }
 ];
 
