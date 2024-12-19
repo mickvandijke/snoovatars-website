@@ -86,7 +86,7 @@ const slides = [
     key: 'nyan matcher',
     component: BannerNyanMatcher,
     startDate: new Date('2023-08-20'), // Start date for this slide
-    expirationDate: new Date('2024-09-13'),
+    expirationDate: new Date('2025-06-16'),
   }
 ];
 
