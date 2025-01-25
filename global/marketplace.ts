@@ -11,7 +11,7 @@ export function marketplaceLink(seriesStats: SeriesStats, noSearch: boolean): st
 
   let link: string;
 
-  if (marketplace.value === Marketplace.rcax) {
+  if (marketplace.value === Marketplace.rcax && false) {
     link = `https://marketplace.rcax.io/collection/${seriesStats.collection.contract_address}`;
 
     if (seriesStats.series.name === 'Gold Hodl') {
