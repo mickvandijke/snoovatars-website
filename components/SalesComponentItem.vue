@@ -16,7 +16,7 @@
       <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-details">Mint Number:</span>
-          <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${item.token.contract_address}:${item.token.id}`)" class="text-white/80 hover:text-white">#{{ item.token.mint_number }}</button>
+          <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-white/80 hover:text-white">#{{ item.token.mint_number }}</button>
         </div>
       </div>
       <div class="flex text-[0.7rem]">
@@ -30,13 +30,13 @@
       <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-white/40">Seller:</span>
-          <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${item.seller}`)" class="text-details">{{ item.seller.slice(2, 6) }}</button>
+          <button @click="openLinkWith(`https://opensea.io/${item.seller}`)" class="text-details">{{ item.seller.slice(2, 6) }}</button>
         </div>
       </div>
       <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-white/40">Buyer:</span>
-          <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${item.buyer}`)" class="text-details">{{ item.buyer.slice(2, 6) }}</button>
+          <button @click="openLinkWith(`https://opensea.io/${item.buyer}`)" class="text-details">{{ item.buyer.slice(2, 6) }}</button>
         </div>
       </div>
       <div class="flex text-[0.7rem]">

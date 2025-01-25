@@ -29,7 +29,6 @@
             </template>
           </DropDownMenu>
         </template>
-        <a href="https://marketplace.rcax.io" class="hidden md:block px-4 py-2 hover:text-white rounded-lg duration-200 cursor-pointer" target="_blank">Marketplace</a>
 
       </ul>
 

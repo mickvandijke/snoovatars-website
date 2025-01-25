@@ -1,5 +1,5 @@
 <template>
-  <button @click.stop="openLinkWith(`https://marketplace.rcax.io/asset/${listing.token.contract_address}:${listing.token.id}`)" class="flex items-center group">
+  <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="flex items-center group">
     <template v-if="listing.payment_token.symbol === 'ETH'">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
       <div class="flex gap-1">

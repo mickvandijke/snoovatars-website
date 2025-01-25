@@ -209,10 +209,10 @@
                             </template>
                           </td>
                           <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${listing.token.contract_address}:${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
+                            <button @click="openLinkWith(`https://opensea.io/assets/matic/${listing.token.contract_address}/${listing.token.id}`)" class="text-amber-500">#{{ listing.token.mint_number }}</button>
                           </td>
                           <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
+                            <button @click="openLinkWith(`https://opensea.io/${listing.maker_address}`)" class="text-amber-500">{{ listing.maker_address.slice(2, 5) }}</button>
                           </td>
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(listing.date_listed)) }}</td>
                         </tr>
@@ -267,10 +267,10 @@
                             </template>
                           </td>
                           <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${sale.token.contract_address}:${sale.token.id}`)" class="text-amber-500">#{{ sale.token.mint_number }}</button>
+                            <button @click="openLinkWith(`https://opensea.io/assets/matic/${sale.token.contract_address}/${sale.token.id}`)" class="text-amber-500">#{{ sale.token.mint_number }}</button>
                           </td>
                           <td class="px-2 py-1">
-                            <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${sale.buyer}`)" class="text-amber-500">{{ sale.buyer.slice(2, 5) }}</button>
+                            <button @click="openLinkWith(`https://opensea.io/${sale.buyer}`)" class="text-amber-500">{{ sale.buyer.slice(2, 5) }}</button>
                           </td>
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $timeAgo(new Date(sale.date_sold)) }}</td>
                         </tr>

@@ -93,8 +93,8 @@
             <div class="bg-secondary sm:border border-white/10 flex flex-col items-center overflow-hidden w-full rounded-lg">
               <div class="p-2 flex gap-2 w-full rounded">
                 <div class="pl-2 flex items-center overflow-hidden">
-                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="hidden md:block p-2 text-white/40 hover:text-header text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
-                  <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${walletAddress}`)" class="md:hidden text-white/40 hover:text-header text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</button>
+                  <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="hidden md:block p-2 text-white/40 hover:text-header text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
+                  <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="md:hidden text-white/40 hover:text-header text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</button>
                 </div>
                 <div class="flex gap-2">
                   <button @click="removeWallet(walletAddress)" class="px-1 py-1 text-header font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">

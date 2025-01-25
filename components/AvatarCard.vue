@@ -37,7 +37,7 @@
           <div class="mt-auto flex items-center gap-1">
             <template v-if="!hideFloor && false">
               <template v-if="seriesStats.stats.lowest_listing">
-                <button @click.stop="openLinkWith(`https://marketplace.rcax.io/asset/${seriesStats.stats.lowest_listing.token.contract_address}:${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
+                <button @click.stop="openLinkWith(`https://opensea.io/assets/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="flex gap-0.5 font-bold text-neutral-400">
                     <span>{{ (seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>

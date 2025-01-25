@@ -4,13 +4,13 @@
       <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-details">Mint Number:</span>
-          <button @click="openLinkWith(`https://marketplace.rcax.io/asset/${item.token.contract_address}:${item.token.id}`)" class="text-white hover:text-amber-500">#{{ item.token.mint_number }}</button>
+          <button @click="openLinkWith(`https://opensea.io/assets/matic/${item.token.contract_address}/${item.token.id}`)" class="text-white hover:text-amber-500">#{{ item.token.mint_number }}</button>
         </div>
       </div>
       <div class="flex text-[0.7rem]">
         <div class="flex gap-1">
           <span class="text-details">Minter:</span>
-          <button @click="openLinkWith(`https://marketplace.rcax.io/portfolio/${item.minter}`)" class="text-white/80 hover:text-white">{{ item.minter.slice(2, 6) }}</button>
+          <button @click="openLinkWith(`https://opensea.io/${item.minter}`)" class="text-white/80 hover:text-white">{{ item.minter.slice(2, 6) }}</button>
         </div>
       </div>
       <div class="flex text-[0.7rem]">
