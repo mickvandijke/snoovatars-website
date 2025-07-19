@@ -122,7 +122,7 @@
                     <template v-if="listing">
                       <div class="flex items-center justify-start gap-0.5">
                         <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${getLowestListing(item).token.contract_address}/${getLowestListing(item).token.id}`)" class="flex items-center group">
-                          <template v-if="listing.payment_token.symbol === 'ETH'">
+                          <template v-if="normalizeTokenSymbol(listing.payment_token.symbol) === 'ETH'">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                             <div class="flex gap-1">
                               <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(6).replace(/\.?0+$/, '') }}</span>
@@ -130,7 +130,7 @@
                               <span class="text-details">#{{ listing.token.mint_number }}</span>
                             </div>
                           </template>
-                          <template v-else-if="listing.payment_token.symbol === 'MATIC'">
+                          <template v-else-if="normalizeTokenSymbol(listing.payment_token.symbol) === 'MATIC'">
                             <div class="flex items-center text-orange-500">M</div>
                             <div class="flex gap-1">
                               <span>{{ (listing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
@@ -150,10 +150,10 @@
                       <div class="flex flex-nowrap items-center justify-start gap-1 whitespace-nowrap overflow-hidden" :set="lastSale = item.stats.last_sale">
                         <div class="flex items-center gap-0.5">
                           <div class="flex items-center gap-0.5">
-                            <template v-if="lastSale.payment_token.symbol === 'ETH'">
+                            <template v-if="normalizeTokenSymbol(lastSale.payment_token.symbol) === 'ETH'">
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/40"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                             </template>
-                            <template v-else>
+                            <template v-else-if="normalizeTokenSymbol(lastSale.payment_token.symbol) === 'MATIC'">
                               <div class="flex items-center text-orange-500">M</div>
                             </template>
                             <div class="text-white/80">{{ (lastSale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</div>
@@ -249,7 +249,7 @@ import {Capacitor} from "@capacitor/core";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
 import {getLowestListing, getListingAsGweiPrice, maticToEth} from "~/composables/helpers";
 import {getAllCollections, Filters} from "~/global/generations";
-import {getTokenImage} from "~/global/utils";
+import {getTokenImage, normalizeTokenSymbol} from "~/global/utils";
 import {openLinkWith} from "~/composables/states";
 import {ethereumInLocalCurrency} from "#imports";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
@@ -364,9 +364,9 @@ const filteredAndSortedSeriesStats: ComputedRef<SeriesStats[]> = computed(() => 
 
       if (!lowestListing) {
         price = 9999999999;
-      } else if (lowestListing.payment_token.symbol === "ETH") {
+      } else if (normalizeTokenSymbol(lowestListing.payment_token.symbol) === "ETH") {
         price = lowestListing.payment_token.base_price;
-      } else if (lowestListing.payment_token.symbol === "MATIC") {
+      } else if (normalizeTokenSymbol(lowestListing.payment_token.symbol) === "MATIC") {
         price = maticToEth(lowestListing.payment_token.base_price);
       }
 

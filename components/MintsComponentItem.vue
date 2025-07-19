@@ -34,13 +34,13 @@
             <template v-if="!lowestListing">
               <span class="text-details">None.</span>
             </template>
-            <template v-else-if="lowestListing.payment_token.symbol === 'ETH'">
+            <template v-else-if="normalizeTokenSymbol(lowestListing.payment_token.symbol) === 'ETH'">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
               <div class="flex gap-0.5 text-details">
                 <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
               </div>
             </template>
-            <template v-else-if="lowestListing.payment_token.symbol === 'MATIC'">
+            <template v-else-if="normalizeTokenSymbol(lowestListing.payment_token.symbol) === 'MATIC'">
               <div class="pr-0.5 flex items-center text-details">M</div>
               <div class="flex gap-0.5 text-details">
                 <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
@@ -68,6 +68,7 @@ import {
 import {Mint} from "~/types/mint";
 import {computed, getListingAsGweiPrice, getLowestListing} from "#imports";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
+import {normalizeTokenSymbol} from "~/global/utils";
 
 const props = defineProps({
   item: Object as PropType<Mint>

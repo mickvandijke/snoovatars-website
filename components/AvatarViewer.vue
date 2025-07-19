@@ -201,10 +201,10 @@
                         <tr class="border-b border-white/10 hover:bg-tertiary text-white/80">
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                             <span>{{ (listing.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ listing.payment_token.symbol }}</span>
-                            <template v-if="listing.payment_token.symbol === 'ETH'">
+                            <template v-if="normalizeTokenSymbol(listing.payment_token.symbol) === 'ETH'">
                               <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(listing.payment_token.base_price) }}</span>)</span>
                             </template>
-                            <template v-else-if="listing.payment_token.symbol === 'MATIC'">
+                            <template v-else-if="normalizeTokenSymbol(listing.payment_token.symbol) === 'MATIC'">
                               <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getListingAsGweiPrice(listing)) }}</span>)</span>
                             </template>
                           </td>
@@ -259,10 +259,10 @@
                         <tr class="border-b border-white/10 hover:bg-tertiary text-white/80">
                           <td class="px-2 py-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                             <span>{{ (sale.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }} {{ sale.payment_token.symbol }}</span>
-                            <template v-if="sale.payment_token.symbol === 'ETH'">
+                            <template v-if="normalizeTokenSymbol(sale.payment_token.symbol) === 'ETH'">
                               <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(sale.payment_token.base_price) }}</span>)</span>
                             </template>
-                            <template v-else-if="sale.payment_token.symbol === 'MATIC'">
+                            <template v-else-if="normalizeTokenSymbol(sale.payment_token.symbol) === 'MATIC'">
                               <span class="text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSaleAsGweiPrice(sale)) }}</span>)</span>
                             </template>
                           </td>
@@ -311,6 +311,7 @@ import {fetchSalesForSeries} from "~/composables/api/sales";
 import {Capacitor} from "@capacitor/core";
 import {marketplaceLink} from "~/global/marketplace";
 import {getMintClasses} from "~/global/mint";
+import {normalizeTokenSymbol} from "~/global/utils";
 
 const selectedAvatar = useSelectedAvatar();
 const ethereumPriceInUsd = useEthereumUsdPrice();

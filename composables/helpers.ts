@@ -3,6 +3,7 @@ import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
 import {useEthereumPriceMap} from "#imports";
 import {Sale} from "~/types/sale";
 import {Listing} from "~/types/listing";
+import {normalizeTokenSymbol} from "~/global/utils";
 
 export function getLowestListing(stats: SeriesStats) {
     let maticToEthModifier = 1 / (useEthereumPriceMap().value.get("MATIC") ?? 0)
@@ -30,9 +31,9 @@ export function getListingAsGweiPrice(listing: Listing) {
 
     if (!listing) {
         price = 0;
-    } else if (listing.payment_token.symbol === "ETH") {
+    } else if (normalizeTokenSymbol(listing.payment_token.symbol) === "ETH") {
         price = listing.payment_token.base_price;
-    } else if (listing.payment_token.symbol === "MATIC") {
+    } else if (normalizeTokenSymbol(listing.payment_token.symbol) === "MATIC") {
         price = listing.payment_token.base_price / (useEthereumPriceMap().value.get("MATIC") ?? 0);
     }
 
@@ -46,9 +47,9 @@ export function getLowestListingAsGweiPrice(stats: SeriesStats) {
 
     if (!lowestListing) {
         price = 0;
-    } else if (lowestListing.payment_token.symbol === "ETH") {
+    } else if (normalizeTokenSymbol(lowestListing.payment_token.symbol) === "ETH") {
         price = lowestListing.payment_token.base_price;
-    } else if (lowestListing.payment_token.symbol === "MATIC") {
+    } else if (normalizeTokenSymbol(lowestListing.payment_token.symbol) === "MATIC") {
         price = lowestListing.payment_token.base_price / (useEthereumPriceMap().value.get("MATIC") ?? 0);
     }
 
@@ -60,9 +61,9 @@ export function getSaleAsGweiPrice(sale: Sale) {
 
     if (!sale) {
         price = 0;
-    } else if (sale.payment_token.symbol === "ETH") {
+    } else if (normalizeTokenSymbol(sale.payment_token.symbol) === "ETH") {
         price = sale.payment_token.base_price;
-    } else if (sale.payment_token.symbol === "MATIC") {
+    } else if (normalizeTokenSymbol(sale.payment_token.symbol) === "MATIC") {
         price = sale.payment_token.base_price / (useEthereumPriceMap().value.get("MATIC") ?? 0);
     }
 

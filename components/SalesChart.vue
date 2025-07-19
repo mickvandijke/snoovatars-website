@@ -25,6 +25,7 @@ import {
 } from "chart.js";
 import {Line} from "vue-chartjs";
 import {defineProps, ref} from "vue";
+import {normalizeTokenSymbol} from "~/global/utils";
 
 const filterOptions = [
   { name: "Last Week", value: "last-week" },
@@ -165,7 +166,7 @@ function getData() {
   data.datasets[0].data = data.datasets[0].data.map((totalPrice, index) => {
     const salesOnDay = sales.filter((sale) => {
       const date = new Date(sale.date_sold);
-      return sale.payment_token.symbol === "ETH" && date.toLocaleDateString() === labels[0][index];
+      return normalizeTokenSymbol(sale.payment_token.symbol) === "ETH" && date.toLocaleDateString() === labels[0][index];
     });
 
     if (salesOnDay.length === 0) {

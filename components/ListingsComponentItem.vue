@@ -42,13 +42,13 @@
             </template>
             <template v-else>
               <button @click.stop="openLinkWith(`https://opensea.io/assets/matic/${lowestListing.token.contract_address}/${lowestListing.token.id}`)" class="flex items-center group">
-                <template v-if="lowestListing.payment_token.symbol === 'ETH'">
+                <template v-if="normalizeTokenSymbol(lowestListing.payment_token.symbol) === 'ETH'">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
                   <div class="flex gap-0.5 text-details">
                     <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
                   </div>
                 </template>
-                <template v-else-if="lowestListing.payment_token.symbol === 'MATIC'">
+                <template v-else-if="normalizeTokenSymbol(lowestListing.payment_token.symbol) === 'MATIC'">
                   <div class="pr-0.5 flex items-center text-details">M</div>
                   <div class="flex gap-0.5 text-details">
                     <span>{{ (lowestListing.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
@@ -69,13 +69,13 @@
             <template v-if="!seriesStats.stats.last_sale">
               <span class="text-details">None.</span>
             </template>
-            <template v-else-if="seriesStats.stats.last_sale.payment_token.symbol === 'ETH'">
+            <template v-else-if="normalizeTokenSymbol(seriesStats.stats.last_sale.payment_token.symbol) === 'ETH'">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-details"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
               <div class="flex gap-0.5 text-details">
                 <span>{{ (seriesStats.stats.last_sale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
               </div>
             </template>
-            <template v-else-if="seriesStats.stats.last_sale.payment_token.symbol === 'MATIC'">
+            <template v-else-if="normalizeTokenSymbol(seriesStats.stats.last_sale.payment_token.symbol) === 'MATIC'">
               <div class="pr-0.5 flex items-center text-details">M</div>
               <div class="flex gap-0.5 text-details">
                 <span>{{ (seriesStats.stats.last_sale.payment_token.base_price / ETH_TO_GWEI_MODIFIER).toFixed(4).replace(/\.?0+$/, '') }}</span>
@@ -98,6 +98,7 @@ import {
 import {computed, ethereumInLocalCurrency, getLowestListing, openLinkWith} from "#imports";
 import {Listing} from "~/types/listing";
 import {ETH_TO_GWEI_MODIFIER} from "~/types/ethereum";
+import {normalizeTokenSymbol} from "~/global/utils";
 import {ClockIcon} from "@heroicons/vue/24/outline";
 
 const props = defineProps({

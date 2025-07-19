@@ -112,7 +112,7 @@ import {fetchListings} from "~/composables/api/listings";
 import {SeriesStats} from "~/types/seriesStats";
 import {Filters} from "~/global/generations";
 import {getSeriesStats} from "~/composables/states";
-import {getTokenImage} from "~/global/utils";
+import {getTokenImage, normalizeTokenSymbol} from "~/global/utils";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
 import {marketplaceLink} from "~/global/marketplace";
 
@@ -200,10 +200,10 @@ const filteredListings: ComputedRef<ListingWithStats[]> = computed(() => {
 
   switch (paymentToken.value) {
     case "eth":
-      filteredListings = filteredListings.filter((listing) => listing.listing.payment_token.symbol === "ETH");
+      filteredListings = filteredListings.filter((listing) => normalizeTokenSymbol(listing.listing.payment_token.symbol) === "ETH");
       break;
     case "matic":
-      filteredListings = filteredListings.filter((listing) => listing.listing.payment_token.symbol === "MATIC");
+      filteredListings = filteredListings.filter((listing) => normalizeTokenSymbol(listing.listing.payment_token.symbol) === "MATIC");
       break;
   }
 

@@ -53,6 +53,7 @@ import {fetchListingsLatest} from "~/composables/api/listings";
 import {Capacitor} from "@capacitor/core";
 import {ComputedRef} from "vue";
 import {getFreeCollections} from "~/global/generations";
+import {normalizeTokenSymbol} from "~/global/utils";
 
 const watchList = useWatchList();
 const router = useRouter();
@@ -135,7 +136,7 @@ const filteredSales: ComputedRef<Sale[]> = computed(() => {
     if (settings.value.activity.filterGenOption === "watchlist") {
       filteredSales = filteredSales.filter((sale) => watchList.value.has(sale.token.contract_address + sale.token.name));
     } else if (settings.value.activity.filterGenOption === "eth") {
-      filteredSales = filteredSales.filter((sale) => sale.payment_token.symbol == "ETH");
+      filteredSales = filteredSales.filter((sale) => normalizeTokenSymbol(sale.payment_token.symbol) == "ETH");
     } else {
       filteredSales = filteredSales.filter((sale) => !getFreeCollections().includes(sale.token.contract_address));
     }
@@ -155,7 +156,7 @@ const filteredListings: ComputedRef<Listing[]> = computed(() => {
     if (settings.value.activity.filterGenOption === "watchlist") {
       filteredListings = filteredListings.filter((listing) => watchList.value.has(listing.token.contract_address + listing.token.name));
     } else if (settings.value.activity.filterGenOption === "eth") {
-      filteredListings = filteredListings.filter((listing) => listing.payment_token.symbol == "ETH");
+      filteredListings = filteredListings.filter((listing) => normalizeTokenSymbol(listing.payment_token.symbol) == "ETH");
     } else {
       filteredListings = filteredListings.filter((listing) => !getFreeCollections().includes(listing.token.contract_address));
     }

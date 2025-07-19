@@ -45,3 +45,12 @@ export async function clipboard(text: string) {
         alert('Cannot copy');
     }
 }
+
+export function normalizeTokenSymbol(symbol: string): string {
+    const tokenAliases: Record<string, string> = {
+        'WETH': 'ETH',
+        'POL': 'MATIC'
+    };
+    
+    return tokenAliases[symbol] || symbol;
+}
