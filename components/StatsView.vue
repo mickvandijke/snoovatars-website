@@ -1,35 +1,34 @@
 <template>
   <div class="stats-view relative flex flex-col items-center w-full">
-    <StatsTabs class="hidden md:block" />
     <MenuBar>
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" />
       <FilterMenuButton :using-filter="usingFilter">
         <input type="number" v-model="maxPriceEth" placeholder="Max price (ETH)">
-        <select v-model="filterGenOption">
+        <select v-model="filterGenOption" class="uniform-select">
           <option value="all">Gen: All</option>
           <template v-for="gen in Object.keys(Filters)">
             <option :value="gen">{{ gen }}</option>
           </template>
           <option value="new">new</option>
         </select>
-        <select v-model="filterArtistOption">
+        <select v-model="filterArtistOption" class="uniform-select">
           <option value="all">Artist: All</option>
           <template v-for="artist in artists">
             <option :value="artist">{{ artist }}</option>
           </template>
         </select>
-        <select v-model="filterRarityOption">
+        <select v-model="filterRarityOption" class="uniform-select">
           <option value="all">Supply: All</option>
           <option value="250">Supply: Max 250</option>
           <option value="777">Supply: Max 777</option>
           <option value="1000">Supply: Max 1000</option>
         </select>
-        <select v-model="filterSoldOut">
+        <select v-model="filterSoldOut" class="uniform-select">
           <option value="show">Sold Out: Show</option>
           <option value="hide">Sold Out: Hide</option>
           <option value="only">Sold Out: Only</option>
         </select>
-        <select v-model="filterNoListings">
+        <select v-model="filterNoListings" class="uniform-select">
           <option value="show">No Listings: Show</option>
           <option value="hide">No Listings: Hide</option>
         </select>
@@ -76,7 +75,7 @@
         <option value="nameAsc">Sort by Name (Ascending)</option>
         <option value="nameDesc">Sort by Name (Descending)</option>
       </select>
-      <select v-model="settings.stats.layout">
+      <select v-model="settings.stats.layout" class="uniform-select">
         <option value="grid">Grid</option>
         <option value="table">Table</option>
       </select>

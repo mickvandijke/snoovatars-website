@@ -1,242 +1,280 @@
 <template>
-  <div class="wallet-view pb-3 md:pb-0 relative flex flex-col items-center w-full">
-    <StatsTabs class="hidden md:block" />
+  <div class="wallet-view relative flex flex-col w-full min-h-screen bg-[#141415]">
     <MenuBar>
-      <select v-model="settings.wallet.valuationMethod">
-        <option value="floor">Value by Floor Price</option>
-        <option value="lastSale">Value by Last Sale</option>
-        <option value="fiveLastSales">Value by Last 5 Sales Average</option>
-        <option value="weeklyAvg">Value by 7 Days Average Sale Price</option>
-        <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
-        <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
-      </select>
-      <select v-model="settings.wallet.filterOption">
-        <option value="all">Show All</option>
-        <option value="premium">Show Premium Only</option>
-      </select>
-      <select v-model="settings.wallet.groupMethod">
-        <option value="group">Group by Series</option>
-        <option value="mint">Show Mint Numbers</option>
-      </select>
-      <template v-if="!Capacitor.isNativePlatform()">
-        <RefreshButton :action="refresh" :refreshing="isRefreshing" />
-      </template>
-    </MenuBar>
-    <div class="flex flex-col items-center w-full">
-      <div class="lg:hidden px-2 sm:px-6 py-2 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
-        <div class="flex items-center lg:justify-end text-sm w-full">
-          <div class="flex flex-nowrap gap-2 max-w-lg w-full">
-            <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit Username (without u/) or Wallet Address">
-            <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200 cursor-pointer">
-              <template v-if="loading">
-                <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-                  <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
-                </svg>
-              </template>
-              <template v-else>
-                <span>Add Wallet</span>
-              </template>
-            </button>
-          </div>
-        </div>
+      <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name, Artist or Collection`" />
+      <div class="ml-auto flex items-center gap-2 menubar-overrides">
+        <select v-model="settings.wallet.valuationMethod">
+          <option value="floor">Value by Floor Price</option>
+          <option value="lastSale">Value by Last Sale</option>
+          <option value="fiveLastSales">Value by Last 5 Sales Average</option>
+          <option value="weeklyAvg">Value by 7 Days Average Sale Price</option>
+          <option value="twoWeeklyAvg">Value by 14 Days Average Sale Price</option>
+          <option value="monthlyAvg">Value by 30 Days Average Sale Price</option>
+        </select>
+        <select v-model="settings.wallet.filterOption">
+          <option value="all">Show All</option>
+          <option value="premium">Show Premium Only</option>
+        </select>
+        <select v-model="settings.wallet.groupMethod">
+          <option value="group">Group by Series</option>
+          <option value="mint">Show Mint Numbers</option>
+        </select>
+        <template v-if="!Capacitor.isNativePlatform()">
+          <RefreshButton :action="refresh" :refreshing="isRefreshing" />
+        </template>
       </div>
-      <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
-        <div class="px-2 sm:px-6 py-2 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between gap-3 w-full overflow-hidden">
-          <div class="hidden lg:flex items-center lg:justify-end text-sm w-full">
-            <div class="flex flex-nowrap gap-2 max-w-lg w-full">
-              <input type="text" autocomplete="off" name=“searchTerm” v-model="walletAddress" placeholder="Reddit Username (without u/) or Wallet Address">
-              <button @click="getWalletTokens(walletAddress)" :disabled="lookupDisabled()" class="px-4 h-10 flex items-center bg-amber-600 hover:bg-amber-500 disabled:bg-white/5 text-header disabled:text-white/20 text-sm font-medium whitespace-nowrap rounded-lg duration-200 cursor-pointer">
+    </MenuBar>
+    
+    <div class="flex-1">
+      <!-- Add Wallet Section -->
+      <div class="border-b border-zinc-800">
+        <div class="px-4 lg:px-6  py-6">
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <h1 class="text-2xl font-semibold text-white">Portfolio Overview</h1>
+              <p class="mt-1 text-sm text-zinc-400">Track and manage your Reddit Collectible Avatars</p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <input 
+                type="text" 
+                v-model="walletAddress" 
+                placeholder="Enter wallet address (0x...)" 
+                class="px-4 py-2.5 bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/30 hover:border-zinc-600/50 focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 text-zinc-400 placeholder-zinc-500 rounded-lg transition-all duration-200 focus:outline-none w-full sm:w-96"
+              >
+              <button 
+                @click="getWalletTokens(walletAddress)" 
+                :disabled="lookupDisabled()" 
+                class="px-6 py-2.5 bg-white hover:bg-zinc-100 disabled:bg-zinc-800 disabled:hover:bg-zinc-800 text-black disabled:text-zinc-600 text-sm font-medium rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
                 <template v-if="loading">
-                  <svg class="inline w-5 h-5 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+                  <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
+                  <span>Adding...</span>
                 </template>
                 <template v-else>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                  </svg>
                   <span>Add Wallet</span>
                 </template>
               </button>
             </div>
           </div>
-          <div class="px-2 hidden md:flex flex-col md:flex-row items-start gap-2 text-sm rounded-2xl w-full">
-            <div class="flex gap-1">
-              <span class="text-white/40">Total Worth: </span>
-              <div class="flex items-center font-bold">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="text-white">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getTotalWorth) }}</span>)</div>
+        </div>
+      </div>
+      
+      <PullToRefresh @refresh="refresh" :is-refreshing="isRefreshing">
+        <!-- Portfolio Summary -->
+        <div v-if="walletAddresses.size > 0" class="border-b border-zinc-800">
+          <div class="px-4 lg:px-6 py-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div>
+                <p class="text-sm text-zinc-400">Total Portfolio Value</p>
+                <div class="mt-1 flex items-baseline gap-2">
+                  <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-5 h-5 text-zinc-400 mr-1.5"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <span class="text-2xl font-semibold text-white">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                  </div>
+                  <span class="text-sm text-zinc-400">({{ ethereumInLocalCurrency(getTotalWorth) }})</span>
+                </div>
               </div>
-            </div>
-            <div class="flex gap-1">
-              <span class="text-white/40">Total items:</span>
-              <span class="text-header font-medium">{{ getTotalItems }}</span>
-            </div>
-          </div>
-          <div class="px-2 flex md:hidden flex-col md:flex-row items-center gap-1 text-sm w-full">
-            <div class="flex flex-col items-center gap-1">
-              <span class="text-white/40">Total Worth: </span>
-              <div class="flex items-center text-2xl font-bold">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-5 h-5 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                <div class="text-white">{{ (getTotalWorth / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                <div class="ml-2 text-amber-500"> {{ ethereumInLocalCurrency(getTotalWorth) }}</div>
+              <div>
+                <p class="text-sm text-zinc-400">Total Items</p>
+                <p class="mt-1 text-2xl font-semibold text-white">{{ getTotalItems.toLocaleString() }}</p>
               </div>
-            </div>
-            <div class="flex gap-1">
-              <span class="text-white/40">Total items:</span>
-              <span class="text-header font-medium">{{ getTotalItems }}</span>
+              <div>
+                <p class="text-sm text-zinc-400">Active Wallets</p>
+                <p class="mt-1 text-2xl font-semibold text-white">{{ walletAddresses.size }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-zinc-400">Average Item Value</p>
+                <div class="mt-1 flex items-baseline gap-2">
+                  <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-zinc-400 mr-1"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                    <span class="text-2xl font-semibold text-white">{{ getTotalItems > 0 ? ((getTotalWorth / getTotalItems) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') : '0' }}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="mt-2 lg:mt-3 px-2 sm:px-6 flex flex-col items-center gap-3 md:gap-12 w-full overflow-hidden">
-          <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
-            <div class="bg-secondary sm:border border-white/10 flex flex-col items-center overflow-hidden w-full rounded-lg">
-              <div class="p-2 flex gap-2 w-full rounded">
-                <div class="pl-2 flex items-center overflow-hidden">
-                  <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="hidden md:block p-2 text-white/40 hover:text-header text-sm font-medium rounded-md duration-500">{{ walletAddress }}</button>
-                  <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="md:hidden text-white/40 hover:text-header text-sm font-medium rounded-md duration-500">{{ walletAddress.slice(0,6) }}..{{ walletAddress.slice(walletAddress.length - 6, walletAddress.length) }}</button>
+        
+        <!-- Wallets List -->
+        <div class="px-4 lg:px-6 py-6">
+          <div v-if="walletAddresses.size === 0" class="text-center py-16">
+            <svg class="mx-auto h-12 w-12 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <h3 class="mt-3 text-lg font-medium text-white">No wallets added</h3>
+            <p class="mt-1 text-sm text-zinc-400">Add a wallet address above to start tracking your collection</p>
+          </div>
+          
+          <div v-else class="space-y-4">
+            <template v-for="[walletAddress, walletTokens] in sortedWallets().entries()">
+              <div class="bg-zinc-800/30 rounded-xl border border-zinc-700/30 overflow-hidden">
+                <!-- Wallet Header -->
+                <div class="px-6 py-4" :class="{ 'border-b border-zinc-800': !isCollapsed(walletAddress) }">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                      <div class="w-12 h-12 bg-zinc-800 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <button @click="openLinkWith(`https://opensea.io/${walletAddress}`)" class="text-white hover:text-zinc-300 font-medium transition-colors duration-200">
+                          <span class="hidden sm:inline">{{ walletAddress }}</span>
+                          <span class="sm:hidden">{{ walletAddress.slice(0,6) }}...{{ walletAddress.slice(-4) }}</span>
+                        </button>
+                        <div class="flex items-center gap-4 mt-1">
+                          <div class="flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3.5 h-3.5 text-zinc-400"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                            <span class="text-sm font-medium text-white">{{ (getWalletValue(walletAddress) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                            <span class="text-sm text-zinc-400">({{ ethereumInLocalCurrency(getWalletValue(walletAddress)) }})</span>
+                          </div>
+                          <span class="text-sm text-zinc-400">{{ Object.keys(walletTokens).length }} items</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <button 
+                        @click="toggleCollapse(walletAddress)" 
+                        class="p-2 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-lg transition-all duration-200"
+                      >
+                        <ChevronDownIcon class="w-5 h-5 transition-transform duration-200" :class="{ 'rotate-180': !isCollapsed(walletAddress) }" />
+                      </button>
+                      <button 
+                        @click="removeWallet(walletAddress)" 
+                        class="p-2 hover:bg-zinc-800 text-zinc-400 hover:text-red-400 rounded-lg transition-all duration-200"
+                      >
+                        <XMarkIcon class="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div class="flex gap-2">
-                  <button @click="removeWallet(walletAddress)" class="px-1 py-1 text-header font-semibold text-sm group border border-transparent rounded-md duration-200 cursor-pointer">
-                    <XMarkIcon class="w-5 h-5 text-details group-hover:text-red-400 duration-200" />
-                  </button>
-                </div>
-                <div class="ml-auto md:p-2 flex items-center text-sm rounded-md font-bold">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="text-white">{{ (getWalletValue(walletAddress) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                  <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getWalletValue(walletAddress)) }}</span>)</div>
-                </div>
-                <div class="flex items-center gap-2">
-                  <button @click="toggleCollapse(walletAddress)" class="px-1 py-1 font-semibold text-sm flex items-center border border-transparent rounded-md duration-200 cursor-pointer">
-                    <ChevronDownIcon class="w-5 h-5 text-details group-hover:text-red-400 duration-200" :class="{ 'rotate-90': isCollapsed(walletAddress) }" />
-                  </button>
-                </div>
+                
+                <!-- Wallet Content -->
+                <template v-if="!isCollapsed(walletAddress)">
+                  <!-- Token Balances -->
+                  <div class="px-6 py-4 border-b border-zinc-800">
+                    <h3 class="text-sm font-medium text-zinc-400 mb-3">Token Balances</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <!-- RCAX -->
+                      <div class="flex items-center justify-between p-3 bg-zinc-800/50 rounded-lg">
+                        <div class="flex items-center gap-3">
+                          <img src="/images/branding/rcax/RCAX_Round_Color.svg" class="w-8 h-8">
+                          <div>
+                            <p class="text-sm font-medium text-white">RCAX</p>
+                            <p class="text-xs text-zinc-400">{{ ((getRcax(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</p>
+                          </div>
+                        </div>
+                        <div class="text-right">
+                          <div class="flex items-center text-xs">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-zinc-400 mr-1"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                            <span class="text-zinc-300">{{ rcaxToEth((getRcax(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                          </div>
+                          <p class="text-xs text-zinc-500">{{ ethereumInLocalCurrency(rcaxToEth((getRcax(walletAddress) ?? 0))) }}</p>
+                        </div>
+                      </div>
+                      
+                      <!-- WETH -->
+                      <div class="flex items-center justify-between p-3 bg-zinc-800/50 rounded-lg">
+                        <div class="flex items-center gap-3">
+                          <div class="w-8 h-8 bg-purple-900/50 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4 text-purple-400"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                          </div>
+                          <div>
+                            <p class="text-sm font-medium text-white">WETH</p>
+                            <p class="text-xs text-zinc-400">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</p>
+                          </div>
+                        </div>
+                        <div class="text-right">
+                          <div class="flex items-center text-xs">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-zinc-400 mr-1"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                            <span class="text-zinc-300">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
+                          </div>
+                          <p class="text-xs text-zinc-500">{{ ethereumInLocalCurrency(((getWeth(walletAddress) ?? 0))) }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- NFT Collection -->
+                  <div v-if="Object.entries(walletTokens).length > 0" class="px-6 py-4">
+                    <h3 class="text-sm font-medium text-zinc-400 mb-4">NFT Collection</h3>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-3">
+                      <template v-if="settings.wallet.groupMethod === 'group'">
+                        <template v-for="series in sortedWalletTokensGrouped(filterWalletTokensGrouped(tokensCount.get(walletAddress)))">
+                          <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="group cursor-pointer">
+                            <div class="relative aspect-square rounded-md overflow-hidden bg-zinc-800">
+                              <img-placeholder 
+                                img-class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
+                                :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" 
+                              />
+                              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
+                                <span class="text-[10px] font-medium text-white bg-black/60 px-1.5 py-0.5 rounded">{{ series.count }}x</span>
+                              </div>
+                            </div>
+                            <div class="mt-1.5">
+                              <p class="text-xs font-medium text-white truncate group-hover:text-zinc-300 transition-colors">{{ getSeriesStats(series.contract_address, series.name)?.series.name }}</p>
+                              <div class="space-y-0.5">
+                                <div @click.stop="openLinkWith(marketplaceLink(getSeriesStats(series.contract_address, series.name)))" class="flex items-center gap-0.5 cursor-pointer hover:text-orange-400 transition-colors">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-zinc-400"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                                  <span class="text-xs text-zinc-400 font-medium">{{ (getSeriesValue(series.contract_address, series.name) / 1000000000000000000 * series.count).toFixed(3).replace(/\.?0+$/, '') }}</span>
+                                  <span class="text-xs font-normal text-zinc-500">({{ getGroupedFiatPrice(series.contract_address, series.name, series.count) }})</span>
+                                </div>
+                                <div v-if="series.count > 1" class="flex items-center gap-0.5 text-xs text-zinc-600">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                                  <span>{{ (getSeriesValue(series.contract_address, series.name) / 1000000000000000000).toFixed(3).replace(/\.?0+$/, '') }}</span>
+                                  <span class="text-zinc-600">({{ getIndividualFiatPrice(series.contract_address, series.name) }})</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </template>
+                      </template>
+                      <template v-else>
+                        <template v-for="token in sortedTokens(filterWalletTokens(walletTokens))">
+                          <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="group cursor-pointer">
+                            <div class="relative aspect-square rounded-md overflow-hidden bg-zinc-800">
+                              <template v-if="Capacitor.isNativePlatform()">
+                                <img 
+                                  v-lazy-pix="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" 
+                                  src="/img/rcax_placeholder.png" 
+                                  :alt="getSeriesStats(token.contract_address, token.name)?.series.name" 
+                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                                >
+                              </template>
+                              <template v-else>
+                                <img 
+                                  :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" 
+                                  :alt="getSeriesStats(token.contract_address, token.name)?.series.name" 
+                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                                >
+                              </template>
+                              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
+                                <span class="text-[10px] font-medium text-white bg-black/60 px-1.5 py-0.5 rounded">#{{ token.mint_number }}</span>
+                              </div>
+                            </div>
+                            <div class="mt-1.5">
+                              <p class="text-xs font-medium text-white truncate group-hover:text-zinc-300 transition-colors">{{ getSeriesStats(token.contract_address, token.name)?.series.name }}</p>
+                              <div @click.stop="openLinkWith(marketplaceLink(getSeriesStats(token.contract_address, token.name)))" class="flex items-center gap-0.5 mt-0.5 cursor-pointer hover:text-orange-400 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-zinc-400"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
+                                <span class="text-xs text-zinc-400 font-medium">{{ (getSeriesValue(token.contract_address, token.name) / 1000000000000000000).toFixed(3).replace(/\.?0+$/, '') }}</span>
+                                <span class="text-xs font-normal text-zinc-500">({{ getIndividualFiatPrice(token.contract_address, token.name) }})</span>
+                              </div>
+                            </div>
+                          </div>
+                        </template>
+                      </template>
+                    </div>
+                  </div>
+                </template>
               </div>
-              <template v-if="!isCollapsed(walletAddress)">
-                <div class="p-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-white/10 w-full">
-                  <div class="p-1 flex items-center justify-start w-full font-bold">
-                    <div class="w-10 h-10 relative rounded-full overflow-hidden">
-                      <button @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)">
-                        <img src="/images/branding/rcax/RCAX_Round_Color.svg" class="rounded-full">
-                      </button>
-                    </div>
-                    <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
-                      <button
-                          @click="openLinkWith(`https://whitepaper.rcax.io/rcax-token-v2`)"
-                          class="text-header whitespace-nowrap text-ellipsis overflow-hidden"
-                      >RCAX</button>
-                      <span class="text-amber-500 text-[0.8rem]">{{
-                          ((getRcax(walletAddress) ?? 0) / 1000000000000000000).toLocaleString()
-                        }}</span>
-                    </div>
-                    <div @click="openLinkWith(`https://app.uniswap.org/tokens/polygon/0x875f123220024368968d9f1ab1f3f9c2f3fd190d`)" class="ml-auto flex flex-col items-end text-[0.8rem] cursor-pointer">
-                      <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-white">{{
-                            rcaxToEth((getRcax(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '')
-                          }}</div>
-                        <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{
-                            ethereumInLocalCurrency(rcaxToEth((getRcax(walletAddress) ?? 0)))
-                          }}</span>)</div>
-                      </div>
-                      <div class="flex items-center">
-                        <div class="ml-1 text-white/40"> (<span class="text-white/70">{{
-                            gweiInLocalCurrency(rcaxEthPrice)
-                          }}</span>)</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="p-1 flex items-center justify-start w-full font-bold">
-                    <div class="w-10 h-10 relative bg-purple-800 rounded-full overflow-hidden">
-                      <button @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619`)" class="flex justify-center w-full h-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="p-2 h-full text-white"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                      </button>
-                    </div>
-                    <div class="mx-2 flex flex-col justify-center items-start text-sm overflow-hidden">
-                      <button
-                          @click="openLinkWith(`https://polygonscan.com/token/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619?a=${ walletAddress }`)"
-                          class="text-header whitespace-nowrap text-ellipsis overflow-hidden"
-                      >Ethereum</button>
-                      <span class="text-amber-500 text-[0.8rem]">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toLocaleString() }}</span>
-                    </div>
-                    <div class="ml-auto flex flex-col items-end text-[0.8rem]">
-                      <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                        <div class="text-white">{{ ((getWeth(walletAddress) ?? 0) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                        <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(((getWeth(walletAddress) ?? 0))) }}</span>)</div>
-                      </div>
-                      <div class="flex items-center">
-                        <div class="ml-1 text-white/40"> (<span class="text-white/70">{{ ethereumInLocalCurrency(1000000000000000000) }}</span>)</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </template>
-              <template v-if="Object.entries(walletTokens).length > 0 && !isCollapsed(walletAddress)">
-                <div class="p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1 border-t border-white/10 w-full">
-                  <template v-if="settings.wallet.groupMethod === 'group'">
-                    <template v-for="series in sortedWalletTokensGrouped(filterWalletTokensGrouped(tokensCount.get(walletAddress)))">
-                      <div @click="selectAvatar(getSeriesStats(series.contract_address, series.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-tertiary rounded-lg font-bold cursor-pointer">
-                        <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                          <a @click.stop="openLinkWith(marketplaceLink(getSeriesStats(series.contract_address, series.name)))" class="cursor-pointer">
-                            <img-placeholder img-class="absolute top-0 left-0 w-full h-full object-cover" :src="getTokenImage(getSeriesStats(series.contract_address, series.name)?.series.image ?? '/img/rcax_placeholder.png')" />
-                          </a>
-                        </div>
-                        <div class="mx-2 col-span-4 md:col-span-6 flex flex-col justify-center items-start text-sm overflow-hidden">
-                          <span class="text-header whitespace-nowrap text-ellipsis overflow-hidden">{{getSeriesStats(series.contract_address, series.name)?.series.name }}</span>
-                          <span class="text-amber-500 text-[0.8rem]">{{ series.count }}</span>
-                        </div>
-                        <div class="col-span-3 md:col-span-5 flex flex-col items-end justify-center text-[0.8rem]">
-                          <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                            <div class="text-white">{{ (getSeriesValue(series.contract_address, series.name) / 1000000000000000000 * series.count).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                            <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(series.contract_address, series.name) * series.count) }}</span>)</div>
-                          </div>
-                          <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/40"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                            <div class="text-white">{{ (getSeriesValue(series.contract_address, series.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                            <div class="ml-1 text-white/40"> (<span class="text-white/70">{{ ethereumInLocalCurrency(getSeriesValue(series.contract_address, series.name)) }}</span>)</div>
-                          </div>
-                        </div>
-                      </div>
-                    </template>
-                  </template>
-                  <template v-else>
-                    <template v-for="token in sortedTokens(filterWalletTokens(walletTokens))">
-                      <div @click="selectAvatar(getSeriesStats(token.contract_address, token.name))" class="p-1 grid grid-cols-8 md:grid-cols-12 w-full hover:bg-tertiary rounded-lg font-bold cursor-pointer">
-                        <div class="relative rounded-md overflow-hidden" style="padding-top: 100%">
-                          <a @click.stop="openLinkWith(marketplaceLink(getSeriesStats(token.contract_address, token.name)))" class="cursor-pointer">
-                            <template v-if="Capacitor.isNativePlatform()">
-                              <img v-lazy-pix="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" src="/img/rcax_placeholder.png" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
-                            </template>
-                            <template v-else>
-                              <img :src="getTokenImage(getSeriesStats(token.contract_address, token.name)?.series.image ?? '/img/rcax_placeholder.png')" :alt="getSeriesStats(token.contract_address, token.name)?.series.name" class="absolute top-0 left-0 w-full h-full object-cover">
-                            </template>
-                          </a>
-                        </div>
-                        <div class="px-2 col-span-3 md:col-span-5 flex flex-col justify-center items-start text-sm">
-                          <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{getSeriesStats(token.contract_address, token.name)?.series.name}}</span>
-                          <span class="text-amber-500 text-[0.8rem]">#{{ token.mint_number }}</span>
-                        </div>
-                        <div class="ml-auto col-span-4 md:col-span-6 flex flex-col items-end justify-center text-[0.8rem]">
-                          <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-purple-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                            <div class="text-white">{{ (getSeriesValue(token.contract_address, token.name) / 1000000000000000000 * (walletTokens[token.name]?.length ?? 1)).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                            <div class="ml-1 text-white/40"> (<span class="text-amber-500">{{ ethereumInLocalCurrency(getSeriesValue(token.contract_address, token.name) * (walletTokens[token.name]?.length ?? 1)) }}</span>)</div>
-                          </div>
-                          <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-white/40"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                            <div class="text-white">{{ (getSeriesValue(token.contract_address, token.name) / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</div>
-                            <div class="ml-1 text-white/40"> (<span class="text-white/70">{{ ethereumInLocalCurrency(getSeriesValue(token.contract_address, token.name)) }}</span>)</div>
-                          </div>
-                        </div>
-                      </div>
-                    </template>
-                  </template>
-                </div>
-              </template>
-            </div>
-          </template>
+            </template>
+          </div>
         </div>
       </PullToRefresh>
     </div>
@@ -255,7 +293,8 @@ import {
   updateMarketInfo,
   useSettings,
   useSelectedAvatar,
-  useRcaxEthPrice
+  useRcaxEthPrice,
+  useEthereumPriceMap
 } from "~/composables/states";
 import {getLowestListingAsGweiPrice, onMounted, ref} from "#imports";
 import {Ref} from "@vue/reactivity";
@@ -273,15 +312,16 @@ import {computed, ComputedRef} from "vue";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
 import {rcaxToEth} from "~/composables/api/rcax";
 import {marketplaceLink} from "~/global/marketplace";
-import {getCryptoContactFromId, getUserInfo} from "~/composables/api/reddit";
 
 const walletAddresses = useWalletAddresses();
 const rcaxEthPrice = useRcaxEthPrice();
 const cone = useConeEthPrice();
 const settings = useSettings();
 const selectedAvatar = useSelectedAvatar();
+const ethereumPriceMap = useEthereumPriceMap();
 
 const walletAddress = ref<string>("");
+const searchTerm = ref<string>("");
 const tokens: Ref<Map<string, Token[]>> = ref(new Map());
 const tokensCount: Ref<Map<string, Map<string, TokenGrouped>>> = ref(new Map());
 const rcax: Ref<Map<string, number>> = ref(new Map());
@@ -306,34 +346,60 @@ interface TokenGrouped {
 }
 
 function filterWalletTokensGrouped(walletTokens: Map<string, TokenGrouped>): Map<string, TokenGrouped> {
-  if (settings.value.wallet?.filterOption === "all") {
-    return walletTokens;
-  }
-
   let filteredTokens: Map<string, TokenGrouped> = new Map<string, TokenGrouped>();
 
   for (const [contractAddress, tokens] of walletTokens) {
-    if (!getFreeCollections().includes(contractAddress.slice(0,42))) {
-      filteredTokens.set(contractAddress, tokens);
+    // Apply premium filter
+    if (settings.value.wallet?.filterOption === "premium" && getFreeCollections().includes(contractAddress.slice(0,42))) {
+      continue;
     }
+
+    // Apply search filter
+    if (searchTerm.value) {
+      const searchTermLower = searchTerm.value.toLowerCase();
+      const seriesStats = getSeriesStats(tokens.contract_address, tokens.name);
+      
+      const matchesName = tokens.name.toLowerCase().includes(searchTermLower);
+      const matchesArtist = seriesStats?.collection?.artist?.displayName?.toLowerCase().includes(searchTermLower);
+      const matchesCollection = seriesStats?.collection?.name?.toLowerCase().includes(searchTermLower);
+      
+      if (!matchesName && !matchesArtist && !matchesCollection) {
+        continue;
+      }
+    }
+
+    filteredTokens.set(contractAddress, tokens);
   }
 
   return filteredTokens;
 }
 
 function filterWalletTokens(walletTokens: Token[]): Token[] {
-  if (settings.value.wallet?.filterOption === "all") {
-    return walletTokens;
-  }
-
   const filteredTokens: Token[] = [];
 
   for (const token of walletTokens) {
     const contractAddress = token.contract_address;
 
-    if (!getFreeCollections().includes(contractAddress)) {
-      filteredTokens.push(token);
+    // Apply premium filter
+    if (settings.value.wallet?.filterOption === "premium" && getFreeCollections().includes(contractAddress)) {
+      continue;
     }
+
+    // Apply search filter
+    if (searchTerm.value) {
+      const searchTermLower = searchTerm.value.toLowerCase();
+      const seriesStats = getSeriesStats(token.contract_address, token.name);
+      
+      const matchesName = token.name.toLowerCase().includes(searchTermLower);
+      const matchesArtist = seriesStats?.collection?.artist?.displayName?.toLowerCase().includes(searchTermLower);
+      const matchesCollection = seriesStats?.collection?.name?.toLowerCase().includes(searchTermLower);
+      
+      if (!matchesName && !matchesArtist && !matchesCollection) {
+        continue;
+      }
+    }
+
+    filteredTokens.push(token);
   }
 
   return filteredTokens;
@@ -373,16 +439,9 @@ async function getWalletTokens(wallet: string) {
   loading.value = true;
 
   if (!isValidEthereumAddress(wallet)) {
-    try {
-      let userInfo = await getUserInfo(wallet);
-      let userId = userInfo['data']['id'];
-      let cryptoInfo = await getCryptoContactFromId(userId);
-      wallet = cryptoInfo['contacts'][`t2_${userId}`][0]['address'];
-    } catch(err) {
-      loading.value = false;
-      alert(err);
-      return;
-    }
+    loading.value = false;
+    alert('Invalid Ethereum address');
+    return;
   }
 
   await fetchWalletTokens(wallet)
@@ -610,10 +669,88 @@ function selectAvatar(seriesStats: SeriesStats) {
     series: seriesStats.series.name
   }
 }
+
+function getGroupedFiatPrice(contractAddress: string, name: string, count: number): string {
+  const ethPrice = getSeriesValue(contractAddress, name) / 1000000000000000000 * count;
+  const currency = settings.value.currency.preferred;
+  const exchangeRate = ethereumPriceMap.value.get(currency) ?? 0;
+  const fiatValue = ethPrice * exchangeRate;
+  
+  if (fiatValue >= 1000) {
+    const formattedK = new Intl.NumberFormat(undefined, { style: 'currency', currency, minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(fiatValue / 1000);
+    return formattedK.replace(/\.0/, '') + 'k';
+  }
+  
+  const minimumFractionDigits = fiatValue >= 100 ? 0 : 2;
+  const maximumFractionDigits = fiatValue >= 100 ? 0 : 2;
+  
+  return new Intl.NumberFormat(undefined, { 
+    style: 'currency', 
+    currency, 
+    minimumFractionDigits, 
+    maximumFractionDigits 
+  }).format(fiatValue);
+}
+
+function getIndividualFiatPrice(contractAddress: string, name: string): string {
+  const ethPrice = getSeriesValue(contractAddress, name) / 1000000000000000000;
+  const currency = settings.value.currency.preferred;
+  const exchangeRate = ethereumPriceMap.value.get(currency) ?? 0;
+  const fiatValue = ethPrice * exchangeRate;
+  
+  if (fiatValue >= 1000) {
+    const formattedK = new Intl.NumberFormat(undefined, { style: 'currency', currency, minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(fiatValue / 1000);
+    return formattedK.replace(/\.0/, '') + 'k';
+  }
+  
+  const minimumFractionDigits = fiatValue >= 100 ? 0 : 2;
+  const maximumFractionDigits = fiatValue >= 100 ? 0 : 2;
+  
+  return new Intl.NumberFormat(undefined, { 
+    style: 'currency', 
+    currency, 
+    minimumFractionDigits, 
+    maximumFractionDigits 
+  }).format(fiatValue);
+}
 </script>
 
 <style scoped>
-.wallet-view select {
-  @apply max-w-[9rem];
+/* Override global select styles to match SearchBar component exactly */
+.menubar-overrides select {
+  @apply px-2.5 py-2 bg-zinc-800/30 hover:bg-zinc-700/50 text-sm text-zinc-400 rounded-lg transition-all duration-200 focus:outline-none cursor-pointer;
+  border: 1px solid rgb(63 63 70 / 0.3);
+  height: 36px;
+  min-width: fit-content;
+}
+
+.menubar-overrides select:hover {
+  border-color: rgb(82 82 91 / 0.5);
+}
+
+.menubar-overrides select:focus {
+  border-color: rgb(249 115 22 / 0.5);
+  box-shadow: 0 0 0 2px rgb(249 115 22 / 0.5);
+}
+
+.menubar-overrides select:hover {
+  @apply text-zinc-300;
+}
+
+.menubar-overrides select:focus {
+  @apply text-zinc-200;
+}
+
+.menubar-overrides select > option {
+  @apply bg-zinc-800 text-zinc-200;
+}
+
+/* Mobile responsive adjustments to match SearchBar */
+@media (max-width: 640px) {
+  .menubar-overrides select {
+    @apply px-2 text-xs;
+    height: 32px;
+    gap: 1.5px;
+  }
 }
 </style>

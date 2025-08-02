@@ -1,18 +1,16 @@
 <template>
   <div class="events-view relative flex flex-col items-center w-full">
-    <StatsTabs class="hidden md:block" />
     <MenuBar>
       <SearchBar v-model:search-term="searchTerm" :placeholder="`Search by Name`" />
-      <select v-model="settings.activity.filterGenOption">
+      <select v-model="settings.activity.filterGenOption" class="uniform-select">
         <option value="all">Show All</option>
         <option value="eth">Show ETH Only</option>
         <option value="premium">Show Premium Only</option>
         <option value="watchlist">Show Watchlist Only</option>
       </select>
-      <select v-model="settings.activity.feedView">
+      <select v-model="settings.activity.feedView" class="uniform-select">
         <option value="sales">Latest Sales</option>
         <option value="listings">Latest Listings</option>
-        <option value="mints">Latest Mints</option>
       </select>
       <template v-if="!Capacitor.isNativePlatform()">
         <RefreshButton :action="refresh" :refreshing="isRefreshing" />

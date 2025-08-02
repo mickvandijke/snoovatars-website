@@ -80,10 +80,10 @@ const pageCount = computed(() => {
 
 <style scoped>
 .pag-button {
-  @apply px-2 h-full bg-secondary text-sm text-details hover:bg-tertiary disabled:text-white/40 rounded-md;
+  @apply px-3 py-2 bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/30 hover:border-zinc-600/50 text-sm text-zinc-400 hover:text-white disabled:text-zinc-600 disabled:bg-zinc-800/20 disabled:border-zinc-700/20 rounded-lg transition-all duration-200;
 }
 
 .pag-button.active {
-  @apply text-amber-500;
+  @apply text-white bg-zinc-700/50 border-zinc-600/50;
 }
 </style>

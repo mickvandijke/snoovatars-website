@@ -1,9 +1,22 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <Line :data="getData()" :options="options"></Line>
-    <div class="flex gap-1 text-xs text-neutral-400 w-full">
-      <template v-for="filter in filterOptions">
-        <button @click="selectedFilter = filter.value" class="px-1.5 py-0.5 bg-neutral-800 hover:bg-neutral-600 rounded" :class="{ 'text-amber-500': selectedFilter === filter.value }">{{ filter.name }}</button>
+  <div class="space-y-4">
+    <!-- Chart Container -->
+    <div class="relative bg-zinc-900/50 rounded-lg h-64">
+      <Line :data="getData()" :options="options"></Line>
+    </div>
+    
+    <!-- Time Range Filters -->
+    <div class="flex items-center justify-center gap-2">
+      <template v-for="filter in filterOptions" :key="filter.value">
+        <button 
+          @click="selectedFilter = filter.value" 
+          class="px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200"
+          :class="selectedFilter === filter.value 
+            ? 'bg-zinc-700/50 text-white border border-zinc-600/50' 
+            : 'bg-zinc-800/30 text-zinc-400 hover:text-white hover:bg-zinc-700/50 border border-zinc-700/30 hover:border-zinc-600/50'"
+        >
+          {{ filter.name }}
+        </button>
       </template>
     </div>
   </div>
@@ -48,6 +61,13 @@ const options = {
   plugins: {
     legend: false,
     tooltip: {
+      backgroundColor: 'rgba(24, 24, 27, 0.95)',
+      titleColor: '#ffffff',
+      bodyColor: '#d4d4d8',
+      borderColor: 'rgba(113, 113, 122, 0.3)',
+      borderWidth: 1,
+      cornerRadius: 8,
+      padding: 12,
       callbacks: {
         label: function (context) {
           const label = getLabels()[0][context.dataIndex];
@@ -60,15 +80,45 @@ const options = {
 
           const numSales = salesOnDay.length;
 
-          return "Avg Price (ETH): " + value.toFixed(4) + " (Num Sales: " + numSales + ")";
+          return "Avg Price: " + value.toFixed(4) + " ETH (" + numSales + " sales)";
         },
       }
     }
   },
   responsive: true,
+  maintainAspectRatio: false,
   scales: {
+    x: {
+      grid: {
+        color: 'rgba(113, 113, 122, 0.1)',
+        borderColor: 'rgba(113, 113, 122, 0.2)'
+      },
+      ticks: {
+        color: '#71717a',
+        font: {
+          size: 11
+        }
+      }
+    },
     y: {
-      beginAtZero: true
+      beginAtZero: true,
+      grid: {
+        color: 'rgba(113, 113, 122, 0.1)',
+        borderColor: 'rgba(113, 113, 122, 0.2)'
+      },
+      ticks: {
+        color: '#71717a',
+        font: {
+          size: 11
+        },
+        callback: function(value) {
+          if (value === 0) return '0';
+          if (value < 0.001) return value.toFixed(6) + ' ETH';
+          if (value < 0.01) return value.toFixed(4) + ' ETH';
+          if (value < 0.1) return value.toFixed(3) + ' ETH';
+          return value.toFixed(2) + ' ETH';
+        }
+      }
     }
   }
 }
@@ -156,9 +206,15 @@ function getData() {
       {
         label: 'Avg Price (ETH)',
         data: Array(labels[0].length).fill([0]),
-        backgroundColor: "#F59E0BFF",
-        borderColor: "#D97706FF",
-        pointRadius: 4,
+        backgroundColor: "rgba(251, 146, 60, 0.1)",
+        borderColor: "#f97316",
+        pointBackgroundColor: "#f97316",
+        pointBorderColor: "#ffffff",
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3,
       },
     ],
   };

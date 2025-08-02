@@ -1,175 +1,423 @@
 <template>
-  <div class="relative flex flex-col items-center gap-6 w-full">
-    <StatsTabs class="hidden md:block" />
-    <template v-if="!user">
-      <div class="py-6 flex flex-col items-center gap-2">
-        <div class="text-neutral-300">Please sign in to create price alerts.</div>
-        <NuxtLink to="/login" class="px-4 py-2 bg-amber-600 text-header font-bold rounded-lg">Sign In</NuxtLink>
+  <div class="alerts-view relative flex flex-col w-full min-h-screen bg-[#141415]">
+    <MenuBar>
+      <div class="flex items-center gap-4">
+        <h1 class="text-xl font-semibold text-white">Price Alerts</h1>
       </div>
-    </template>
-    <template v-else-if="loading">
-      <div class="min-h-full w-full flex flex-col items-center">
-        <button disabled type="button" class="text-header border border-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 inline-flex items-center">
-          <svg class="inline mr-3 w-4 h-4 text-amber-600 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
-          </svg>
-          <span class="text-neutral-300">Awaiting request...</span>
-        </button>
-      </div>
-    </template>
-    <template v-else>
-      <div class="px-4 md:px-6 py-6 flex flex-col gap-12 max-w-xl">
-        <template v-if="userSettings">
-          <div class="flex flex-col gap-6">
-            <div class="px-2 flex flex-row items-center w-full">
-              <h2 class="header">Settings</h2>
-              <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-header font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
-            </div>
-            <div class="p-6 flex flex-col gap-y-4 border border-white/10 w-full rounded-2xl">
-              <template v-if="user.tier >= 0">
-                <template v-for="[key, value] in Object.entries(userSettings)">
-                  <div class="flex justify-between items-center">
-                    <div class="flex gap-1 items-center">
-                      <span class="text-sm text-white/80">{{ key.replace(/_/g, " ") }}</span>
-                      <!--                      <NuxtLink to="/home#plans" class="text-amber-500 text-xs font-bold">Pro</NuxtLink>-->
-                    </div>
-                    <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-                      <input v-model="userSettings[key]" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
-                      <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-green-400 after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 group-hover:after:translate-x-1"></span>
-                    </label>
-                  </div>
-                </template>
-              </template>
-              <template v-else>
-                <template v-for="[key, value] in Object.entries(userSettings)">
-                  <div class="flex justify-between items-center">
-                    <div class="flex gap-1 items-center">
-                      <span class="text-sm text-white/80">{{ key.replace(/_/g, " ") }}</span>
-                      <NuxtLink to="/home#plans" class="text-amber-500 text-xs font-bold">Pro</NuxtLink>
-                    </div>
-                    <label class="relative flex justify-between items-center group p-1 cursor-pointer">
-                      <input value="false" type="checkbox" class="px-0 absolute peer appearance-none border-none" />
-                      <span class="w-8 h-5 flex items-center flex-shrink-0 ml-2 p-0.5 bg-gray-300 rounded-full after:w-4 after:h-4 after:bg-gray-400 after:rounded-full after:shadow-md after:duration-300 group-hover:after:translate-x-1"></span>
-                    </label>
-                  </div>
-                </template>
-              </template>
-            </div>
-          </div>
-        </template>
-        <div id="alert-list" class="flex flex-col items-center gap-6 w-full">
-          <div class="px-2 flex flex-row items-center w-full">
-            <h2 class="header">Price Alerts</h2>
-            <button @click="openAlertModal" :disabled="alerts.size >= alertMaxQuota.alerts" class="ml-auto px-4 py-2 max-w-xs flex flex-row flex-nowrap bg-secondary disabled:bg-gray-500 hover:bg-tertiary text-header text-sm font-medium rounded-lg duration-200">Create Alert</button>
-          </div>
-          <template v-if="user.tier < 1">
-            <div class="p-6 text-center text-sm text-white/80 border-2 border-red-500 rounded-2xl w-full">
-              <span>Although you can create price alerts, they will not fire until you <NuxtLink to="/upgrade" class="text-amber-500 font-bold">upgrade to Pro</NuxtLink> and enable email and/or push notifications.</span>
-            </div>
-          </template>
-          <ul class="p-2 grid grid-cols-1 gap-2 w-full border border-white/10 rounded-2xl">
-            <template v-if="alerts.size > 0" v-for="[alertHash, alert] in alerts">
-              <div class="p-2 flex gap-2 items-center bg-secondary text-sm rounded-lg w-full">
-                <div class="flex items-center justify-center w-8 h-8 rounded-md overflow-hidden">
-                  <template v-if="getSeries(alert.collection_tier_hash)">
-                    <img :src="getSeries(alert.collection_tier_hash).image" class="object-cover">
-                  </template>
-                </div>
-                <div class="col-span-6 flex flex-col">
-                  <span class="text-header font-semibold">{{alert.item_hash ? (avatars.get(alert.item_hash)?.fullname() ?? 'Loading..') : (series.get(alert.collection_tier_hash)?.name ?? 'Loading..') }}</span>
-                  <span class="text-details text-xs">{{ alert.alert_type.toString().replace("SaleAbove", "Sale Above").replace("ListingBelow", "Listing Below") }}: {{ alert.price_threshold }} ETH</span>
-                </div>
-                <div class="ml-auto col-span-5 flex items-center justify-center gap-2">
-                  <button @click="openAlertModal(alertHash, alert)" class="w-8 h-8 flex items-center justify-center bg-secondary hover:bg-tertiary font-semibold text-header rounded-md duration-200">
-                    <PencilSquareIcon class="text-white/40 w-4" />
-                  </button>
-                  <button @click="deleteAlert(alertHash)" class="w-8 h-8 flex items-center justify-center bg-secondary hover:bg-red-500/25 font-semibold text-header rounded-md duration-200">
-                    <TrashIcon class="text-white/40 w-4" />
-                  </button>
-                </div>
-              </div>
-            </template>
-            <template v-else>
-              <span class="w-full text-white/40 text-sm text-center italic">No alerts yet.</span>
-            </template>
-          </ul>
-          <p class="px-6 text-sm text-white/40 text-center w-full">To prevent price notifications from ending up in your spam folder, you might have to whitelist service@snoovatars.com.</p>
-        </div>
-        <template v-if="alerts && alertQuota && alertMaxQuota">
-          <div class="flex flex-col gap-6">
-            <div class="px-2 flex flex-row items-center w-full">
-              <h2 class="header">Quota</h2>
-              <NuxtLink v-if="user.tier < 1" to="/upgrade" class="ml-auto px-4 py-1 max-w-xs flex flex-row flex-nowrap bg-amber-600 disabled:bg-gray-500 hover:bg-amber-500 text-header font-semibold rounded-2xl duration-200">Upgrade</NuxtLink>
-            </div>
-            <ul class="p-6 flex flex-col gap-y-4 border border-white/10 w-full rounded-2xl">
-              <li class="flex flex-row flex-nowrap text-details text-sm rounded-2xl block w-full">
-                <span>Concurrent Alerts:</span>
-                <span class="ml-auto">{{ alerts.size }}/{{ alertMaxQuota.alerts }}</span>
-              </li>
-              <!--              <li class="flex flex-row flex-nowrap text-details text-sm rounded-2xl block w-full">-->
-              <!--                <span>Email Notifications:</span>-->
-              <!--                <span class="ml-auto">{{ alertQuota.emails_sent }}/{{ alertMaxQuota.emails_sent }}</span>-->
-              <!--              </li>-->
-            </ul>
-            <!--            <p class="px-6 text-sm text-white/40 text-center w-full">*Free tier quotas might change at any moment without notice.</p>-->
-          </div>
+      <div class="ml-auto flex items-center gap-2">
+        <template v-if="user && !loading">
+          <button 
+            @click="openAlertModal" 
+            :disabled="alerts.size >= alertMaxQuota?.alerts" 
+            class="px-4 py-2.5 bg-white hover:bg-zinc-100 disabled:bg-zinc-800 disabled:hover:bg-zinc-800 text-black disabled:text-zinc-600 text-sm font-medium rounded-lg transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span>Create Alert</span>
+          </button>
         </template>
       </div>
+    </MenuBar>
+    
+    <div class="flex-1">
+      <!-- Authentication Required State -->
+      <template v-if="!user">
+        <AuthenticationRequired />
+      </template>
 
-      <!--modal content-->
-      <template v-if="addingAlert">
-        <div class="fixed inset-0 h-screen flex justify-center items-center bg-black/50 z-40">
-          <div v-click-outside="cancelAlert" class="relative w-96 max-w-[80%] flex flex-col bg-secondary/90 backdrop-blur-xl border border-neutral-700 drop-shadow-2xl rounded-2xl overflow-hidden">
-            <div class="px-4 py-3 absolute w-full top-0 flex items-center justify-center bg-primary/90 backdrop-blur-xl border-b border-white/10 shadow-md z-30">
-              <span class="text-white/40 font-medium">{{ !!replacingAlertHash ? "Update" : "New" }} Alert</span>
-              <XMarkIcon @click.stop="cancelAlert" class="absolute right-4 w-7 h-7 text-neutral-400 opacity-50 hover:opacity-100 cursor-pointer duration-200"/>
+      <!-- Loading State -->
+      <template v-else-if="loading">
+        <div class="flex items-center justify-center min-h-[calc(100vh-80px)]">
+          <div class="text-center py-16 px-4">
+            <div class="inline-flex items-center justify-center w-12 h-12 mb-4">
+              <svg class="w-8 h-8 text-orange-500 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
             </div>
-            <div class="px-4 py-20 text-center max-h-[60vh] overflow-y-auto">
-              <label for="collection" class="block mb-2 text-sm font-medium text-details text-left">Select avatar (Type to search)</label>
-              <select-search
-                  id="tier"
-                  v-model="newAlert.collection_tier_hash"
-                  :options="seriesOptions"
-                  :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Select avatar'"
-                  @change="onSelectedTier"
-              />
-              <!--            <label for="avatar" class="mt-4 block mb-2 text-sm font-medium text-details text-left">[Optional] Select a specific mint number</label>-->
-              <!--            <select-search-->
-              <!--                id="avatar"-->
-              <!--                v-model="newAlert.item_hash"-->
-              <!--                :options="selectAvatars()"-->
-              <!--                :placeholder="newAlert.item_hash ? avatars.get(newAlert.item_hash).fullname() : 'None'"-->
-              <!--                :disabled="!newAlert.collection_tier_hash"-->
-              <!--                @change="onSelectedAvatar()"-->
-              <!--            />-->
-              <label for="max-mint-number" class="mt-4 block mb-2 text-sm font-medium text-details text-left">Max mint number (0 = any mint)</label>
-              <input type="number" min="0" :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" :disabled="newAlert.item_hash" required v-model="newAlert.max_mint_number" id="max-mint-number" class="lighter">
-              <label for="type" class="mt-4 block mb-2 text-sm font-medium text-details text-left">Select an event type</label>
-              <select required v-model="newAlert.alert_type" id="type" class="w-full">
-                <option :value="AlertType.ListingBelow">Listing below price threshold</option>
-                <option :value="AlertType.SaleAbove">Sale above price threshold</option>
-              </select>
-              <label for="price-threshold" class="mt-4 block mb-2 text-sm font-medium text-details text-left">Price threshold in ETH</label>
-              <input type="number" min="0" max="1000" required v-model="newAlert.price_threshold" id="price-threshold" class="lighter">
-              <label for="repeating" class="mt-4 block mb-2 text-sm font-medium text-details text-left">Repeating</label>
-              <select required v-model="newAlert.repeating" id="repeating" class="w-full">
-                <option :value="false">Only alert once</option>
-                <option :value="true">Repeating alert</option>
-              </select>
-            </div>
-            <div class="px-4 py-3 absolute bottom-0 w-full flex items-center gap-4 bg-primary/90 backdrop-blur-xl border-t border-white/10 shadow-md">
-              <button @click="submitAlert" :disabled="!newAlert.isValid()" class="px-2 py-2 bg-secondary hover:bg-tertiary disabled:bg-white/5 text-white/80 disabled:text-white/20 text-sm font-semibold rounded-2xl w-full duration-200">
-                Save
-              </button>
-              <button @click="cancelAlert" class="px-2 py-2 bg-red-500/40 hover:bg-red-500/80 text-white/80 text-sm font-semibold rounded-2xl w-full duration-200">
-                Cancel
-              </button>
-            </div>
+            <p class="text-sm text-zinc-400">Loading alerts...</p>
           </div>
         </div>
       </template>
 
+      <!-- Main Content -->
+      <template v-else>
+        <div class="px-4 lg:px-6 py-6 space-y-8">
+          
+          <!-- Pro Upgrade Notice -->
+          <template v-if="user.tier < 1">
+            <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                  <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-sm font-medium text-amber-400 mb-1">Pro Features Required</h3>
+                  <p class="text-sm text-zinc-300 mb-3">
+                    Although you can create price alerts, they will not fire until you upgrade to Pro and enable email and/or push notifications.
+                  </p>
+                  <NuxtLink 
+                    to="/upgrade" 
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-all duration-200"
+                  >
+                    <span>Upgrade to Pro</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </NuxtLink>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- Alert Settings -->
+          <template v-if="userSettings">
+            <div class="bg-zinc-800/30 rounded-xl border border-zinc-700/30 overflow-hidden">
+              <div class="px-6 py-4 border-b border-zinc-800">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-lg font-semibold text-white">Notification Settings</h2>
+                  <template v-if="user.tier < 1">
+                    <NuxtLink 
+                      to="/upgrade" 
+                      class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-all duration-200"
+                    >
+                      Upgrade
+                    </NuxtLink>
+                  </template>
+                </div>
+              </div>
+              <div class="px-6 py-4">
+                <div class="space-y-4">
+                  <template v-if="user.tier >= 0">
+                    <template v-for="[key, value] in Object.entries(userSettings)" :key="key">
+                      <div class="flex items-center justify-between py-2">
+                        <div>
+                          <label class="text-sm font-medium text-white">{{ key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) }}</label>
+                          <p class="text-xs text-zinc-400 mt-0.5">
+                            {{ getSettingDescription(key) }}
+                          </p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input 
+                            v-model="userSettings[key]" 
+                            type="checkbox" 
+                            class="sr-only peer"
+                          />
+                          <div class="relative w-11 h-6 bg-zinc-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                        </label>
+                      </div>
+                    </template>
+                  </template>
+                  <template v-else>
+                    <template v-for="[key, value] in Object.entries(userSettings)" :key="key">
+                      <div class="flex items-center justify-between py-2 opacity-60">
+                        <div>
+                          <label class="text-sm font-medium text-white">{{ key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) }}</label>
+                          <div class="flex items-center gap-2 mt-0.5">
+                            <p class="text-xs text-zinc-400">{{ getSettingDescription(key) }}</p>
+                            <NuxtLink to="/upgrade" class="text-amber-400 text-xs font-medium hover:text-amber-300">Pro</NuxtLink>
+                          </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-not-allowed">
+                          <input 
+                            type="checkbox" 
+                            disabled
+                            class="sr-only peer"
+                          />
+                          <div class="relative w-11 h-6 bg-zinc-700/50 rounded-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-500 after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                        </label>
+                      </div>
+                    </template>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- Active Alerts -->
+          <div class="bg-zinc-800/30 rounded-xl border border-zinc-700/30 overflow-hidden">
+            <div class="px-6 py-4 border-b border-zinc-800">
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-white">Active Alerts</h2>
+                <div class="flex items-center gap-2 text-sm text-zinc-400">
+                  <span>{{ alerts.size }}</span>
+                  <span>/</span>
+                  <span>{{ alertMaxQuota?.alerts || 0 }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="px-6 py-4">
+              <template v-if="alerts.size > 0">
+                <div class="space-y-3">
+                  <template v-for="[alertHash, alert] in alerts" :key="alertHash">
+                    <div class="bg-zinc-800/50 rounded-lg p-4 border border-zinc-700/30">
+                      <div class="flex items-center gap-4">
+                        <!-- Avatar Image -->
+                        <div class="flex-shrink-0">
+                          <div class="w-12 h-12 rounded-lg overflow-hidden bg-zinc-700">
+                            <template v-if="getSeries(alert.collection_tier_hash)">
+                              <img 
+                                :src="getSeries(alert.collection_tier_hash).image" 
+                                :alt="getSeries(alert.collection_tier_hash).name"
+                                class="w-full h-full object-cover"
+                                @error="$event.target.style.display='none'"
+                              >
+                            </template>
+                            <template v-else>
+                              <div class="w-full h-full flex items-center justify-center">
+                                <template v-if="isAlertDataLoaded(alert)">
+                                  <svg class="w-6 h-6 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                  </svg>
+                                </template>
+                                <template v-else>
+                                  <svg class="w-4 h-4 text-zinc-500 animate-spin" viewBox="0 0 24 24" fill="none">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                  </svg>
+                                </template>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                        
+                        <!-- Alert Details -->
+                        <div class="flex-1 min-w-0">
+                          <h3 class="text-sm font-medium text-white truncate">
+                            {{ getAlertTitle(alert) }}
+                          </h3>
+                          <div class="flex items-center gap-4 mt-1">
+                            <span class="text-xs text-zinc-400">
+                              {{ alert.alert_type.toString().replace("SaleAbove", "Sale Above").replace("ListingBelow", "Listing Below") }}
+                            </span>
+                            <div class="flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-zinc-400">
+                                <path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path>
+                              </svg>
+                              <span class="text-xs font-medium text-white">{{ alert.price_threshold }}</span>
+                            </div>
+                            <template v-if="alert.max_mint_number > 0">
+                              <span class="text-xs text-zinc-400">Max mint: {{ alert.max_mint_number }}</span>
+                            </template>
+                            <template v-if="alert.repeating">
+                              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/20 text-green-400">
+                                Repeating
+                              </span>
+                            </template>
+                          </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex items-center gap-2">
+                          <button 
+                            @click="openAlertModal(alertHash, alert)"
+                            :disabled="!isAlertDataLoaded(alert)"
+                            class="p-2 hover:bg-zinc-700/50 disabled:opacity-50 disabled:cursor-not-allowed text-zinc-400 hover:text-white rounded-lg transition-all duration-200"
+                            title="Edit Alert"
+                          >
+                            <PencilSquareIcon class="w-4 h-4" />
+                          </button>
+                          <button 
+                            @click="deleteAlert(alertHash)"
+                            class="p-2 hover:bg-zinc-700/50 text-zinc-400 hover:text-red-400 rounded-lg transition-all duration-200"
+                            title="Delete Alert"
+                          >
+                            <TrashIcon class="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </template>
+              <template v-else>
+                <div class="text-center py-12">
+                  <div class="mx-auto h-12 w-12 text-zinc-600 mb-4">
+                    <BellIcon class="w-full h-full" />
+                  </div>
+                  <h3 class="text-sm font-medium text-white mb-2">No alerts created</h3>
+                  <p class="text-sm text-zinc-400 mb-4">Create your first price alert to get notified when items meet your criteria</p>
+                  <button 
+                    @click="openAlertModal" 
+                    :disabled="alerts.size >= alertMaxQuota?.alerts"
+                    class="px-4 py-2 bg-white hover:bg-zinc-100 disabled:bg-zinc-800 disabled:hover:bg-zinc-800 text-black disabled:text-zinc-600 text-sm font-medium rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
+                  >
+                    Create Alert
+                  </button>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- Usage Information -->
+          <div class="bg-zinc-800/30 rounded-xl border border-zinc-700/30 overflow-hidden">
+            <div class="px-6 py-4 border-b border-zinc-800">
+              <h2 class="text-lg font-semibold text-white">Usage & Limits</h2>
+            </div>
+            <div class="px-6 py-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-zinc-400">Concurrent Alerts</span>
+                    <span class="text-sm font-medium text-white">{{ alerts.size }}/{{ alertMaxQuota?.alerts || 0 }}</span>
+                  </div>
+                  <div class="w-full bg-zinc-700 rounded-full h-2">
+                    <div 
+                      class="bg-orange-500 h-2 rounded-full transition-all duration-300" 
+                      :style="{ width: `${alertMaxQuota?.alerts ? (alerts.size / alertMaxQuota.alerts) * 100 : 0}%` }"
+                    ></div>
+                  </div>
+                </div>
+                <div v-if="user.tier >= 1">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-zinc-400">Plan</span>
+                    <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-amber-500/20 text-amber-400">
+                      Pro User
+                    </span>
+                  </div>
+                  <p class="text-xs text-zinc-500">Unlimited alerts and notifications</p>
+                </div>
+                <div v-else>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-zinc-400">Plan</span>
+                    <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-zinc-600/50 text-zinc-400">
+                      Free User
+                    </span>
+                  </div>
+                  <p class="text-xs text-zinc-500">Limited alerts, upgrade for more features</p>
+                </div>
+              </div>
+              
+              <div class="mt-6 p-4 bg-zinc-900/50 rounded-lg">
+                <p class="text-xs text-zinc-400 flex items-start gap-2">
+                  <svg class="w-4 h-4 text-zinc-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span>To prevent price notifications from ending up in your spam folder, you might have to whitelist service@snoovatars.com in your email settings.</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </template>
+    </div>
+
+    <!-- Alert Modal -->
+    <template v-if="addingAlert">
+      <div class="fixed inset-0 h-screen flex justify-center items-center bg-black/50 z-50">
+        <div v-click-outside="cancelAlert" class="relative w-full max-w-lg mx-4 flex flex-col bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden shadow-2xl">
+          <!-- Modal Header -->
+          <div class="px-6 py-4 border-b border-zinc-800">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-white">{{ !!replacingAlertHash ? "Update" : "Create" }} Alert</h3>
+              <button @click="cancelAlert" class="p-1 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded-lg transition-all duration-200">
+                <XMarkIcon class="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+          
+          <!-- Modal Content -->
+          <div class="px-6 py-6 max-h-[60vh] overflow-y-auto">
+            <div class="space-y-6">
+              <!-- Avatar Selection -->
+              <div>
+                <label class="block text-sm font-medium text-white mb-2">Select Avatar</label>
+                <select-search
+                  id="tier"
+                  v-model="newAlert.collection_tier_hash"
+                  :options="seriesOptions"
+                  :placeholder="newAlert.collection_tier_hash ? series.get(newAlert.collection_tier_hash).name : 'Type to search for an avatar'"
+                  @change="onSelectedTier"
+                />
+                <p class="text-xs text-zinc-400 mt-1">Start typing to search for a specific avatar collection</p>
+              </div>
+
+              <!-- Max Mint Number -->
+              <div>
+                <label for="max-mint-number" class="block text-sm font-medium text-white mb-2">Max Mint Number</label>
+                <input 
+                  type="number" 
+                  min="0" 
+                  :max="series.get(newAlert.collection_tier_hash) ? series.get(newAlert.collection_tier_hash).mints : 0" 
+                  :disabled="newAlert.item_hash" 
+                  required 
+                  v-model="newAlert.max_mint_number" 
+                  id="max-mint-number" 
+                  class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
+                  placeholder="0"
+                >
+                <p class="text-xs text-zinc-400 mt-1">Enter 0 to alert on any mint number</p>
+              </div>
+
+              <!-- Alert Type -->
+              <div>
+                <label for="type" class="block text-sm font-medium text-white mb-2">Alert Type</label>
+                <select 
+                  required 
+                  v-model="newAlert.alert_type" 
+                  id="type" 
+                  class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
+                >
+                  <option :value="AlertType.ListingBelow">Listing below price threshold</option>
+                  <option :value="AlertType.SaleAbove">Sale above price threshold</option>
+                </select>
+              </div>
+
+              <!-- Price Threshold -->
+              <div>
+                <label for="price-threshold" class="block text-sm font-medium text-white mb-2">Price Threshold (ETH)</label>
+                <input 
+                  type="number" 
+                  min="0" 
+                  max="1000" 
+                  step="0.001"
+                  required 
+                  v-model="newAlert.price_threshold" 
+                  id="price-threshold" 
+                  class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-400 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
+                  placeholder="0.0"
+                >
+              </div>
+
+              <!-- Repeating -->
+              <div>
+                <label for="repeating" class="block text-sm font-medium text-white mb-2">Frequency</label>
+                <select 
+                  required 
+                  v-model="newAlert.repeating" 
+                  id="repeating" 
+                  class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
+                >
+                  <option :value="false">Only alert once</option>
+                  <option :value="true">Repeating alert</option>
+                </select>
+                <p class="text-xs text-zinc-400 mt-1">Repeating alerts will notify you every time the condition is met</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Modal Footer -->
+          <div class="px-6 py-4 border-t border-zinc-800 flex items-center gap-3">
+            <button 
+              @click="submitAlert" 
+              :disabled="!newAlert.isValid()" 
+              class="flex-1 px-4 py-2 bg-white hover:bg-zinc-100 disabled:bg-zinc-800 disabled:hover:bg-zinc-800 text-black disabled:text-zinc-600 text-sm font-medium rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
+            >
+              {{ !!replacingAlertHash ? "Update" : "Create" }} Alert
+            </button>
+            <button 
+              @click="cancelAlert" 
+              class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-sm font-medium rounded-lg transition-all duration-200"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -193,7 +441,7 @@ import {deleteToken} from "~/composables/api/user";
 import {createAlert, getAlerts} from "~/composables/api/alert";
 import {calculate_hash} from "~/types/series";
 import {UserSettings} from "~/types/user";
-import {PencilSquareIcon, TrashIcon, XMarkIcon} from "@heroicons/vue/24/solid";
+import {PencilSquareIcon, TrashIcon, XMarkIcon, BellIcon} from "@heroicons/vue/24/solid";
 
 const loading = ref(true);
 const series = useSeriesHashed();
@@ -216,12 +464,14 @@ const userSettings: Ref<UserSettings> = ref({
 });
 const seriesOptions: Ref<Array<SelectSearchOption>> = ref([]);
 
-onBeforeMount( () => {
-  updateSeriesHashed();
+onBeforeMount(async () => {
+  await updateSeriesHashed();
 });
 
 onMounted(async () => {
   if (token.value) {
+    // Ensure series data is loaded before loading alerts
+    await updateSeriesHashed();
     loadAlerts();
     loadUserSettings().then(() => {
       userSettings.value = JSON.parse(JSON.stringify(useUserSettings().value));
@@ -231,6 +481,8 @@ onMounted(async () => {
 
 watch([token], async () => {
   if (token.value) {
+    // Ensure series data is loaded before loading alerts
+    await updateSeriesHashed();
     loadAlerts();
     loadUserSettings().then(() => {
       userSettings.value = JSON.parse(JSON.stringify(useUserSettings().value));
@@ -256,8 +508,42 @@ watch([series], async () => {
   seriesOptions.value = arr;
 }, { deep: true });
 
+// Watch for series data changes to re-render alerts when data becomes available
+watch([series], () => {
+  // Force reactivity update when series data changes
+  // This helps with alerts that were loaded before series data was available
+}, { deep: true });
+
 function getSeries(seriesHash: string) {
   return series.value.get(seriesHash);
+}
+
+function getSettingDescription(key: string): string {
+  const descriptions = {
+    'shop_new_paid_avatars_alert': 'Get notified when new premium avatars are released in the shop',
+    'new_deployed_contracts_alert': 'Get notified when new avatar collections are deployed',
+    'email_notifications': 'Receive price alerts and updates via email',
+    'push_notifications': 'Receive price alerts and updates via push notifications'
+  };
+  return descriptions[key] || 'Toggle this notification setting';
+}
+
+function getAlertTitle(alert: Alert): string {
+  if (alert.item_hash) {
+    const avatar = avatars.value.get(alert.item_hash);
+    return avatar?.fullname() || 'Avatar Data Loading...';
+  } else {
+    const seriesData = series.value.get(alert.collection_tier_hash);
+    return seriesData?.name || 'Series Data Loading...';
+  }
+}
+
+function isAlertDataLoaded(alert: Alert): boolean {
+  if (alert.item_hash) {
+    return avatars.value.has(alert.item_hash);
+  } else {
+    return series.value.has(alert.collection_tier_hash);
+  }
 }
 
 function onSelectedTier() {
@@ -292,22 +578,37 @@ function logout() {
   deleteToken();
 }
 
-function loadAlerts() {
+async function loadAlerts() {
   loading.value = true;
 
-  getAlerts()
-      .then((res) => {
-        if (res.alerts) alerts.value = res.alerts;
-        if (res.alertQuota) alertQuota.value = res.alertQuota;
-        if (res.alertMaxQuota) alertMaxQuota.value = res.alertMaxQuota;
+  try {
+    const res = await getAlerts();
+    if (res.alerts) alerts.value = res.alerts;
+    if (res.alertQuota) alertQuota.value = res.alertQuota;
+    if (res.alertMaxQuota) alertMaxQuota.value = res.alertMaxQuota;
 
-        loading.value = false;
-      })
-      .catch((err) => {
-        alert(err);
+    // Ensure series data is available for all alerts
+    if (res.alerts && res.alerts.size > 0) {
+      const alertArray = Array.from(res.alerts.values());
+      const missingSeriesHashes = alertArray
+        .map(alert => alert.collection_tier_hash)
+        .filter(hash => !series.value.has(hash));
+      
+      if (missingSeriesHashes.length > 0) {
+        // Wait a bit more for series data to load
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        // If still missing, try to update series data one more time
+        if (missingSeriesHashes.some(hash => !series.value.has(hash))) {
+          await updateSeriesHashed();
+        }
+      }
+    }
 
-        loading.value = false;
-      })
+    loading.value = false;
+  } catch (err) {
+    alert(err);
+    loading.value = false;
+  }
 }
 
 function submitAlert() {
@@ -377,7 +678,7 @@ async function deleteAlert(alertHash: AlertHash) {
 </script>
 
 <style scoped>
-.header {
-  @apply text-header text-xl md:text-2xl font-semibold;
+.alerts-view {
+  /* Add any specific styles for the alerts view if needed */
 }
 </style>

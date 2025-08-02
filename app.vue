@@ -1,18 +1,27 @@
 <template>
-  <div class="relative flex flex-col items-center min-h-screen w-full" style="max-width: 100vw;">
-    <HeaderTop :hide-items="scrolled >= 48" :class="{ 'sticky -top-[48px]': Capacitor.isNativePlatform() }" ref="barMarketInfo" />
-    <NavigationBar />
-    <AvatarViewer />
-    <template v-if="!Capacitor.isNativePlatform()">
-      <AdvertisementBanner class="" />
-    </template>
-    <div class="relative flex flex-col grow items-center w-full" style="max-width: 100vw;" :class="{ 'page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
-      <NuxtPage/>
+  <div class="relative flex min-h-screen w-full max-w-full">
+    <!-- Sidebar -->
+    <Sidebar />
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col w-full lg:ml-16 min-w-0 max-w-full">
+      <HeaderTop :hide-items="scrolled >= 48" :class="{ 'sticky -top-[48px]': Capacitor.isNativePlatform(), 'lg:ml-0': true }" ref="barMarketInfo" />
+      <AvatarViewer />
+      <template v-if="!Capacitor.isNativePlatform()">
+        <AdvertisementBanner class="" />
+      </template>
+      <div class="relative flex flex-col grow items-center w-full min-w-0" :class="{ 'page-mobile-padding-bottom': Capacitor.isNativePlatform() }">
+        <NuxtPage/>
+      </div>
+      <template v-if="!Capacitor.isNativePlatform()">
+        <FooterSmall/>
+      </template>
     </div>
-    <template v-if="!Capacitor.isNativePlatform()">
-      <FooterSmall/>
-    </template>
-    <MobileNavigationBar/>
+    
+    <!-- Mobile Navigation -->
+    <MobileNavigationBar />
+    
+    <!-- Modals and Overlays -->
     <template v-if="!Capacitor.isNativePlatform() && !settings.cookies.accepted">
       <CookieWarning/>
     </template>
@@ -52,11 +61,13 @@ import Prompt from "~/components/Prompt.vue";
 import {computed} from "vue";
 import HeaderTop from "~/components/HeaderTop.vue";
 import FooterSmall from "~/components/FooterSmall.vue";
+import Sidebar from "~/components/Sidebar.vue";
+import MobileNavigationBar from "~/components/MobileNavigationBar.vue";
 import {Ref} from "@vue/reactivity";
 
 useHead({
   title: 'RCAX | Reddit Collectible Avatars prices, statistics, sales and more!',
-  link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+  link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
   meta: [
     { name: "title", content: "RCAX" },
     { name: 'description', content: 'Reddit Collectible Avatars prices, statistics, sales and more!' },
@@ -258,8 +269,16 @@ const getDeliveredNotifications = async () => {
 }
 
 html, body {
-  @apply bg-primary;
+  @apply bg-[#141415];
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent horizontal scroll on mobile without breaking sticky */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+    position: relative;
+  }
 }
 
 select {

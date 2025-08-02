@@ -1,6 +1,6 @@
 <template>
-  <div class="sm:px-2 md:px-6 overflow-x-hidden h-full w-full" ref="container">
-    <div class="mx-auto w-full h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 overflow-x-hidden sm:gap-3 divide-y sm:divide-y-0 divide-white/5">
+  <div class="md:py-4 sm:px-2 md:px-6 w-full" ref="container">
+    <div class="mx-auto w-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-10 sm:gap-3">
       <template v-for="(item, index) in visibleItems">
         <slot :item="item" :index="index"></slot>
       </template>

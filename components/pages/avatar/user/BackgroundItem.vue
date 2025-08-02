@@ -1,7 +1,7 @@
 <template>
   <div>
     <ImgPlaceholder :src="background.path" />
-    <div class="mt-2 text-xs text-center font-medium truncate w-full">{{ background.name }}</div>
+    <div class="mt-2 text-xs text-center font-medium truncate w-full text-zinc-400">{{ background.name }}</div>
   </div>
 </template>
 

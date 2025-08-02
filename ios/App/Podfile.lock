@@ -1,21 +1,21 @@
 PODS:
-  - Capacitor (5.0.3):
+  - Capacitor (7.4.2):
     - CapacitorCordova
-  - CapacitorBrowser (5.0.2):
+  - CapacitorBrowser (7.0.1):
     - Capacitor
-  - CapacitorCommunityMedia (5.0.0):
+  - CapacitorCommunityMedia (8.0.1):
     - Capacitor
     - SDWebImage
-  - CapacitorCordova (5.0.3)
-  - CapacitorHaptics (5.0.4):
+  - CapacitorCordova (7.4.2)
+  - CapacitorHaptics (7.0.1):
     - Capacitor
-  - CapacitorLocalNotifications (5.0.2):
+  - CapacitorLocalNotifications (7.0.1):
     - Capacitor
-  - CapacitorPushNotifications (5.0.2):
+  - CapacitorPushNotifications (7.0.1):
     - Capacitor
-  - CapacitorShare (5.0.2):
+  - CapacitorShare (7.0.1):
     - Capacitor
-  - CordovaPlugins (5.0.3):
+  - CordovaPlugins (7.4.2):
     - CapacitorCordova
   - Firebase/CoreOnly (10.10.0):
     - FirebaseCore (= 10.10.0)
@@ -119,15 +119,15 @@ EXTERNAL SOURCES:
     :path: "../capacitor-cordova-ios-plugins"
 
 SPEC CHECKSUMS:
-  Capacitor: 304a960e431f9e6f78556554ca71c41c1b2b9680
-  CapacitorBrowser: 7986ee35377383fc40f7c1a0a793e0d9a49fe527
-  CapacitorCommunityMedia: 127fa3d3a0ef5f00661c4d61ef07cdb2ecd46ff3
-  CapacitorCordova: def732a63679698df6fb392bbe6d269a0b61e937
-  CapacitorHaptics: e36653b37326d71bb35ae42b944124037dbc3d97
-  CapacitorLocalNotifications: db01feb38f85b4fd8c0a0d0fa94a4a6410239563
-  CapacitorPushNotifications: 0566429afa72fe083a4142a58321f0ad83837096
-  CapacitorShare: 931224a0e17615e799d35b26286ab1d05f37d8fb
-  CordovaPlugins: 976e2e0807dcbaa7eeb1a20d5d431facec33eff5
+  Capacitor: 156d98aba46ec01dde72c4bbb92fa626837cad29
+  CapacitorBrowser: 081852cf532acf77b9d2953f3a88fe5b9711fb06
+  CapacitorCommunityMedia: a3ee57c1452d352d8013e5bff2668f7154b379a4
+  CapacitorCordova: 5e58d04631bc5094894ac106e2bf1da18a9e6151
+  CapacitorHaptics: 70e47470fa1a6bd6338cd102552e3846b7f9a1b3
+  CapacitorLocalNotifications: 4ea60b9347eac60b37cb4daaf62d12060bb00972
+  CapacitorPushNotifications: 0b653a3264d56daccf0e8769fff15d2f48306de6
+  CapacitorShare: 58d6c2da63b093e8693287b2d36db92435538435
+  CordovaPlugins: 211ba1d0d826dcc3e789da3b45560bb87fd5c121
   Firebase: facd334e557a979bd03a0b58d90fd56b52b8aba0
   FirebaseCore: d027ff503d37edb78db98429b11f580a24a7df2a
   FirebaseCoreInternal: 971029061d326000d65bfdc21f5502c75c8b0893
@@ -141,4 +141,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 79f3307ba8a2352966ef5b1fab08b298f7172558
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2

@@ -1,71 +1,118 @@
 <template>
-  <div @click="selectAvatar" ref="componentRef" class="p-2 sm:bg-secondary sm:hover:bg-tertiary relative flex flex-col gap-1 w-full sm:rounded-xl overflow-hidden cursor-pointer duration-300">
+  <!-- Mobile Layout -->
+  <AvatarCardMobile 
+    v-if="isMobile" 
+    :item="item" 
+    :seriesStats="seriesStats" 
+    :hideFloor="hideFloor" 
+    :ranking="ranking"
+  >
+    <slot></slot>
+    <template #footer v-if="$slots.footer">
+      <slot name="footer"></slot>
+    </template>
+  </AvatarCardMobile>
+
+  <!-- Desktop Layout -->
+  <div 
+    v-else
+    @click="selectAvatar" 
+    ref="componentRef" 
+    class="group relative bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-white/20 rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-black/20 w-full"
+  >
     <template v-if="seriesStats">
-      <div class="relative flex w-full" style="height: 90px">
-        <button @click.stop="() => { if (Capacitor.getPlatform() !== 'ios') { openLinkWith(marketplaceLink(seriesStats)) } else { selectAvatar() } }" class="relative flex items-center w-fit">
-          <div class="relative flex items-center h-full w-fit sm:h-full mx-auto">
-            <div class="relative w-fit max-h-full overflow-hidden rounded-lg">
-              <img-placeholder img-class="max-h-[90px]" :src="getTokenImage(seriesStats.series.image)" />
-              <div class="absolute top-1 left-1 px-1.5 py-0 bg-tertiary/80 backdrop-blur text-[0.7rem] font-medium rounded-md" :class="getMintClassesText(Math.max(seriesStats.series.total_quantity, seriesStats.series.total_sold))">
-                <span class="relative">{{ Math.max(seriesStats.series.total_sold, seriesStats.series.total_quantity) }}</span>
-              </div>
+      <!-- Image Section -->
+      <div class="relative bg-gradient-to-br from-zinc-900/50 to-zinc-800/50 overflow-hidden" style="height: 100px;">
+        <button 
+          @click.stop="selectAvatar" 
+          class="relative w-full h-full block"
+        >
+          <img-placeholder 
+            img-class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:filter group-hover:drop-shadow-[0_0_20px_rgba(147,197,253,0.6)]" 
+            :src="getTokenImage(seriesStats.series.image)" 
+          />
+          
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          
+          <!-- Top Left: Supply Badge -->
+          <div v-if="seriesStats.series.total_quantity <= 9999" class="absolute top-1 left-1">
+            <div class="flex items-center gap-1 px-2 py-1 bg-black/80 backdrop-blur-md text-xs font-semibold text-white rounded-full border border-white/20" :class="seriesStats.series.total_quantity <= 600 ? rarityInfo.color : 'text-white'">
+              <span v-if="seriesStats.series.total_quantity <= 600" class="text-xs leading-none">{{ rarityInfo.icon }}</span>
+              <span class="text-[10px] leading-none">{{ seriesStats.series.total_quantity }}</span>
             </div>
           </div>
-        </button>
-        <div class="relative pl-2 flex flex-col overflow-hidden grow">
-          <div class="flex items-center gap-1 text-[0.7rem]">
-            <button @click.stop="openLinkWith(marketplaceLink(seriesStats))" class="text-header font-semibold text-[0.8rem]" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.series.name }}</button>
-            <template v-if="ranking">
-              <h1 class="text-white/20 font-semibold rounded-md">#{{ ranking }}</h1>
-            </template>
-            <div class="ml-auto flex items-center gap-1 font-bold">
-              <template v-if="watchList.has(seriesStats.collection.contract_address + seriesStats.series.name)">
-                <div @click.stop="removeFromWatchList(seriesStats.series.contract_address + seriesStats.series.name)" class="flex items-center justify-center cursor-pointer">
-                  <StarIcon class="w-5 h-5 text-yellow-500" />
-                </div>
-              </template>
-              <template v-else>
-                <div @click.stop="addToWatchList(seriesStats.collection.contract_address + seriesStats.series.name)" class="group flex items-center justify-center cursor-pointer">
-                  <StarIconOutlined class="w-5 h-5 text-white/20 group-hover:text-yellow-500" />
-                </div>
-              </template>
-            </div>
-          </div>
-          <div class="relative h-full flex flex-col justify-between">
-            <slot></slot>
-          </div>
-          <div class="mt-auto flex items-center gap-1">
-            <template v-if="!hideFloor && false">
-              <template v-if="seriesStats.stats.lowest_listing">
-                <button @click.stop="openLinkWith(`https://opensea.io/assets/${seriesStats.stats.lowest_listing.token.contract_address}/${seriesStats.stats.lowest_listing.token.id}`)" class="flex items-center gap-0.5 text-[0.7rem]">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-3 h-3 text-neutral-500"><path d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg>
-                  <div class="flex gap-0.5 font-bold text-neutral-400">
-                    <span>{{ (seriesStats.stats.lowest_listing?.payment_token.base_price / 1000000000000000000).toFixed(4).replace(/\.?0+$/, '') }}</span>
-                    <span class="text-neutral-500">(<span class="text-neutral-400">{{ ethereumInLocalCurrency(seriesStats.stats.lowest_listing?.payment_token.base_price) }}</span>)</span>
-                    <span class="text-neutral-400">#{{ seriesStats.stats.lowest_listing.token.mint_number }}</span>
-                  </div>
-                </button>
-              </template>
-              <template v-else>
-                <div class="flex text-[0.7rem]">
-                  <span class="text-neutral-400 font-medium">No listings yet.</span>
-                </div>
-              </template>
+          
+          <!-- Top Right: Watchlist -->
+          <div class="absolute top-1 right-1 opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+            <template v-if="watchList.has(seriesStats.collection.contract_address + seriesStats.series.name)">
+              <button 
+                @click.stop="removeFromWatchList(seriesStats.series.contract_address + seriesStats.series.name)" 
+                class="p-1 bg-black/70 backdrop-blur-md rounded-full hover:bg-black/90 transition-all duration-200"
+              >
+                <StarIcon class="w-4 h-4 text-yellow-400" />
+              </button>
             </template>
             <template v-else>
-              <div class="text-[0.65rem] font-semibold" :class="{ 'text-green-500': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-500': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
-                <template v-if="seriesStats && seriesStats.series.mint_price > 0">
-                  ${{ seriesStats.series.mint_price / 100.00 }}
-                </template>
-                <template v-else>
-                  FREE
-                </template>
-              </div>
-              <button @click.stop="openLinkWith(marketplaceLink(seriesStats, true))" class="text-white/40 hover:text-details text-[0.65rem] duration-200" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ seriesStats.collection.name.replace(" x Reddit Collectible Avatars", "") }}</button>
+              <button 
+                @click.stop="addToWatchList(seriesStats.collection.contract_address + seriesStats.series.name)" 
+                class="p-1 bg-black/70 backdrop-blur-md rounded-full hover:bg-black/90 transition-all duration-200 group/star"
+              >
+                <StarIconOutlined class="w-4 h-4 text-white/60 group-hover/star:text-yellow-400 transition-colors duration-200" />
+              </button>
             </template>
-            <div class="ml-auto px-0.5 py-0.25 text-[0.65rem] text-white/40" :key="getGeneration">{{ getGeneration }}</div>
+          </div>
+        </button>
+      </div>
+      
+      <!-- Background Glow -->
+      <div class="absolute -bottom-6 left-0 right-0 z-0 h-12">
+        <img-placeholder 
+          img-class="w-full h-full object-cover blur-xl opacity-10"
+          :src="getTokenImage(seriesStats.series.image)" 
+        />
+      </div>
+      
+      <!-- Content Section -->
+      <div class="p-1.5">
+        <!-- Title and Ranking -->
+        <div class="flex items-center justify-between gap-1 mb-1">
+          <button 
+            @click.stop="openLinkWith(marketplaceLink(seriesStats))" 
+            class="text-left flex-1 text-white font-medium text-xs hover:text-blue-400 transition-colors duration-200 truncate whitespace-nowrap overflow-hidden text-ellipsis"
+          >
+            {{ seriesStats.series.name }}
+          </button>
+          <div class="flex items-center gap-1 flex-shrink-0">
+            <template v-if="item.mint_number">
+              <span class="text-xs font-medium text-zinc-400">#{{ item.mint_number }}</span>
+            </template>
+            <template v-if="ranking">
+              <span class="text-xs font-medium text-zinc-400">#{{ ranking }}</span>
+            </template>
           </div>
         </div>
+        
+        <!-- Stats Section -->
+        <div class="mb-1.5">
+          <slot></slot>
+        </div>
+        
+        <!-- Footer -->
+        <div v-if="!$slots.footer" class="flex items-center justify-between pt-1 border-t border-white/10 text-xs">
+          <div class="text-xs font-medium" :class="{ 'text-green-400': seriesStats.series.total_sold < seriesStats.series.total_quantity, 'text-red-400': seriesStats.series.total_sold >= seriesStats.series.total_quantity }">
+            <template v-if="seriesStats && seriesStats.series.mint_price > 0">
+              ${{ seriesStats.series.mint_price / 100.00 }}
+            </template>
+            <template v-else>
+              FREE
+            </template>
+          </div>
+          <div class="text-xs text-zinc-400">{{ getGeneration }}</div>
+        </div>
+        
+        <!-- Custom Footer Slot -->
+        <slot v-if="$slots.footer" name="footer"></slot>
       </div>
     </template>
   </div>
@@ -84,12 +131,14 @@ import {getTokenImage} from "~/global/utils";
 import {findCollectionNameByContractAddress} from "~/global/generations";
 import {Haptics, ImpactStyle} from "@capacitor/haptics";
 import {marketplaceLink} from "~/global/marketplace";
-import {getMintClasses, getMintClassesText} from "~/global/mint";
+import {getMintClasses, getMintClassesText, getRarityInfo} from "~/global/mint";
+import AvatarCardMobile from "~/components/AvatarCardMobile.vue";
 
 export interface AvatarCardItem {
   name: string;
   contract_address: string;
   image: string;
+  mint_number?: number;
 }
 
 const watchList = useWatchList();
@@ -121,6 +170,14 @@ const getGeneration = computed(() => {
   return findCollectionNameByContractAddress(props.item.contract_address);
 });
 
+const isMobile = computed(() => {
+  return Capacitor.isNativePlatform() || window.matchMedia('(max-width: 768px)').matches;
+});
+
+const rarityInfo = computed(() => {
+  return getRarityInfo(props.seriesStats.series.total_quantity);
+});
+
 const hapticsImpactLight = async () => {
   await Haptics.impact({ style: ImpactStyle.Light });
 };
@@ -137,5 +194,4 @@ function selectAvatar() {
 </script>
 
 <style scoped>
-
 </style>

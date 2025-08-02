@@ -20,7 +20,7 @@ export function marketplaceLink(seriesStats: SeriesStats, noSearch: boolean): st
       link += `?search=${seriesStats.series.name}`;
     }
   } else {
-    link = `https://opensea.io/collection/${seriesStats.collection.slug}?search[query]=${seriesStats.series.name}`
+    link = `https://opensea.io/collection/${seriesStats.collection.slug}?searchQuery=${encodeURIComponent(seriesStats.series.name)}`
   }
 
   return link;

@@ -1,49 +1,71 @@
 <template>
-  <div class="px-6 py-3 z-20 w-full">
-    <ul class="flex gap-2 items-center justify-start text-sm font-medium text-header text-center w-full">
-      <li>
-        <NuxtLink to="/wallet" class="nlink" active-class="active">
-          <WalletIcon class="nlinkicon"/>
-          <span class="">Wallet</span>
+  <div class="sticky top-0 z-30 w-full bg-[#141415] border-b border-zinc-800/50">
+    <div class="px-4 lg:px-6 py-4">
+      <div class="flex items-center justify-start gap-2 overflow-x-auto scrollbar-hide">
+        <NuxtLink 
+          to="/wallet" 
+          active-class="stats-tab-active" 
+          class="stats-tab group"
+        >
+          <WalletIcon class="stats-tab-icon" />
+          <span class="relative z-10">Wallet</span>
         </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/watchlist" class="nlink" exact-active-class="active">
-          <StarIcon class="nlinkicon"/>
-          <span class="">Watchlist</span>
+
+        <NuxtLink 
+          to="/watchlist" 
+          exact-active-class="stats-tab-active" 
+          class="stats-tab group"
+        >
+          <StarIcon class="stats-tab-icon" />
+          <span class="relative z-10">Watchlist</span>
         </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/" class="nlink" exact-active-class="active">
-          <ChartBarIcon class="nlinkicon"/>
-          <span class="">Stats</span>
+
+        <NuxtLink 
+          to="/" 
+          exact-active-class="stats-tab-active" 
+          class="stats-tab group"
+        >
+          <ChartBarIcon class="stats-tab-icon" />
+          <span class="relative z-10">Stats</span>
         </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/events" class="nlink" active-class="active">
-          <BoltIcon class="nlinkicon"/>
-          <span class="">Activity</span>
+
+        <NuxtLink 
+          to="/events" 
+          active-class="stats-tab-active" 
+          class="stats-tab group"
+        >
+          <BoltIcon class="stats-tab-icon" />
+          <span class="relative z-10">Activity</span>
         </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/shop" class="nlink" active-class="active">
-          <ShoppingBagIcon class="nlinkicon"/>
-          <span class="">Shop</span>
+
+        <NuxtLink 
+          to="/shop" 
+          active-class="stats-tab-active" 
+          class="stats-tab group"
+        >
+          <ShoppingBagIcon class="stats-tab-icon" />
+          <span class="relative z-10">Shop</span>
         </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/listings" class="nlink" active-class="active">
-          <GlobeEuropeAfricaIcon class="nlinkicon"/>
-          <span class="">Browser</span>
+
+        <NuxtLink 
+          to="/listings" 
+          active-class="stats-tab-active" 
+          class="stats-tab group"
+        >
+          <GlobeEuropeAfricaIcon class="stats-tab-icon" />
+          <span class="relative z-10">Browser</span>
         </NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/alerts" class="nlink" active-class="active">
-          <BellIcon class="nlinkicon"/>
-          <span class="">Alerts</span>
+
+        <NuxtLink 
+          to="/alerts" 
+          active-class="stats-tab-active" 
+          class="stats-tab group"
+        >
+          <BellIcon class="stats-tab-icon" />
+          <span class="relative z-10">Alerts</span>
         </NuxtLink>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,15 +74,45 @@ import {StarIcon, BellIcon, ChartBarIcon, WalletIcon, TagIcon, BoltIcon, Shoppin
 </script>
 
 <style scoped>
-.nlink {
-  @apply inline-flex gap-2 py-2.5 px-4 bg-secondary text-center capitalize text-details hover:text-header rounded-2xl duration-200;
+.stats-tab {
+  @apply relative inline-flex items-center gap-1.5 px-3 py-2 text-zinc-400 hover:text-white bg-zinc-800/30 hover:bg-zinc-700/50 border border-zinc-700/30 hover:border-zinc-600/50 rounded-lg transition-all duration-200 font-medium whitespace-nowrap min-w-0 flex-shrink-0 text-sm;
 }
 
-.active {
-  @apply bg-white text-primary hover:text-primary;
+.stats-tab-active {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.nlinkicon {
-  @apply h-5 w-5;
+.stats-tab-active:hover {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.stats-tab-icon {
+  @apply h-4 w-4 flex-shrink-0;
+}
+
+
+/* Custom scrollbar for horizontal overflow on mobile */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Additional responsive improvements */
+@media (max-width: 768px) {
+  .stats-tab {
+    @apply px-2 py-1.5 text-xs gap-1;
+  }
+  
+  .stats-tab-icon {
+    @apply h-3.5 w-3.5;
+  }
 }
 </style>

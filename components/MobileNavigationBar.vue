@@ -17,8 +17,8 @@
         <component :is="iconForRoute('/events')" class="icon-size"/>
         <span class="text-xs font-medium">Activity</span>
       </NuxtLink>
-      <NuxtLink to="/tools" class="flex flex-col items-center justify-center" :class="{ 'active-tab': isActive('/tools') }">
-        <component :is="iconForRoute('/tools')" class="icon-size"/>
+      <NuxtLink to="/more" class="flex flex-col items-center justify-center" :class="{ 'active-tab': isActive('/more') }">
+        <component :is="iconForRoute('/more')" class="icon-size"/>
         <span class="text-xs font-medium">More</span>
       </NuxtLink>
     </div>
@@ -29,11 +29,10 @@
 import { useRoute } from 'vue-router';
 import {Capacitor} from "@capacitor/core";
 import {
-  StarIcon, BellIcon, ChartBarIcon, WalletIcon, BoltIcon, Squares2X2Icon,
-  StarIcon as StarIconOutline, BellIcon as BellIconOutline, ChartBarIcon as ChartBarIconOutline, WalletIcon as WalletIconOutline, BoltIcon as BoltIconOutline, Squares2X2Icon as Squares2X2IconOutline
+  ChartBarIcon, StarIcon, WalletIcon, BoltIcon, Squares2X2Icon
 } from "@heroicons/vue/24/outline";
 import {
-  StarIcon as StarIconSolid, BellIcon as BellIconSolid, ChartBarIcon as ChartBarIconSolid, WalletIcon as WalletIconSolid, BoltIcon as BoltIconSolid, Squares2X2Icon as Squares2X2IconSolid
+  ChartBarIcon as ChartBarIconSolid, StarIcon as StarIconSolid, WalletIcon as WalletIconSolid, BoltIcon as BoltIconSolid, Squares2X2Icon as Squares2X2IconSolid
 } from "@heroicons/vue/24/solid";
 
 const route = useRoute();
@@ -44,11 +43,11 @@ function isActive(targetRoute) {
 
 function iconForRoute(targetRoute) {
   const icons = {
-    '/wallet': isActive('/wallet') ? WalletIconSolid : WalletIconOutline,
-    '/watchlist': isActive('/watchlist') ? StarIconSolid : StarIconOutline,
-    '/': isActive('/') ? ChartBarIconSolid : ChartBarIconOutline,
-    '/events': isActive('/events') ? BoltIconSolid : BoltIconOutline,
-    '/tools': isActive('/tools') ? Squares2X2IconSolid : Squares2X2IconOutline,
+    '/wallet': isActive('/wallet') ? WalletIconSolid : WalletIcon,
+    '/watchlist': isActive('/watchlist') ? StarIconSolid : StarIcon,
+    '/': isActive('/') ? ChartBarIconSolid : ChartBarIcon,
+    '/events': isActive('/events') ? BoltIconSolid : BoltIcon,
+    '/more': isActive('/more') ? Squares2X2IconSolid : Squares2X2Icon,
   };
   return icons[targetRoute] || null; // Return null or a default icon if route is not matched
 }

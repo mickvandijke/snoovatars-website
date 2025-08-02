@@ -1,6 +1,6 @@
 import {useRuntimeConfig} from "#app";
 
-export async function getShopItems(): Promise<Array<Object>> {
+export async function getUnreleasedItems(): Promise<Array<Object>> {
     const config = useRuntimeConfig();
     const BACKEND_ADDR = config.public.apiBaseUrl;
     const url = `${BACKEND_ADDR}/shop/items`;

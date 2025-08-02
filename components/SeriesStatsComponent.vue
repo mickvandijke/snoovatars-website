@@ -1,7 +1,13 @@
 <template>
   <VirtualGrid :items="items">
     <template #default="{ item, index }">
-      <AvatarCard :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }" :series-stats="item" :hide-floor="!sortingOnShop" :ranking="index + 1">
+      <AvatarCard
+          :item="{ name: item.series.name, contract_address: item.series.contract_address, image: item.series.image }"
+          :series-stats="item"
+          :hide-floor="!sortingOnShop"
+          :ranking="index + 1"
+          class="h-full"
+      >
         <SeriesStatsComponentItem :item="item" :sorting="sorting" />
       </AvatarCard>
     </template>

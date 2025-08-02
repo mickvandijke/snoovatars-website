@@ -39,7 +39,7 @@ export interface Settings {
 export const Default: Settings = {
     wallet: {
         filterOption: "all",
-        groupMethod: "group",
+        groupMethod: "mint",
         valuationMethod: "floor"
     },
     cookies: {
